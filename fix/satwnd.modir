@@ -1,0 +1,22 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+# The NESDIS AQUA/TERRA MODIS IR/Long-Wave Wind Family (MODIR)
+#  (AQUA and TERRA satellites)
+# ------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-poeswind.modis.infrared.list}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.aqua.D?????.T??:??:??Z \
+PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.terra.D?????.T??:??:??Z"'}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b005/xx070}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transatw}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.005}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-bufr_V10satwind.4qual.bufrtable}
+      eval HOURS2ALARM${n}=\${HOURS2ALARM${n}:-9}
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

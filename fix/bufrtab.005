@@ -1,0 +1,639 @@
+.------------------------------------------------------------------------------.
+| ------------   USER DEFINITIONS FOR TABLE-A TABLE-B TABLE D   -------------- |
+|------------------------------------------------------------------------------|
+| MNEMONIC | NUMBER | DESCRIPTION                                              |
+|----------|--------|----------------------------------------------------------|
+|          |        |                                                          |
+| NC005001 | A63236 | MSG TYPE 005-001 NESDIS SATWIND, GOES LO-D IR(LW)(BINRY) |
+*  ** MESSAGE TYPE 005-001 NO LONGER PRODUCED AFTER APPROX. APRIL 1998 **      |
+| NC005002 | A63237 | MSG TYPE 005-002 NESDIS SATWIND, GOES LO-D VIS  (BINARY) |
+*  ** MESSAGE TYPE 005-002 NO LONGER PRODUCED AFTER APPROX. APRIL 1998 **      |
+| NC005003 | A63238 | MSG TYPE 005-003 NESDIS SATWIND, GOES LO-D WV-IM(BINARY) |
+*  ** MESSAGE TYPE 005-003 NO LONGER PRODUCED AFTER APPROX. APRIL 1998 **      |
+| NC005004 | A63239 | MSG TYPE 005-004 NESDIS SATWIND, GOES PTRIP (OLD BINARY) |
+*  ** MESSAGE TYPE 005-004 NO LONGER PRODUCED AFTER APPROX. APRIL 1998 **      |
+|          |        |                                                          |
+| NC005005 | A63201 | MSG TYPE 005-005 NESDIS SATWIND, GOES HI-D IR(LW)(BINRY) |
+*  ** MESSAGE TYPE 005-005 NO LONGER PRODUCED AFTER APPROX. AUGUST 2000 **     |
+| NC005006 | A63202 | MSG TYPE 005-006 NESDIS SATWIND, GOES HI-D WV-IM(BINARY) |
+*  ** MESSAGE TYPE 005-006 NO LONGER PRODUCED AFTER APPROX. AUGUST 2000 **     |
+| NC005008 | A63204 | MSG TYPE 005-008 UW-CIMSS SATWIND, GOES VISIBLE (BINARY) |
+*  ** MESSAGE TYPE 005-008 NO LONGER PRODUCED AFTER APPROX. SEPTEMBER 2000 **  |
+| NC005009 | A63205 | MSG TYPE 005-009 NESDIS SATWIND, GOES PTRIP (NEW BINARY) |
+*  ** MESSAGE TYPE 005-009 NO LONGER PRODUCED AFTER APPROX. OCTOBER 2000 **    |
+|          |        |                                                          |
+| NC005010 | A63207 | MSG TYPE 005-010 NESDIS SATWIND, GOES HI-D IR(LW) (BUFR) |
+| NC005011 | A63208 | MSG TYPE 005-011 NESDIS SATWIND, GOES HI-D WV-IMG (BUFR) |
+| NC005012 | A63209 | MSG TYPE 005-012 NESDIS SATWIND, GOES HI-DENS VIS (BUFR) |
+| NC005013 | A63203 | MSG TYPE 005-013 NESDIS SATWIND, GOES PICT. TRIP  (BUFR) |
+*  ** MESSAGE TYPE 005-013 NO LONGER PRODUCED AFTER APPROX. SEPTEMBER 2004 **  |
+| NC005014 | A63225 | MSG TYPE 005-014 NESDIS SATWIND, GOES HI-D WV-SND (BUFR) |
+| NC005019 | A62219 | MSG TYPE 005-019 NESDIS SATWIND, GOES HI-D IR(SW) (BUFR) |
+|          |        |                                                          |
+| NC005030 | A62116 | MSG TYPE 005-030 NESDIS SATWIND, GOES-16 IR(LW)   (BUFR) |
+| NC005031 | A62117 | MSG TYPE 005-031 NESDIS SATWIND, GOES-16 WV-IMG/DL(BUFR) |
+| NC005032 | A62118 | MSG TYPE 005-032 NESDIS SATWIND, GOES-16 VIS      (BUFR) |
+| NC005034 | A62119 | MSG TYPE 005-034 NESDIS SATWIND, GOES-16 WV-IMG/CT(BUFR) |
+| NC005039 | A62120 | MSG TYPE 005-039 NESDIS SATWIND, GOES-16 IR(SW)   (BUFR) |
+|          |        |                                                          |
+| NC005050 | A63228 | MSG TYPE 005-050 NESDIS SATWIND, GMS IR(LW) CHANNEL      |
+*  ** MESSAGE TYPE 005-050 NO LONGER PRODUCED AFTER APPROX. JANUARY 2003 **    |
+| NC005051 | A63229 | MSG TYPE 005-051 NESDIS SATWIND, GMS WV-IMG CHANNEL      |
+*  ** MESSAGE TYPE 005-051 NO LONGER PRODUCED AFTER APPROX. JANUARY 2003 **    |
+|          |        |                                                          |
+| NC005070 | A63254 | MSG TYPE 005-070 MODIS SATWIND, AQUA/TERRA IR(LW) CHN    |
+| NC005071 | A63255 | MSG TYPE 005-071 MODIS SATWIND, AQUA/TERRA WV-IMG CHANNEL|
+| NC005072 | A62233 | MSG TYPE 005-072 SSEC/WISC LEO-GEO WINDS                 |
+|          |        |                                                          |
+| NC005080 | A63190 | MSG TYPE 005-080 AVHRR SATWIND, NOAA/METOP IR(LW) CHN    |
+|          |        |                                                          |
+| NC005090 | A63189 | MSG TYPE 005-090 VIIRS SATWIND, NPP IR(LW) CHANNEL       |
+*  ** Msg Type 005-090 discontinued in late 2019; replaced by 005-091 **       |
+|          |        |                                                          |
+| NC005091 | A63180 | MSG TYPE 005-091 VIIRS SATWIND, NPP IR(LW) CHANNEL       |
+*  ** Msg Type 005-091 new in late 2019; replaces 005-090 **                   |
+|          |        |                                                          |
+|          |        |                                                          |
+| YYMMDD   | 301011 | DATE -- YEAR, MONTH, DAY                                 |
+| HHMMSS   | 301013 | TIME -- HOUR, MINUTE, SECOND                             |
+| LTLONH   | 301021 | LOCATION -- LATITUDE, LONGITUDE (HIGH ACCURACY)          |
+| WINDSEQN | 303041 | WIND SEQUENCE                                            |
+| GOESIMIN | 304011 | GOES-I/M INFO                                            |
+| GEOSTWND | 310014 | SATELLITE - GEOSTATIONARY WIND DATA                      |
+| SIDGRSEQ | 301071 | SATELLITE IDENTIFIER/GENERATING RESOLUTION               |
+| SIDENSEQ | 301072 | SATELLITE IDENTIFICATION                                 |
+| RCPTIM   | 352003 | REPORT RECEIPT TIME DATA                                 |
+|          |        |                                                          |
+| TWIND    | 362064 | INTERMEDIATE WIND AND TIME STAMP                         |
+| GQCPRMS  | 362066 | GOES SAT QC PARAMETERS                                   |
+| LGRSQ1   | 362153 | LEO/GEO INTERMEDIATE WIND AND TIME STAMP REPLI. SEQUENCE |
+| LGRSQ2   | 362154 | LEO/GEO WINDS HEIGHT ASSIGNMENT SEQUENCE                 |
+| LGRSQ3   | 362155 | LEO/GEO WINDS BITMAP (DATA PRESENT INDICATOR SEQUENCE)   |
+| LGRSQ4   | 362156 | LEO/GEO WINDS PERCENT CONFIDENCE REPLICATION SEQUENCE    |
+| RPSEQ2   | 362082 | HEIGHT ASSIGNMENT SEQUENCE                               |
+| AMVAHA   | 362193 | DERIVED MOTION WIND (DMW) EXTENDED HEIGHT ASSIGNMENT     |
+| AMVIII   | 362196 | DERIVED MOTION WIND (DMW) INDIVIDUAL IMAGE INFORMATION   |
+| AMVIVR   | 362197 | DERIVED MOTION WIND (DMW) INTERMEDIATE VECTORS           |
+| AMVIVS   | 362229 | DERIVED MOTION WIND (DMW) INTERMEDIATE VECTOR STATISTICS |
+| AMVIVE   | 362230 | DERIVED MOTION WIND (DMW) INTERMEDIATE VECTOR EST. ERROR |
+| AMVCLD   | 362231 | DERIVED MOTION WIND (DMW) CLOUD INFORMATION              |
+| AMVQIC   | 362232 | DERIVED MOTION WIND (DMW) QUALITY INDICATOR CONFIDENCE   |
+|          |        |                                                          |
+|          |        |                                                          |
+| SAID     | 001007 | SATELLITE IDENTIFIER                                     |
+| DOMO     | 001012 | DIRECTION OF MOTION OF MOVING OBSERVING PLATFORM         |
+| OSQN     | 001023 | OBSERVATION SEQUENCE NUMBER                              |
+| GCLONG   | 001031 | ORIGINATING/GENERATING CENTER                            |
+| GNAP     | 001032 | GENERATING APPLICATION                                   |
+| OGCE     | 001033 | ORIGINATING/GENERATING CENTER                            |
+| GSES     | 001034 | IDENTIFICATION OF ORIGINATING/GENERATING SUB-CENTER      |
+| GNAPS    | 001044 | Standard generating application                          |
+| GPTI     | 001124 | GRID POINT IDENTIFIER                                    |
+| RPID     | 001198 | REPORT IDENTIFIER                                        |
+| SWPR     | 001204 | SATELLITE WIND PRODUCER                                  |
+|          |        |                                                          |
+| SIID     | 002019 | SATELLITE INSTRUMENTS                                    |
+| SCLF     | 002020 | SATELLITE CLASSIFICATION                                 |
+| SWCM     | 002023 | SATELLITE DERIVED WIND CALCULATION METHOD                |
+| CTRE     | 002026 | CROSS-TRACK RESOLUTION (AT NADIR)                        |
+| ATRE     | 002027 | ALONG-TRACK RESOLUTION (AT NADIR)                        |
+| SSNX     | 002028 | SEGMENT SIZE AT NADIR IN X DIRECTION                     |
+| SSNY     | 002029 | SEGMENT SIZE AT NADIR IN Y DIRECTION                     |
+| OFGI     | 002057 | ORIGIN OF FIRST GUESS INFORMATION                        |
+| SIDP     | 002152 | SATELLITE INSTRUMENT USED IN DATA PROCESSING             |
+| SCCF     | 002153 | SATELLITE CHANNEL CENTER FREQUECY                        |
+| SCBW     | 002154 | SATELLITE CHANNEL BAND WIDTH                             |
+| WDPF     | 002161 | WIND PROCESSING METHOD                                   |
+| EHAM     | 002162 | EXTENDED HEIGHT ASSIGNMENT METHOD                        |
+| HAMD     | 002163 | HEIGHT ASSIGNMENT METHOD                                 |
+| TCMD     | 002164 | TRACER CORRELATION METHOD                                |
+| SWTP     | 002201 | NESDIS SATELLITE WIND TYPE                               |
+| CMCM     | 002223 | SATELLITE DERIVED WIND CALCULATION METHOD                |
+|          |        |                                                          |
+| YEAR     | 004001 | YEAR                                                     |
+| MNTH     | 004002 | MONTH                                                    |
+| DAYS     | 004003 | DAY                                                      |
+| HOUR     | 004004 | HOUR                                                     |
+| MINU     | 004005 | MINUTES                                                  |
+| SECO     | 004006 | SECONDS                                                  |
+| TPHR     | 004024 | TIME PERIOD OR DISPLACEMENT                              |
+| LTDS     | 004086 | LONG TIME PERIOD OR DISPLACEMENT (SECONDS)               |
+| RCYR     | 004200 | YEAR   - TIME OF RECEIPT                                 |
+| RCMO     | 004201 | MONTH  - TIME OF RECEIPT                                 |
+| RCDY     | 004202 | DAY    - TIME OF RECEIPT                                 |
+| RCHR     | 004203 | HOUR   - TIME OF RECEIPT                                 |
+| RCMI     | 004204 | MINUTE - TIME OF RECEIPT                                 |
+|          |        |                                                          |
+| CLATH    | 005001 | LATITUDE (HIGH ACCURACY)                                 |
+| CLAT     | 005002 | LATITUDE (COARSE ACCURACY)                               |
+| BEARAZ   | 005021 | BEARING OR AZIMUTH                                       |
+| ORBN     | 005040 | ORBIT NUMBER                                             |
+| CHNM     | 005042 | CHANNEL NUMBER                                           |
+|          |        |                                                          |
+| CLONH    | 006001 | LONGITUDE (HIGH ACCURACY)                                |
+| CLON     | 006002 | LONGITUDE (COARSE ACCURACY)                              |
+|          |        |                                                          |
+| PRLC     | 007004 | PRESSURE                                                 |
+| SAZA     | 007024 | SATELLITE ZENITH ANGLE                                   |
+|          |        |                                                          |
+| VSAT     | 008003 | VERTICAL SIGNIFICANCE (SATELLITE OBSERVATIONS)           |
+| METFET   | 008011 | METEOROLOGICAL FEATURE                                   |
+| LSQL     | 008012 | LAND/SEA QUALIFIER                                       |
+| DNQL     | 008013 | DAY/NIGHT QUALIFIER                                      |
+| TSIG     | 008021 | TIME SIGNIFICANCE                                        |
+| FOST     | 008023 | FIRST ORDER STATISTICS                                   |
+| VSNWP    | 008086 | VERTICAL SIGNIFICANCE FOR NWP                            |
+| MUCE     | 008092 | MEASUREMENT UNCERTAINTY EXPRESSION                       |
+* MUNCEX   | 008092 | Measurement uncertainty expression                       |
+| RCTS     | 008202 | RECEIPT TIME SIGNIFICANCE                                |
+|          |        |                                                          |
+| HGHT     | 010007 | HEIGHT                                                   |
+|          |        |                                                          |
+| WDIR     | 011001 | WIND DIRECTION                                           |
+| WSPD     | 011002 | WIND SPEED                                               |
+| UWND     | 011003 | U-COMPONENT                                              |
+| VWND     | 011004 | V-COMPONENT                                              |
+| UMWV     | 011095 | U-COMPONENT OF THE MODEL WIND VECTOR                     |
+| VWMV     | 011096 | V-COMPONENT OF THE MODEL WIND VECTOR                     |
+| TCOV     | 011113 | TRACKING CORRELATION OF VECTOR                           |
+|          |        |                                                          |
+| TMDBST   | 012001 | TEMPERATURE/DRY BULB TEMPERATURE                         |
+| CCST     | 012071 | COLDEST CLUSTER TEMPERATURE                              |
+| TMDB     | 012101 | TEMPERATURE/DRY BULB TEMPERATURE                         |
+|          |        |                                                          |
+| COPT     | 013093 | CLOUD OPTICAL THICKNESS                                  |
+| ILWP     | 013109 | ICE/LIQUID WATER PATH                                    |
+|          |        |                                                          |
+| EMMI     | 014050 | EMISSIVITY                                               |
+|          |        |                                                          |
+| CLTP     | 020012 | CLOUD TYPE                                               |
+| HOCT     | 020014 | HEIGHT OF TOP OF CLOUD                                   |
+| CDTP     | 020016 | PRESSURE AT THE TOP OF CLOUD                             |
+| CLDP     | 020056 | CLOUD PHASE                                              |
+| CLDMNT   | 020081 | CLOUD AMOUNT IN SEGMENT                                  |
+| XEEM     | 020111 | X-AXIS ERROR ELLIPSE MAJOR COMPONENT                     |
+| YEEM     | 020112 | Y-AXIS ERROR ELLIPSE MINOR COMPONENT                     |
+| AXEE     | 020114 | ANGLE OF X-AXIS IN ERROR ELLIPSE                         |
+|          |        |                                                          |
+| SOFTV    | 025061 | SOFTWARE IDENTIFICATION AND VERSION NUMBER               |
+| DBID     | 025062 | DATABASE IDENTIFICATION                                  |
+| CVWD     | 025148 | COEFFICIENT OF VARIATION                                 |
+| OECS     | 025149 | OPTIMAL ESTIMATE COST                                    |
+| SWDL     | 025201 | SATELLITE WIND DEEP LAYER MOISTURE FLAG                  |
+| 
+| DPRI     | 031031 | DATA PRESENT INDICATOR                                   |
+| PCCF     | 033007 | PERCENT CONFIDENCE                                       |
+| AMVQ     | 033066 | AMV QUALITY FLAG                                         |
+| RFFL     | 033196 | PER CENT CONFIDENCE BASED ON NESDIS RECURSIVE FILTER FCN |
+| CORN     | 033215 | CORRECTED REPORT INDICATOR                               |
+| SWQM     | 033216 | SDMEDIT SATELLITE WIND QUALITY MARK                      |
+|          |        |                                                          |
+| COTH     | 040038 | CLOUD PARTICLE SIZE                                      |
+|          |        |                                                          |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SEQUENCE                                                          |
+|----------|-------------------------------------------------------------------|
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-001, DISCONTINUED  ~APR 1998  **  |
+| NC005001 | YEAR   MNTH   DAYS   HOUR   CLAT   CLON   RPID   CMCM   SWPR      |
+| NC005001 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   MINU             |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-002, DISCONTINUED  ~APR 1998  **  |
+| NC005002 | YEAR   MNTH   DAYS   HOUR   CLAT   CLON   RPID   CMCM   SWPR      |
+| NC005002 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   MINU             |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-003, DISCONTINUED  ~APR 1998  **  |
+| NC005003 | YEAR   MNTH   DAYS   HOUR   CLAT   CLON   RPID   CMCM   SWPR      |
+| NC005003 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   MINU             |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-004, DISCONTINUED  ~APR 1998  **  |
+| NC005004 | YEAR   MNTH   DAYS   HOUR   CLAT   CLON   RPID   CMCM   SWPR      |
+| NC005004 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   MINU             |
+|                                                                              |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-005, DISCONTINUED  ~AUG 2000  **  |
+| NC005005 | YEAR   MNTH   DAYS   HOUR   MINU   CLAT   CLON                    |
+| NC005005 | RCYR   RCMO   RCDY   RCHR   RCMI   RPID   CMCM   SWTP   SWPR      |
+| NC005005 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   RFFL   SWDL      |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-006, DISCONTINUED  ~AUG 2000  **  |
+| NC005006 | YEAR   MNTH   DAYS   HOUR   MINU   CLAT   CLON                    |
+| NC005006 | RCYR   RCMO   RCDY   RCHR   RCMI   RPID   CMCM   SWTP   SWPR      |
+| NC005006 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   RFFL   SWDL      |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-008, DISCONTINUED  ~SEP 2000  **  |
+| NC005008 | YEAR   MNTH   DAYS   HOUR   MINU   CLAT   CLON                    |
+| NC005008 | RCYR   RCMO   RCDY   RCHR   RCMI   RPID   CMCM   SWTP   SWPR      |
+| NC005008 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   RFFL   SWDL      |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-009, DISCONTINUED  ~OCT 2000  **  |
+| NC005009 | YEAR   MNTH   DAYS   HOUR   MINU   CLAT   CLON                    |
+| NC005009 | RCYR   RCMO   RCDY   RCHR   RCMI   RPID   CMCM   SWTP   SWPR      |
+| NC005009 | SAID   PRLC   HGHT   TMDB   WDIR   WSPD   SWQM   RFFL   SWDL      |
+|          |                                                                   |
+| NC005010 | RCPTIM RPID   CORN                                                |
+| NC005010 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005010 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT  CLON       |
+| NC005010 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI  SWQM       |
+| NC005010 | HAMD   PRLC                                                       |
+| NC005010 | WDIR   "GQCPRMS"4                                                 |
+| NC005010 | WSPD   "GQCPRMS"4                                                 |
+| NC005010 | "TWIND"4                                                          |
+| NC005010 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005011 | RCPTIM RPID   CORN                                                |
+| NC005011 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005011 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT  CLON       |
+| NC005011 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI  SWQM       |
+| NC005011 | HAMD   PRLC                                                       |
+| NC005011 | WDIR   "GQCPRMS"4                                                 |
+| NC005011 | WSPD   "GQCPRMS"4                                                 |
+| NC005011 | "TWIND"4                                                          |
+| NC005011 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005012 | RCPTIM RPID   CORN                                                |
+| NC005012 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005012 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT  CLON       |
+| NC005012 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI  SWQM       |
+| NC005012 | HAMD   PRLC                                                       |
+| NC005012 | WDIR   "GQCPRMS"4                                                 |
+| NC005012 | WSPD   "GQCPRMS"4                                                 |
+| NC005012 | "TWIND"4                                                          |
+| NC005012 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-013, DISCONTINUED  ~SEP 2004  **  |
+| NC005013 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
+| NC005013 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
+| NC005013 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
+| NC005013 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
+| NC005013 | RFFL   SWDL   SWQM   RPID                                         |
+|          |                                                                   |
+| NC005014 | RCPTIM RPID   CORN                                                |
+| NC005014 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005014 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT  CLON       |
+| NC005014 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI  SWQM       |
+| NC005014 | HAMD   PRLC                                                       |
+| NC005014 | WDIR   "GQCPRMS"4                                                 |
+| NC005014 | WSPD   "GQCPRMS"4                                                 |
+| NC005014 | "TWIND"4                                                          |
+| NC005014 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005019 | RCPTIM RPID   CORN                                                |
+| NC005019 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005019 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT   CLON      |
+| NC005019 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI   SWQM      |
+| NC005019 | HAMD   PRLC                                                       |
+| NC005019 | WDIR   "GQCPRMS"4                                                 |
+| NC005019 | WSPD   "GQCPRMS"4                                                 |
+| NC005019 | "TWIND"4                                                          |
+| NC005019 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005030 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005030 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005030 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005030 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005030 | EHAM     PRLC                                                     |
+| NC005030 | WDIR     WSPD     UWND     VWND                                   |
+| NC005030 |                   TMDBST   HOCT                                   |
+| NC005030 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005030 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005030 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005030 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005030 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
+* NC005030 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005030 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005031 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005031 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005031 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005031 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005031 | EHAM     PRLC                                                     |
+| NC005031 | WDIR     WSPD     UWND     VWND                                   |
+| NC005031 |                   TMDBST   HOCT                                   |
+| NC005031 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005031 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005031 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005031 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005031 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
+* NC005031 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005031 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005032 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005032 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005032 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005032 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005032 | EHAM     PRLC                                                     |
+| NC005032 | WDIR     WSPD     UWND     VWND                                   |
+| NC005032 |                   TMDBST   HOCT                                   |
+| NC005032 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005032 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005032 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005032 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005032 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
+* NC005032 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005032 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005034 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005034 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005034 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005034 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005034 | EHAM     PRLC                                                     |
+| NC005034 | WDIR     WSPD     UWND     VWND                                   |
+| NC005034 |                   TMDBST   HOCT                                   |
+| NC005034 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005034 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005034 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005034 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005034 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
+* NC005034 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005034 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005039 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005039 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005039 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005039 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005039 | EHAM     PRLC                                                     |
+| NC005039 | WDIR     WSPD     UWND     VWND                                   |
+| NC005039 |                   TMDBST   HOCT                                   |
+| NC005039 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005039 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005039 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005039 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005039 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
+* NC005039 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005039 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-050, DISCONTINUED  ~JAN 2003  **  |
+| NC005050 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
+| NC005050 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
+| NC005050 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
+| NC005050 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
+| NC005050 | RFFL   SWDL   SWQM   RPID                                         |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-051, DISCONTINUED  ~JAN 2003  **  |
+| NC005051 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
+| NC005051 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
+| NC005051 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
+| NC005051 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
+| NC005051 | RFFL   SWDL   SWQM   RPID                                         |
+|          |                                                                   |
+| NC005070 | RCPTIM RPID   CORN                                                |
+| NC005070 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005070 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT   CLON      |
+| NC005070 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI   SWQM      |
+| NC005070 | HAMD   PRLC                                                       |
+| NC005070 | WDIR   "GQCPRMS"4                                                 |
+| NC005070 | WSPD   "GQCPRMS"4                                                 |
+| NC005070 | "TWIND"4                                                          |
+| NC005070 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005071 | RCPTIM RPID   CORN                                                |
+| NC005071 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005071 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT   CLON      |
+| NC005071 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI   SWQM      |
+| NC005071 | HAMD   PRLC                                                       |
+| NC005071 | WDIR   "GQCPRMS"4                                                 |
+| NC005071 | WSPD   "GQCPRMS"4                                                 |
+| NC005071 | "TWIND"4                                                          |
+| NC005071 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005072 | GEOSTWND  "LGRSQ3"103  GCLONG  GNAP  "LGRSQ4"10  GCLONG  GNAP     |
+| NC005072 | "LGRSQ4"10  GCLONG  GNAP  "LGRSQ4"10                              |
+|          |                                                                   |
+| GEOSTWND | SIDENSEQ  WINDSEQN  GOESIMIN                                      |
+|          |                                                                   |
+| SIDENSEQ | SIDGRSEQ  YYMMDD  HHMMSS  LTLONH                                  |
+|          |                                                                   |
+| SIDGRSEQ | SAID  GCLONG  SCLF  SSNX  SSNY                                    |
+|          |                                                                   |
+| YYMMDD   | YEAR  MNTH  DAYS                                                  |
+|          |                                                                   |
+| HHMMSS   | HOUR  MINU  SECO                                                  |
+|          |                                                                   |
+| LTLONH   | CLATH  CLONH                                                      |
+|          |                                                                   |
+| WINDSEQN | SIDP  SWCM  PRLC  WDIR  WSPD  SCCF  SCBW  CCST                    |
+|          |                                                                   |
+| GOESIMIN | HAMD  TCMD  LSQL  SAZA  OFGI  TSIG  YEAR  MNTH  DAYS  HOUR  TSIG  |
+| GOESIMIN | TPHR  "LGRSQ1"4  "LGRSQ2"10                                       |
+|          |                                                                   |
+| LGRSQ1   | TSIG  HOUR  MINU  SECO  TSIG  HOUR  MINU  SECO  WDIR  WSPD        |
+|          |                                                                   |
+| LGRSQ2   | HAMD  PRLC  TMDBST                                                |
+|          |                                                                   |
+| LGRSQ3   | DPRI                                                              |
+|          |                                                                   |
+| LGRSQ4   | PCCF                                                              |
+|          |                                                                   |
+| NC005080 | RCPTIM RPID   CORN                                                |
+| NC005080 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005080 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT   CLON      |
+| NC005080 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI   SWQM      |
+| NC005080 | HAMD   PRLC                                                       |
+| NC005080 | WDIR   "GQCPRMS"4                                                 |
+| NC005080 | WSPD   "GQCPRMS"4                                                 |
+| NC005080 | "TWIND"4                                                          |
+| NC005080 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+| NC005090 | RCPTIM RPID   CORN                                                |
+| NC005090 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
+| NC005090 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT   CLON      |
+| NC005090 | SIDP   SWCM   SCCF   SCBW   CCST   TCMD   LSQL   OFGI   SWQM      |
+| NC005090 | HAMD   PRLC                                                       |
+| NC005090 | WDIR   "GQCPRMS"4                                                 |
+| NC005090 | WSPD   "GQCPRMS"4                                                 |
+| NC005090 | "TWIND"4                                                          |
+| NC005090 | "RPSEQ2"10                                                        |
+|          |                                                                   |
+*** VIIRS SATWIND IR(LW) fr std v31 WMO seq 3-10-077, implemented late 2019    *
+| NC005091 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005091 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005091 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005091 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005091 | EHAM     PRLC                                                     |
+| NC005091 | WDIR     WSPD     UWND     VWND                                   |
+| NC005091 |                   TMDBST   HOCT                                   |
+| NC005091 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005091 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005091 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005091 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005091 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
+* NC005091 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005091 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+|          |                                                                   |
+| AMVAHA   | EHAM     PRLC     TMDBST   HOCT                                   |
+* AMVAHA   | ^^^^ Alternative AMV data ^^^^^                                   *
+|          |                                                                   |
+| AMVIII   | LTDS     SCLF     SAID     SIID     CHNM     SCCF     ORBN        |
+| AMVIII   | SAZA     BEARAZ   EHAM     PRLC     TMDBST   HOCT                 |
+|          |                                                                   |
+| AMVIVR   | LTDS     LTDS     CLATH    CLONH    UWND     VWND     TCOV        |
+| AMVIVR   | CVWD     {AMVIVS} FOST     {AMVIVE}                               |
+|          |                                                                   |
+| AMVIVS   | FOST     UWND     VWND                                            |
+* AMVIVS   | ^ standard deviation ^
+|          |                                                                   |
+| AMVIVE   | XEEM     YEEM     AXEE                                            |
+|          |                                                                   |
+| AMVCLD   | FOST     CDTP     MUCE     VSAT     TMDBST   VSAT     CDTP        |
+* AMVCLD   |                   ^^^^ Standard uncertainty cloud top ^^^^        *
+| AMVCLD   | MUCE     OECS     CDTP     HOCT     COPT     ILWP     COTH        |
+| AMVCLD   | METFET   EMMI     METFET                                          |
+* AMVCLD   | ^Cld emissivity^                                                  *
+*   Repl.  1: FOST=2 (maximum value)
+*   Repl.  2: FOST=3 (minimum value)
+|          |                                                                   |
+* new local sequence (GNAPS replaces GNAP), implemented in late 2019           *
+| AMVQIC   | GNAPS    PCCF                                                     |
+|          |                                                                   |
+| RCPTIM   | RCTS  RCYR   RCMO   RCDY   RCHR    RCMI                           |
+|          |                                                                   |
+| TWIND    | TSIG  HOUR   MINU   SECO   WDIR    WSPD                           |
+*            ^^^^^^^^^^^^^^^^^                                                 *
+*   Repl.  1: TSIG=27 (First guess)                                            *
+*   Repl.  2: TSIG= 2 (Time averaged, original                                 *
+*   Repl.  3: TSIG=28 (Start of scan, start of image 1-2)                      *
+*   Repl.  4: TSIG=29 (End of scan, start of image 2-3)                        *
+|          |                                                                   |
+| RPSEQ2   | HAMD  PRLC   TMDBST                                               |
+*            ^^^^^^^^^^^^^^^^^^^                                               *
+*   Repl.  1: HAMD=1 (IRW height assignment, IR window channel)                *
+*   Repl.  2: HAMD=2 (WV height assignment, WV histogram)                      *
+*   Repl.  3: HAMD=3 (H2O intercept height assignment)                         *
+*   Repl.  4: HAMD=4 (CO2 slicing height assignment)                           *
+*   Repl.  5: HAMD=7 {Primary height assignment (previously called             *
+*                     CO2 slicing height assignment, original)}                *
+*   Repl.  6: HAMD=missing                                                     *
+*   Repl.  7: HAMD=missing                                                     *
+*   Repl.  8: HAMD=missing                                                     *
+*   Repl.  9: HAMD=missing                                                     *
+*   Repl. 10: HAMD=missing                                                     *
+|          |                                                                   |
+| GQCPRMS  | OGCE  GNAP   PCCF                                                 |
+*            ^^^^^^^^^^^^^^^^^                                                 "
+*  For NC005010-012, NC005014, NC005019, NC005070-071, NC005080, NC005090      *
+*   Repl.  1: OGCE=160 (NESDIS), GNAP=1 (EUMETSAT QI w/o fcst consistency test)*
+*   Repl.  2: OGCE=160 (NESDIS), GNAP=2 (NESDIS Recursive Filter Function)     *
+*   Repl.  3: OGCE=160 (NESDIS), GNAP=3 (EUMETSAT QI w/ fcst consistency test) *
+*   Repl.  4: OGCE=160 (NESDIS), GNAP=4 (NESDIS Expected Error)                *
+|          |                                                                   |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|
+|----------|------|-------------|-----|--------------------------|-------------|
+|          |      |             |     |                          |-------------|
+| SAID     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| DOMO     |    0 |           0 |   9 | DEGREE TRUE              |-------------|
+| OSQN     |    0 |           0 |   9 | NUMERIC                  |-------------|
+| GCLONG   |    0 |           0 |  16 | CODE TABLE               |-------------|
+| GNAP     |    0 |           0 |   8 | CODE TABLE               |-------------|
+| GNAPS    |    0 |           0 |   8 | CODE TABLE               |-------------|
+| OGCE     |    0 |           0 |   8 | CODE TABLE               |-------------|
+| GSES     |    0 |           0 |   8 | CODE TABLE               |-------------|
+| GPTI     |    0 |           0 |  24 | NUMERIC                  |-------------|
+| RPID     |    0 |           0 |  64 | CCITT IA5                |-------------|
+| SWPR     |    0 |           0 |   8 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| SIID     |    0 |           0 |  11 | CODE TABLE               |-------------|
+| SCLF     |    0 |           0 |   9 | CODE TABLE               |-------------|
+| SWCM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| CTRE     |    2 |           0 |  12 | M                        |-------------|
+* CTRE stored   2 *           0 *  20 * M (NC005030-032, 034, 039 only)        *
+|          |      |             |     |                          |-------------|
+| ATRE     |    2 |           0 |  12 | M                        |-------------|
+* ATRE stored   2 *           0 *  20 * M (NC005030-032, 034, 039 only)        *
+|          |      |             |     |                          |-------------|
+| SSNX     |    0 |           0 |  18 | M                        |-------------|
+| SSNY     |    0 |           0 |  18 | M                        |-------------|
+| OFGI     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| SIDP     |    0 |           0 |  31 | FLAG TABLE               |-------------|
+| SCCF     |   -8 |           0 |  26 | Hz                       |-------------|
+| SCBW     |   -8 |           0 |  26 | Hz                       |-------------|
+| WDPF     |    0 |           0 |  16 | FLAG TABLE               |-------------|
+| EHAM     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| HAMD     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| TCMD     |    0 |           0 |   3 | CODE TABLE               |-------------|
+| SWTP     |    0 |           0 |   8 | CODE TABLE               |-------------|
+| CMCM     |    0 |           0 |   8 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| YEAR     |    0 |           0 |  12 | YEAR                     |-------------|
+| MNTH     |    0 |           0 |   4 | MONTH                    |-------------|
+| DAYS     |    0 |           0 |   6 | DAY                      |-------------|
+| HOUR     |    0 |           0 |   5 | HOUR                     |-------------|
+| MINU     |    0 |           0 |   6 | MINUTE                   |-------------|
+| SECO     |    0 |           0 |   6 | SECOND                   |-------------|
+| TPHR     |    0 |       -2048 |  12 | HOUR                     |-------------|
+| LTDS     |    0 |       -8192 |  15 | SECOND                   |-------------|
+| RCYR     |    0 |           0 |  12 | YEAR                     |-------------|
+| RCMO     |    0 |           0 |   4 | MONTH                    |-------------|
+| RCDY     |    0 |           0 |   6 | DAY                      |-------------|
+| RCHR     |    0 |           0 |   5 | HOUR                     |-------------|
+| RCMI     |    0 |           0 |   6 | MINUTE                   |-------------|
+|          |      |             |     |                          |-------------|
+| CLATH    |    5 |    -9000000 |  25 | DEGREES                  |-------------|
+| CLAT     |    2 |       -9000 |  15 | DEGREES                  |-------------|
+| BEARAZ   |    2 |           0 |  16 | DEGREE TRUE              |-------------|
+| ORBN     |    0 |           0 |  24 | NUMERIC                  |-------------|
+| CHNM     |    0 |           0 |   6 | NUMERIC                  |-------------|
+|          |      |             |     |                          |-------------|
+| CLONH    |    5 |   -18000000 |  26 | DEGREES                  |-------------|
+| CLON     |    2 |      -18000 |  16 | DEGREES                  |-------------|
+|          |      |             |     |                          |-------------|
+| PRLC     |   -1 |           0 |  14 | PASCALS                  |-------------|
+| SAZA     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+|          |      |             |     |                          |-------------|
+| VSAT     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| METFET   |    0 |           0 |   6 | CODE TABLE               |-------------|
+| LSQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| DNQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| TSIG     |    0 |           0 |   5 | CODE TABLE               |-------------|
+| FOST     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| VSNWP    |    0 |           0 |  12 | FLAG TABLE               |-------------|
+| MUCE     |    0 |           0 |   5 | CODE TABLE               |-------------|
+* MUNCEX   |    0 |           0 |   5 | CODE TABLE               |-------------|
+| RCTS     |    0 |           0 |   6 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| HGHT     |    0 |       -1000 |  17 | M                        |-------------|
+|          |      |             |     |                          |-------------|
+| WDIR     |    0 |           0 |   9 | DEGREES TRUE             |-------------|
+| WSPD     |    1 |           0 |  12 | M/SEC                    |-------------|
+| UWND     |    1 |       -4096 |  13 | M/SEC                    |-------------|
+| VWND     |    1 |       -4096 |  13 | M/SEC                    |-------------|
+| UMWV     |    1 |       -4096 |  13 | M/SEC                    |-------------|
+| VWMV     |    1 |       -4096 |  13 | M/SEC                    |-------------|
+| TCOV     |    3 |       -1000 |  12 | NUMERIC                  |-------------|
+|          |      |             |     |                          |-------------|
+| TMDBST   |    1 |           0 |  12 | KELVIN                   |-------------|
+| CCST     |    1 |           0 |  12 | KELVIN                   |-------------|
+| TMDB     |    2 |           0 |  16 | KELVIN                   |-------------|
+|          |      |             |     |                          |-------------|
+| COPT     |    0 |           0 |   8 | NUMERIC                  |-------------|
+| ILWP     |    3 |           0 |  10 | KG/(M**2)                |-------------|
+|          |      |             |     |                          |-------------|
+| EMMI     |    1 |           0 |  10 | %                        |-------------|
+|          |      |             |     |                          |-------------|
+| CLTP     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| HOCT     |   -1 |         -40 |  11 | M                        |-------------|
+| CDTP     |   -1 |           0 |  14 | Pa                       |-------------|
+| CLDP     |    0 |           0 |   3 | CODE TABLE               |-------------|
+| CLDMNT   |    0 |           0 |   7 | %                        |-------------|
+| XEEM     |   -1 |           0 |  17 | M                        |-------------|
+| YEEM     |   -1 |           0 |  17 | M                        |-------------|
+| AXEE     |    2 |      -18000 |  16 | DEGREE                   |-------------|
+|          |      |             |     |                          |-------------|
+| SOFTV    |    0 |           0 |  96 | CCITT IA5                |-------------|
+| DBID     |    0 |           0 |  14 | NUMERIC                  |-------------|
+| CVWD     |    2 |      -10000 |  15 | NUMERIC                  |-------------|
+| OECS     |    0 |           0 |   8 | NUMERIC                  |-------------|
+| SWDL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| PCCF     |    0 |           0 |   7 | %                        |-------------|
+| AMVQ     |    0 |           0 |  24 | FLAG TABLE               |-------------|
+| RFFL     |    0 |           0 |   8 | %                        |-------------|
+| CORN     |    0 |           0 |   3 | CODE TABLE               |-------------|
+| SWQM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| DPRI     |    0 |           0 |   1 | FLAG TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| COTH     |    7 |           0 |  28 | M                        |-------------|
+|          |      |             |     |                          |-------------|
+`------------------------------------------------------------------------------'

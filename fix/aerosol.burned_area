@@ -1,0 +1,26 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+#  Burned area product (1 and 12 km) grib files (BURNED_AREA)
+#  ----------------------------------------------------------
+
+      eval ORBITLIST${n}=burned_area
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/PULL/GRIB/burned_area_????????_??_??_1km.grib2.gz \
+PDAFileLinks/PULL/GRIB/burned_area_????????_??_??_12km.grib2.gz"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=\${TANKFILE${n}:-burned_area}
+      eval EXECUTE${n}=ingest_copy.sh
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HOURS2ALARM${n}=24
+      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-YES}
+      eval ndayarch${n}=\${ndayarch${n}:-45}
+      eval CRITICAL${n}=NO
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

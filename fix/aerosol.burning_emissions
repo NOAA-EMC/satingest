@@ -1,0 +1,35 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+
+#   elif [ "$dtyp" = 'BURNING_EMISSIONS' ]; then
+#  Blended Global Biomass Burning Emissions Product (GBBEPx) NetCDF files
+#   (black carbon, organic carbon, sulfur dioxide) (BURNING_EMISSIONS)
+#  ----------------------------------------------------------------------
+# After 1/24/2019, only version 2 files will be used and version 1 files
+# will be turned off.
+
+      eval ORBITLIST${n}=blended_GBBEPx
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/PULL/NETCDF/GBBEPx.emis_bc.*.????????.nc \
+PDAFileLinks/PULL/NETCDF/GBBEPx.emis_oc.*.????????.nc \
+PDAFileLinks/PULL/NETCDF/GBBEPx.emis_so2.*.????????.nc \
+PDAFileLinks/PULL/NETCDF/GBBEPx_BC.emissions_v003_????????.nc \
+PDAFileLinks/PULL/NETCDF/GBBEPx_OC.emissions_v003_????????.nc \
+PDAFileLinks/PULL/NETCDF/GBBEPx_SO2.emissions_v003_????????.nc"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=\${TANKFILE${n}:-burned_emission}
+      eval EXECUTE${n}=copy_to_target
+      eval TARGETFILE${n}=same_name2
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HOURS2ALARM${n}=24
+      eval HISTLENMIN${n}=480
+      eval HISTLENMAX${n}=510
+      eval CRITICAL${n}=NO
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

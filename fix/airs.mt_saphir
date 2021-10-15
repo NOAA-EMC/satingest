@@ -1,0 +1,26 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+# The SAPHIR L1A2 Brightness Temperature Family (MT_saphir) (MEGHA-TROPIQUES
+#  satellite)
+# --------------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-mt_saphir.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/SAPHIR/W_XX-EUMETSAT-Darmstadt,SOUNDING+SATELLITE,MEGHA-TROPIQUES+SAPHIR_C_EUMP_??????????????_?????_?????_?_??_L1A2.bin.bz2"'}
+      eval FTYPE${n}=\${FTYPE${n}:-bufr}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx242}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transaphir}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-bufrtab_saphir_foreign}
+                          # Files are unix-compressed (bzip2) on remote machine
+      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-YES}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_saphir.out}
+
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

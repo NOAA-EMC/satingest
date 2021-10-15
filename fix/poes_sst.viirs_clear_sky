@@ -1,0 +1,24 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+# VIIRS SST (CLEAR SKY W/O LAND)
+# ------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-viirsst_clearsky.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/NDE/VIIRS_GHRSST/VIIRS-ACSPO-SST-Clear_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr \
+PDAFileLinks/NDE/VIIRS_GHRSST/VIIRS-ACSPO-SST-Clear_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr"'}
+      eval FTYPE${n}=\${FTYPE${n}:-bufr}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx023}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranmtypsbt}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-4500}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-4800}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

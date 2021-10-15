@@ -1,0 +1,28 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
+
+#   elif [ "$dtyp" = 'EFCLAM' ]; then
+#  GOES Imager Effective Cloud Amount (Sky Cover) Family (EFCLAM) from
+#  U. Wisc {GOES (-E (16), -W (17) satellites}
+#  GOES-13 removed 3/2018; GOES-15 removed 3/2020
+# -----------------------------------------------------------------------
+      eval MACHINE${n}=\${MACHINE${n}:-ftp.ssec.wisc.edu}
+      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-goesimg_EFCLAM.list}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+/pub/goes_imgr_sky_cvr/ascii/G16_Imgr_????z_???????.TXT.bz2 \
+/pub/goes_imgr_sky_cvr/ascii/G17_Imgr_????z_???????.TXT.bz2"'}
+      eval FTYPE${n}=\${FTYPE${n}:-none}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx160}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transkycovr}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
+      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-YES}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+
+echo "COMPLETED $JJOB.$family and MACHINE is $MACHINE and n is $n "
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

@@ -1,0 +1,23 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The AIRS/AMSU-A/HSB Every FOV Family (AIRS_efov) (AQUA satellite)
+# NOTE: NESDIS PDA disabled this product in February 2021.  Processing
+# family member, "AIRS_efov" disabled in airs task 9/2021.
+# -----------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-aqua.airs_efov.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/AIRS/NPR.AIBT.AQ.D?????.S????.E????.????.C0300.U8"'}
+      eval FTYPE${n}=\${FTYPE${n}:-bufr}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx249}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranmtypsbt}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

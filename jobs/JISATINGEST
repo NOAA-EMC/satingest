@@ -1,0 +1,280 @@
+set -xa
+date -u
+hour=${hour:-`date -u +%H`}
+min=${min:-`date -u +%M`}
+
+
+echo " start running COMMON.TOP "
+if [ -n "$obsproc_satingest_ver" ]; then
+   set +x
+   echo
+   echo "Current OBSPROC_SATINGEST version is $obsproc_satingest_ver"
+   echo
+   set -x
+fi
+if [ -n "$obsproc_shared_bufr_cword_ver" ]; then
+   set +x
+   echo
+   echo "OBSPROC_SHARED_BUFR_CWORD version used by this job is \
+$obsproc_shared_bufr_cword_ver"
+   echo
+   set -x
+fi
+
+###################################################################
+# Set DEBUG LEVEL - modifies info in execution trace prompt string
+###################################################################
+export DEBUG_LEVEL=${DEBUG_LEVEL=1}
+case $DEBUG_LEVEL in
+  1) export PS4='+ ${SECONDS}s + ' ;;       # add seconds (this is typical case)
+  0) export PS4='+ ';;                      # don't include seconds (useful if
+                                            #  want to diff output from 2 runs)
+  2) export PS4='+ ${SECONDS}s:L$LINENO + ';;         # add script line #
+  3) export PS4='+ ${SECONDS}s:${0##*/}:L$LINENO + ';;# add script name & line #
+  *) echo "Unrecognized DEBUG_LEVEL.  Stay with current PS4 setting";;
+esac
+
+########################################
+# Check that required variables are set
+########################################
+set +x
+echo
+echo envir is ${envir:?"###FATAL ERROR \"envir\" is not set"}
+echo job is ${job:?"###FATAL ERROR \"job\" is not set"}
+echo TASK is ${TASK:?"###FATAL ERROR \"TASK\" is not set"}
+echo
+set -x
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-$TASK}
+export DATATYPE=${DATATYPE:-${TASK^^}}
+
+###############################
+# Create new working directory
+###############################
+if [[ "${RUN_ENVIR,,}" != "nco" ]]; then
+  host=$(hostname -s)
+  export jobid=${jobid:-i${job}.${host}.$$}
+fi
+export DATA=${DATA:-${DATAROOT:?}/${jobid:?}}
+mkdir -p $DATA
+cd $DATA
+
+######################################
+# Set job log file for postmsg output
+######################################
+export jlogfile=${jlogfile:-${DATA}/jlogfile}
+
+export pgmout="OUTPUT.$$"
+
+###############################################
+# SENDECF  - Flag Events on ECFLOW
+# SENDBB   - Allow to talk back to Big Brother
+###############################################
+if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
+  export SENDECF=YES
+  export SENDBB=${SENDBB:-YES}
+else  # developer
+  export SENDECF=NO
+  export SENDBB=${SENDBB:-NO}
+fi
+
+####################################
+# Set up ingest related directories
+####################################
+if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
+  echo DCOMROOT is ${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}
+  export USERDIR=${DCOMROOT}/${envir}/ingest_hist
+  export TANKDIR=${DCOMROOT}/${envir}
+  export OUTDIR=${DCOMROOT}/${envir}/ingest_logs
+  if [[ ${envir} == prod ]]; then
+    export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
+  else
+    export BBDIR=${BBDIR:-${COMROOT:?}/logs/${envir}/bb/ingest}
+  fi
+else
+  export USERDIR=${USERDIR:\
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}/ingest_hist}
+  export TANKDIR=${TANKDIR:\
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
+  export OUTDIR=${OUTDIR:\
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
+fi
+mkdir -p $USERDIR $TANKDIR $OUTDIR
+
+##########################
+# Specify Execution Areas
+##########################
+
+# RUN_TYPE used by pgms BUFR_TRANJB and BUFR_TRANMTYPSBT to determine priority
+# path directory for bufrtab.XXX files which they read - here set to
+# "satingest" so priority path directory is $FIXobsproc_satingest and second
+# choice (if bufrtab.XXX file not found in $FIXobsproc_satingest) is $FIXbufr
+# (other choice for RUN_TYPE is "decoder" which reverses priority)
+# ----------------------------------------------------------------------------
+export RUN_TYPE=${RUN_TYPE:-satingest}
+
+# Paths for obsproc_satingest items
+# ---------------------------------
+export HOMEobsproc_satingest=${HOMEobsproc_satingest:\
+-$NWROOT/obsproc_satingest.${obsproc_satingest_ver:?\
+"###FATAL ERROR \"obsproc_satingest_ver\" is not set"}}
+
+export SCRIPTSobsproc_satingest=${SCRIPTSobsproc_satingest:\
+-$HOMEobsproc_satingest/scripts}
+
+export EXECobsproc_satingest=${EXECobsproc_satingest:\
+-$HOMEobsproc_satingest/exec}
+
+export FIXobsproc_satingest=${FIXobsproc_satingest:\
+-$HOMEobsproc_satingest/fix}
+
+export USHobsproc_satingest=${USHobsproc_satingest:\
+-$HOMEobsproc_satingest/ush}
+
+# Paths for obsproc_shared_bufr_cword items
+# -----------------------------------------
+export HOMEobsproc_shared_bufr_cword=${HOMEobsproc_shared_bufr_cword:\
+-$NWROOT/obsproc_shared/bufr_cword.${obsproc_shared_bufr_cword_ver:?\
+"###FATAL ERROR \"obsproc_shared_bufr_cword_ver\" is not set"}}
+
+export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:\
+-$HOMEobsproc_shared_bufr_cword/exec}
+
+export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:\
+-$HOMEobsproc_shared_bufr_cword/ush}
+
+# Paths for non-obsproc items
+# ---------------------------
+# ... $FIXobsproc_satingest is  populated with all of the bufrtab.XXX
+#     files read by bufr_tranjb.sh and ingest_translate_orbits.sh, so to be
+#     safe the second choice directory path to retrieve these files ($FIXbufr)
+#     is being exported as /dev/null - the reasoning being that it is better
+#     for the jobs to fail than to read a bufrtab.XXX that might be obsolete
+#     if, for some bizarre reason, the bufrtab.XXX files are not found in
+#     $FIXobsproc_satingest.
+# ... $FIXobsproc_satingest is also populated with $TASK and $TASK.$family
+#     files read by JISATINGEST.
+#     -------------------------------------------------------------------------
+export FIXbufr=/dev/null
+
+################################################################
+# Copy utility scripts
+################################################################
+cp $UTILROOT/ush/finddate.sh   .; chmod +x finddate.sh
+cp $UTILROOT/ush/err_chk   .; chmod +x err_chk
+cp $UTILROOT/ush/err_exit  .; chmod +x err_exit
+cp $UTILROOT/ush/prep_step .; chmod +x prep_step
+cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
+cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
+##########################################
+
+export DECDROOT=${DECDROOT:-$NWROOT/decoders}
+export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
+[ ! -d $USHbufr ]  &&  USHbufr=$NWROOT/ush
+
+export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
+[ ! -s $DCNCLD ]  &&  DCNCLD=$NWROOT/exec/decod_dcncld
+
+####################################
+# Set-up ingest processing families
+####################################
+
+export MACHINE=${MACHINE:-${PDA_SERVER:-140.90.190.143}} # (PDA OPS server)
+export MACHINE_CBU=${MACHINE_CBU:-${CBU_PDA_SERVER:-140.172.119.158}} # (PDA CBU server)
+
+#export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+#export HISTLENMIN=${HISTLENMIN:-450}
+#export HISTLENMAX=${HISTLENMAX:-600}
+#export ndayarch=${ndayarch:-3}
+#export DELAFTPROC=${DELAFTPROC:-YES}
+#export TANKPROTECT=${TANKPROTECT:-NO}
+#export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+#export HOURS2ALARM=${HOURS2ALARM:-6}
+
+########################################
+# Check that required variables are set
+########################################
+set +x
+echo
+echo TASK is ${TASK:?"###FATAL ERROR \"TASK\" is not set"}
+echo
+set -x
+
+############ BEGIN SOURCING THE TASK ###############
+# Check that TASK is valid
+if [  $TASK = 'aerosol'        -o $TASK = 'airs'           -o \
+      $TASK = 'avhrr'          -o $TASK = 'radsnd'         -o \
+      $TASK = 'npp_atms'       -o $TASK = 'npp_cris_2211'  -o \
+      $TASK = 'npp_cris_431'   -o $TASK = 'npp_omps'       -o \
+      $TASK = 'ozone14'        -o $TASK = 'ozone_orbit'    -o \
+      $TASK = 'poes_sst'       -o $TASK = 'qscatter'       -o \
+      $TASK = 'ssmi'           -o $TASK = 'snowday'        -o \
+      $TASK = 'snowore'        -o $TASK = 'satwnd'         -o \
+      $TASK = 'tovs' ] ; then             
+  echo "$TASK is a valid task "
+else
+  echo "###FATAL ERROR $TASK IS NOT A VALID TASK; exiting "
+  exit
+fi
+
+export TASK=$TASK
+
+echo " THE TASK IS ${TASK} ; STARTING "
+source $HOMEobsproc_satingest/fix/${TASK}
+
+########### FINISH SOURCING THE TASK ###############
+echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
+echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
+
+set $PROCESSING_FAMILIES
+
+echo " PROCESSING FAMILIES is $PROCESSING_FAMILIES "
+export ngroup=$#
+export nfiles=$#
+n=0
+
+for family in $PROCESSING_FAMILIES
+do
+   n=`expr $n + 1`
+
+IPDA=`echo $family | cut -c1-4`
+if [ $IPDA = 'CBU_' ] ; then
+ echo " THIS IS A CBU job; IPDA= $IPDA ; n=$n "
+ export MACHINE${n}=$MACHINE_CBU # [PDA CBU SERVER]
+ familyname=`echo $family | cut -c 5-`
+ familyname=`echo $familyname |tr "[:upper:]" "[:lower:]"`
+ echo " familyname is $familyname and family is $family "
+ source $HOMEobsproc_satingest/fix/${TASK}.$familyname
+else
+ echo " THIS IS NOT A CBU job; IPDA= $IPDA ; n=$n  "
+ family=`echo $family |tr "[:upper:]" "[:lower:]"`
+ echo " family is $family "
+ source $HOMEobsproc_satingest/fix/${TASK}.$family
+fi
+
+done
+
+set -xa
+
+#####################
+# Execute the script
+#####################
+
+if [ $TASK = 'ozone14' -o $TASK = 'snowday' ] ; then
+   echo " RUNNING ozone14 or snowday, so use existday.sh.ecf "
+   $SCRIPTSobsproc_satingest/existday.sh.ecf
+   err_existday=$?
+else
+   $SCRIPTSobsproc_satingest/existore.sh.ecf
+   err_existore=$?
+fi
+
+if [ "${KEEPDATA^^}" != YES ]; then
+  rm -rf $DATA
+fi
+date -u
+exit

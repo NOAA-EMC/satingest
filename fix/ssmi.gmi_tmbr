@@ -1,0 +1,23 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The GMI L1C-R Brightness Temperature Family (GMI_TMBR) (GPM-core satellite)
+# ---------------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-gmitmbr.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/GMI/1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V05A.bufr"'}
+      eval FTYPE${n}=\${FTYPE${n}:-bufr}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx246}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranjb.sh}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_gmitmbr.out}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-3300}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-3600}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

@@ -1,0 +1,24 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The 50 km ASCAT Family (ASCAT_50km) (METOP-2(A) and METOP-1(B) satellites)
+# --------------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-ascat50.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/PULL/SCAT/ascat_????????_??????_metopa_?????_srv_o_250_ovw.l2_bufr \
+PDAFileLinks/PULL/SCAT/ascat_????????_??????_metopb_?????_srv_o_250_ovw.l2_bufr"'}
+      eval FTYPE${n}=\${FTYPE${n}:-bufr}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx122}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranjb.sh}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-17700}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-18000}
+      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_ascat.out}
+                                      # NESDIS retains a lot of files on server
+         eval IFILES_MAX_GET${n}=\${IFILES_MAX_GET${n}:-2500}
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

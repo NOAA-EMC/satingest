@@ -1,0 +1,47 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-snowore}
+export DATATYPE=${DATATYPE:-SNOWORE}
+###############################
+
+
+########################################################
+## SENDECF    - Flag Events on ECFLOW
+## SENDBB     - Allow to talk back to Big Brother
+## SENDDBN    - Issue DBNet Client Calls
+#########################################################
+ if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
+  export SENDECF=YES
+  export SENDBB=${SENDBB:-YES}
+   if [[ ${envir} == prod ]]; then
+    export SENDDBN=${SENDDBN:-YES}
+   else
+    export SENDDBN=${SENDDBN:-NO}
+   fi
+ else  # developer
+  export SENDECF=NO
+  export SENDBB=${SENDBB:-NO}
+  export SENDDBN=${SENDDBN:-NO}
+ fi
+
+#####################################
+export FTYPE=${FTYPE:-none}
+export HISTLENMIN=${HISTLENMIN:-75}
+export HISTLENMAX=${HISTLENMAX:-100}
+export ndayarch=${ndayarch:-10}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export log=${log:-/dev/null}  # log is not used since bufr_tranjb does not run
+
+###############################################################################
+#                    PART 1 - TIME-STAMPED FILE PROCESSING
+###############################################################################
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"ASCII2GRIB_16_IMS ASCII2GRIB_96_IMS \
+ GRIBCOPY_AUTOSNOW_SH GRIBCOPY_USAF_NH GRIBCOPY_USAF_SH"}
+#####################

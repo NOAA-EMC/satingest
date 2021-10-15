@@ -1,0 +1,140 @@
+.------------------------------------------------------------------------------.
+|------------------------------------------------------------------------------|
+| MNEMONIC | NUMBER | DESCRIPTION                                              |
+|----------|--------|----------------------------------------------------------|
+|          |        |                                                          |
+| FN021045 | A49035 | MSG TYPE 021-045 PROC. GOES-16 ALL SKY RADIANCES (ASR)   |
+|          |        |                                                          |
+| YYMMDD   | 301011 | DATE -- YEAR, MONTH, DAY                                 |
+| HHMMSS   | 301013 | TIME -- HOUR, MINUTE, SECOND                             |
+| LTLONH   | 301021 | HIGH ACCURACY LATITUDE/LONGITUDE POSITION                |
+| SIDGRSEQ | 301071 | SATELLITE IDENTIFIER/GENERATING RESOLUTION               |
+| SIDENSEQ | 301072 | SATELLITE IDENTIFICATION                                 |
+|          |        |                                                          |
+| CLOUDCOV | 304036 | CLOUD COVERAGE                                           |
+| ALLSKYRC | 304037 | ALL SKY RADIANCE DATA                                    |
+|          |        |                                                          |
+| RPSEQ9   | 362070 | BRIGHTNESS TEMPERATURE SEQUENCE                          |
+| RPSEQ3   | 362083 | BITMAP (DATA PRESENT INDICATOR SEQUENCE)                 |
+| RPSEQ4   | 362084 | PERCENT CONFIDENCE SEQUENCE                              |
+|          |        |                                                          |
+| SAID     | 001007 | SATELLITE IDENTIFIER                                     |
+| GCLONG   | 001031 | ORIGINATING/GENERATING CENTER                            |
+| GNAP     | 001032 | GENERATING APPLICATION                                   |
+|          |        |                                                          |
+| SCLF     | 002020 | SATELLITE CLASSIFICATION                                 |
+| SSNX     | 002028 | SEGMENT SIZE AT NADIR IN X DIRECTION                     |
+| SSNY     | 002029 | SEGMENT SIZE AT NADIR IN Y DIRECTION                     |
+| SIDP     | 002152 | SATELLITE INSTRUMENT DATA USED IN PROCESSING             |
+| SCCF     | 002153 | SATELLITE CHANNEL CENTER FREQUENCY                       |
+| SCBW     | 002154 | SATELLITE CHANNEL BAND WIDTH                             |
+| RDCM     | 002167 | RADIANCE COMPUTATIONAL METHOD                            |
+|          |        |                                                          |
+| YEAR     | 004001 | YEAR                                                     |
+| MNTH     | 004002 | MONTH                                                    |
+| DAYS     | 004003 | DAY                                                      |
+| HOUR     | 004004 | HOUR                                                     |
+| MINU     | 004005 | MINUTE                                                   |
+| SECO     | 004006 | SECOND                                                   |
+|          |        |                                                          |
+| CLATH    | 005001 | LATITUDE (HIGH ACCURACY)                                 |
+| BEARAZ   | 005021 | BEARING OR AZIMUTH                                       |
+| SOLAZI   | 005022 | SOLAR AZIMUTH                                            |
+|          |        |                                                          |
+| CLONH    | 006001 | LONGITUDE (HIGH ACCURACY)                                |
+|          |        |                                                          |
+| SAZA     | 007024 | SATELLITE ZENITH ANGLE                                   |
+| SOZA     | 007025 | SOLAR ZENITH ANGLE                                       |
+|          |        |                                                          |
+| VSAT     | 008003 | VERTICAL SIGNIFICANCE (SATELLITE OBSERVATIONS)           |
+| METFET   | 008011 | METEOROLOGICAL FEATURE                                   |
+| LSQL     | 008012 | LAND/SEA QUALIFIER                                       |
+| FOST     | 008023 | FIRST ORDER STATISTICS                                   |
+|          |        |                                                          |
+| HITE     | 010002 | GEOPOTENTIAL HEIGHT                                      |
+|          |        |                                                          |
+| TMBRST   | 012063 | BRIGHTNESS TEMPERATURE                                   |
+|          |        |                                                          |
+| CLDMNT   | 020081 | CLOUD AMOUNT IN SEGMENT                                  |
+| NCLDMNT  | 020082 | AMOUNT SEGMENT CLOUD FREE                                |
+|          |        |                                                          |
+| NPPR     | 030021 | NUMBER OF PIXELS PER ROW                                 |
+| NPPC     | 030022 | NUMBER OF PIXELS PER COLUMN                              |
+|          |        |                                                          |
+| DPRI     | 031031 | DATA PRESENT INDICATOR                                   |
+|          |        |                                                          |
+| PCCF     | 033007 | PERCENT CONFIDENCE                                       |
+|          |        |                                                          |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SEQUENCE                                                          |
+|----------|-------------------------------------------------------------------|
+|          |                                                                   |
+| FN021045 | SIDENSEQ  NPPR  NPPC  SAZA BEARAZ SOZA SOLAZI HITE  CLOUDCOV      |
+| FN021045 | SIDP  RDCM  "ALLSKYRC"11 "RPSEQ3"186                              |
+| FN021045 | GCLONG GNAP                                                       |
+| FN021045 | "RPSEQ4"66                                                        |
+| FN021045 | GCLONG GNAP FOST                                                  |
+| FN021045 | "RPSEQ9"66                                                        |
+|          |                                                                   |
+| SIDGRSEQ | SAID GCLONG SCLF SSNX SSNY                                        |
+|          |                                                                   |
+| SIDENSEQ | SIDGRSEQ  YYMMDD  HHMMSS  LTLONH                                  |
+|          |                                                                   |
+| YYMMDD   | YEAR     MNTH      DAYS                                           |
+|          |                                                                   |
+| HHMMSS   | HOUR     MINU      SECO                                           |
+|          |                                                                   |
+| LTLONH   | CLATH    CLONH                                                    |
+|          |                                                                   |
+| CLOUDCOV | NCLDMNT  LSQL  NCLDMNT  LSQL  CLDMNT                              |
+| CLOUDCOV | VSAT  CLDMNT  VSAT  CLDMNT  VSAT  CLDMNT  VSAT                    |
+|          |                                                                   |
+| ALLSKYRC | SCCF  SCBW  TMBRST  METFET  TMBRST  METFET  TMBRST  METFET        |
+| ALLSKYRC | VSAT  TMBRST  VSAT  TMBRST  VSAT  TMBRST                          |
+|          |                                                                   |
+| RPSEQ3   | DPRI                                                              |
+|          |                                                                   |
+| RPSEQ4   | PCCF                                                              |
+|          |                                                                   |
+| RPSEQ9   | TMBRST                                                            |
+|          |                                                                   |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|
+|----------|------|-------------|-----|--------------------------|-------------|
+|          |      |             |     |                          |-------------|
+| SAID     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| GCLONG   |    0 |           0 |  16 | CODE TABLE               |-------------|
+| GNAP     |    0 |           0 |   8 | CODE TABLE               |-------------|
+| SCLF     |    0 |           0 |   9 | CODE TABLE               |-------------|
+| SSNX     |    0 |           0 |  18 | M                        |-------------|
+| SSNY     |    0 |           0 |  18 | M                        |-------------|
+| SIDP     |    0 |           0 |  31 | FLAG TABLE               |-------------|
+| SCCF     |   -8 |           0 |  26 | HZ                       |-------------|
+| SCBW     |   -8 |           0 |  26 | HZ                       |-------------|
+| RDCM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| YEAR     |    0 |           0 |  12 | YEAR                     |-------------|
+| MNTH     |    0 |           0 |   4 | MONTH                    |-------------|
+| DAYS     |    0 |           0 |   6 | DAY                      |-------------|
+| HOUR     |    0 |           0 |   5 | HOUR                     |-------------|
+| MINU     |    0 |           0 |   6 | MINUTE                   |-------------|
+| SECO     |    0 |           0 |   6 | SECOND                   |-------------|
+| CLATH    |    5 |    -9000000 |  25 | DEGREE                   |-------------|
+| BEARAZ   |    2 |           0 |  16 | DEGREE TRUE              |-------------|
+| SOLAZI   |    2 |           0 |  16 | DEGREE TRUE              |-------------|
+| CLONH    |    5 |   -18000000 |  26 | DEGREE                   |-------------|
+| SAZA     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+| SOZA     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+| VSAT     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| LSQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| METFET   |    0 |           0 |   6 | CODE TABLE               |-------------|
+| FOST     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| HITE     |   -1 |         -40 |  16 | M                        |-------------|
+| TMBRST   |    1 |           0 |  12 | KELVIN                   |-------------|
+| CLDMNT   |    0 |           0 |   7 | %                        |-------------|
+| NCLDMNT  |    0 |           0 |   7 | %                        |-------------|
+| NPPR     |    0 |           0 |  12 | NUMERIC                  |-------------|
+| NPPC     |    0 |           0 |  12 | NUMERIC                  |-------------|
+| DPRI     |    0 |           0 |   1 | FLAG TABLE               |-------------|
+| PCCF     |    0 |           0 |   7 | PERCENT                  |-------------|
+|          |      |             |     |                          |-------------|
+`------------------------------------------------------------------------------'

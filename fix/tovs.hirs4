@@ -1,0 +1,28 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The HIRS-4 Family (HIRS4) (NOAA-18, -19, and METOP-2(A), -1(B) satellites)
+# METOP-3(C) instrument not yet available
+# --------------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-atovs1b.hir4.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/PULL/HIRS/NSS.HIRX.NN.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/HIRS/NSS.HIRX.NP.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/HIRS/NSS.HIRX.M2.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/HIRS/NSS.HIRX.M1.D?????.S????.E????.B???????.??"'}
+##replace the line above with the following 2 lines when Metop-C available
+##PDAFileLinks/PULL/HIRS/NSS.HIRX.M1.D?????.S????.E????.B???????.?? \
+##PDAFileLinks/PULL/HIRS/NSS.HIRX.M3.D?????.S????.E????.B???????.??"'}
+      eval FTYPE${n}=\${FTYPE${n}:-none}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx028}
+      eval EXECUTE${n}=\${EXECUTE${n}:-ingest_script_atovs1b.sh}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
+      eval COMPRESS${n}=\${COMPRESS${n}:-YES}
+      eval CRITICAL${n}=\${CRITICAL${n}:-YES}
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

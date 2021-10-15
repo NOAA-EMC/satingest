@@ -1,0 +1,24 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The NESDIS AQUA MODIS Water Vapor Imager Wind Family (MODWV)
+#  (Terra MODIS water vaper imager winds have been gone since 7/2013)
+# -------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-poeswind.modis.wvapimgr.list}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/POESAMV/satwnd.bufrwvap.aqua.D?????.T??:??:??Z"'}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b005/xx071}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transatw}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.005}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-bufr_V10satwind.4qual.bufrtable}
+      eval HOURS2ALARM${n}=\${HOURS2ALARM${n}:-9}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-2400}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-2700}
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

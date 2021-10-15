@@ -1,0 +1,22 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The SBUV Version 8 BUFR OZONE Family (OZONE_V8bufr) (NOAA-19 satellite)
+# -----------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-ozone.sbuv8.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/OZONE/PRD.OZONE.PMFV8.N19.D?????.S????.E????.??????"'}
+      eval FTYPE${n}=\${FTYPE${n}:-bufr}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b008/xx011}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranmtypsbt}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.008}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
+      eval CRITICAL${n}=\${CRITICAL${n}:-YES}
+      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_ozone_sbuv.out}
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

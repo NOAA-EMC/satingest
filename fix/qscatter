@@ -1,0 +1,21 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-qscatter}
+export DATATYPE=${DATATYPE:-QSCATTER}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export HISTLENMIN=${HISTLENMIN:-450}
+export HISTLENMAX=${HISTLENMAX:-600}
+export ndayarch=${ndayarch:-3}
+export DELAFTPROC=${DELAFTPROC:-YES}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export HOURS2ALARM=${HOURS2ALARM:-6}
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"ASCAT_50km"}
+#####################

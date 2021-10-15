@@ -1,0 +1,25 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+
+#   elif [ "$dtyp" = 'DUST' ]; then
+#  NESDIS DUST product from MYDdust.aod_conc grib files (DUST)
+#  -----------------------------------------------------------
+
+      eval ORBITLIST${n}=dust.aod
+      eval REMOTEDSNGRP${n}='"\
+PDAFileLinks/PULL/GRIB/MYDdust.aod_conc.v6.3.4.????????.hr??.grib"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=wgrbbul/dust
+      eval EXECUTE${n}=ingest_copy.sh
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HOURS2ALARM${n}=24
+      eval HISTLENMIN${n}=600
+      eval HISTLENMAX${n}=900
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

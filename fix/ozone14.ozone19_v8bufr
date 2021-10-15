@@ -1,0 +1,23 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+
+#  Version 8 BUFR NOAA-19 Daily Ozone File (OZONE19_V8bufr)
+#  --------------------------------------------------------
+      eval dsname${n}="PDAFileLinks/PULL/OZONE/PRD.OZONE.PMFV8.N19.BUFR"
+      eval dsname_hist${n}="PRD.OZONE.PMFV8.N19.BUFR"
+      eval TANKSUBDIR${n}=mobsbfr
+      eval TANKFILE${n}="PRD.OZONE.PMFV8.N19.BUFR"
+      eval timemade${n}=1200
+      eval CRITICAL${n}=YES
+      eval MTYPSBT${n}=YES
+      eval DELAFTPROC=NO
+      eval TANKPROTECT=YES
+      eval tankfile=${tankfile:-b008/xx011}  # needed by program BUFR_TRANMTYPSBT
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

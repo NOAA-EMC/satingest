@@ -1,0 +1,20 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The SSM/I SDR (bright. temps) Family (SDR) (DMSP F-15 satellite)
+# ----------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-ssmi.sdrr.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/DMSP/NPR.SDRR.S9.D?????.S????.E????.????????.NS"'}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx001}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transsmi}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+      COM_SSTOI=${COM_SSTOI:-$(compath.py gfs/prod/sst)}
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

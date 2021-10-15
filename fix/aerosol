@@ -1,0 +1,95 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-aerosol}
+export DATATYPE=${DATATYPE:-AEROSOL}
+######################################
+echo "Enter fix/aerosol"
+echo $ngroup 
+echo "argc = '$#'"
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export ndayarch=${ndayarch:-30}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+
+group1=YES
+PROC_FAM_group1=\
+${PROC_FAM_group1:-"MODIS_AOD BURNED_AREA SAT_COMP_MOSAIC_IMGRY \
+                    NIC_LKS AF_VIIRS MODIS_FIRE WF_ABBA"}
+
+group2=NO
+if [ $hour -eq 00 -o $hour -eq 08 -o $hour -eq 10 -o $hour -eq 12 -o \
+     $hour -eq 13 ]; then
+   if [ $min -ge 00 -a $min -le 30 ] ; then
+      PROC_FAM_group2=${PROC_FAM_group2:-" "}
+      group2=YES
+   else
+      PROC_FAM_group2=" "
+   fi
+else
+   PROC_FAM_group2=" "
+fi
+
+group3=NO
+if [ $hour -eq 09 ] ; then
+   if [ $min -ge 30 ] ; then
+      PROC_FAM_group3=${PROC_FAM_group3:-"HMS_SMOKE_PRELIM"}
+      group3=YES
+   else
+      PROC_FAM_group3=" "
+   fi
+else
+   PROC_FAM_group3=" "
+fi
+
+group4=NO
+if [ $hour -ge 18 ] ; then
+   PROC_FAM_group4=${PROC_FAM_group4:-"HMS_SMOKE_FINAL"}
+   group4=YES
+else
+   PROC_FAM_group4=" "
+fi
+
+group5=NO
+
+group6=NO
+if [ $hour -eq 12 ] ; then
+   if [ $min -le 30 ] ; then
+      PROC_FAM_group6=${PROC_FAM_group6:-"DUST"}
+      group6=YES
+   else
+      PROC_FAM_group6=" "
+   fi
+else
+   PROC_FAM_group6=" "
+fi
+
+group7=NO
+if [ $hour -ge 05 -a $hour -le 10 ] ; then
+   PROC_FAM_group7=${PROC_FAM_group7:-"BURNING_EMISSIONS VIIRS_WEEKLY_GVF"}
+   group7=YES
+else
+   PROC_FAM_group7=" "
+fi
+
+group8=NO
+if [ $hour -eq 07 -o $hour -eq 08 ] ; then
+   PROC_FAM_group8=${PROC_FAM_group8:-"HMS_SMOKE_PRELIM_EARLY"}
+   group8=YES
+else
+   PROC_FAM_group8=" "
+fi
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 $PROC_FAM_group3 \
+$PROC_FAM_group4 $PROC_FAM_group6 $PROC_FAM_group7 \
+$PROC_FAM_group8 $PROC_FAM_group1"}
+
+echo "leaving fix/aerosol"
+echo $ngroup 
+echo "argc = '$#'"
+##################################

@@ -1,0 +1,30 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
+
+#   if [ "$dtyp" = 'LGYCLD' ]; then
+# The 1x1 FOV (SFOV) GOES Cloud Family from NASA/LANGLEY (LGYCLD)
+#  {GOES-16 (E) and -17 (W) satellites} from NCO's server
+#  GOES-15 removed 3/2020
+# ----------------------------------------------------------------------
+      eval MACHINE${n}=\${MACHINE${n}:-wcoss_nasa@ftps-out1.ncep.noaa.gov}
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-goescld_NASA.hrlylist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+G17V04.0.RR.???????.????.PX.06K.nc \
+G16V04.0.RR.???????.????.PX.06K.nc"'}
+                                      # LaRC may retain a lot of files on server
+      eval IFILES_MAX_GET${n}=\${IFILES_MAX_GET${n}:-3000}
+      eval FTYPE${n}=\${FTYPE${n}:-none}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx150}
+      eval EXECUTE${n}=\${EXECUTE${n}:-ingest_cloud_NASA.sh}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
+      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-NO}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+
+echo "COMPLETED $JJOB.$family and MACHINE is $MACHINE and n is $n "
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

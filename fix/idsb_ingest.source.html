@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>NCEP Satellite Ingest</title>
+  <!--[if lt IE 9]>
+    <script src="/idsb/assets/js/vendor/html5shiv.js"></script>
+    <script src="/idsb/assets/js/vendor/respond.js"></script>
+    <script src="/idsb/assets/js/vendor/selectivizr-min.js"></script>  
+  <![endif]-->
+  <link rel="stylesheet" href="/idsb/assets/css/main.css">
+  <link rel="stylesheet" href="/idsb/assets/css/google-fonts.css">
+  <link rel="stylesheet" href="/idsb/cwilocal/cwi.css">
+  <script src="/idsb/assets/js/vendor/jquery-1.11.3.min.js"></script>
+  <script src="/idsb/assets/js/components.js"></script>
+  <script src="/idsb/js/sorttable.js"></script>
+  <style>
+    #IngestData th {
+      text-align: center;
+      padding: 2px;
+    }
+    #IngestData td {
+      font-size: smaller;
+      padding: 2px;
+    }
+    #IngestData td a {
+      text-decoration: none;
+    }
+  </style>
+  <meta name="HandheldFriendly" content="True">
+</head>
+<body>
+<div id="main" class="main-content" role="main"><div class="usa-disclaimer"><div class="usa-grid"><span class="usa-disclaimer-official">
+	<img class="usa-flag_icon" alt="U.S. flag signifying that this is a United States federal government website" src="/idsb/assets/img/us_flag_small.png">
+	An internal website of the United States Government
+</span></div></div>
+<table class="cwi-frame">
+  <colgroup><col style="width:85px" /><col style="width:auto" /><col style="width:85px" /></colgroup>
+  <tr>
+    <td height="19" background="http://www.nco.ncep.noaa.gov/cwi/topbanner.jpg"></td>
+    <td height="19" background="http://www.nco.ncep.noaa.gov/cwi/topbanner.jpg" style="background-position: -85px 0px"><img src="/idsb/cwilocal/topmiddle.jpg" height="19" /></td>
+    <td height="19" background="http://www.nco.ncep.noaa.gov/cwi/topbanner.jpg" style="background-position:right"></td>
+  </tr>
+  <tr>
+    <td rowspan="2"><a href="http://www.noaa.gov/"><img alt="NOAA logo - Click to go to the NOAA homepage" src="http://www.nco.ncep.noaa.gov/cwi/noaaleft.jpg" height="78" /></a></td>
+    <td background="http://www.nco.ncep.noaa.gov/cwi/ncep_bkgrnd.jpg"><img alt="National Weather Service" src="http://www.nco.ncep.noaa.gov/cwi/nws_title.jpg" height="20" /></td>
+    <td rowspan="2" align="right"><a href="http://www.weather.gov/"><img alt="NWS logo - Click to go to the NWS homepage" src="http://www.nco.ncep.noaa.gov/cwi/nwsright.jpg" height="78" /></a></td>
+  </tr>
+  <tr>
+    <td background="http://www.nco.ncep.noaa.gov/cwi/ncep_bkgrnd.jpg" style="background-position:bottom"><img alt="NCEP Central Operations" src="http://www.nco.ncep.noaa.gov/cwi/nco.jpg" height="58" /></td>
+  </tr>
+</table>
+<table class="cwi-frame" background="http://www.nco.ncep.noaa.gov/cwi/navbkgrnd.gif">
+  <tr>
+    <td align="left" valign="top" width="94"><img alt="Navigation Bar Left Cap" src="http://www.nco.ncep.noaa.gov/cwi/navbarleft.jpg" width="94" height="23" /></td>
+    <td class="topnav" align="center" width="10%"><a href="/">Home</a></td>
+    <td class="topnav" align="right" width="10%">&nbsp;<a href="http://www.weather.gov/news/">News</a></td>
+    <td class="topnav" align="right" width="19%">&nbsp;<a href="http://www.weather.gov/organization/">Organization</a></td>
+    <td class="searchinput" align="right">
+      <form method="get" action="http://search.usa.gov/search" style="max-width:inherit">
+        <!--<label for="NWSSearch"><span class="yellow">Search</span>&nbsp;</label>-->
+        <input type="hidden" name="affiliate" value="nws.noaa.gov" />
+        <input type="hidden" name="v:project" value="firstgov" />
+        <input type="text" name="query" maxlength="256" id="NWSSearch" />
+        <input type="submit" value="Search"  />
+      </form>
+    </td>
+    <td align="right" valign="bottom" width="24"><img src="http://www.nco.ncep.noaa.gov/cwi/navbarendcap.jpg" alt="Navigation Bar End Cap" width="24" height="23" /></td>
+  </tr>
+</table>
+<div id="ncep-body">
+<!-- Begin code for the navigation strip with links to multiple Centers -->
+<div id="centerlinks"><table class="centerlinks"><tbody><tr>
+    <td><a href="http://www.commerce.gov/" title="Department of Commerce">DOC</a></td>
+    <td><a href="http://www.noaa.gov/" title="National Oceanographic and Atmospheric Administration">NOAA</a></td>
+    <td><a href="http://www.weather.gov/" title="National Weather Service">NWS</a></td>
+	<td><a href="http://www.ncep.noaa.gov/" title="National Centers for Environmental Prediction">NCEP</a></td>
+	<td><a href="http://www.nco.ncep.noaa.gov/" title="NCEP Central Operations">NCO</a></td>
+	<td><a href="http://www.nco.ncep.noaa.gov/idsb/" title="Implementation and Data Services Branch">IDSB</a></td>
+  </tr>
+</tbody></table><table class="centerlinks"><tbody>
+  <tr>
+    <td><a href="http://www.ncep.noaa.gov/" title="National Centers for Environmental Prediction">NCEP&nbsp;Centers:</a></td>
+    <td><a href="http://www.aviationweather.gov/" title="Aviation Weather Center">AWC</a></td>
+    <td><a href="http://www.cpc.ncep.noaa.gov/" title="Climate Prediction Center">CPC</a></td>
+    <td><a href="http://www.emc.ncep.noaa.gov/" title="Environmental Modeling Center">EMC</a></td>
+    <td><a href="http://www.nco.ncep.noaa.gov/" title="NCEP Central Operations">NCO</a></td>
+    <td><a href="http://www.nhc.noaa.gov/" title="National Hurricane Center">NHC</a></td>
+    <td><a href="http://www.opc.ncep.noaa.gov/" title="Ocean Prediction Center">OPC</a></td>
+    <td><a href="http://www.spc.noaa.gov/" title="Storm Prediction Center">SPC</a></td>
+    <td><a href="http://www.swpc.noaa.gov/" title="Space Weather Prediction Center">SWPC</a></td>
+    <td><a href="http://www.wpc.ncep.noaa.gov/" title="Weather Prediction Center">WPC</a></td>
+  </tr></tbody></table></div>
+<!-- End of code for the navigation strip with links to multiple Centers -->
+  <h1>NCEP Satellite Ingest</h1>
+  <p id='Description'>Datatypes listed in <font color="red">red</font> are considered "critical" to NCEP systems so any shortage of these types should be investigated immediately.</p>
+  <table class="cool sortable" id="IngestData">
+  <thead>
+    <tr>
+      <th nowrap="nowrap" scope="col">Filename</td>
+      <th nowrap="nowrap" scope="col">WCOSS Job</td>
+      <th nowrap="nowrap" scope="col">Data Type</td>
+      <th nowrap="nowrap" scope="col">Mnemonic<sup><a href="#5">(5)</a></sup></td>
+      <th nowrap="nowrap" scope="col">Server<sup><a href="#1">(1)</a></sup></td>
+      <th nowrap="nowrap" scope="col">PDA Subscription</td>
+      <th nowrap="nowrap" scope="col">Destination on WCOSS<sup><a href="#2">(2)</a></sup></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td nowrap="nowrap">GVF-WKL-GLB_v1r0_npp_s????????_e????????_c???????????????.grib2</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">S-NPP NESDIS VIIRS daily-updated weekly 4 km global GVF</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_VIIRS_GVF_GRIB2">WCOSS_VIIRS_GVF_GRIB2</a></td>
+      <td nowrap="nowrap">/dcom/us007003/viirs/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">Terra_AOD_BUFR.???????.????</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">TERRA MODIS Aerosol Optical Depth</td>
+      <td nowrap="nowrap">AODMOD </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_TERRA_AOD_BUFR">WCOSS_TERRA_AOD_BUFR</a></td>
+      <td nowrap="nowrap">b008/xx041</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">Aqua_AOD_BUFR.???????.????</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">AQUA MODIS Aerosol Optical Depth</td>
+      <td nowrap="nowrap">AODMOD </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AQUA_AOD_BUFR">WCOSS_AQUA_AOD_BUFR</a></td>
+      <td nowrap="nowrap">b008/xx041</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GW.????????????.all.aod_conc.NAM3.grd</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">GOES-W (15) Aerosol Optical Depth/Tot. Aerosol Conc. GRIB</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_G13SMKEASTAOD_GRIB">WCOSS_G13SMKEASTAOD_GRIB</a></td>
+      <td nowrap="nowrap">wgrdbul/smoke_west/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GW.??????????.2smoke.combaod.hmshysplitcomb2.NAM3.grd</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">GOES-W (15) Aerosol Optical Depth/Smoke Conc. GRIB</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GWSMKWESTCOMBAOD_GRIB">WCOSS_GWSMKWESTCOMBAOD_GRIB</a></td>
+      <td nowrap="nowrap">wgrdbul/smoke_west/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GWHI.??????????.2smoke.combaod.hmshysplitcomb2.NAM3.grd</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">GOES-W (15) Hawaii Aerosol Optical Depth/Smoke Conc. GRIB</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GWHISMKCOMBAOD_GRIB">WCOSS_GWHISMKCOMBAOD_GRIB</a></td>
+      <td nowrap="nowrap">wgrdbul/smoke_hawaii/{filename}</td>
+
+    </tr>
+    <tr>
+      <td nowrap="nowrap">hmshysplit????????.txt</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">NESDIS Hazard Mapping System (HMS) Hysplit Smoke Final file</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_HYSPLIT_TXT">WCOSS_HYSPLIT_TXT</a></td>
+      <td nowrap="nowrap">wtxtbul/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">hmshysplit????????.prelim.txt</font><sup><a href="#6">(6)</a></sup></td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">NESDIS Hazard Mapping System (HMS) Hysplit Smoke Preliminary file</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_PREHYSPLIT_TXT">WCOSS_PREHYSPLIT_TXT</a></td>
+      <td nowrap="nowrap">wtxtbul/{filename}_early &amp; <br> wtxtbul/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">MYDdust.aod_conc.v6.3.4.????????.hr??.grib</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">NESDIS MODIS dust mask product</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_MYDUST_GRIB">WCOSS_MYDUST_GRIB</a></td>
+      <td nowrap="nowrap">wgrbbul/dust/(filename)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">burned_area_????????_??_??_1km.grib2.gz</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Burned area product (1 km)  GRIB2</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_BURNAREA1KM_RES">WCOSS_BURNAREA1KM_RES</a></td>
+      <td nowrap="nowrap"><small>/dcom/us007003/burned_area/{gunzip'd filename}</small></td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">burned_area_????????_??_??_12km.grib2.gz</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Burned area product (12 km)  GRIB2</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_BURNAREA12KM_RES">WCOSS_BURNAREA12KM_RES</a></td>
+      <td nowrap="nowrap"><small>/dcom/us007003/burned_area/{gunzip'd filename}</small></td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GBBEPx.emis_bc.*.????????.nc</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Blended gbl biomass burning emissions black carbon product NetCDF</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_BCEMISSIONS_DAILY">WCOSS_BCEMISSIONS_DAILY</a></td>
+      <td nowrap="nowrap">burned_emission/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GBBEPx.emis_oc.*.????????.nc</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Blended gbl biomass burning emissions organic carbon product NetCDF</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_OCEMISSIONS_DAILY">WCOSS_OCEMISSIONS_DAILY</a></td>
+      <td nowrap="nowrap">burned_emission/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GBBEPx.emis_so2.*.????????.nc</td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Blended gbl biomass burning emissions sulfur dioxide product NetCDF</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SO2EMISSIONS_DAILY">WCOSS_SO2EMISSIONS_DAILY</a></td>
+      <td nowrap="nowrap">burned_emission/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">GLOBCOMPLIR.??????????</font></td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Gbl geo satellite composite mosaic long-wave IR chn imagery McIDAS</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GMGSILW_AREA">WCOSS_GMGSILW_AREA</a></td>
+      <td nowrap="nowrap">mcidas/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">GLOBCOMPSIR.??????????</font></td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Gbl geo satellite composite mosaic short-wave IR chn imagery McIDAS</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GMGSISW_AREA">WCOSS_GMGSISW_AREA</a></td>
+      <td nowrap="nowrap">mcidas/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">GLOBCOMPVIS.??????????</font></td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Gbl geo satellite composite mosaic visible chn imagery McIDAS</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GMGSIVIS_AREA">WCOSS_GMGSIVIS_AREA</a></td>
+      <td nowrap="nowrap">mcidas/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">GLOBCOMPSSR.??????????</font></td>
+      <td nowrap="nowrap">AEROSOL</td>
+      <td nowrap="nowrap">Resources/metadata: gbl geo satellite composite mosaic imagery McIDAS</td>
+      <td nowrap="nowrap"> </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GMGSISSR_AREA">WCOSS_GMGSISSR_AREA</a></td>
+      <td nowrap="nowrap">mcidas/{filename}</td>
+    </tr>
+
+    <tr>
+      <td nowrap="nowrap"><font color="red">NPR_IARD.M02_D?????_S??????_E??????_G???_C0616_U6</font></td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">METOP-2 IASI every FOV</td>
+      <td nowrap="nowrap">MTIASI </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_IASI616CHALLFOV">WCOSS_IASI616CHALLFOV</a></td>
+      <td nowrap="nowrap">b021/xx241</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NPR_IARD.M01_D?????_S??????_E??????_G???_C0616_U6</font></td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">METOP-1 IASI every FOV</td>
+      <td nowrap="nowrap">MTIASI</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_IASI616CHALLFOV">WCOSS_IASI616CHALLFOV</a></td>
+      <td nowrap="nowrap">b021/xx241</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NPR.AIBT.AQ.D?????.S????.E????.????.C0300.U8</font></td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">AQUA AIRS/AMSU-A/HSB every FOV</td>
+      <td nowrap="nowrap">AIRSEV </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AIRS300CH_BRIGHT">WCOSS_AIRS300CH_BRIGHT</a></td>
+      <td nowrap="nowrap">b021/xx249</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">IASI_xxx_1C_M01_??????????????Z_??????????????Z_V_T_??????????????Z.bufr</td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">METOP-1 IASI direct broadcast from UW/SSEC</td>
+      <td nowrap="nowrap">IASIDB</td>
+      <td nowrap="nowrap">ftp.ssec.wisc.edu<sup><a href="#wisc">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</a></td>
+      <td nowrap="nowrap">b021/xx239</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">IASI_xxx_1C_M02_??????????????Z_??????????????Z_V_T_??????????????Z.bufr</td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">METOP-2 IASI direct broadcast from UW/SSEC</td>
+      <td nowrap="nowrap">IASIDB</td>
+      <td nowrap="nowrap">ftp.ssec.wisc.edu<sup><a href="#wisc">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</a></td>
+      <td nowrap="nowrap">b021/xx239</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">W_XX-EUMETSAT-Darmstadt,SOUNDING+SATELLITE,MEGHA-TROPIQUES+<br>SAPHIR_C_EUMP_??????????????_?????_?????_?_??_L1A2.bin.bz2</td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">Megha-Tropiques SAPHIR btemps</td>
+      <td nowrap="nowrap">SAPHIR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_EUMETSAT_SAPHIR">WCOSS_EUMETSAT_SAPHIR</a></td>
+      <td nowrap="nowrap">b021/xx242</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">AMSR2-MBT-89A_v2r0_GW1_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">GCOM-W AMSR2 btemps - chn. 89 A-horn</td>
+      <td nowrap="nowrap">AMSR2</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AMSR2_MBT_89A_BUFR">WCOSS_AMSR2_MBT_89A_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx248</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">AMSR2-MBT-89B_v2r0_GW1_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">GCOM-W AMSR2 btemps - chn. 89 B-horn</td>
+      <td nowrap="nowrap">AMSR2</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AMSR2_MBT_89B_BUFR">WCOSS_AMSR2_MBT_89B_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx248</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">AMSR2-MBT-LR_v2r0_GW1_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">AIRS</td>
+      <td nowrap="nowrap">GCOM-W AMSR2 btemps - chn. 6-36 A-horn</td>
+      <td nowrap="nowrap">AMSR2</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AMSR2_MBT_LR_BUFR">WCOSS_AMSR2_MBT_LR_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx248</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NSS.GHRR.M2.D?????.S????.E????.????????.??</td>
+      <td nowrap="nowrap">AVHRR</td>
+      <td nowrap="nowrap">METOP-2 AVHRR/GAC</td>
+      <td nowrap="nowrap">AVCS17 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_METOPAHRR3_LVL1B">WCOSS_METOPAHRR3_LVL1B</a></td>
+      <td nowrap="nowrap">b021/xx051</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NSS.GHRR.NN.D?????.S????.E????.????????.??</td>
+      <td nowrap="nowrap">AVHRR</td>
+      <td nowrap="nowrap">NOAA-18 AVHRR/GAC</td>
+      <td nowrap="nowrap">AVCS18 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AVHRR_BUFR">WCOSS_AVHRR_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx053</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.CLON.SP.D?????.S????</td>
+      <td nowrap="nowrap">CLOUD</td>
+      <td nowrap="nowrap">AFWA N. Hemisphere Cloud Cover</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"></td>
+      <td nowrap="nowrap">wgrbbul/cloud/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.CLOS.SP.D?????.S????</td>
+      <td nowrap="nowrap">CLOUD</td>
+      <td nowrap="nowrap">AFWA S. Hemisphere Cloud Cover</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"></td>
+      <td nowrap="nowrap">wgrbbul/cloud/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">clavrx_??_??_?_????_???.cell.hdf</td>
+      <td nowrap="nowrap">CLOUD</td>
+      <td nowrap="nowrap">CLAVR synoptic data &nbsp; &nbsp;
+                 <a href="http://cimss.ssec.wisc.edu/clavr/index.html" target="_blank"><font size="-1"><b>more info</b></font></a></td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_CLAVRSSTTT_HDF">WCOSS_CLAVRSSTTT_HDF</a></td>
+      <td nowrap="nowrap">wgrbbul/clavrx/clvrxgrb.yyyymmddhh</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">sst24o_goes_????_???.gz</font></td>
+      <td nowrap="nowrap">GOES_SST</td>
+      <td nowrap="nowrap">NESDIS GOES SST (24 hour average)</td>
+      <td nowrap="nowrap">SSTNSG</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SSTGOES_MRGDAILY">WCOSS_SSTGOES_MRGDAILY</a></td>
+      <td nowrap="nowrap">b012/xx022</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">glsea-temps.dat</td>
+      <td nowrap="nowrap">NAMSST</td>
+      <td nowrap="nowrap">Great Lakes Daily Average Sfc. Water Temp.</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">coastwatch.glerl.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">wtxtbul</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">ncepetagl.dat</td>
+      <td nowrap="nowrap">NAMSST</td>
+      <td nowrap="nowrap">High Resolution Great Lakes SST analysis</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">coastwatch.glerl.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">wtxtbul</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">nos_glavewl.dat</td>
+      <td nowrap="nowrap">NAMSST</td>
+      <td nowrap="nowrap">Great Lakes Average Water Level</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">tidepool.nos.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">wtxtbul</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">ATMS_v1r0_npp_s<small>???????????????</small>_e<small>???????????????</small>_c<small>???????????????</small>.bufr</font></td>
+      <td nowrap="nowrap">NPP_ATMS</td>
+      <td nowrap="nowrap">S-NPP ATMS brightness temperatures</td>
+      <td nowrap="nowrap">ATMS</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_ATMS_BUFR">WCOSS_ATMS_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx203</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">ATMS_v1r0_npp_s???????????????_e???????????????_c???????????????.DB.bufr</td>
+      <td nowrap="nowrap">NPP_ATMS</td>
+      <td nowrap="nowrap">S-NPP ATMS direct broadcast from UW/SSEC</td>
+      <td nowrap="nowrap">ATMSDB</td>
+      <td nowrap="nowrap">ftp.ssec.wisc.edu<sup><a href="#wisc">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b021/xx213</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red" size="-1">NUCAPS-C0399_v1r0_npp_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">NPP_CRIS_399</td>
+      <td nowrap="nowrap">S-NPP CrIS apodized 399 channel radiances</td>
+      <td nowrap="nowrap">CRIS</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_CrIS_C0399_BUFR">WCOSS_CrIS_C0399_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx202</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">NUCAPS-C0399_v1r0_npp_s???????????????_e???????????????_c???????????????.DB.bufr</font></td>
+      <td nowrap="nowrap">NPP_CRIS_399</td>
+      <td nowrap="nowrap"><font size="-1">S-NPP CrIS direct broadcast from UW/SSEC (apodized 399 channel radiances)</font></td>
+      <td nowrap="nowrap">CRISDB</td>
+      <td nowrap="nowrap">ftp.ssec.wisc.edu<sup><a href="#wisc">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b021/xx212</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">NUCAPS-C0431_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">NPP_CRIS_431</td>
+      <td nowrap="nowrap">S-NPP CrIS full spectral 431 channel (subset) radiances</td>
+      <td nowrap="nowrap">CRISF4</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SNPP_CrIS_C0431_BUFR">WCOSS_SNPP_CrIS_C0431_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx206</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">OMPS-TC_v2r0_npp_s<small>???????????????</small>_e<small>???????????????</small>_c<small>???????????????</small>.bufr</td>
+      <td nowrap="nowrap">NPP_OPMS</td>
+      <td nowrap="nowrap">S-NPP OMPS Total Column Ozone (version 8)</td>
+      <td nowrap="nowrap"></td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_NDE_OMPS_TC_V8_OZONE_BUFR">WCOSS_NDE_OMPS_TC_V8_OZONE_BUFR</a></td>
+      <td nowrap="nowrap">b008/xx018</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">OMPS-NP_v2r0_npp_s<small>???????????????</small>_e<small>???????????????</small>_c<small>???????????????</small>.bufr</td>
+      <td nowrap="nowrap">NPP_OPMS</td>
+      <td nowrap="nowrap">S-NPP OMPS Nadir Profile Ozone (version 8)</td>
+      <td nowrap="nowrap"></td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_NDE_OMPS_NP_V8_OZONE_BUFR">WCOSS_OMPS_NP_V8_OZONE_BUFR</a></td>
+      <td nowrap="nowrap">b008/xx017</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">PRD.OZONE.PMFV8.N19.BUFR</font></td>
+      <td nowrap="nowrap">OZONE14</td>
+      <td nowrap="nowrap">NOAA-19 Daily SBUV/2 Ozone</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SBUVDAILYV8_BUFR">WCOSS_SBUVDAILYV8_BUFR</a></td>
+      <td nowrap="nowrap">mobsbfr/{filename}</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">PRD.OZONE.PMFV8.N19.D?????.S????.E????.??????</font></td>
+      <td nowrap="nowrap">OZONE_ORBIT</td>
+      <td nowrap="nowrap">NOAA-19 Orbital SBUV/2 Ozone</td>
+      <td nowrap="nowrap">OSBUV8 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SBUVORBITV8_pmfv8">WCOSS_SBUVORBITV8_pmfv8</a></td>
+      <td nowrap="nowrap">b008/xx011</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GOME_M02_8TO3_??????????????Z_??????????????Z.BUFR</td>
+      <td nowrap="nowrap">OZONE_ORBIT</td>
+      <td nowrap="nowrap">METOP-2 GOME-2 Ozone</td>
+      <td nowrap="nowrap">GOME</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOMEDAILY_bufr">WCOSS_GOMEDAILY_bufr</a></td>
+      <td nowrap="nowrap">b008/xx012</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">GOME_M01_8TO3_??????????????Z_??????????????Z.BUFR</td>
+      <td nowrap="nowrap">OZONE_ORBIT</td>
+      <td nowrap="nowrap">METOP-1 GOME-2 Ozone</td>
+      <td nowrap="nowrap">GOME</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOMEDAILY_bufr">WCOSS_GOMEDAILY_bufr</a></td>
+      <td nowrap="nowrap">b008/xx012</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">OMI-Aura_L2-OMTO3_????m????t????-o?????_v883-????m????t??????.he5</td>
+      <td nowrap="nowrap">OZONE_ORBIT</td>
+      <td nowrap="nowrap">Aura OMI Ozone</td>
+      <td nowrap="nowrap">OMI</td>
+      <td nowrap="nowrap">eosb1.nesdis.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b008/xx013</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">MLS-Aura_L2GP-O3_v03-43-NRT-07-c01_????d???t????.he5</td>
+      <td nowrap="nowrap">OZONE_ORBIT</td>
+      <td nowrap="nowrap">Aura MLS Ozone</td>
+      <td nowrap="nowrap">MLS</td>
+      <td nowrap="nowrap">discnrt1.ecs.nasa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b008/xx015</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">mcsst_mta_d*tmp</font><sup><a href="#4">(4)</a></sup></td>
+      <td nowrap="nowrap">POES_SST</td>
+      <td nowrap="nowrap">METOP-2 AVHRR SST, btemps, albedo</td>
+      <td nowrap="nowrap">SSTNVH</td>
+      <td nowrap="nowrap">ftps-in1.ncep.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx012</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">mcsst_n19_d*tmp</font><sup><a href="#4">(4)</a></sup></td>
+      <td nowrap="nowrap">POES_SST</td>
+      <td nowrap="nowrap">NOAA-19 AVHRR SST, btemps, albedo</td>
+      <td nowrap="nowrap">SSTNVH</td>
+      <td nowrap="nowrap">ftps-in1.ncep.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx012</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">mcsst_n18_d*tmp<sup><a href="#4">(4)</a></sup></td>
+      <td nowrap="nowrap">POES_SST</td>
+      <td nowrap="nowrap">NOAA-18 AVHRR SST, btemps, albedo</td>
+      <td nowrap="nowrap">SSTNVH</td>
+      <td nowrap="nowrap">ftps-in1.ncep.noaa.gov</td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx012</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">ascat_????????_??????_metopa_?????_srv_o_250_ovw.l2_bufr</td>
+      <td nowrap="nowrap">QSCATTER</td>
+      <td nowrap="nowrap">METOP-2 50 km ASCAT</td>
+      <td nowrap="nowrap">ASCAT </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_ASCAT50KM_BUFR">WCOSS_ASCAT50KM_BUFR</a></td>
+      <td nowrap="nowrap">b012/xx122</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">ascat_????????_??????_metopb_?????_srv_o_250_ovw.l2_bufr</td>
+      <td nowrap="nowrap">QSCATTER</td>
+      <td nowrap="nowrap">METOP-1 50 km ASCAT</td>
+      <td nowrap="nowrap">ASCAT </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_ASCAT50KM_BUFR">WCOSS_ASCAT50KM_BUFR</a></td>
+      <td nowrap="nowrap">b012/xx122</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">gicsbt.???????.????.goes15NB</td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">11x17 FOV GOES-15 Imager Radiances</td>
+      <td nowrap="nowrap">GEOIMR </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOESWEST_GISC_NCEP">WCOSS_GOESWEST_GISC_NCEP</a></td>
+      <td nowrap="nowrap">b021/xx041</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">goesW.RMD.D?????.T????Z.Z</font></td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">1x1 FOV (SFOV) GOES-W (15) Cloud</td>
+      <td nowrap="nowrap">GEOSTH </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOESW_SFOVPAC">WCOSS_GOESW_SFOVPAC</a></td>
+      <td nowrap="nowrap">b003/xx002</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">satsnd.goesW.D??????????.T????Z.1B1</font></td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">1x1 FOV (SFOV) GOES-W (15) Sounder Radiances</td>
+      <td nowrap="nowrap">GEOST1 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOESW_SFOVPACMOIST">WCOSS_GOESW_SFOVPACMOIST</a></td>
+      <td nowrap="nowrap">b003/xx003</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">G16V3.0.RR.???????.????.PX.06K.CDF.gz</font></td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">1x1 FOV (SFOV) GOES-16 Cloud from NASA/LANGLEY</td>
+      <td nowrap="nowrap">LGYCLD </td>
+      <td nowrap="nowrap">primary: typhoon.larc.nasa.gov<sup><a href="#typhoon">contact info</a></sup><br>backup: gsdftp.fsl.noaa.gov<sup><a href="#typhoon">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx150</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">G15V3.0.RR.???????.????.PX.08K.CDF.gz</font></td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">1x1 FOV (SFOV) GOES-15 Cloud from NASA/LANGLEY</td>
+      <td nowrap="nowrap">LGYCLD </td>
+      <td nowrap="nowrap">primary: typhoon.larc.nasa.gov<sup><a href="#typhoon">contact info</a></sup><br>backup: gsdftp.fsl.noaa.gov<sup><a href="#typhoon">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx150</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">G16_Imgr_????z_???????.TXT</td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">GOES-16 Imager Effective Cloud Amount</td>
+      <td nowrap="nowrap">EFCLAM </td>
+      <td nowrap="nowrap">ftp.ssec.wisc.edu<sup><a href="#wisc">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx160</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">G17_Imgr_????z_???????.TXT</td>
+      <td nowrap="nowrap">GOES_RADSND</td>
+      <td nowrap="nowrap">GOES-17 Imager Effective Cloud Amount</td>
+      <td nowrap="nowrap">EFCLAM </td>
+      <td nowrap="nowrap">ftp.ssec.wisc.edu<sup><a href="#wisc">contact info</a></sup></td>
+      <td nowrap="nowrap">N/A</td>
+      <td nowrap="nowrap">b012/xx160</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?F-M?C14_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) IR (long-wave) Satellite-derived Wind (chn. 14)</td>
+      <td nowrap="nowrap">INFUSR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWF_M3C14_BUFR">WCOSS_GOES16_DMWF_M3C14_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx030</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrCD.goesW.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-W (15) IR (long-wave) Satellite-derived Wind</td>
+      <td nowrap="nowrap">INFUS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOESWINDS_BUFR">WCOSS_GOESWINDS_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx010</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?F-M?C02_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) Visible Satellite-derived Wind (chn. 2)</td>
+      <td nowrap="nowrap">VISUSR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWF_M3C02_BUFR">WCOSS_GOES16_DMWF_M3C02_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx032</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrVZ02.goesW.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-W (15) Visible Satellite-derived Wind</td>
+      <td nowrap="nowrap">VISUS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOESWINDS_BUFR">WCOSS_GOESWINDS_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx012</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?F-M?C07_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) IR (short-wave) Satellite-derived Wind (chn. 7)</td>
+      <td nowrap="nowrap">3P9USR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWF_M3C07_BUFR">WCOSS_GOES16_DMWF_M3C07_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx039</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrSWIR.goesW.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-W (15) IR (short-wave) Satellite-derived Wind</td>
+      <td nowrap="nowrap">3P9US</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOESWINDSW_BUFR">WCOSS_GOESWINDSW_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx019</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?VF-M?C08_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) WV Imager Deep-Layer Satellite-derived Wind (chn. 8)</td>
+      <td nowrap="nowrap">H2DUSR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWF_M3C08_BUFR">WCOSS_GOES16_DMWF_M3C08_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx031</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?VF-M?C09_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) WV Imager Deep-Layer Satellite-derived Wind (chn. 9)</td>
+      <td nowrap="nowrap">H2DUSR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWVF_M3C09_BUFR">WCOSS_GOES16_DMWVF_M3C09_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx031</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?VF-M?C10_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) WV Imager Deep-Layer Satellite-derived Wind (chn. 10)</td>
+      <td nowrap="nowrap">H2DUSR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWVF_M3C10_BUFR">WCOSS_GOES16_DMWVF_M3C10_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx031</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font size="-1">?M?F-M?C08_v1r0_g16_s???????????????_e???????????????_c???????????????.bufr</font></td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-E (16) WV Imager Cloud-Top Satellite-derived Wind (chn. 8)</td>
+      <td nowrap="nowrap">H2TUSR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GOES16_DMWF_M3C08_BUFR">WCOSS_GOES16_DMWF_M3C08_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx034</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrWV.goesW.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-W (15) WV Imager Satellite-derived Wind (Deep-Layer & Cloud-Top)</td>
+      <td nowrap="nowrap">H2IUS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_WINDSWVWEST_BUFR">WCOSS_WINDSWVWEST_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx011</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrWV10.goesW.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-W (15) WV Sounder Satellite-derived Wind, channel 10</td>
+      <td nowrap="nowrap">H2SUS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_WINDSWV10AWIPS_BUFR">WCOSS_WINDSWV10AWIPS_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx014</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrWV11.goesW.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">GOES-W (15) WV Sounder Satellite-derived Wind, channel 11</td>
+      <td nowrap="nowrap">H2SUS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_WINDSWV10AWIPS_BUFR">WCOSS_WINDSWV11AWIPS_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx014</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrcdft.aqua.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">AQUA IR (long-wave) POES MODIS Satellite-derived Wind</td>
+      <td nowrap="nowrap">INFMO </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_MODISAQUA_BUFR">WCOSS_MODISAQUA_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx070</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">satwnd.bufrcdft.terra.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">TERRA IR (long-wave) POES MODIS Satellite-derived Wind</td>
+      <td nowrap="nowrap">INFMO </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_MODISTERRA_BUFR">WCOSS_MODISTERRA_BUFR</a></td>
+      <td nowrap="nowrap">b005/xx070</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"> satwnd.bufrwvap.aqua.D?????.T??:??:??Z</td>
+      <td nowrap="nowrap">SATWND</td>
+      <td nowrap="nowrap">AQUA WV Imgr POES MODIS Satellite-derived Wind</td>
+      <td nowrap="nowrap">H20MO </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_MODISWATERVAPOR">WCOSS_MODISWATERVAPOR</a></td>
+      <td nowrap="nowrap">b005/xx071</td>
+    </tr>
+    <tr>
+      <td>satwnd.bufrcdft.METOPA.D?????.T??:??:??Z</td>
+      <td>SATWND</td>
+      <td>METOP-2 IR (long-wave) POES AVHRR Satellite-derived Wind</td>
+      <td>INFAV</td>
+      <td>PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AVHRRWINDSMETOPA_BUFR">WCOSS_AVHRRWINDSMETOPA_BUFR</a></td>
+      <td>b005/xx080</td>
+    </tr>
+    <tr>
+      <td>satwnd.bufrcdft.METOPB.D?????.T??:??:??Z</td>
+      <td>SATWND</td>
+      <td>METOP-1 IR (long-wave) POES AVHRR Satellite-derived Wind</td>
+      <td>INFAV</td>
+      <td>PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AVHRRWINDSMETOPB_BUFR">WCOSS_AVHRRWINDSMETOPB_BUFR</a></td>
+      <td>b005/xx080</td>
+    </tr>
+    <tr>
+      <td>satwnd.bufrcdft.N15.D?????.T??:??:??Z</td>
+      <td>SATWND</td>
+      <td>NOAA-15 IR (long-wave) POES AVHRR Satellite-derived Wind</td>
+      <td>INFAV</td>
+      <td>PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AVHRR">WCOSS_AVHRR</a></td>
+      <td>b005/xx080</td>
+    </tr>
+    <tr>
+      <td>satwnd.bufrcdft.N18.D?????.T??:??:??Z</td>
+      <td>SATWND</td>
+      <td>NOAA-18 IR (long-wave) POES AVHRR Satellite-derived Wind</td>
+      <td>INFAV</td>
+      <td>PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AVHRR">WCOSS_AVHRR</a></td>
+      <td>b005/xx080</td>
+    </tr>
+    <tr>
+      <td>satwnd.bufrcdft.N19.D?????.T??:??:??Z</td>
+      <td>SATWND</td>
+      <td>NOAA-19 IR (long-wave) POES AVHRR Satellite-derived Wind</td>
+      <td>INFAV</td>
+      <td>PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AVHRR">WCOSS_AVHRR</a></td>
+      <td>b005/xx080</td>
+    </tr>
+    <tr>
+      <td>PAMV_v1r0_npp_s???????????????_e???????????????_c???????????????.bufr</td>
+      <td>SATWND</td>
+      <td>NPP IR (long-wave) POES VIIRS Satellite-derived Wind</td>
+      <td>INFVR</td>
+      <td>PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_VIIRS_WINDS_BUFR">WCOSS_VIIRS_BUFR</a></td>
+      <td>b005/xx090</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.EDRR.S9.D?????.S????.E????.????????.NS</td>
+      <td nowrap="nowrap">SMI</td>
+      <td nowrap="nowrap">DMSP F-15 SSM/I EDR (FNMOC products)</td>
+      <td nowrap="nowrap">SSMIP </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SSMI_EDR">WCOSS_SSMI_EDR</a></td>
+      <td nowrap="nowrap">b012/xx002</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.SDRR.S9.D?????.S????.E????.????????.NS</td>
+      <td nowrap="nowrap">SMI</td>
+      <td nowrap="nowrap">DMSP F-15 SSM/I SDR (btemp-&gt;NN3 derived products)</td>
+      <td nowrap="nowrap">SSMIT -&gt; SSMIPN </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SSMI_SDR">WCOSS_SSMI_SDR</a></td>
+      <td nowrap="nowrap">b012/xx001 (btemp); xx103 (prod)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NPR.TDUP.SB.D?????.S????.E????.????????.NS</font></td>
+      <td nowrap="nowrap">SMI</td>
+      <td nowrap="nowrap">DMSP F-17 SSM/IS UPP Radiances</td>
+      <td nowrap="nowrap">SSMISU </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_TDR_U_P_processor">WCOSS_TDR_U_P_processor</a></td>
+      <td nowrap="nowrap">b021/xx201</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.TDUP.SC.D?????.S????.E????.????????.NS</td>
+      <td nowrap="nowrap">SMI</td>
+      <td nowrap="nowrap">DMSP F-18 SSM/IS UPP Radiances</td>
+      <td nowrap="nowrap">SSMISU </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_TDR_U_P_processor">WCOSS_TDR_U_P_processor</a></td>
+      <td nowrap="nowrap">b021/xx201</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V05A.bufr</td>
+      <td nowrap="nowrap">SMI</td>
+      <td nowrap="nowrap">GPM-core GMI btemps</td>
+      <td nowrap="nowrap">GMI1CR</td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_GMIL1C-R_BUFR">WCOSS_GMIL1C-R_BUFR</a></td>
+      <td nowrap="nowrap">b021/xx246</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NIC.IMS_v3_???????00_24km.asc.gz<sup><a href="#3">(3)</a></sup></td>
+      <td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">Nat'l Ice Center ASCII 24km snow/ice</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_NICIMS24KM_gz">WCOSS_NICIMS24KM_gz</a></td>
+      <td nowrap="nowrap">wgrbbul/imssnow.grb  &amp; <br> wgrbbul/imssnow.grb.grib2</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NIC.IMS_v3_???????00_4km.asc.gz<sup><a href="#3">(3)</a></sup></td>
+      <td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">Nat'l Ice Center ASCII 4km snow/ice</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_NICIMS4KM_gz">WCOSS_NICIMS4KM_gz</a></td>
+      <td nowrap="nowrap">wgrbbul/imssnow96.grb &amp; <br> wgrbbul/imssnow96.grb.grib2</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NIC_LKS_????_???_??.zip<sup><a href="#7">(7)</a></sup></td>
+      <td nowrap="nowrap">JIAEROSOL</td>
+      <td nowrap="nowrap">Nat'l Ice Center Great Lakes Ice Products (SEASONAL)</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_NIC_Lakes">WCOSS_NIC_Lakes</a></td>
+      <td nowrap="nowrap">/dcom/us007003/nic_lks/{filename}</td>
+    </tr>
+
+    <tr>
+      <td nowrap="nowrap">PRD.SPPROD.SNODEPH.NHMAMAP.D?????<sup><a href="#3">(3)</a></sup> </td>
+      <td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">USAF 8th mesh N. Hem. snow/ice</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SNOWDEPTH-NH_SSMI">WCOSS_SNOWDEPTH-NH_SSMI</a></td>
+      <td nowrap="nowrap">wgrdbul/PRD.SPPROD.SNODEPH.NHMAMAP, <br>wgrbbul/snowdepth.grb &amp;  <br>wgrbbul/snowdepth.grb.grib2</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">PRD.SPPROD.SNODEPH.SHMAMAP.D?????<sup><a href="#3">(3)</a></sup></td>
+      <td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">USAF 8th mesh S. Hem. snow/ice</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SNOWDEPTH-SH_SSMI">WCOSS_SNOWDEPTH-SH_SSMI</a></td>
+      <td nowrap="nowrap">wgrdbul/PRD.SPPROD.SNODEPH.SHMAMAP</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">SH4km_autosnow_????????.grb<sup><a href="#3">(3)</a></sup></td>
+      <td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">NESDIS 4 km S.Hem. autosnow</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_4KENDAUTOSNOW_grb">WCOSS_4KENDAUTOSNOW_grb</a></td>
+      <td nowrap="nowrap">wgrbbul/SH4km_autosnow.grb.grib2</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.SNWN.SP.D?????.S1200.MESH16<sup><a href="#3">(3)</a></sup>
+      </td><td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">USAF 16th mesh N.Hem. snow-depth/sea-ice</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SNWN_MESH16">WCOSS_SNWN_MESH16</a></td>
+      <td nowrap="nowrap">wgrbbul/NPR.SNWN.SP.S1200.MESH16</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.SNWS.SP.D?????.S1200.MESH16<sup><a href="#3">(3)</a></sup></td>
+      <td nowrap="nowrap">SNOW</td>
+      <td nowrap="nowrap">USAF 16th mesh S.Hem. snow-depth/sea-ice</td>
+      <td nowrap="nowrap">&nbsp; </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_SNWN_MESH16">WCOSS_SNWS_MESH16</a></td>
+      <td nowrap="nowrap">wgrbbul/NPR.SNWS.SP.S1200.MESH16</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.ATNC.NP.D?????.S????.E????.????????</td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-19 ATOVS retrievals</td>
+      <td nowrap="nowrap">ATOVS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_NCEPPRODN19_BUFR">WCOSS_NCEPPRODN19_BUFR</a></td>
+      <td nowrap="nowrap">b003/xx104</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NPR.ATNC.M1.D?????.S????.E????.????????</td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-1 ATOVS retrievals</td>
+      <td nowrap="nowrap">ATOVS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_PRODMETOP_BUFR">WCOSS_PRODMETOP_BUFR</a></td>
+      <td nowrap="nowrap">b003/xx104</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.AMAX.NK.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-15 AMSU-A</td>
+      <td nowrap="nowrap">1BAMUA, AMUATA </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AMAX_Level1b">WCOSS_AMAX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx023 (btemp); xx123 (antenna temp)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.AMAX.NN.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-18 AMSU-A</td>
+      <td nowrap="nowrap">1BAMUA, AMUATA </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AMAX_Level1b">WCOSS_AMAX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx023 (btemp); xx123 (antenna temp)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.AMAX.NP.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-19 AMSU-A</td>
+      <td nowrap="nowrap">1BAMUA, AMUATA </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_AMAX_Level1b">WCOSS_AMAX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx023 (btemp); xx123 (antenna temp)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.AMAX.M2.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-2 AMSU-A</td>
+      <td nowrap="nowrap">1BAMUA, AMUATA </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_METOPAMAX_Level1b">WCOSS_METOPAMAX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx023 (btemp); xx123 (antenna temp)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.AMAX.M1.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-1 AMSU-A</td>
+      <td nowrap="nowrap">1BAMUA, AMUATA </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_METOPAMAX_Level1b">WCOSS_METOPAMAX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx023 (btemp); xx123 (antenna temp)</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NSS.HIRX.NN.D?????.S????.E????.????????.??</td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-18 HIRS4</td>
+      <td nowrap="nowrap">1BHRS4 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_HIRX_Level1b">WCOSS_HIRX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx028</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NSS.HIRX.NP.D?????.S????.E????.????????.??</td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-19 HIRS4</td>
+      <td nowrap="nowrap">1BHRS4 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_HIRX_Level1b">WCOSS_HIRX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx028</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.HIRX.M2.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-2 HIRS4</td>
+      <td nowrap="nowrap">1BHRS4 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_HIRS4LEVEL1BHIRX_METOP">WCOSS_HIRS4LEVEL1BHIRX_METOP</a></td>
+      <td nowrap="nowrap">b021/xx028</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap">NSS.HIRX.M1.D?????.S????.E????.????????.??</td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-1 HIRS4</td>
+      <td nowrap="nowrap">1BHRS4 </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_HIRS4LEVEL1BHIRX_METOP">WCOSS_HIRS4LEVEL1BHIRX_METOP</a></td>
+      <td nowrap="nowrap">b021/xx028</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.MHSX.NN.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-18 MHS</td>
+      <td nowrap="nowrap">1BMHS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_MHSX_Level1b">WCOSS_MHSX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx027</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.MHSX.NP.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">NOAA-19 MHS</td>
+      <td nowrap="nowrap">1BMHS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_MHSX_Level1b">WCOSS_MHSX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx027</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.MHSX.M2.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-2 MHS</td>
+      <td nowrap="nowrap">1BMHS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_METOPMHSX_Level1b">WCOSS_METOPMHSX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx027</td>
+    </tr>
+    <tr>
+      <td nowrap="nowrap"><font color="red">NSS.MHSX.M1.D?????.S????.E????.????????.??</font></td>
+      <td nowrap="nowrap">TOVS</td>
+      <td nowrap="nowrap">METOP-1 MHS</td>
+      <td nowrap="nowrap">1BMHS </td>
+      <td nowrap="nowrap">PDA</td>
+      <td nowrap="nowrap"><a href="http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information#WCOSS_METOPMHSX_Level1b">WCOSS_METOPMHSX_Level1b</a></td>
+      <td nowrap="nowrap">b021/xx027</td>
+    </tr>
+  </tbody>
+  </table>
+
+  <h3>Server POC list:</h3>
+  <p>
+    <b> PDA, eosb1.nesdis.noaa.gov, 140.90.213.152 (R10 Gateway Server):</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      NESDIS Operations: 301-817-3880 <a href="mailto:ESPCoperations@noaa.gov">ESPCoperations@noaa.gov</a>
+    <br>&nbsp;&nbsp;&nbsp;
+      PDA Support (24x7) <a href="mailto:pda_dhs@noaa.gov">pda_dhs@noaa.gov</a>
+  </p>
+
+  <h3>Other contacts for specific systems:</h3>
+  <p>
+    <b>coastwatch.glerl.noaa.gov</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      Glenn C. Muhr 734-741-2127 <a href="mailto:glenn.c.muhr@noaa.gov">glenn.c.muhr@noaa.gov</a> (during regular daytime hours)
+    <br>&nbsp;&nbsp;&nbsp;
+      George Leshkevich 734-741-2265 <a href="mailto:george.leshkevich@noaa.gov">george.leshkevich@noaa.gov</a> (during regular daytime hours)
+    <br>
+    <br>
+    <b>tidepool.nos.noaa.gov</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      <a href="mailto:corms@noaa.gov">corms@noaa.gov</a> 301-713-2540 
+    <br>&nbsp;&nbsp;&nbsp;
+      AJ Zhang 301-713-2890 x127 <a href="mailto:aijun.zhang@noaa.gov">aijun.zhang@noaa.gov</a> (during regular daytime hours)
+    <br>
+    <br>
+    <b>discnrt1.ecs.nasa.gov</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      (Primary) James Johnson 301-614-5121 <a href="mailto:James.Johnson@nasa.gov"> James.Johnson@nasa.gov</a> (phone or use email)
+    <br>&nbsp;&nbsp;&nbsp;
+      Bruce Vollmer <a href="mailto:bruce.e.vollmer@nasa.gov"> Bruce.E.Vollmer@nasa.gov</a>
+    <br>
+    <br>
+    <a name="typhoon"></a><b>typhoon.larc.nasa.gov and gsdftp.fsl.noaa.gov</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      24x7 email support: include <a href="mailto:rabindra.palikonda-1@nasa.gov">rabindra.palikonda-1@nasa.gov</a>, <a href="mailto:j.k.ayers@larc.nasa.gov">j.k.ayers@larc.nasa.gov</a>, <a href="mailto:william.l.smith@nasa.gov">william.l.smith@nasa.gov</a>, <a href="mailto:robert.c.lipschutz@noaa.gov">robert.c.lipschutz@noaa.gov</a>. Use the email subject "Larc Cloud products from Typhoon". 
+    <br>
+    <br>
+    <a name="wisc"></a><b>ftp.ssec.wisc.edu</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      The SSEC Data Center is staffed Monday thru Friday, from 7:30 am - 11:00 pm, Central time: 608-262-0502 <a href="mailto:dc@ssec.wisc.edu">dc@ssec.wisc.edu</a>
+    <br>&nbsp;&nbsp;&nbsp;
+      CIMSS/SSEC UW-Madison main phone number 608-263-7435
+    <br>&nbsp;&nbsp;&nbsp;
+      <strong>Also - for direct broadcast IASI, CrIS, ATMS:</strong>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Liam Gumley 608-265-5358 <a href="mailto:liam.gumley@ssec.wisc.edu">liam.gumley@ssec.wisc.edu</a> (during regular daytime hours)
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Jim Davies 608-265-8007 <a href="mailto:jim.davies@ssec.wisc.edu">jim.davies@ssec.wisc.edu</a> (during regular daytime hours)
+    <br>&nbsp;&nbsp;&nbsp;
+      <strong>Or - for effective cloud amount:</strong>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Jim Nelson 608-263-6013 <a href="mailto:jim.nelson@ssec.wisc.edu">jim.nelson@ssec.wisc.edu</a> (during regular daytime hours)
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Jordan Gerth 608-263-4942 <a href="mailto:jordang@ssec.wisc.edu">jordang@ssec.wisc.edu</a> (during regular daytime hours)
+    <br>
+    <a name="knmi"></a><b>ftp.knmi.nl</b>
+    <br>&nbsp;&nbsp;&nbsp;
+      KNMI Scatterometer Team <a href="mailto:scat@knmi.nl">scat@knmi.nl</a>
+    <br>&nbsp;&nbsp;&nbsp;
+      <a href="http://www.knmi.nl/scatterometer/">http://www.knmi.nl/scatterometer/</a>
+  </p>
+
+  <h3>NOTES:</h3>
+  <p><a name="1">(1)</a> SERVER "PDA" refers to NESDIS's "NOAA Production Distribution and Access (PDA) Server"( IP address 140.90.190.143 ). This system is supported 24x7, contact ESPC for data outages. 
+  </p>
+  <p><a name="2">(2)</a> Prefix of /dcom/us007003/yyyymmdd assumed for all entries 
+      in "DESTINATION" column unless otherwise explicitly stated.
+  </p>
+  <p><a name="3">(3)</a>
+      If any of these SNOW files are old, NCEP models will be able to run to
+      completion. However, current data is always preferable, so someone
+      should investigate any problems right away by contacting NESDIS Operations.
+      If two consecutive days of data are missed, EMC would also
+      like to be notified of the problem and informed on the plan to solve it.
+      You may contact <a href="mailto:George.Gayno@noaa.gov">George Gayno</a>, 301-763-8000 x7745.
+  </p>
+  <p><a name="4">(4)</a>
+      Data delivered from Navy to ftps-in1.ncep.noaa.gov. Navy contact info:
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      NAVO Computer Operations (24x7) 228-688-4402 <a href="mailto:Computer.Operations.ctr@ocean.navo.navy.mil">Computer.Operations.ctr@ocean.navo.navy.mil</a>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Dan Olszewski (Lead) 228-688-5044 <a href="mailto:Daniel.Olszewski@navy.mil">Daniel.Olszewski@navy.mil</a>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Valinda Kirkland 228-688-5798 <a href="mailto:Valinda.Kirkland@navy.mil">Valinda.Kirkland@navy.mil</a>
+  </p>
+  <p><a name="5">(5)</a>The mnemonic name refers to the name used in NCEP's 
+      <a href="http://www.nco.ncep.noaa.gov/pmb/nwprod/realtime/">
+      Real Time Data Monitoring System</a>. A complete list of mnemonic names is 
+      <a href="http://www.nco.ncep.noaa.gov/pmb/nwprod/realtime/index.bufrdump.shtml">here</a>.
+  </p>
+  <p><a name="6">(6)</a> This file is copied to 
+      wtxtbul/{filename}_early at 0710 UTC and will be used to initialize the 
+      06z CMAQ job launched on WCOSS at 0830 UTC when the CMAQ v5 is 
+      implemented in the fall of 2016.  This file is also copied to 
+      wtxtbul/{filename} at 0935 UTC for use by WCOSS jobs smoke_fcst_cs_CC, 
+      smoke_fcst_ak_CC and smoke_fcst_hi_CC. These jobs run at 0945 UTC. If it
+      is not present the jobs will fail.
+  </p>
+  <p><a name="7">(7)</a> Seasonal product (Nov-May) from National Ice Center (NIC) provided via PDA. Contact both ESPC PDA Support and NIC Duty Officer:
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	PDA Support (24x7) <a href="mailto:pda_dhs@noaa.gov">pda_dhs@noaa.gov</a>
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	NIC CDO (24x7) <a href="mailto:nic.cdo@noaa.gov">nic.cdo@noaa.gov</a>
+  </p>
+<table class="cwi-frame cwi-footer">
+  <colgroup><col style="width:50%" /><col style="width:auto" /><col style="width:auto" /></colgroup>
+  <tbody>
+  <tr>
+    <td colspan="3"><hr /></td>
+  </tr>
+  <tr valign="top">
+    <td>
+      <a href="http://www.noaa.gov/">NOAA</a> /
+      <a href="http://www.weather.gov/">National Weather Service</a><br />
+      <a href="http://www.ncep.noaa.gov/">National Centers for Environmental Prediction</a><br />
+      5830 University Research Court<br/>
+      College Park, MD 20740<br/>
+      <!--<a href="/mail_webmaster/">NCEP Internet Services Team</a><br />-->
+    </td>
+    <td>
+      <a href="http://www.weather.gov/disclaimer/">Disclaimer</a><br />
+      <a href="http://www.weather.gov/help/">Help</a><br />
+      <a href="http://www.weather.gov/glossary/">Glossary</a>
+    </td>
+    <td align="right">
+      <a href="http://www.weather.gov/privacy/">Privacy Policy</a><br />
+      <a href="http://www.rdc.noaa.gov/~foia">Freedom of Information Act</a><br />
+      <a href="http://www.weather.gov/careers/">Career Opportunities</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</div>
+<div id="leftnav">
+<table cellspacing="0" cellpadding="2" width="130" border="0">
+    <tbody>
+        <tr valign="top">
+            <td class="searchinput" align="left"><form method="post" action="http://forecast.weather.gov/zipcity.php">
+                    <div id="Layer2" style="position:absolute; width:200px;  height:115px; z-index:2; visibility: hidden"> Search
+                        by city or zip code. Press enter or select the go button to submit
+                        request</div>
+                    <span class="darkblue">
+                    <label for="city_state">Local forecast by<br />
+                        &quot;City, St&quot;</label>
+                    </span><br />
+                    <input type="text" id="city_state" name="inputstring" size="8" value="City, St" onFocus="this.value='';" />
+                    <input type="submit" name="Go2" value="Go" />
+                </form></td>
+        </tr>
+        <tr valign="top">
+            <td class="searchinput" align="left"><form method="get" action="http://search.usa.gov/search" style="margin-bottom:0; margin-top:0;">
+                    <label for="Search"><span class="darkblue">Search&nbsp;NCEP</span></label>
+                    <input type="hidden" name="affiliate" value="ncep.noaa.gov" />
+                    <input type="hidden" name="v:sources" value="firstgov-affiliates-search" />
+                    <input type="hidden" name="v:project" value="firstgov" />
+                    <input name="query" type="text" value="" size="9" maxlength="256" id="Search"/>
+                    <input type="submit" value="Go"  />
+                </form></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><hr />
+                <span class="darkblue"><a href="http://www2.nco.ncep.noaa.gov/pmb/sdmlogs/">Current SDM Log</a></span><br />
+                <hr />
+                <span class="darkblue"><a href="http://www2.nco.ncep.noaa.gov/phonelist/">NCWCP Operational Phone Numbers</a></span><br />
+                <span class="darkblue"><a href="https://www.businessdirect.att.com/" target="_blank">AT&amp;T Phone Portal</a></span><br/>
+                <hr /></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">Current Hazards</span><br />
+                &nbsp;&nbsp;<a href="http://www.spc.noaa.gov/products/wwa/">Watches/Warnings</a><br />
+                &nbsp;&nbsp;<a href="http://www.spc.noaa.gov/products/">Outlooks</a><br />
+                &nbsp;&nbsp;<a href="http://iwin.nws.noaa.gov/iwin/graphicsversion/bigmain.html">National</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">Current
+                Conditions</span><br />
+                &nbsp;&nbsp;<a href="http://www.nws.noaa.gov/observations.html">Observations</a><br />
+                &nbsp;&nbsp;<a href="http://www.goes.noaa.gov/">Satellite Images</a><br />
+                &nbsp;&nbsp;<a href="http://weather.noaa.gov/radar/national.html">Radar
+                Imagery</a><br />
+                &nbsp;&nbsp;<a href="http://www.nws.noaa.gov/om/water/hsd_products.shtml">Lakes &amp; Rivers</a><br />
+                &nbsp;&nbsp;<a href="http://www.sec.noaa.gov/SWN/">Space Weather</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">Environmental
+                Models</span><br />
+                &nbsp;&nbsp;<a href="http://www.nco.ncep.noaa.gov/pmb/products/">Product
+                Info</a><br />
+                &nbsp;&nbsp;<a href="http://www.nco.ncep.noaa.gov/pmb/nwprod/prodstat/">Current
+                Status</a><br />
+                &nbsp;&nbsp;<a href="http://mag.ncep.noaa.gov/">Model Analysis<br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp; Guidance</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">Forecasts</span><br />
+                &nbsp;&nbsp;<a href="http://www.wpc.ncep.noaa.gov/noaa/">Current</a><br />
+                &nbsp;&nbsp;<a href="http://www.cpc.ncep.noaa.gov/products/predictions/610day/">6
+                to 10 Day</a><br />
+                &nbsp;&nbsp;<a href="http://aviationweather.gov/">Aviation</a><br />
+                &nbsp;&nbsp;<a href="http://www.nhc.noaa.gov/">Hurricane</a><br />
+                &nbsp;&nbsp;<a href="http://www.opc.ncep.noaa.gov/">Marine</a><br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.nhc.noaa.gov/marine_forecasts.shtml">Tropical
+                Marine</a><br />
+                &nbsp;&nbsp;<a href="http://www.spc.noaa.gov/products/fire_wx/">Fire
+                Weather</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">Climate</span><br />
+                &nbsp;&nbsp;<a href="http://www.cpc.ncep.noaa.gov/">Climate Prediction</a><br />
+                &nbsp;&nbsp;<a href="http://www.ncdc.noaa.gov/">Climate Archives</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">NOAA</span><br />
+                &nbsp;&nbsp;<a href="https://library.noaa.gov/">Central Library</a><br />
+                &nbsp;&nbsp;<a href="http://www.publicaffairs.noaa.gov/">Public Affairs</a><br />
+                &nbsp;&nbsp;<a href="http://www.careers.noaa.gov/">Employment</a><br />
+                &nbsp;&nbsp;<a href="http://www.photolib.noaa.gov/">Image of the Day</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><span class="darkblue">Contact
+                Us</span><br />
+                
+                <!--&nbsp;&nbsp;<a href="/mail_liaison/">Science Liaison</a><br />--> 
+                &nbsp;&nbsp;<a href="/mail_webmaster/">Webmaster</a></td>
+        </tr>
+        <tr>
+            <td class="white" id="menuitem" colspan="2"><a href="http://www.usa.gov/"><img src="/cwi/usagov_logo_color_110w.gif" alt="USA.gov is the U.S. Government's official Web portal to all Federal, state and local government Web resources and services." width="110" height="30" border="0" /></a></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-radsnd}
+export DATATYPE=${DATATYPE:-RADSND}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export FTYPE=${FTYPE:-bufr}
+export HISTLENMIN=${HISTLENMIN:-3900}
+export HISTLENMAX=${HISTLENMAX:-4200}
+export ndayarch=${ndayarch:-4}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export HOURS2ALARM=${HOURS2ALARM:-6}
+export wget_network_timeout=${wget_network_timeout:-120}
+export log=${log:-$OUTDIR/tranjb_ingest_goes_radsnd.out}
+
+if [ $min -eq 24 -o $min -eq 25 ] ; then
+   export ITRIES_MAX_QUERY=${ITRIES_MAX_QUERY:-1}
+   export ITRIES_MAX_GET=${ITRIES_MAX_GET:-1}
+   export IFILES_MAX_GET=${IFILES_MAX_GET:-8}
+   PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"LGYCLD EFCLAMZIP"}
+else
+   export ITRIES_MAX_QUERY=${ITRIES_MAX_QUERY:-2}
+   export ITRIES_MAX_GET=${ITRIES_MAX_GET:-2}
+   export IFILES_MAX_GET=${IFILES_MAX_GET:-999}
+   PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"LGYCLD EFCLAMZIP GOES_CSR_BASE GOES16_ASR_BASE"}
+fi
+###################################
+###################################

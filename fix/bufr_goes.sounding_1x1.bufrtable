@@ -1,0 +1,146 @@
+.------------------------------------------------------------------------------.
+| ------------   USER DEFINITIONS FOR TABLE-A TABLE-B TABLE-D   -------------- |
+|------------------------------------------------------------------------------|
+| MNEMONIC | NUMBER | DESCRIPTION                                              |
+|----------|--------|----------------------------------------------------------|
+|          |        |                                                          |
+| NC003000 | A49028 | NESDIS GOES 1x1 FOV SOUNDINGS/RETRIEVALS/RADIANCES       |
+|          |        |                                                          |
+| GBRIT    | 361177 | GOES BRIGHTNESS TEMPERATURE SEQUENCE                     |
+| GTEMPF   | 361178 | GOES SOUNDING SEQUENCE                                   |
+|          |        |                                                          |
+| SAID     | 001007 | SATELLITE IDENTIFIER                                     |
+| SIDU     | 002021 | INSTRUMENT DATA USED IN PROCESSING                       |
+| CLATH    | 005001 | LATITUDE (DATA POSITION) (HIGH ACCURACY)                 |
+| CLONH    | 006001 | LONGITUDE (DATA POSITION) (HIGH ACCURACY)                |
+| DLAT     | 027002 | NON-COORDINATE LATITUDE (MODE OF SCAN) (COARSE ACCURACY) |
+| DLON     | 028002 | NON-COORDINATE LONGITUDE (MODE OF SCAN)(COARSE ACCURACY) |
+| YEAR     | 004001 | YEAR                                                     |
+| DOYR     | 004043 | DAY OF YEAR                                              |
+| HOUR     | 004004 | HOUR                                                     |
+| MINU     | 004005 | MINUTE                                                   |
+| SECO     | 004006 | SECOND                                                   |
+| QMRK     | 033002 | QUALITY INFORMATION                                      |
+| GSCU     | 002050 | GEOSTATIONARY SATELLITE CHANNELS USED                    |
+| GSDP     | 002049 | GEOSTATIONARY SAT. DATA PROC. TECHNIQUE USED             |
+| TCSF     | 025203 | SKIN TEMP CHANNEL SELECTION FLAG                         |
+| DINU     | 002192 | DETECTOR INSTRUMENT NUMBER                               |
+| GBTC     | 002198 | GOES I/M BRIGHTNESS TEMPERATURE CHARACTERISTICS          |
+| GSPC     | 002197 | GOES I/M SOUNDINGS PARAMETER CHARACTERISTICS             |
+| PRLC     | 007004 | PRESSURE                                                 |
+| TMDB     | 012101 | TEMPERATURE/DRY BULB TEMPERATURE                         |
+| TMDP     | 012103 | DEW POINT TEMPERATURE                                    |
+| GCDTT    | 012210 | CLOUD TOP TEMPERATURE                                    |
+| BDRF     | 014042 | BI-DIRECTIONAL REFLECTANCE                               |
+| SOEL     | 007022 | SOLAR ZENITH ANGLE (SOLAR ELEVATION)                     |
+| ELEV     | 007021 | SATELLITE ZENITH ANGLE (ELEVATION)                       |
+| TPWT     | 013016 | TOTAL PRECIPITABLE WATER                                 |
+| CDTP     | 020016 | CLOUD TOP PRESSURE                                       |
+| CLAM     | 020011 | CLOUD AMOUNT                                             |
+| GLFTI    | 013201 | LIFTED INDEX                                             |
+| VSAT     | 008003 | VERTICAL SIGNIFICANCE OF SAT OBS                         |
+| HITE     | 010002 | GEOPOTENTIAL HEIGHT                                      |
+| TMSK     | 012161 | SKIN TEMPERATURE                                         |
+| TMBR     | 012163 | BRIGHTNESS TEMPERATURE                                   |
+|          |        |                                                          |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SEQUENCE                                                          |
+|----------|-------------------------------------------------------------------|
+|          |                                                                   |
+| NC003000 | YEAR     DOYR     HOUR     MINU     SECO     SAID     SIDU        |
+*          | ^^^^^^^^^^^observation group^^^^^^^^^^^^                          *
+*                                                                              *
+| NC003000 | DOYR     HOUR     DOYR     HOUR                                   |
+*          | ^^guess grid^     ^surface grid^                                  *
+*                                                                              *
+| NC003000 | 202126            DLAT     DLON     DLAT     DLON      202000     |
+*          | ^^^mode of scan:^^^^upper left^^^^^^^lower right^^^^^^^^^^^^^     *
+*                                                                              *
+| NC003000 | YEAR     DOYR     202127   CLATH    CLONH    202000               |
+*          | ^^processing^     ^^^^^^^^^^data position^^^^^^^^^^               *
+*                                                                              *
+| NC003000 | HOUR     MINU     SECO     QMRK     GSCU     TCSF     DINU        |
+*          | ^^^^^actual time^^^^^^                                            *
+*                                                                              *
+| NC003000 | "GBRIT"18         "GBRIT"18         "GBRIT"18         "GBRIT"18   |
+*          | ^observed^       ^corrected^        ^^guess^^         ^sounding^  *
+*                                                                              *
+| NC003000 | BDRF     SOEL     ELEV     CLAM     CDTP     VSAT     GCDTT       |
+| NC003000 | GSDP     TMSK     202130   201135   TPWT     201000   202000      |
+*          |                   ^^^^^^^^^^^^^^^^^observed^^^^^^^^^^^^^^^^^      *
+*                                                                              *
+| NC003000 | GLFTI    GSPC     201135   202130   TPWT     201000   202000      |
+*          | ^obs^             ^^^^^^^^^^^^^^^^^^guess^^^^^^^^^^^^^^^^^^^      *
+*                                                                              *
+| NC003000 | GSPC     GLFTI                                                    |
+*          |         ^guess^                                                   *
+*                                                                              *
+| NC003000 | 202130   201135   TPWT     TPWT     TPWT     201000   202000      |
+*          | ^^Layer pwater:^ 1.0-0.9  0.9-0.7  0.7-0.3 (sigma)^^^^^^^^^^      *
+*                                                                              *
+| NC003000 | "GTEMPF"41                                                        |
+|          |                                                                   |
+|          |                                                                   |
+| GTEMPF   | PRLC     TMDB     TMDP     202129   HITE     202000               |
+*          | ^^^^^^^^^^^^^^^^^^^^^observed^^^^^^^^^^^^^^^^^^^^^^               *
+|          |                                                                   |
+| GTEMPF   | GSPC     TMDB     GSPC     TMDP                                   |
+*          | ^^^^^^^^^^^^^guess^^^^^^^^^^^^^                                   *
+|          |                                                                   |
+| GBRIT    | GBTC     TMBR                                                     |
+|          |                                                                   |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|
+|----------|------|-------------|-----|--------------------------|-------------|
+|          |      |             |     |                          |-------------|
+| SAID     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| SIDU     |    0 |           0 |   9 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| CLATH    |    5 |    -9000000 |  25 | DEGREE                   |-------------|
+* CLATH stored  4 *    -9000000 *  25 * DEGREE                                 *
+|          |      |             |     |                          |-------------|
+| CLONH    |    5 |   -18000000 |  26 | DEGREE                   |-------------|
+* CLONH stored  4 *   -18000000 *  26 * DEGREE                                 *
+|          |      |             |     |                          |-------------|
+| DLAT     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+* DLAT stored   0 *       -9000 *  15 * DEGREE                                 *
+|          |      |             |     |                          |-------------|
+| DLON     |    2 |      -18000 |  16 | DEGREE                   |-------------|
+* DLON stored   0 *      -18000 *  16 * DEGREE                                 *
+|          |      |             |     |                          |-------------|
+| YEAR     |    0 |           0 |  12 | YEAR                     |-------------|
+| DOYR     |    0 |           0 |   9 | DAY                      |-------------|
+| HOUR     |    0 |           0 |   5 | HOUR                     |-------------|
+| MINU     |    0 |           0 |   6 | MINUTE                   |-------------|
+| SECO     |    0 |           0 |   6 | SECOND                   |-------------|
+| QMRK     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| GSCU     |    0 |           0 |  20 | FLAG TABLE               |-------------|
+| GSDP     |    0 |           0 |   8 | FLAG TABLE               |-------------|
+| GSPC     |    0 |           0 |   8 | FLAG TABLE               |-------------|
+| TCSF     |    0 |           0 |   4 | FLAG TABLE               |-------------|
+| DINU     |    0 |           0 |   6 | NUMERIC                  |-------------|
+| GBTC     |    0 |           0 |   8 | FLAG TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| HITE     |   -1 |         -40 |  16 | M                        |-------------|
+* HITE stored   0 *         -40 *  16 * M                                      *
+|          |      |             |     |                          |-------------|
+| PRLC     |   -1 |           0 |  14 | PA                       |-------------|
+| TMDB     |    2 |           0 |  16 | K                        |-------------|
+| TMDP     |    2 |           0 |  16 | K                        |-------------|
+| GCDTT    |    2 |           0 |  16 | K                        |-------------|
+| BDRF     |    0 |           0 |   7 | PERCENT                  |-------------|
+| SOEL     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+| ELEV     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+|          |      |             |     |                          |-------------|
+| TPWT     |    0 |           0 |   7 | KG/M**2                  |-------------|
+* TPWT stored   2 *           0 *  14 * KG/M**2                                *
+|          |      |             |     |                          |-------------|
+| CDTP     |   -1 |           0 |  14 | PA                       |-------------|
+| CLAM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| GLFTI    |    2 |       -5000 |  14 | K                        |-------------|
+| VSAT     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| TMSK     |    2 |           0 |  16 | K                        |-------------|
+| TMBR     |    2 |           0 |  16 | K                        |-------------|
+|          |      |             |     |                          |-------------|
+`------------------------------------------------------------------------------'
+

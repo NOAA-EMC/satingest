@@ -1,0 +1,270 @@
+.------------------------------------------------------------------------------.
+| ------------   USER DEFINITIONS FOR TABLE-A TABLE-B TABLE D   -------------- |
+|------------------------------------------------------------------------------|
+| MNEMONIC | NUMBER | DESCRIPTION                                              |
+|----------|--------|----------------------------------------------------------|
+|          |        |                                                          |
+| NC003001 | A63230 | MTYP 003-001 GEOSYNCHRONOUS - GOES 5x5 FOV SND/RAD/CLD   |
+*  ** MESSAGE TYPE 003-001 NO LONGER PRODUCED AFTER APPROX. OCTOBER 2008 **    |
+| NC003002 | A63199 | MTYP 003-002 GEOSYNCHRONOUS - GOES 1x1 FOV CLOUD         |
+| NC003003 | A63198 | MTYP 003-003 GEOSYNCHRONOUS - GOES 1x1 FOV SND/RAD       |
+| NC003101 | A63226 | MTYP 003-101 POLAR ORBITING - TOVS                       |
+*  ** MESSAGE TYPE 003-101 NO LONGER PRODUCED AFTER APPROX. OCTOBER 1998 **    |
+| NC003102 | A63227 | MTYP 003-102 POLAR ORBITING - RTOVS                      |
+*  ** MESSAGE TYPE 003-102 NO LONGER PRODUCED AFTER APPROX. JULY 2001 **       |
+| NC003104 | A61215 | MTYP 003-104 POLAR ORBITING - ATOVS                      |
+|          |        |                                                          |
+| RTRV     | 361181 | TOVS RETRIEVAL SEQUENCE                                  |
+| BRIT     | 361182 | BRIGHTNESS TEMPERATURE SEQUENCE                          |
+| RTOV     | 361183 | RTOVS RETRIEVAL SEQUENCE                                 |
+| ATOV     | 361184 | ATOVS RETRIEVAL SEQUENCE                                 |
+| GTEMP    | 361185 | GOES SOUNDING SEQUENCE                                   |
+| GPWAT    | 361186 | GOES 1x1 FOV PRECIPITABLE WATER SEQUENCE                 |
+| BRITST   | 361187 | BRIGHTNESS TEMPERATURE SEQUENCE                          |
+| GELEV    | 361188 | GOES 1x1 FOV SOLAR/SATELLITE ELEVATION SEQUENCE          |
+| GSKIN    | 361189 | GOES 1x1 FOV SKIN TEMPERATURE SEQUENCE                   |
+|          |        |                                                          |
+| SAID     | 001007 | SATELLITE IDENTIFIER                                     |
+| RPID     | 001198 | REPORT IDENTIFIER                                        |
+|          |        |                                                          |
+| SIDU     | 002021 | SATELLITE INSTRUMENT DATA USED IN PROCESSING             |
+| SDPT     | 002022 | SATELLITE DATA PROCESSING TECHNIQUE                      |
+| SCUC     | 002025 | CHANNELS USED IN COMPUTATION                             |
+| GSDP     | 002049 | GEOSTATIONARY SAT. DATA PROC. TECHNIQUE USED             |
+| DINU     | 002192 | DETECTOR INSTRUMENT NUMBER                               |
+| AVHC     | 002200 | AVHRR CHANNEL USAGE FLAG                                 |
+|          |        |                                                          |
+| YEAR     | 004001 | YEAR                                                     |
+| MNTH     | 004002 | MONTH                                                    |
+| DAYS     | 004003 | DAY                                                      |
+| HOUR     | 004004 | HOUR                                                     |
+| MINU     | 004005 | MINUTE                                                   |
+| SECO     | 004006 | SECOND                                                   |
+| TPHR     | 004024 | TIME PERIOD OR DISPLACEMENT                              |
+| TPMI     | 004025 | TIME PERIOD OR DISPLACEMENT                              |
+| TPSE     | 004026 | TIME PERIOD OR DISPLACEMENT                              |
+|          |        |                                                          |
+| CLAT     | 005002 | LATITUDE (COARSE ACCURACY)                               |
+| ORBN     | 005040 | ORBIT NUMBER                                             |
+| CHNM     | 005042 | CHANNEL NUMBER                                           |
+| FOVN     | 005043 | BEAM POSITION (FIELD OF VIEW NO.)                        |
+|          |        |                                                          |
+| CLON     | 006002 | LONGITUDE (COARSE ACCURACY)                              |
+|          |        |                                                          |
+| SELV     | 007001 | HEIGHT OF STATION                                        |
+| PRLC     | 007004 | PRESSURE                                                 |
+| ELEV     | 007021 | ELEVATION                                                |
+| SOEL     | 007022 | SOLAR ELEVATION                                          |
+| SAZA     | 007024 | SATELLITE ZENITH ANGLE                                   |
+|          |        |                                                          |
+| VSAT     | 008003 | VERTICAL SIGNIFICANCE (SATELLITE OBSERVATIONS)           |
+| LSQL     | 008012 | LAND/SEA QUALIFIER                                       |
+| DNQL     | 008013 | DAY/NIGHT QUALIFIER                                      |
+| ACAV     | 008022 | TOT. NO. W.R.T. ACCUMULAION OR AVERAGE                   |
+|          |        |                                                          |
+| GEOP     | 010003 | GEOPOTENTIAL                                             |
+| PRES     | 010004 | PRESSURE                                                 |
+| HGHT     | 010007 | GEOPOTENTIAL HEIGHT                                      |
+|          |        |                                                          |
+| TMDBST   | 012001 | TEMPERATURE/DRY BULB TEMPERATURE                         |
+| TMSKST   | 012061 | SKIN TEMPERATURE                                         |
+| TMBRST   | 012063 | BRIGHTNESS TEMPERATURE                                   |
+| TMDB     | 012101 | TEMPERATURE/DRY BULB TEMPERATURE                         |
+| TMDP     | 012103 | DEW POINT TEMPERATURE                                    |
+| TMSK     | 012161 | SKIN TEMPERATURE                                         |
+| TMBR     | 012163 | BRIGHTNESS TEMPERATURE                                   |
+| GCDTT    | 012210 | GOES CLOUD TOP TEMPERATURE                               |
+|          |        |                                                          |
+| MIXR     | 013002 | MIXING RATIO                                             |
+| TPWT     | 013016 | TOTAL PRECIPITABLE WATER                                 |
+| SADF     | 013038 | SUPERADIABATIC FLAG                                      |
+| TERN     | 013039 | SNOW/ICE FLAGS (TERRAIN TYPE)                            |
+| GLFTI    | 013201 | GOES LIFTED INDEX                                        |
+| PH2O19   | 013202 | PRECIPITABLE WATER FROM SIGMA=1.0 TO 0.9                 |
+| PH2O97   | 013203 | PRECIPITABLE WATER FROM SIGMA=0.9 TO 0.7                 |
+| PH2O73   | 013204 | PRECIPITABLE WATER FROM SIGMA=0.7 TO 0.3                 |
+| TERR     | 013209 | SNOW/ICE FLAGS (TERRAIN TYPE) (NON-STANDARD)             |
+|          |        |                                                          |
+| SALB     | 014019 | SURFACE ALBEDO                                           |
+| CLAL     | 014026 | CLOUD TOP ALBEDO                                         |
+| BDRF     | 014042 | BI-DIRECTIONAL REFLECTANCE                               |
+|          |        |                                                          |
+| OZON     | 015001 | OZONE                                                    |
+|          |        |                                                          |
+| TOCC     | 020010 | CLOUD COVER (TOTAL)                                      |
+| CLAM     | 020011 | CLOUD AMOUNT                                             |
+| CDTP     | 020016 | CLOUD TOP PRESSURE                                       |
+|          |        |                                                          |
+| SST15    | 022041 | SEA SURFACE TEMPERATURE (15 DAY RUNNING MEAN)            |
+| SST1     | 022043 | SEA TEMPERATURE                                          |
+|          |        |                                                          |
+| SSTU     | 025030 | SST USAGE                                                |
+| HIRC     | 025045 | HIRS CHANNEL USAGE FLAG                                  |
+| MSUC     | 025046 | MSUC CHANNEL USAGE FLAG                                  |
+| SSUC     | 025047 | SSUC CHANNEL USAGE FLAG                                  |
+| AMAC     | 025048 | AMSU-A CHANNEL USAGE FLAG                                |
+| AMBC     | 025049 | AMSU-B CHANNEL USAGE FLAG                                |
+| FRCT     | 025071 | FRAME COUNT                                              |
+| SSTA     | 025193 | 15 DAY SST AVAILABILITY                                  |
+| H8ST     | 025194 | HIRS-8 SFC AIR TEMP                                      |
+| TCSF     | 025203 | TEMPERATURE (SKIN) CHANNEL SELECTION FLAG                |
+| NSAV     | 025204 | NSTAR AVERAGE VALUE                                      |
+| TOFF     | 025205 | TOVS FILTER FLAGS                                        |
+|          |        |                                                          |
+| SALC     | 027020 | SATELLITE LOCATION COUNTER                               |
+| SASL     | 027021 | SATELLITE SUB-LOCATION DIMENSION                         |
+|          |        |                                                          |
+| QMRK     | 033002 | QUALITY INFORMATION                                      |
+|          |        |                                                          |
+| NMCT     | 055006 | NCEP REPORT TYPE                                         |
+|          |        |                                                          |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SEQUENCE                                                          |
+|----------|-------------------------------------------------------------------|
+|          |                                                                   |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 003-001, DISCONTINUED  ~OCT 2008  **  |
+| NC003001 | RPID     YEAR     MNTH     DAYS     HOUR     MINU     SECO        |
+| NC003001 | CLAT     CLON     SAID     SIDU     GSDP                          |
+| NC003001 | QMRK     ACAV     {BRIT}                                          |
+| NC003001 | BDRF     SOEL     ELEV     GLFTI    CLAM     CDTP     GCDTT       |
+| NC003001 | TMSK     TCSF     202129   201132   TPWT     201000   202000      |
+| NC003001 | PH2O19   PH2O97   PH2O73   {GTEMP}                                |
+|          |                                                                   |
+| NC003002 | RPID     YEAR     MNTH     DAYS     HOUR     MINU     SECO        |
+| NC003002 | CLAT     CLON     SAID     SIDU     CDTP     GCDTT    TOCC        |
+|          |                                                                   |
+| NC003003 | RPID     YEAR     MNTH     DAYS     HOUR     MINU     SECO        |
+| NC003003 | CLAT     CLON     SAID     SIDU     GSDP     DINU                 |
+| NC003003 | QMRK     ACAV     {BRIT}                                          |
+| NC003003 | BDRF     <GELEV>  GLFTI    CLAM     CDTP     GCDTT                |
+| NC003003 | <GSKIN>  <GPWAT>  {GTEMP}  TOCC                                   |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 003-101, DISCONTINUED  ~OCT 1998  **  |
+| NC003101 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     SAID        |
+| NC003101 | SALC     SASL     ORBN     CLAT     CLON     LSQL     DNQL        |
+| NC003101 | SOEL     ELEV     TPHR     TPMI     TPSE     RPID     NMCT        |
+| NC003101 | SELV     PRES     TMSK     H8ST     SALB     SCUC                 |
+| NC003101 | NSAV     SIDU     SDPT     TOFF     OZON                          |
+| NC003101 | SSTU     SSTA     SST15                                           |
+| NC003101 | {BRIT}   {RTRV}                                                   |
+|          |                                                                   |
+* **  FINAL SUBSET STRUCTURE IN MSG TYPE 003-102, DISCONTINUED  ~JUL 2001  **  |
+| NC003102 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     SAID        |
+| NC003102 | ORBN     CLAT     CLON     FOVN     SADF     TOFF     LSQL        |
+| NC003102 | TERR     DNQL     HIRC     MSUC     SSUC     AVHC     SDPT        |
+| NC003102 | SOEL     ELEV     TPWT     CDTP     OZON     NSAV     VSAT        |
+| NC003102 | PRES     SST1     TMSK     SELV     {BRIT}   {RTOV}               |
+|          |                                                                   |
+| NC003104 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     SAID        |
+| NC003104 | ORBN     ORBN     FRCT     CLAT     CLON     FOVN     SADF        |
+| NC003104 | LSQL     TERN     DNQL     HIRC     AMAC     AMBC     SDPT        |
+| NC003104 | SOEL     SAZA     TPWT     OZON     CLAM                          |
+| NC003104 | VSAT     PRES     SST1     TMSKST   SELV                          |
+| NC003104 | VSAT     PRLC     TMDBST   VSAT                                   |
+| NC003104 | "BRITST"35        "ATOV"40                                        |
+|          |                                                                   |
+| GTEMP    | PRLC     TMDB     TMDP     HGHT                                   |
+|          |                                                                   |
+| RTRV     | PRLC     GEOP     TMDB     MIXR     VSAT                          |
+|          |                                                                   |
+| BRIT     | CHNM     TMBR                                                     |
+|          |                                                                   |
+| BRITST   | CHNM     TMBRST                                                   |
+|          |                                                                   |
+| RTOV     | PRLC     TMDB     MIXR     CLAL     CLAM                          |
+|          |                                                                   |
+| ATOV     | PRLC     TMDBST   MIXR                                            |
+|          |                                                                   |
+| GPWAT    | 202129   201132   TPWT     201000   202000     PH2O19   PH2O97    |
+| GPWAT    | PH2O73                                                            |
+|          |                                                                   |
+| GELEV    | SOEL     ELEV                                                     |
+|          |                                                                   |
+| GSKIN    | TMSK     TCSF                                                     |
+|          |                                                                   |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|
+|----------|------|-------------|-----|--------------------------|-------------|
+|          |      |             |     |                          |-------------|
+| ACAV     |    0 |           0 |  16 | NUMERIC                  |-------------|
+| AMAC     |    0 |           0 |  16 | FLAG TABLE               |-------------|
+| AMBC     |    0 |           0 |   6 | FLAG TABLE               |-------------|
+| AVHC     |    0 |           0 |   6 | FLAG TABLE               |-------------|
+| BDRF     |    0 |           0 |   7 | PERCENT                  |-------------|
+| CDTP     |   -1 |           0 |  14 | PA                       |-------------|
+| CHNM     |    0 |           0 |   6 | NUMERIC                  |-------------|
+| CLAL     |    0 |           0 |   7 | PERCENT                  |-------------|
+| CLAM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| CLAT     |    2 |       -9000 |  15 | DEGREES                  |-------------|
+| CLON     |    2 |      -18000 |  16 | DEGREES                  |-------------|
+| DAYS     |    0 |           0 |   6 | DAY                      |-------------|
+| DINU     |    0 |           0 |   6 | NUMERIC                  |-------------|
+| DNQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| ELEV     |    2 |       -9000 |  15 | DEGREES                  |-------------|
+| FOVN     |    0 |           0 |   8 | NUMERIC                  |-------------|
+| FRCT     |    0 |           0 |   5 | NUMERIC                  |-------------|
+| GCDTT    |    2 |           0 |  16 | DEGREES KELVIN           |-------------|
+| GEOP     |   -1 |        -400 |  17 | M**2/S**2                |-------------|
+| GLFTI    |    2 |       -5000 |  14 | DEGREES KELVIN           |-------------|
+| GSDP     |    0 |           0 |   8 | FLAG TABLE               |-------------|
+| H8ST     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| HGHT     |    0 |       -1000 |  17 | M                        |-------------|
+| HIRC     |    0 |           0 |  21 | FLAG TABLE               |-------------|
+| HOUR     |    0 |           0 |   5 | HOUR                     |-------------|
+| LSQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| MINU     |    0 |           0 |   6 | MINUTE                   |-------------|
+| MIXR     |    5 |           0 |  14 | KG/KG                    |-------------|
+| MNTH     |    0 |           0 |   4 | MONTH                    |-------------|
+| MSUC     |    0 |           0 |   5 | FLAG TABLE               |-------------|
+| NMCT     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| NSAV     |    3 |       -5000 |  14 | NUMERIC                  |-------------|
+| ORBN     |    0 |           0 |  24 | NUMERIC                  |-------------|
+| OZON     |    0 |           0 |  10 | DOBSON UNITS             |-------------|
+| PH2O19   |    1 |           0 |  11 | KG/M**2                  |-------------|
+| PH2O73   |    1 |           0 |  11 | KG/M**2                  |-------------|
+| PH2O97   |    1 |           0 |  11 | KG/M**2                  |-------------|
+| PRES     |   -1 |           0 |  14 | PASCALS                  |-------------|
+| PRLC     |   -1 |           0 |  14 | PASCALS                  |-------------|
+| QMRK     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| RPID     |    0 |           0 |  64 | CCITT IA5                |-------------|
+| SADF     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| SAID     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| SALB     |    0 |           0 |   7 | %                        |-------------|
+| SALC     |    0 |           0 |  16 | NUMERIC                  |-------------|
+| SASL     |    0 |           0 |  16 | NUMERIC                  |-------------|
+| SAZA     |    2 |       -9000 |  15 | DEGREES TRUE             |-------------|
+| SCUC     |    0 |           0 |  25 | FLAG TABLE               |-------------|
+| SDPT     |    0 |           0 |   8 | FLAG TABLE               |-------------|
+| SECO     |    0 |           0 |   6 | SECOND                   |-------------|
+| SELV     |    0 |        -400 |  15 | METERS                   |-------------|
+| SIDU     |    0 |           0 |   9 | FLAG TABLE               |-------------|
+| SOEL     |    2 |       -9000 |  15 | DEGREES                  |-------------|
+| SST1     |    2 |           0 |  15 | DEGREES KELVIN           |-------------|
+| SST15    |    1 |           0 |  12 | DEGREES KELVIN           |-------------|
+| SSTA     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| SSTU     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| SSUC     |    0 |           0 |   4 | FLAG TABLE               |-------------|
+| TCSF     |    0 |           0 |   4 | FLAG TABLE               |-------------|
+| TERN     |    0 |           0 |   3 | CODE TABLE               |-------------|
+| TERR     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| TMBR     |    2 |           0 |  16 | DEGREES KELVIN           |-------------|
+| TMBRST   |    1 |           0 |  12 | DEGREES KELVIN           |-------------|
+| TMDB     |    2 |           0 |  16 | DEGREES KELVIN           |-------------|
+| TMDBST   |    1 |           0 |  12 | DEGREES KELVIN           |-------------|
+| TMDP     |    2 |           0 |  16 | DEGREES KELVIN           |-------------|
+| TMSK     |    2 |           0 |  16 | DEGREES KELVIN           |-------------|
+| TMSKST   |    1 |           0 |  12 | DEGREES KELVIN           |-------------|
+| TOCC     |    0 |           0 |   7 | %                        |-------------|
+| TOFF     |    0 |           0 |   3 | CODE TABLE               |-------------|
+| TPHR     |    0 |       -2048 |  12 | HOURS                    |-------------|
+| TPMI     |    0 |       -2048 |  12 | MINUTES                  |-------------|
+| TPSE     |    0 |       -4096 |  13 | SECONDS                  |-------------|
+|          |      |             |     |                          |-------------|
+| TPWT     |    0 |           0 |   7 | KG/(M**2)                |-------------|
+* TPWT stored   1 *           0 *  11 * KG/(M**2) (NC003001, NC003002 only)    *
+|          |      |             |     |                          |-------------|
+| VSAT     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| YEAR     |    0 |           0 |  12 | YEAR                     |-------------|
+|          |      |             |     |                          |-------------|
+`------------------------------------------------------------------------------'

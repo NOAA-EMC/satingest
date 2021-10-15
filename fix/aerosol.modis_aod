@@ -1,0 +1,27 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+#  MODIS Aerosol Optical Depth (MODIS_AOD)
+#  ---------------------------------------
+
+      eval ORBITLIST${n}=modis.aod
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/PULL/BUFR/Terra_AOD_BUFR.???????.???? \
+PDAFileLinks/PULL/BUFR/Aqua_AOD_BUFR.???????.????"'
+      eval FTYPE${n}=ncepbufr
+      eval TANKFILE${n}=b008/xx041
+      eval EXECUTE${n}=bufr_tranjb.sh
+      eval BUFRTABLE${n}=bufrtab.008
+      eval FORGNTABLE${n}=noforgntable
+      eval HISTLENMIN${n}=16800 # lots of small files, need large no. of lines
+      eval HISTLENMAX${n}=18000 # lots of small files, need large no. of lines
+      eval HOURS2ALARM${n}=6
+      eval log${n}=$OUTDIR/tranjb_ingest_AOD.out
+
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

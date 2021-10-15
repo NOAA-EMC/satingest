@@ -1,0 +1,27 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+
+#   elif [ "$dtyp" = 'VIIRS_WEEKLY_GVF' ]; then
+#  NESDIS VIIRS weekly realtime 4 km global GVF (Green Vegetation Fraction)
+#   (updated daily) (VIIRS_WEEKLY_GVF) (S-NPP)
+#  ------------------------------------------------------------------------
+
+      eval ORBITLIST${n}=viirs_greenveg.weeklylist
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/NDE/GRIB/GVF-WKL-GLB_v2r3_j01_s????????_e????????_c???????????????.grib2 \
+PDAFileLinks/NDE/GRIB/GVF-WKL-GLB_v2r3_npp_s????????_e????????_c???????????????.grib2"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=viirs
+      eval EXECUTE${n}=ingest_copy.sh
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HISTLENMIN${n}=675
+      eval HISTLENMAX${n}=700
+      eval HOURS2ALARM${n}=30
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

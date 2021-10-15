@@ -1,0 +1,23 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
+
+#   elif [ "$dtyp" = 'GOES16_ASR_BASE' ]; then
+# GOES-16 All Sky Radiance baseline product
+#-----------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-goes16asr_baseline.hrlylist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/BIN/ABI-L2-ASRF-M6_v2r0_g16_s???????????????_e???????????????_c???????????????.bufr"'}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx045}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranmtypsbt}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-bufrtab.GOES16ASR_NESDIS}
+      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-NO}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+
+echo "COMPLETED $JJOB.$family and MACHINE is $MACHINE and n is $n "
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

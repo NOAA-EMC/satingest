@@ -1,0 +1,36 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-tovs}
+export DATATYPE=${DATATYPE:-TOVS}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export HISTLENMIN=${HISTLENMIN:-900}
+export HISTLENMAX=${HISTLENMAX:-1200}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export HOURS2ALARM=${HOURS2ALARM:-6}
+export COMPRESS=${COMPRESS:-NO}      # Compression is currently allowed only
+                                     #  for 1b types
+export PROCESS_Ta=${PROCESS_Ta:-NO}  # This currently applies only to ATOVS 1b
+                                     #  types (AMSU-A, AMSU-B, MHS, HIRS-3,
+                                     #  HIRS-4)  (Should always be NO for
+                                     #  AMSU-B, MHS, HIRS-3, HIRS-4)
+export PROCESS_Tb=${PROCESS_Tb:-YES} # This currently applies only to ATOVS 1b
+                                     #  types (AMSU-A, AMSU-B, MHS, HIRS-3,
+                                     #  HIRS-4)
+export log=${log:-$OUTDIR/tranjb_ingest_tov.out}
+
+# This script is generalized to allow the order for processing to be
+#  determined by the cycle time - currently this order is the same at
+#  all cycle times
+# N-16 (last remaining AMSU-B, HIRS-3 satellite) decommissioned 6/10/14
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"AMSUA \
+ HIRS4 MHS  ATOVS"}
+#####################

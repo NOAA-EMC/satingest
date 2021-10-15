@@ -1,0 +1,27 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+#  MODIS FIRE DATA FROM NASA
+#  ---------------------------------------
+
+       eval ORBITLIST${n}=modis.fire
+       eval MACHINE${n}=wcoss_nasa@ftps-out1.ncep.noaa.gov
+       eval REMOTEDSNGRP${n}='"concatenate_families \
+MODIS_C6_1_Global_MCD14DL_NRT_???????_????????????.txt \
+MODIS_C6_Global_MCD14DL_NRT_???????_????????????.txt"'
+       eval FTYPE${n}=none
+       eval TANKFILE${n}=modis_fire
+       eval EXECUTE${n}=ingest_copy.sh
+       eval BUFRTABLE${n}=none
+       eval FORGNTABLE${n}=noforgntable
+       eval HISTLENMIN${n}=16800 # lots of small files, need large no. of lines
+       eval HISTLENMAX${n}=18000 # lots of small files, need large no. of lines
+       eval HOURS2ALARM${n}=6
+       eval log${n}=$OUTDIR/ingest_get_modis.out
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

@@ -1,0 +1,61 @@
+set -xa
+
+######################################
+## Specify NET, RUN and DATATYPE Names
+#######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-snowday}
+export DATATYPE=${DATATYPE:-SNOWDAY}
+################################
+
+##PART2=${PART2:-YES}
+## NOTE: Must unset variables set in Part 1: BE SURE TO INCLUDE VARIABLES SET
+##       IN ALL FAMILIES ABOVE (CURRENTLY 5)
+#
+#unset TABLEDIR FTYPE DELAFTPROC TANKPROTECT log
+#unset ORBITLIST1 ORBITLIST2 ORBITLIST3 ORBITLIST4 ORBITLIST5 ORBITLIST6 \
+#      ORBITLIST7
+#unset MACHINE1 MACHINE2 MACHINE3 MACHINE4 MACHINE5 MACHINE6 MACHINE7
+#unset REMOTEDSNGRP1 REMOTEDSNGRP2 REMOTEDSNGRP3 REMOTEDSNGRP4 REMOTEDSNGRP5 \
+#      REMOTEDSNGRP6 REMOTEDSNGRP7
+#unset TANKFILE1 TANKFILE2 TANKFILE3 TANKFILE4 TANKFILE5 TANKFILE6 TANKFILE7
+#unset EXECUTE1 EXECUTE2 EXECUTE3 EXECUTE4 EXECUTE5 EXECUTE6 EXECUTE7
+#unset BUFRTABLE1 BUFRTABLE2 BUFRTABLE3 BUFRTABLE4 BUFRTABLE5 BUFRTABLE6 \
+#      BUFRTABLE7
+#unset TARGETFILE1 TARGETFILE2 TARGETFILE3 TARGETFILE4 TARGETFILE5 TARGETFILE6 \
+#      TARGETFILE7
+#unset HOURS2ALARM1 HOURS2ALARM2 HOURS2ALARM3 HOURS2ALARM4 HOURS2ALARM5 \
+#      HOURS2ALARM6 HOURS2ALARM7
+#unset TRANSFER_COMMAND1 TRANSFER_COMMAND2 TRANSFER_COMMAND3 TRANSFER_COMMAND4 \
+#      TRANSFER_COMMAND5 TRANSFER_COMMAND6 TRANSFER_COMMAND7
+# ########################################################
+# SENDECF    - Flag Events on ECFLOW
+# SENDBB     - Allow to talk back to Big Brother
+# SENDDBN    - Issue DBNet Client Calls
+########################################################
+if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
+  export SENDECF=YES
+  export SENDBB=${SENDBB:-YES}
+  if [[ ${envir} == prod ]]; then
+    export SENDDBN=${SENDDBN:-YES}
+  else
+    export SENDDBN=${SENDDBN:-NO}
+  fi
+else  # developer
+  export SENDECF=NO
+  export SENDBB=${SENDBB:-NO}
+  export SENDDBN=${SENDDBN:-NO}
+fi
+
+########################################################
+export HISTLENMIN=${HISTLENMIN:-45}
+export HISTLENMAX=${HISTLENMAX:-60}
+export ndayarch=${ndayarch:-10}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export timetype=${timetype:-UTC}
+export timemade=${timemade:-2000}
+export COPYFORWARD=${COPYFORWARD:-YES}
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"COPY_FORWARD_GRIB_16_IMS COPY_FORWARD_GRIB_96_IMS \
+ COPY_FORWARD_GRIB_16_USAF_NH  COPY_FORWARD_GRIB_16_USAF_SH"}
+##############################

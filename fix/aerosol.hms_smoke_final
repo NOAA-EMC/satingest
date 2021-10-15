@@ -1,0 +1,26 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+#
+
+#   elif [ "$dtyp" = 'HMS_SMOKE_FINAL' ]; then
+#  NESDIS Hazard Mapping System (HMS) Smoke Final files
+#   (HMS_SMOKE_FINAL)
+#  -----------------------------------------------------------
+
+      eval ORBITLIST${n}=hms.smoke
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/PULL/ASCII/hmshysplit????????.txt \
+PDAFileLinks/PULL/ASCII/hms????????.txt"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=wtxtbul
+      eval EXECUTE${n}=ingest_copy.sh
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HOURS2ALARM${n}=24
+      eval CRITICAL${n}=NO
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

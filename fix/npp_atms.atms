@@ -1,0 +1,34 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The ATMS Family (ATMS) {S-NPP and JPSS-1 (NOAA-20) satellites}
+# --------------------------------------------------------------
+      eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
+      eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-180}
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-atms.orbitlist}
+#-----------------
+# choose ...
+#
+# uncomment 3 lines below to process BOTH S-NPP & JPSS-1 (NOAA-20)
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/NDE/ATMS/ATMS_v1r0_npp_s???????????????_e???????????????_c???????????????.bufr \
+PDAFileLinks/NDE/ATMS/ATMS_v1r0_j01_s???????????????_e???????????????_c???????????????.bufr"'}
+# -- or --
+# uncomment 2 lines below to process ONLY S-NPP
+#      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-\
+#'"PDAFileLinks/NDE/ATMS/ATMS_v1r0_npp_s???????????????_e???????????????_c???????????????.bufr"'}
+#-----------------
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx203}
+      eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranjb.sh}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-79700}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-80000}
+      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_atms.out}
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

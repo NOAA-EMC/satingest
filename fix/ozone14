@@ -1,0 +1,21 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-ozone14}
+export DATATYPE=${DATATYPE:-OZONE14}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export timetype=${timetype:-UTC}
+export HISTLENMIN=${HISTLENMIN:-45}
+export HISTLENMAX=${HISTLENMAX:-60}
+export ndayarch=${ndayarch:-10}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export COPYFORWARD=${COPYFORWARD:-YES}
+export tankfile=${tankfile:-b008/xx011}  # needed by program BUFR_TRANMTYPSBT
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"OZONE19_V8bufr"}
+##################################

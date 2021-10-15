@@ -1,0 +1,148 @@
+.------------------------------------------------------------------------------.
+| ------------   USER DEFINITIONS FOR TABLE-A TABLE-B TABLE D   -------------- |
+|------------------------------------------------------------------------------|
+| MNEMONIC | NUMBER | DESCRIPTION                                              |
+|----------|--------|----------------------------------------------------------|
+|          |        |                                                          |
+| NC005089 | A49009 | MESSAGE TYPE 005-089 GEOSTATIONARY SATELLITE RADIANCE    |
+|          |        |                                                          |
+| YYMMDD   | 301011 | DATE SEQUENCE                                            |
+| HHMMSS   | 301013 | TIME DEQUENCE                                            |
+| LTLONH   | 301021 | LATITUDE, LONGITUDE SEQUENCE                             |
+| SIDGRSEQ | 301071 | SATELLITE IDENTIFIER/GENERATING RESOLUTION SEQUENCE      |
+| SIDENSEQ | 301072 | SATELLITE IDENTIFICATION SEQUENCE                        |
+| CLFRASEQ | 304032 | CLOUD FRACTION (SATELLITE) SEQUENCE                      |
+| CSRADSEQ | 304033 | CLEAR SKY RADIANCE (SATELLITE) SEQUENCE                  |
+| GSRADSEQ | 310023 | GEOSTATIONARY SATELLITE RADIANCE DATA SEQUENCE           |
+| RPSEQ3   | 362083 | BITMAP SEQUENCE                                          |
+|          |        |                                                          |
+| SAID     | 001007 | SATELLITE IDENTIFIER                                     |
+| GCLONG   | 001031 | IDENTIFICATION OF ORIGINATING/GENERATING CENTER          |
+| GNAP     | 001032 | GENERATING APPLICATION                                   |
+| SCLF     | 002020 | SATELLITE CLASSIFICATION                                 |
+| IHCM     | 002024 | INTEGRATED MEAN HUMIDITY COMPUTATIONAL METHOD            |
+| SSNX     | 002028 | SEGMENT SIZE AT NADIR IN X DIRECTION                     |
+| SSNY     | 002029 | SEGMENT SIZE AT NADIR IN Y DIRECTION                     |
+| SIDP     | 002152 | SATELLITE INSTRUMENT USED IN DATA PROCESSING             |
+| SCCF     | 002153 | SATELLITE CHANNEL CENTER FREQUENCY                       |
+| SCBW     | 002154 | SATELLITE CHANNEL BAND WIDTH                             |
+| RDTP     | 002166 | RADIANCE TYPE                                            |
+| RDCM     | 002167 | RADIANCE COMPUTATIONAL METHOD                            |
+| YEAR     | 004001 | YEAR                                                     |
+| MNTH     | 004002 | MONTH                                                    |
+| DAYS     | 004003 | DAY                                                      |
+| HOUR     | 004004 | HOUR                                                     |
+| MINU     | 004005 | MINUTE                                                   |
+| SECO     | 004006 | SECOND                                                   |
+| CLATH    | 005001 | LATITUDE (HIGH ACCURACY)                                 |
+| CLONH    | 006001 | LONGITUDE (HIGH ACCURACY)                                |
+| PRLC     | 007004 | PRESSURE                                                 |
+| SAZA     | 007024 | SATELLITE ZENITH ANGLE                                   |
+| SOZA     | 007025 | SOLAR ZENITH ANGLE                                       |
+| LSQL     | 008012 | LAND/SEA QUALIFIER                                       |
+| FOST     | 008023 | FIRST ORDER STATISTICS                                   |
+| MDPC     | 008033 | METHOD OF DEVIATION OF PERCENTAGE CONFIDENCE             |
+| HITE     | 010002 | GEOPOTENTIAL HEIGHT                                      |
+| TMBRST   | 012063 | BRIGHTNESS TEMPERATURE                                   |
+| SDTB     | 012065 | STANDARD DEVIATION OF BRIGHTNESS TEMPERATURE             |
+| SPRD     | 012075 | SPECTRAL RADIANCE                                        |
+| RDNE     | 012076 | RADIANCE                                                 |
+| TMBR     | 012163 | BRIGHTNESS TEMPERATURE                                   |
+| REHU     | 013003 | RELATIVE HUMIDITY                                        |
+| CLTP     | 020012 | CLOUD TYPE                                               |
+| CLDMNT   | 020081 | CLOUD AMOUNT IN SEGMENT                                  |
+| NCLDMNT  | 020082 | AMOUNT SEGMENT CLOUD FREE                                |
+| NPPR     | 030021 | NUMBER OF PIXELS PER ROW                                 |
+| NPPC     | 030022 | NUMBER OF PIXELS PER COLUMN                              |
+| DPRI     | 031031 | DATA PRESENT INDICATOR                                   |
+| PCCF     | 033007 | PERCENT CONFIDENCE                                       |
+|          |        |                                                          |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SEQUENCE                                                          |
+|----------|-------------------------------------------------------------------|
+|          |                                                                   |
+|          |                                                                   |
+| NC005089 | GSRADSEQ                                                          |
+| NC005089 | "RPSEQ3"185 GCLONG GNAP                                           |
+|          |                                                                   |
+| NC005089 |  FOST  TMBRST  TMBRST  TMBRST  TMBRST  TMBRST  TMBRST             |
+*          |  ---std deviation BTEMP .1 precision - 6 channels----             |
+|          |                                                                   |
+| NC005089 |  GCLONG GNAP   MDPC                                               |
+|          |                                                                   |
+| NC005089 |  PCCF   PCCF   PCCF   PCCF   PCCF   PCCF                          |
+*          |  ----percent confidence - 6 channels----                          |
+|          |                                                                   |
+| NC005089 |  TMBR   TMBR   TMBR   TMBR   TMBR   TMBR                          |
+*          |  -brightness temp .01 precision - 6 chn-                          |
+|          |                                                                   |
+| NC005089 |  202129  SDTB  SDTB  SDTB  SDTB  SDTB  SDTB  202000               |
+*          |  -std dev of bright temp .01 precision- 6 channels-               |
+|          |                                                                   |
+| GSRADSEQ | SIDENSEQ  NPPR  NPPC  LSQL  SAZA  SOZA  HITE  "CLFRASEQ"12        |
+| GSRADSEQ | SIDP    IHCM  PRLC  PRLC  REHU                                    |
+| GSRADSEQ | SIDP    IHCM  PRLC  PRLC  REHU  "CSRADSEQ"12                      |
+|          |                                                                   |
+| SIDENSEQ | SIDGRSEQ YYMMDD   HHMMSS   LTLONH                                 |
+| SIDGRSEQ | SAID     GCLONG   SCLF     SSNX     SSNY                          |
+| YYMMDD   | YEAR     MNTH     DAYS                                            |
+| HHMMSS   | HOUR     MINU     SECO                                            |
+| LTLONH   | CLATH    CLONH                                                    |
+|          |                                                                   |
+| CLFRASEQ | SCCF      SCBW      CLDMNT      NCLDMNT      CLTP                 |
+*          | --only first 6 replications are used (chn 1-6)---                 |
+|          |                                                                   |
+| CSRADSEQ | SIDP   RDTP   RDCM   SCCF   SCBW   SPRD   RDNE   TMBRST           |
+*          | ---only first 6 replications are used (channels 1-6)---           |
+*          | ------- includes brightness temp .1 precision ---------           |
+|          |                                                                   |
+| RPSEQ3   | DPRI                                                              |
+|          |                                                                   |
+|          |                                                                   |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|
+|----------|------|-------------|-----|--------------------------|-------------|
+|          |      |             |     |                          |-------------|
+| SAID     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| GCLONG   |    0 |           0 |  16 | CODE TABLE               |-------------|
+| GNAP     |    0 |           0 |   8 | CODE TABLE               |-------------|
+| SCLF     |    0 |           0 |   9 | CODE TABLE               |-------------|
+| IHCM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| SSNX     |    0 |           0 |  18 | M                        |-------------|
+| SSNY     |    0 |           0 |  18 | M                        |-------------|
+| SIDP     |    0 |           0 |  31 | FLAG TABLE               |-------------|
+| SCCF     |   -8 |           0 |  26 | HZ                       |-------------|
+| SCBW     |   -8 |           0 |  26 | HZ                       |-------------|
+| RDTP     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| RDCM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| YEAR     |    0 |           0 |  12 | YEAR                     |-------------|
+| MNTH     |    0 |           0 |   4 | MONTH                    |-------------|
+| DAYS     |    0 |           0 |   6 | DAY                      |-------------|
+| HOUR     |    0 |           0 |   5 | HOUR                     |-------------|
+| MINU     |    0 |           0 |   6 | MINUTE                   |-------------|
+| SECO     |    0 |           0 |   6 | SECOND                   |-------------|
+| CLATH    |    5 |    -9000000 |  25 | DEGREE                   |-------------|
+| CLONH    |    5 |   -18000000 |  26 | DEGREE                   |-------------|
+| PRLC     |   -1 |           0 |  14 | PA                       |-------------|
+| SAZA     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+| SOZA     |    2 |       -9000 |  15 | DEGREE                   |-------------|
+| LSQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| FOST     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| MDPC     |    0 |           0 |   7 | CODE TABLE               |-------------|
+| HITE     |   -1 |         -40 |  16 | M                        |-------------|
+| TMBRST   |    1 |           0 |  12 | DEGREES KELVIN           |-------------|
+| SDTB     |    1 |           0 |  12 | DEGREES KELVIN           |-------------|
+* SDTB stored   2 *           0 *  12 * DEGREES KELVIN                         *
+| SPRD     |   -3 |           0 |  16 | WM**(-3)SR**(-1)         |-------------|
+| RDNE     |    3 |           0 |  16 | WM**(-2)SR**(-1)         |-------------|
+| TMBR     |    2 |           0 |  16 | DEGREES KELVIN           |-------------|
+| REHU     |    0 |           0 |   7 | PERCENT                  |-------------|
+| CLTP     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| CLDMNT   |    0 |           0 |   7 | PERCENT                  |-------------|
+| NCLDMNT  |    0 |           0 |   7 | PERCENT                  |-------------|
+| NPPR     |    0 |           0 |  12 | NUMERIC                  |-------------|
+| NPPC     |    0 |           0 |  12 | NUMERIC                  |-------------|
+| DPRI     |    0 |           0 |   1 | FLAG TABLE               |-------------|
+| PCCF     |    0 |           0 |   7 | PERCENT                  |-------------|
+|          |      |             |     |                          |-------------|
+`------------------------------------------------------------------------------'

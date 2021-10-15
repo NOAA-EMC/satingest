@@ -1,0 +1,24 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-npp_omps}
+export DATATYPE=${DATATYPE:-NPP_OMPS}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export FTYPE=${FTYPE:-bufr}
+export HISTLENMIN=${HISTLENMIN:-14000}
+export HISTLENMAX=${HISTLENMAX:-20000}
+export ndayarch=${ndayarch:-2}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export HOURS2ALARM=${HOURS2ALARM:-6}
+export IFILES_MAX_GET=${IFILES_MAX_GET:-9999}
+
+PROCESSING_FAMILIES=\
+${PROCESSING_FAMILIES:-"OMPSTC_V8 OMPSNP_V8 OMPS_LP"}
+#####################

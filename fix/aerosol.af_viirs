@@ -1,0 +1,24 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+#  NPP VIIRS Active Fire Data
+#  ----------------------------------------------------------
+
+      eval ORBITLIST${n}=af_viirs
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/PULL/ASCII/AF_v1r2_npp_s???????????????_e???????????????_c???????????????.txt \
+PDAFileLinks/PULL/ASCII/AF_v1r2_j01_s???????????????_e???????????????_c???????????????.txt"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=\${TANKFILE${n}:-af_viirs}
+      eval EXECUTE${n}=ingest_copy.sh
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HOURS2ALARM${n}=24
+      eval ndayarch${n}=\${ndayarch${n}:-10}
+      eval CRITICAL${n}=NO
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------

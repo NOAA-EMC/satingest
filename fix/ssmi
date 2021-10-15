@@ -1,0 +1,24 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-ssmi}
+export DATATYPE=${DATATYPE:-SSMI}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export HISTLENMIN=${HISTLENMIN:-900}
+export HISTLENMAX=${HISTLENMAX:-1200}
+export ndayarch=${ndayarch:-4}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export HOURS2ALARM=${HOURS2ALARM:-6}
+export log=${log:-$OUTDIR/tranjb_ingest_dmsp.out}
+
+#PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"EDR SDR \
+# SSMIS GMI_TMBR"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"SSMIS GMI_TMBR"}
+#####################

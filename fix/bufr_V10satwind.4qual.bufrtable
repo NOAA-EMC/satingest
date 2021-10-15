@@ -1,0 +1,164 @@
+.------------------------------------------------------------------------------.
+| ------------   USER DEFINITIONS FOR TABLE-A TABLE-B TABLE D   -------------- |
+|------------------------------------------------------------------------------|
+| MNEMONIC | NUMBER | DESCRIPTION                                              |
+|----------|--------|----------------------------------------------------------|
+|          |        |                                                          |
+*  This BUFR Table is used to decode NESDIS Verison 10 BUFR winds with up to   |
+*   four quality indicators from a "foreign" (i.e., non-NCEP) BUFR file. This  |
+*   currently includes GOES high-density (IR, WV, VIZ), POES MODIS (IR, WV)    |
+*   and POES AVHRR (IR) winds on the NESDIS server.                            |
+*   {Note: This table will work properly for files with less than four quality |
+*          indicators although the extra quality indicator parameters will be  |
+*          filled with nonsensical values (e.g., zero or 10E10)}               |
+|          |        |                                                          |
+| NC005087 | A49033 | MTYPE 005-087  VERSION 10 BUFR WINDS, 4 QUALITY INDIC.   |
+|          |        |                                                          |
+| RPSEQ1   | 362081 | REPLICATION SEQUENCE #1                                  |
+| RPSEQ2   | 362082 | REPLICATION SEQUENCE #2                                  |
+| RPSEQ3   | 362083 | REPLICATION SEQUENCE #3                                  |
+| RPSEQ4   | 362084 | REPLICATION SEQUENCE #4                                  |
+|          |        |                                                          |
+| SAID     | 001007 | SATELLITE IDENTIFIER                                     |
+| GCLONG   | 001031 | ORIGINATING/GENERATING CENTER                            |
+| GNAP     | 001032 | GENERATING APPLICATION                                   |
+|          |        |                                                          |
+| SCLF     | 002020 | SATELLITE CLASSIFICATION                                 |
+| SWCM     | 002023 | SATELLITE DERIVED WIND CALCULATION METHOD                |
+| SSNX     | 002028 | SEGMENT SIZE AT NADIR IN X DIRECTION                     |
+| SSNY     | 002029 | SEGMENT SIZE AT NADIR IN Y DIRECTION                     |
+| OFGI     | 002057 | ORIGIN OF FIRST GUESS INFORMATION                        |
+| SIDP     | 002152 | SATELLITE INSTRUMENT USED IN DATA PROCESSING             |
+| SCCF     | 002153 | SATELLITE CHANNEL CENTER FREQUECY                        |
+| SCBW     | 002154 | SATELLITE CHANNEL BAND WIDTH                             |
+| HAMD     | 002163 | HEIGHT ASSIGNMENT METHOD                                 |
+| TCMD     | 002164 | TRACER CORRELATION METHOD                                |
+|          |        |                                                          |
+| YEAR     | 004001 | YEAR                                                     |
+| MNTH     | 004002 | MONTH                                                    |
+| DAYS     | 004003 | DAY                                                      |
+| HOUR     | 004004 | HOUR                                                     |
+| MINU     | 004005 | MINUTES                                                  |
+| SECO     | 004006 | SECONDS                                                  |
+| TPHR     | 004024 | TIME PERIOD OR DISPLACEMENT                              |
+|          |        |                                                          |
+| CLATH    | 005001 | LATITUDE (HIGH ACCURACY)                                 |
+|          |        |                                                          |
+| CLONH    | 006001 | LONGITUDE (HIGH ACCURACY)                                |
+|          |        |                                                          |
+| PRLC     | 007004 | PRESSURE                                                 |
+| SAZA     | 007024 | SATELLITE ZENITH ANGLE                                   |
+|          |        |                                                          |
+| LSQL     | 008012 | LAND/SEA QUALIFIER                                       |
+| TSIG     | 008021 | TIME SIGNIFICANCE                                        |
+|          |        |                                                          |
+| WDIR     | 011001 | WIND DIRECTION                                           |
+| WSPD     | 011002 | WIND SPEED                                               |
+|          |        |                                                          |
+| TMDBST   | 012001 | TEMPERATURE/DRY BULB TEMPERATURE                         |
+| CCST     | 012071 | COLDEST CLUSTER TEMPERATURE                              |
+|          |        |                                                          |
+| DPRI     | 031031 | DATA PRESENT INDICATOR                                   |
+|          |        |                                                          |
+| PCCF     | 033007 | PER CENT CONFIDENCE                                      |
+|          |        |                                                          |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SEQUENCE                                                          |
+|----------|-------------------------------------------------------------------|
+|          |                                                                   |
+| NC005087 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
+|          |                                                                   |
+| NC005087 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLATH  CLONH            |
+*          | ^^^^^^^^^^^^^^^^^^^^^^^observed^^^^^^^^^^^^^^^^^^^^^^^            *
+|          |                                                                   |
+| NC005087 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   SCBW   CCST             |
+*          |               ^^^final values^^^                ^fnl^             *
+|          |                                                                   |
+| NC005087 | HAMD   TCMD   LSQL   SAZA   OFGI                                  |
+|          |                                                                   |
+| NC005087 | TSIG   YEAR   MNTH   DAYS   HOUR   TSIG   TPHR                    |
+*          | ^^^^^^^^^^^first guess^^^^^^^^^^   ^^forecast^                    *
+|          |                                                                   |
+| NC005087 |                         "RPSEQ1"4                                 |
+*          | ^^^^^1-guess, 2-original, 3-image 1-2, 4-image 2-3^^^^^           *
+|          |                                                                   |
+| NC005087 |                          "RPSEQ2"10                               |
+*          | ^^^1-window chn, 2-histogram, 3-H2O intercept, 4-CO2 slicing,^^^  *
+*          | ^^^^^^^^^^^^^^^^^^^^5-original, 6-10 missing^^^^^^^^^^^^^^^^^^^^  *
+|          |                                                                   |
+| NC005087 | "RPSEQ3"103                                                       |
+|          |                                                                   |
+| NC005087 |  GCLONG  GNAP  "RPSEQ4"10                                         |
+*          | ^^^^^GCLONG=160, GNAP=1 - EUMETSAT QI w/o fcst consistency test^^^*
+*          | ^^^^^PCCF: 1 - QI for WDIR; 2 - QI for WSPD; 3-10 - not used^^^^  *
+|          |                                                                   |
+| NC005087 |  GCLONG  GNAP  "RPSEQ4"10                                         |
+*          | ^^^^^GCLONG=160, GNAP=2 - NESDIS Recursive Filter Function^^^^^   *
+*          | ^^^^^PCCF: 1 - RFF for WDIR; 2 - RFF for WSPD; 3-10 - not used^^^ *
+|          |                                                                   |
+| NC005087 |  GCLONG  GNAP  "RPSEQ4"10                                         |
+*          | ^^^^^GCLONG=160, GNAP=3 - EUMETSAT QI with fcst consistency test^^*
+*          | ^^^^^PCCF: 1 - QI for WDIR; 2 - QI for WSPD; 3-10 - not used^^^^  *
+|          |                                                                   |
+| NC005087 |  GCLONG  GNAP  "RPSEQ4"10                                         |
+*          | ^^^^^GCLONG=160, GNAP=4 - NESDIS Expected Error^^^^^              *
+*          | ^^^^^PCCF: 1 - EE for WDIR; 2 - EE for WSPD; 3-10 - not used^^^^  *
+|          |                                                                   |
+|          |                                                                   |
+| RPSEQ1   | TSIG  HOUR  MINU  SECO  TSIG  HOUR  MINU  SECO  WDIR  WSPD        |
+|          |                                                                   |
+| RPSEQ2   | HAMD  PRLC  TMDBST                                                |
+|          |                                                                   |
+| RPSEQ3   | DPRI                                                              |
+|          |                                                                   |
+| RPSEQ4   | PCCF                                                              |
+|          |                                                                   |
+|          |                                                                   |
+|------------------------------------------------------------------------------|
+| MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|
+|----------|------|-------------|-----|--------------------------|-------------|
+|          |      |             |     |                          |-------------|
+| SAID     |    0 |           0 |  10 | CODE TABLE               |-------------|
+| GCLONG   |    0 |           0 |  16 | CODE TABLE               |-------------|
+| GNAP     |    0 |           0 |   8 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| SCLF     |    0 |           0 |   9 | CODE TABLE               |-------------|
+| SWCM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| SSNX     |    0 |           0 |  18 | M                        |-------------|
+| SSNY     |    0 |           0 |  18 | M                        |-------------|
+| OFGI     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| SIDP     |    0 |           0 |  31 | FLAG TABLE               |-------------|
+| SCCF     |   -8 |           0 |  26 | Hz                       |-------------|
+| SCBW     |   -8 |           0 |  26 | Hz                       |-------------|
+| HAMD     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| TCMD     |    0 |           0 |   3 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| YEAR     |    0 |           0 |  12 | YEAR                     |-------------|
+| MNTH     |    0 |           0 |   4 | MONTH                    |-------------|
+| DAYS     |    0 |           0 |   6 | DAY                      |-------------|
+| HOUR     |    0 |           0 |   5 | HOUR                     |-------------|
+| MINU     |    0 |           0 |   6 | MINUTE                   |-------------|
+| SECO     |    0 |           0 |   6 | SECOND                   |-------------|
+| TPHR     |    0 |       -2048 |  12 | HOUR                     |-------------|
+|          |      |             |     |                          |-------------|
+| CLATH    |    5 |    -9000000 |  25 | DEGREES                  |-------------|
+|          |      |             |     |                          |-------------|
+| CLONH    |    5 |   -18000000 |  26 | DEGREES                  |-------------|
+|          |      |             |     |                          |-------------|
+| PRLC     |   -1 |           0 |  14 | PASCALS                  |-------------|
+| SAZA     |    2 |       -9000 |  15 | DEGREES                  |-------------|
+|          |      |             |     |                          |-------------|
+| LSQL     |    0 |           0 |   2 | CODE TABLE               |-------------|
+| TSIG     |    0 |           0 |   5 | CODE TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| WDIR     |    0 |           0 |   9 | DEGREES TRUE             |-------------|
+| WSPD     |    1 |           0 |  12 | M/SEC                    |-------------|
+|          |      |             |     |                          |-------------|
+| TMDBST   |    1 |           0 |  12 | K                        |-------------|
+| CCST     |    1 |           0 |  12 | K                        |-------------|
+|          |      |             |     |                          |-------------|
+| DPRI     |    0 |           0 |   1 | FLAG TABLE               |-------------|
+|          |      |             |     |                          |-------------|
+| PCCF     |    0 |           0 |   7 | PERCENT                  |-------------|
+|          |      |             |     |                          |-------------|
+`------------------------------------------------------------------------------'

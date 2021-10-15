@@ -1,0 +1,29 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The MHS Family (MHS) (NOAA-19, and METOP-2(A),-1(B),-3(C) satellites)
+# NOAA-18 MHS instrument failed 10/2018; removed from processing 3/2019
+# ---------------------------------------------------------------------
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-atovs1b.mhsx.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/PULL/MHS/NSS.MHSX.NP.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/MHS/NSS.MHSX.M2.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/MHS/NSS.MHSX.M1.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/MHS/NSS.MHSX.M3.D?????.S????.E????.B???????.??"'}
+      eval FTYPE${n}=\${FTYPE${n}:-none}
+      eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx027}
+      eval EXECUTE${n}=\${EXECUTE${n}:-ingest_script_atovs1b.sh}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
+      eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
+      eval COMPRESS${n}=\${COMPRESS${n}:-YES}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-1300}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-1600}
+      eval CRITICAL${n}=\${CRITICAL${n}:-YES}
+
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------
