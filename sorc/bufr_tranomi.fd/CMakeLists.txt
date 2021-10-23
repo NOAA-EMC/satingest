@@ -14,7 +14,9 @@ add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}
   w3emc::w3emc_4
-  bufr::bufr_4
-  hdf5::hdf5 hdf5::hdf5_fortran)
+  bufr::bufr_4)
+  #hdf5::hdf5 hdf5::hdf5_fortran)
+target_include_directories(${exe_name} PRIVATE "${HDF5_Fortran_INCLUDE_DIRS}")
+target_link_libraries(${exe_name} ${HDF5_Fortran_LIBRARIES})
 
 install(TARGETS ${exe_name} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
