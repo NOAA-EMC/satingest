@@ -18,7 +18,7 @@
 #    https://ftp.emc.ncep.noaa.gov/static_files/public/obsproc/satingest-fix-HASH.tgz
 #
 # HASH is the truncated 6 character sha256sum hash of the tar file and can be obtained as:
-# $> sha256sum satingest-dump-fix.tgz
+# $> sha256sum satingest-fix.tgz
 #      867fd8c2ca1f87d5207fab0e1f9ea5ad8e7154aecc2df58dcde483c41dbaef5c
 # The data can be downloaded manually and into the cloned
 # repository by executing this script from the root of the cloned directory
@@ -26,7 +26,6 @@
 # $> pwd
 #     /path/to/satingest
 # $> ls -1
-#    CMakeLists.txt
 #    fix
 #    jobs
 #    modulefiles
