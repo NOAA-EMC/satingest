@@ -8,7 +8,7 @@ list(APPEND fortran_src
   transsmi.f
 )
 
-set(exe_name bufr_transsmi.x)
+set(exe_name bufr_transsmi)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

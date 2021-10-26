@@ -10,7 +10,7 @@ list(APPEND fortran_src
   func.f90
 )
 
-set(exe_name bufr_tranavhrr.x)
+set(exe_name bufr_tranavhrr)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

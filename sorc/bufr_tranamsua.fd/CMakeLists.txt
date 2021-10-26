@@ -9,7 +9,7 @@ list(APPEND fortran_src
   bufr1b.f
 )
 
-set(exe_name bufr_tranamsua.x)
+set(exe_name bufr_tranamsua)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

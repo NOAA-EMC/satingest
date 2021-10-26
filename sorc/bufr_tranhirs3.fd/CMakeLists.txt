@@ -9,7 +9,7 @@ list(APPEND fortran_src
   bufr1b.f
 )
 
-set(exe_name bufr_tranhirs3.x)
+set(exe_name bufr_tranhirs3)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

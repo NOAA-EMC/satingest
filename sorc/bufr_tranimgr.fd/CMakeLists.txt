@@ -8,7 +8,7 @@ list(APPEND fortran_src
   tranimgr.f90
 )
 
-set(exe_name bufr_tranimgr.x)
+set(exe_name bufr_tranimgr)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

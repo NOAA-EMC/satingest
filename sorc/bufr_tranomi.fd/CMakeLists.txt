@@ -9,7 +9,7 @@ list(APPEND fortran_src
   to3_datasets.f90
 )
 
-set(exe_name bufr_tranomi.x)
+set(exe_name bufr_tranomi)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

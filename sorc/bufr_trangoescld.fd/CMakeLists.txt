@@ -8,7 +8,7 @@ list(APPEND fortran_src
   trangoescld.f
 )
 
-set(exe_name bufr_trangoescld.x)
+set(exe_name bufr_trangoescld)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

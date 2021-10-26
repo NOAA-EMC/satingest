@@ -8,7 +8,7 @@ list(APPEND fortran_src
   sno8grb.f
 )
 
-set(exe_name snow_sno8grb.x)
+set(exe_name snow_sno8grb)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}

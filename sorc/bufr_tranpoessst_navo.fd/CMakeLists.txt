@@ -8,7 +8,7 @@ list(APPEND fortran_src
   tranpoessst_navo.f
 )
 
-set(exe_name bufr_tranpoessst_navo.x)
+set(exe_name bufr_tranpoessst_navo)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}
