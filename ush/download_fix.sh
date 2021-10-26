@@ -15,19 +15,17 @@
 #     nesdis.lstags_transsmi
 #
 # These files are currently hosted on the EMC FTP server at:
-#    https://ftp.emc.ncep.noaa.gov/static_files/public/obsproc/satingest-fix-SHA.tgz
+#    https://ftp.emc.ncep.noaa.gov/static_files/public/obsproc/satingest-fix-HASH.tgz
 #
-# A user should not need to execute this script manually, as the data will be
-# downloaded and installed as part of the configure, build and install step
-# See the CMakeLists.txt file in fix/ directory.
-#
-# In the case that the data needs to be downloaded manually and into the cloned
-# repository, execute this script from the root of the cloned directory
+# HASH is the truncated 6 character sha256sum hash of the tar file and can be obtained as:
+# $> sha256sum satingest-fix.tgz
+#      867fd8c2ca1f87d5207fab0e1f9ea5ad8e7154aecc2df58dcde483c41dbaef5c
+# The data can be downloaded manually and into the cloned
+# repository by executing this script from the root of the cloned directory
 # e.g.
 # $> pwd
 #     /path/to/satingest
 # $> ls -1
-#    CMakeLists.txt
 #    fix
 #    jobs
 #    modulefiles
