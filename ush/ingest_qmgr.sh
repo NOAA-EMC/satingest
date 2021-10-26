@@ -44,6 +44,7 @@
 #                            listing before testing against listing of all jobs
 #                            in bjobs for $OWNER (since there is sometimes a
 #                            lag).
+#  2021-10-15  Nadiga     -  changed bjobs to qstat
 #
 
 set -x
@@ -53,12 +54,14 @@ OWNER=${OWNER:-${USER:-nwprod}}
 SENDECF=${SENDECF:-YES}
 env
 
-reqid=`echo ${LSB_JOBID}`
+#reqid=`echo ${LSB_JOBID}`
+reqid=`echo ${PBS_JOBID}`
 echo "reqid= $reqid "
-jobname=${LSB_JOBNAME}
+#jobname=${LSB_JOBNAME}
+jobname=${PBS_JOBNAME}
 echo "jobname= $jobname"
 
-#  make sure THIS job is now in bjobs (sometimes a lag)
+#  make sure THIS job is now in bjobs/qstat (sometimes a lag)
 #  ----------------------------------------------------
 joblist=$DATA/jobs_list
 iflag=0
@@ -66,20 +69,21 @@ icount=0
 while [ $iflag -eq 0 ]; do
    icount=`expr $icount + 1`
    if [ $icount -ge 10 ];then
-      echo "this job $reqid $jobname still NOT in bjobs after 10 tries- give up"
+      echo "this job $reqid $jobname still NOT in bjobs/qstat after 10 tries- give up"
       break
    fi
-   bjobs -u $OWNER -r -w | awk '{print $1" "$7}' | tail -n +2 > $joblist
+#   bjobs -u $OWNER -r -w | awk '{print $1" "$7}' | tail -n +2 > $joblist
+   qstat -u $OWNER -r -w | awk '{print $1" "$7}' | tail -n +2 > $joblist
    cat $joblist
    cat $joblist | while read jidx jname;do
       if [ $jidx = $reqid ]; then
-         echo "this job $reqid $jobname is in bjobs - continue on"
+         echo "this job $reqid $jobname is in bjobs/qstat - continue on"
          iflag=1
          break
       fi
    done < $joblist
    if [ $iflag -eq 0 ]; then
-      echo "this job $reqid $jobname is NOT in bjobs - check again in 3 seconds"
+      echo "this job $reqid $jobname is NOT in bjobs/qstat - check again in 3 seconds"
       sleep 3
    fi
 done
@@ -88,7 +92,8 @@ done
 #   defaults to nwprod)
 
 joblist=${DATA}/jobs.list.$reqid
-bjobs -u $OWNER -r -w | awk '{print $1" "$7}' | tail -n +2 > $joblist
+#bjobs -u $OWNER -r -w | awk '{print $1" "$7}' | tail -n +2 > $joblist
+qstat -u $OWNER -r -w | awk '{print $1" "$7}' | tail -n +2 > $joblist
 cat $joblist
 
 cat $joblist |while read jid jname
@@ -119,7 +124,8 @@ ingest job will kill itself"
                  [ $SENDECF = YES ] && ecflow_client --complete
                  [ -d $DATAROOT ]  && cd $DATAROOT
                  rm -rf $DATA
-                 bkill $reqid
+#                 bkill $reqid
+                 qdel $reqid
                  sleep 120
               else
 #                ... exit out of this script with rc=99 but do not kill the

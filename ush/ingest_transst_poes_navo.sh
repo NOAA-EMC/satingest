@@ -208,7 +208,8 @@ if [ $retcode -eq 0 ] ; then
      [[ "$SENDCOM" = YES ]] && \
         cp $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$\
           $COMOUT
-     sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
+#    sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
+     sh $TRANush $TANKDIR \
         $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$
      rc=$?
      rettot=$(($rettot+$rc))
