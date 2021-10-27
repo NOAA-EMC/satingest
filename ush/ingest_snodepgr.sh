@@ -1,5 +1,5 @@
 #!/bin/ksh
-# Run under ksh
+# Run under ksh 
 
 ####  UNIX Script Documentation Block
 #
