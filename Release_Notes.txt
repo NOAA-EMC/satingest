@@ -2,7 +2,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_satingest release 4.0.2  --> released DEC 27, 2021
                                  --> implemented ??? ??, 2021
 Transition to WCOSS2 
-
+ 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_satingest release 4.0.1  --> released Aug 27, 2021
                                  --> implemented ??? ??, 2021
