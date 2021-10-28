@@ -12,7 +12,7 @@ set(exe_name snow_sno16grb)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}
-  bacio::bacio_4
-  w3emc::w3emc_d)
+  w3emc::w3emc_d
+  bacio::${bacio_name})
 
 install(TARGETS ${exe_name} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

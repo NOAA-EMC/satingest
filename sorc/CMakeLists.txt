@@ -18,6 +18,12 @@ find_package(bacio REQUIRED)
 find_package(w3emc REQUIRED)
 find_package(bufr REQUIRED)
 
+if(bacio_VERSION GREATER_EQUAL 2.5.0)
+  set(bacio_name bacio)
+else()
+  set(bacio_name bacio_4)
+endif()
+
 # Build code.
 add_subdirectory(bufr_cycsplit.fd)
 add_subdirectory(bufr_tranamsua.fd)

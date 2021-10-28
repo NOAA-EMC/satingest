@@ -12,8 +12,8 @@ set(exe_name bufr_trangoessst)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}
-  bacio::bacio_4
   w3emc::w3emc_d
+  bacio::${bacio_name}
   bufr::bufr_d)
 
 install(TARGETS ${exe_name} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
