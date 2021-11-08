@@ -198,7 +198,8 @@ fi
 if [ -s $DATA/omi_bufr.$host.$$ ]; then
    give_rc="YES"
    cword="no"
-   sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/omi_bufr.$host.$$
+#   sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/omi_bufr.$host.$$
+   sh $TRANush $TANKDIR $DATA/omi_bufr.$host.$$
    ier=$?
 else
    set +x

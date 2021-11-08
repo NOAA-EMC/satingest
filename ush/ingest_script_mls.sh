@@ -194,7 +194,8 @@ fi
 if [ -s $DATA/mls_bufr.$host.$$ ]; then
    give_rc="YES"
    cword="no"
-   sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/mls_bufr.$host.$$
+#  sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/mls_bufr.$host.$$
+   sh $TRANush $TANKDIR $DATA/mls_bufr.$host.$$
    ier=$?
 else
    set +x

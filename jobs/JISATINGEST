@@ -137,15 +137,21 @@ export USHobsproc_satingest=${USHobsproc_satingest:\
 
 # Paths for obsproc_shared_bufr_cword items
 # -----------------------------------------
-export HOMEobsproc_shared_bufr_cword=${HOMEobsproc_shared_bufr_cword:\
--$NWROOT/obsproc_shared/bufr_cword.${obsproc_shared_bufr_cword_ver:?\
-"###FATAL ERROR \"obsproc_shared_bufr_cword_ver\" is not set"}}
+#export HOMEobsproc_shared_bufr_cword=${HOMEobsproc_shared_bufr_cword:\
+#-$NWROOT/obsproc_shared/bufr_cword.${obsproc_shared_bufr_cword_ver:?\
+#"###FATAL ERROR \"obsproc_shared_bufr_cword_ver\" is not set"}}
 
-export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:\
--$HOMEobsproc_shared_bufr_cword/exec}
+#export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:\
+#-$HOMEobsproc_shared_bufr_cword/exec}
 
-export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:\
--$HOMEobsproc_shared_bufr_cword/ush}
+export EXECobsproc_shared_bufr_cword=$CWORDX
+
+#export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:\
+#-$HOMEobsproc_shared_bufr_cword/ush}
+
+export USHobsproc_shared_bufr_cword=$CWORDush
+
+
 
 # Paths for non-obsproc items
 # ---------------------------

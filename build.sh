@@ -16,6 +16,8 @@ if [[ "$target" =~ ^(wcoss2|hera|orion)$ ]]; then
   module use $pkg_root/modulefiles
   module load satingest_$target
   module list
+  module unload bufr
+  export bufr_ROOT=/lfs/h2/emc/obsproc/noscrub/Shelley.Melchior/install/install/bufr
   set -x
 fi
 
