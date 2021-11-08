@@ -85,10 +85,10 @@ list(APPEND fix_files
   qscatter
   qscatter.ascat_50km
   radsnd
-  radsnd.radsnd.efclamzip
-  radsnd.radsnd.goes16_asr_base
-  radsnd.radsnd.goes_csr_base
-  radsnd.radsnd.lgycld
+  radsnd.efclamzip
+  radsnd.goes16_asr_base
+  radsnd.goes_csr_base
+  radsnd.lgycld
   satwnd
   satwnd.avhrr
   satwnd.ircd_dmw

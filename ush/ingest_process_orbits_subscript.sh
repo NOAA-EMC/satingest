@@ -240,7 +240,8 @@ $TARGETFILE copied for $yyyymmdd"
          else
             cword="no"
          fi
-         ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
+#        ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
+         ksh $TRANush $TANKDIR $DATA/$dsname 
          bufrerror=$?
       else
          ksh $USHobsproc_satingest/ingest_translate_orbits.sh

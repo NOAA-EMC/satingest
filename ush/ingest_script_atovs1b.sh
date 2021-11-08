@@ -390,7 +390,8 @@ if [ $PROCESS_Tb = YES ]; then
 
       if [ -s $DATA/bufr_Tb ]; then
          export cword=no
-         $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Tb
+#        $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Tb
+         $TRANush $TANKDIR $DATA/bufr_Tb
       fi
    else
      set +x
@@ -413,7 +414,8 @@ if [ $PROCESS_Ta = YES ]; then
 
       if [ -s $DATA/bufr_Ta ]; then
          export cword=no
-         $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Ta
+#        $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Ta
+         $TRANush $TANKDIR $DATA/bufr_Ta
       fi
    else
      set +x
