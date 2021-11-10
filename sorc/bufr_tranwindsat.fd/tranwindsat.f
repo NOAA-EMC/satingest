@@ -211,7 +211,7 @@ c --------------
 C-----------------------------------------------------------------------
       CALL W3TAGB('BUFR_TRANWINDSAT',2014,0020,0061,'NP22')
 
-      CALL GETENV('TANKFILE',VALUE=TANKFILE)
+      CALL GETENV('TANKFILE',TANKFILE)
 
       PRINT *, ' '
       PRINT *, ' ==> Welcome to BUFR_TRANWINDSAT -- Version 01/20/2014'
@@ -265,7 +265,7 @@ c Read data out of binary file and write it out to BUFR
 c -----------------------------------------------------
 	do
 	  irec = irec + 1
-	  read(inlun,rec=irec,err=99,end=20)
+	  read(inlun,rec=irec,err=99)
      +		xjd2000_8
      +,		xlatitude_4
      +,		xlongitude_4
