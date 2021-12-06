@@ -60,9 +60,9 @@
 #     "date -u" since WCOSS should always present date in UTC.  All references
 #     to "GMT" changed to "UTC".  Removed all references to script variables
 #     $CNVRT2F77 and $ATTRIBUTES and logic which executed cnvblk since latter
-#     is now obsolete.  $USHobsproc_satingest replaces $USHbufr as the
+#     is now obsolete.  $USHsatingest replaces $USHbufr as the
 #     environment variable representing the directory path to the ush scripts.
-#     $EXECobsproc_satingest replaces $EXECbufr as the environment variable
+#     $EXECsatingest replaces $EXECbufr as the environment variable
 #     representing the directory path to the executables.  Added information to
 #     docblock and new comments.  Updated some existing comments.
 # 2018-12-06  Y. Ling  Updated to run on phase 3 machine.
@@ -73,13 +73,13 @@
 #   Script parameters: None
 #
 #   Modules and files referenced:
-#     scripts    : $USHobsproc_satingest/ingest_get.sh
-#                  $DATA/postmsg
-#                  $DATA/prep_step
-#                  $USHobsproc_satingest/$PROCSCRIPT
+#     scripts    : $USHsatingest/ingest_get.sh
+#                  postmsg
+#                  prep_step
+#                  $USHsatingest/$PROCSCRIPT
 #                  $USERDIR/$PROCSCRIPT
 #     data cards : none
-#     executables: $EXECobsproc_satingest/bufr_tranmtypsbt
+#     executables: $EXECsatingest/bufr_tranmtypsbt
 #                  $NDATE
 #
 # Remarks: Invoked by the script ingest_process_onetype_newdays.sh.
@@ -114,26 +114,26 @@
 #                              $TANKDIR/$datecurr/$TANKSUBDIR in the event no
 #                              more recent files become available for
 #                              transferring
-#      EXECobsproc_satingest - path to obsproc_satingest executable directory
-#      USHobsproc_satingest  - path to obsproc_satingest ush directory
+#      EXECsatingest - path to satingest executable directory
+#      USHsatingest  - path to satingest ush directory
 #      USERDIR               - path to directory containing file-processing
 #                              history file (e.g., "$TANKDIR/ingest_hist");
 #                              also can be alternate path to directory
 #                              containing $PROCSCRIPT if it is not found in
-#                              $USHobsproc_satingest
+#                              $USHsatingest
 #      OUTDIR                - path to directory containing output listing
 #                              (usually same as $TANKDIR)
 #      MACHINE               - name of remote unix machine to be used in
 #                              transfer requests
 #      MTYPSBT               - if set to "YES", the program
-#                              $EXECobsproc_satingest/bufr_tranmtypsbt will be
+#                              $EXECsatingest/bufr_tranmtypsbt will be
 #                              executed in order to encode the external BUFR
 #                              table into the beginning of the statically-named
 #                              file and to change the BUFR type and subtype
 #                              internally in each non-dictionary BUFR message
 #      tankfile              - updated BUFR type (TTT) and subtype (SSS) in
 #                              each non-dictionary BUFR message created from
-#                              $EXECobsproc_satingest/bufr_tranmtypsbt when
+#                              $EXECsatingest/bufr_tranmtypsbt when
 #                              MTYPSBT is 'YES' (in form bTTT/xxSSS,
 #                              e.g., "b008/xx011")
 #      COPYFORWARD           - if set to "YES", the first request for a file on
@@ -199,10 +199,10 @@ if [ $dsnfound -eq 0 ] ; then
    while [ $transerror -gt 0 -a $itries -le $itries_max ]; do
       if [ $itries -gt 1 ]; then
          msg="TRANSFER OF $dsname FAILED!!!! - SLEEP 30 SEC AND TRY AGAIN."
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
          sleep 30
       fi
-      ksh $USHobsproc_satingest/ingest_get.sh $MACHINE $dsname_local "$newday"\
+      ksh $USHsatingest/ingest_get.sh $MACHINE $dsname_local "$newday"\
        2>&1
       transerror=$?
       itries=`expr $itries + 1`
@@ -218,7 +218,7 @@ if [ $dsnfound -eq 0 ] ; then
    if [ $transerror -ne 0 ] ; then
       msg="Exiting with rc = $transerror - TRANSFER OF $dsname FAILED AFTER \
 $itries TRIES!!!!"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg
@@ -227,11 +227,11 @@ $itries TRIES!!!!"
       exit $transerror
    fi
    msg="TRANSFER OF $dsname successful on try no. ${itries}."
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    mv $dsname_local ${dsname_local}_temp
    if [ $MTYPSBT = YES ] ; then
 #==============================================================================
-#              Execute program $EXECobsproc_satingest/bufr_tranmtypsbt
+#              Execute program $EXECsatingest/bufr_tranmtypsbt
 #==============================================================================
       export encode_bufrtable=YES # encodes bufrtab.ttt into top of output file
       outfile=$OUTDIR/bufr_tranmtypsbt.out
@@ -267,18 +267,18 @@ $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
       export FORT11="${dsname_local}_temp"
       pgm=bufr_tranmtypsbt
       msg="$pgm has BEGUN"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       set +u
 
-#  Note - must use "$DATA/prep_step" here not ". $DATA/prep_step" because the
+#  Note - must use "prep_step" here not ". prep_step" because the
 #         latter would unset the FORT* variables that have previously been
 #         been set.  These may still be used in subsequent programs in this
 #         script.
-#######   . $DATA/prep_step
-      $DATA/prep_step
+#######   . prep_step
+      prep_step
       set -u
       export FORT51="$dsname_local"
-      $EXECobsproc_satingest/bufr_tranmtypsbt >> $tmpout 2>&1
+      $EXECsatingest/bufr_tranmtypsbt >> $tmpout 2>&1
       ier=$?
       datestring="bufr_tranmtypsbt : rc = $ier on \
 $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
@@ -313,7 +313,7 @@ $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
          rm ${dsname_local}_temp
       else
          msg="Exiting with rc = $ier - BUFR_TRANMTYPSBT FAILED"
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
          set +x
          echo
          echo $msg
@@ -370,14 +370,14 @@ $TANKDIR/$datecurr/$TANKSUBDIR directory"
       msg="$dsname copied from remote unix machine to \
 $TANKDIR/$datecurr/$TANKSUBDIR/$TANKFILE"
    fi
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    if [ $COPYFORWARD = YES -a $timecurr -lt $timemade ] ; then
       cp $TANKFILE $TANKDIR/$datenext/$TANKSUBDIR
       if [ $PROCSCRIPT = nullexec ] ; then
          echo "$dsname (for $datenext) COPIED AGAIN (from $dateback) AT \
 `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> $USERDIR/${dsname_hist}.history
          msg="$dsname copied again to $TANKDIR/$datenext/$TANKSUBDIR/$TANKFILE"
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       fi
    fi
 fi
@@ -390,8 +390,8 @@ fi
 if [ $procfound -eq 0 ] ; then
    if [ $PROCSCRIPT != nullexec ] ; then
       cd $TANKDIR/$datecurr/$TANKSUBDIR
-      if [ -s $USHobsproc_satingest/$PROCSCRIPT ] ; then
-         sh $USHobsproc_satingest/$PROCSCRIPT
+      if [ -s $USHsatingest/$PROCSCRIPT ] ; then
+         sh $USHsatingest/$PROCSCRIPT
          procrc=$?
       elif [ -s $USERDIR/$PROCSCRIPT ] ; then
          sh $USERDIR/$PROCSCRIPT $TANKFILE $datecurr 
@@ -407,8 +407,8 @@ if [ $procfound -eq 0 ] ; then
          ymdhcurr=$ymdhnext
          datecurr=$datenext
          cd $TANKDIR/$datecurr/$TANKSUBDIR
-         if [ -s $USHobsproc_satingest/$PROCSCRIPT ] ; then
-            sh $USHobsproc_satingest/$PROCSCRIPT 
+         if [ -s $USHsatingest/$PROCSCRIPT ] ; then
+            sh $USHsatingest/$PROCSCRIPT 
             retcode=$?
          elif [ -s $USERDIR/$PROCSCRIPT ] ; then
             sh $USERDIR/$PROCSCRIPT $TANKFILE $dateback

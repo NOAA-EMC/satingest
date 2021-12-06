@@ -1,4 +1,4 @@
-
+#!/bin/ksh
 ##########################################################################
 # THIS SCRIPT IS SOURCED BY USH SCRIPT ingest_process_orbits.sh
 #  this allows all variables exported from this script to be used
@@ -70,7 +70,7 @@ echo
 `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> ${ORBITLIST}.${TANKFILE}.history
                   msg="$dsname_full received from remote unix machine and \
 simply copied to $TANKDIR/$TANKFILE/$dsname"
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  postmsg "$jlogfile" "$msg"
                fi
 
             else
@@ -213,7 +213,7 @@ $dsname (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
                          ${ORBITLIST}_copy.history
                         msg="$dsname_full received from remote unix machine, \
 $dsname copied for $yyyymmdd"
-                        $DATA/postmsg "$jlogfile" "$msg"
+                        postmsg "$jlogfile" "$msg"
                      fi
                   else
                      cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
@@ -224,7 +224,7 @@ $TARGETFILE (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
                          $USERDIR/$TARGETFILE.history
                         msg="$dsname_full received from remote unix machine, \
 $TARGETFILE copied for $yyyymmdd"
-                        $DATA/postmsg "$jlogfile" "$msg"
+                        postmsg "$jlogfile" "$msg"
                      fi
                   fi
                fi
@@ -240,11 +240,11 @@ $TARGETFILE copied for $yyyymmdd"
          else
             cword="no"
          fi
-#        ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
+#        ksh $USHsatingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
          ksh $TRANush $TANKDIR $DATA/$dsname 
          bufrerror=$?
       else
-         ksh $USHobsproc_satingest/ingest_translate_orbits.sh
+         ksh $USHsatingest/ingest_translate_orbits.sh
          bufrerror=$?
       fi
       set +x

@@ -55,7 +55,7 @@
 #                         All references to "GMT" changed to "UTC".  Imported
 #                         variable $timetype now checked for value of "UTC"
 #                         rather than "GMT" ($timetype redefined to be "UTC"
-#                         when time type is Greenwich).  $EXECobsproc_satingest
+#                         when time type is Greenwich).  $EXECsatingest
 #                         replaces $EXECbufr as the environment variable
 #                         representing the directory path to the executables.
 #                         Added information to docblock and new comments.
@@ -79,11 +79,11 @@
 #                                PRD.SPPROD.SNODEPH.N{S}HMAMAP.Dyyddd)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
-#                  $DATA/prep_step
+#     scripts    : postmsg
+#                  prep_step
 #                  $UTILROOT/ush/date2jday.sh
 #     data cards : none
-#     executables: $EXECobsproc_satingest/snow_sno8grb
+#     executables: $EXECsatingest/snow_sno8grb
 #                  $CNVGRIB
 #                  $NDATE
 #
@@ -103,7 +103,7 @@
 #                               (e.g., "PRD.SPPROD.SNODEPH.SHMAMAP")
 #      USERDIR                - path to directory containing file-processing
 #                               history file (e.g., "$TANKDIR/ingest_hist")
-#      EXECobsproc_satingest  - path to obsproc_satingest executable  directory
+#      EXECsatingest  - path to satingest executable  directory
 #      SENDDBN                - if set to "YES", issue dbnet_alert for GRIB
 #                               and GRIB2 file(s)
 #      SENDDBN_GB2            - if set to "YES", issue dbnet_alert for GRIB2
@@ -133,7 +133,7 @@
 #   > 0 - some problem encountered
 #     Specifically:  99 - Input file PRD.SPPROD.SNODEPH.NHMAMAP not found, or
 #                         some type of error in
-#                         $EXECobsproc_satingest/snow_sno8grb
+#                         $EXECsatingest/snow_sno8grb
 #
 # Attributes:
 #   Language: ksh script
@@ -182,7 +182,7 @@ $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
        $USERDIR/$TARGETFILE.history
       msg="$dsname_full received from remote unix machine, $TARGETFILE \
 copied for $yyyymmdd"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
    fi
 else
    bufrerror=99
@@ -196,27 +196,27 @@ if [ -s $2 ] ; then
 
    pgm=snow_sno8grb
    set +u
-   . $DATA/prep_step
+   . prep_step
    set -u
    export FORT11="$2"
    export FORT51="$DATA/snowdepth.grb"
 
    msg="$pgm start for $yyyymmdd data"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 
-   $EXECobsproc_satingest/snow_sno8grb
+   $EXECsatingest/snow_sno8grb
    err=$?
-   #$DATA/err_chk
+   #err_chk
 
    if [ $err -eq 0 ]; then
       cp $DATA/snowdepth.grb $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb
       msg="$pgm completed normally"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       echo "snowdepth.grb (for $yyyymmdd) CREATED and WRITTEN to \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
        >> $USERDIR/snowdepth.grb.history
       msg="snowdepth.grb CREATED for $yyyymmdd"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       if [ "$SENDDBN" = YES ]; then
          if [ -s $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb ]; then
             $DBNROOT/bin/dbn_alert MODEL SNOW_GB $job \
@@ -231,7 +231,7 @@ $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
           >> $USERDIR/snowdepth.grb.grib2.history
          msg="snowdepth.grb.grib2 CREATED for $yyyymmdd"
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
          if [ "$SENDDBN" = YES ] ; then
             if [ -s $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb.grib2 ]; then
                $DBNROOT/bin/dbn_alert MODEL SNOW_GB_GB2 $job \
@@ -273,7 +273,7 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       fi
       if [ -s $TANKDIR/$currdate/wgrbbul/snowdepth.grb.grib2 ] ; then
          cp $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb.grib2 \
@@ -288,13 +288,13 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       fi
    fi
 else
    msg="Input file $2 not found - program SNOW_SNO8GRB was not run \
 --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    exit 99
 fi
 

@@ -56,7 +56,7 @@
 #                 $2: raw_file   - input filename (without path)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
+#     scripts    : postmsg
 #     data cards : none
 #     executables: none
 #
@@ -234,10 +234,10 @@ newfile=$(basename $infile)
 if [ -n "$RENAME_FILE_SUFFIX" ]; then
    newfile=${newfile}${RENAME_FILE_SUFFIX}
    msg="Output file RENAMED from \"$(basename $infile)\" to \"$newfile\""
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
 msg="copying $newfile"
-$DATA/postmsg "$jlogfile" "$msg"
+postmsg "$jlogfile" "$msg"
 
 if [ ! -e ${TANKDIR}${PDY_dir}/$TANKFILE ] ; then
    mkdir -m 775 -p ${TANKDIR}${PDY_dir}/$TANKFILE

@@ -69,9 +69,9 @@
 #     and moved from directory path USHbufr to directory path
 #     USHobsproc_shared_bufr_cword.  USH script tranjb renamed to
 #     bufr_tranjb.sh and moved from directory path USHbufr to directory path
-#     USHobsproc_satingest.  Removed all references to script variables
+#     USHsatingest.  Removed all references to script variables
 #     CNVRT2F77 and ATTRIBUTES and logic which executed cnvblk since latter
-#     is now obsolete.  USHobsproc_satingest replaces USHbufr as the
+#     is now obsolete.  USHsatingest replaces USHbufr as the
 #     environment variable representing the directory path to the ush scripts.
 #     Added information to docblock and new comments.  Updated some existing
 #     comments.
@@ -186,20 +186,20 @@
 #   Script parameters: none
 #
 #   Modules and files referenced by this script:
-#     scripts    : $USHobsproc_satingest/ingest_get.sh
-#                  $USHobsproc_satingest/ingest_process_orbits_subscript.sh
+#     scripts    : $USHsatingest/ingest_get.sh
+#                  $USHsatingest/ingest_process_orbits_subscript.sh
 #                                                                     (sourced)
 #                  $CWORDush
-#                  $DATA/postmsg
+#                  postmsg
 #     data cards : none
 #     executables: $CWORDX (def: $EXECobsproc_shared_bufr_cword/bufr_cword)
 #                  (invoked by $CWORDush)
 #   Modules and files referenced by sourced script
 #   ingest_process_orbits_subscript.sh:
 #     scripts      $UTILROOT/ush/date2jday.sh
-#                  $USHobsproc_satingest/ingest_translate_orbits.sh
-#                  $USHobsproc_satingest/bufr_tranjb.sh
-#                  $DATA/postmsg
+#                  $USHsatingest/ingest_translate_orbits.sh
+#                  $USHsatingest/bufr_tranjb.sh
+#                  postmsg
 #     data cards : none
 #     executables: none
 #
@@ -231,7 +231,7 @@
 #                             script ingest_translate_orbits.sh is executed
 #                             (it will invoke $EXECUTE), in the latter case
 #                             $EXECUTE is always ush script
-#                             $USHobsproc_satingest/bufr_tranjb.sh and it will
+#                             $USHsatingest/bufr_tranjb.sh and it will
 #                             be invoked here;
 #                             an exception occurs when $EXECUTE is imported as
 #                             "copy_to_target" in which case a file is just
@@ -298,7 +298,7 @@
 #                                (invoked only when $EXECUTE is imported as
 #                                 "copy_to_target")
 #                                (see EXECUTE, TANKDIR and TANKFILE above)
-#      USHobsproc_satingest - path to obsproc_satingest ush directory
+#      USHsatingest - path to satingest ush directory
 #      utilscript           - path to utility ush script directory containing
 #                             date2jday.sh
 #      ITRIES_MAX_GET       - the maximum number of failed attempts to transfer
@@ -317,23 +317,23 @@
 #                                             1) executing any translation
 #                                                programs or scripts which
 #                                                themselves execute
-#                                                $USHobsproc_satingest/bufr_tranjb.sh
+#                                                $USHsatingest/bufr_tranjb.sh
 #                                                after all other processing is
 #                                                complete
 #                                                     -- or --
 #                                             2) executing
-#                                                $USHobsproc_satingest/bufr_tranjb.sh
+#                                                $USHsatingest/bufr_tranjb.sh
 #                                                without any prior execution of
 #                                                translation programs or
 #                                                scripts
 #                                           Note: In this case $CWORDSH is
 #                                                 NEVER executed inside
-#                                                 $USHobsproc_satingest/bufr_tranjb.sh.
+#                                                 $USHsatingest/bufr_tranjb.sh.
 #                                ncepbufr - execute $CWORDush to unblock file
 #                                           and strip off any extraneous
 #                                           characters from BUFR messages
 #                                           within execution of
-#                                           $USHobsproc_satingest/bufr_tranjb.sh
+#                                           $USHsatingest/bufr_tranjb.sh
 #                                           Note: This should only be set if
 #                                                 EXECUTE is exported as
 #                                                 bufr_tranjb.sh (i.e., there
@@ -420,7 +420,7 @@ read line
 rc=$?
 if [ $rc -ne 0 ] ; then
    msg="Exiting with rc = 230 - no files submitted for processing --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo $msg
@@ -472,10 +472,10 @@ while [ $rc -eq 0 ] ; do
             if [ $itries -gt 1 ]; then
                msg="TRANSFER OF $dsname_full FAILED!!!! - SLEEP 30 SEC AND \
 TRY AGAIN."
-               $DATA/postmsg "$jlogfile" "$msg"
+               postmsg "$jlogfile" "$msg"
                sleep 30
             fi
-            ksh $USHobsproc_satingest/ingest_get.sh $MACHINE $DATA/$dsname \
+            ksh $USHsatingest/ingest_get.sh $MACHINE $DATA/$dsname \
              "$neworbit" 2>&1
             transerror=$?
             itries=`expr $itries + 1`
@@ -492,7 +492,7 @@ TRY AGAIN."
          echo "$dsname_full RECEIVED AT $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" \
           >> $ORBITLIST.history
             msg="TRANSFER OF $dsname_full successful on try no. ${itries}."
-            $DATA/postmsg "$jlogfile" "$msg"
+            postmsg "$jlogfile" "$msg"
             fdcperr=0
             if [ $UNCOMPRESS_UNIX = YES ] ; then
                dsnuerr=1
@@ -523,7 +523,7 @@ TRY AGAIN."
                   uncerror=$?
                   if [ $uncerror -eq 0 ] ; then
                      msg="UNIX UNCOMPRESS (gunzip) OF $dsname_full successful."
-                     $DATA/postmsg "$jlogfile" "$msg"
+                     postmsg "$jlogfile" "$msg"
                      dsname=$dsname_t
                   fi
                else
@@ -540,7 +540,7 @@ TRY AGAIN."
                      if [ $uncerror -eq 0 ] ; then
                         msg="UNIX UNCOMPRESS (bunzip2) OF $dsname_full \
 successful."
-                        $DATA/postmsg "$jlogfile" "$msg"
+                        postmsg "$jlogfile" "$msg"
                         dsname=$dsname_t
                      fi
                   fi
@@ -549,7 +549,7 @@ successful."
                   msg="UNIX UNCOMPRESS (gunzip or bunzip2) OF $dsname_full \
 UNSUCCESSFUL, original file may just not be compressed but it may also be \
 corrupt so skip processing of this file --> non-fatal"
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  postmsg "$jlogfile" "$msg"
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -579,14 +579,14 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                   err_grep=$?
                   msg=`echo $msg, input file: $dsname_full.`
                   if [ $err_grep -eq 0 ]; then
-                     $DATA/postmsg "$jlogfile" "$msg"
+                     postmsg "$jlogfile" "$msg"
                   fi
                   msg="BUFR_CWORD processing successful for $dsname_full."
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  postmsg "$jlogfile" "$msg"
                else
                   msg="BUFR_CWORD processing UNSUCCESSFUL or INCOMPLETE for \
 $dsname_full, skip processing of this file --> non-fatal"
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  postmsg "$jlogfile" "$msg"
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -604,7 +604,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
             toterr=$(($toterr+$fdcperr))
          else
             msg="TRANSFER OF $dsname_full FAILED AFTER $itries TRIES!!!!"
-            $DATA/postmsg "$jlogfile" "$msg"
+            postmsg "$jlogfile" "$msg"
             noxfercount=$(($noxfercount+1))
             echo "COULD NOT TRANSFER $dsname_full AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -640,7 +640,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
 
    if [ $PROC_MULT_FILES != YES ]; then
       [ $toterr -eq 0 ] && \
-       . $USHobsproc_satingest/ingest_process_orbits_subscript.sh
+       . $USHsatingest/ingest_process_orbits_subscript.sh
    else
       if [ $toterr -eq 0 ]; then
          echo $FILEINFO >> $DATA/orbitlist_path_cat
@@ -659,7 +659,7 @@ if [ $PROC_MULT_FILES = YES ]; then
    dsnamelist=dsname_cat
    toterr=$toterr_mult_files
    [ $toterr -eq 0 ] && \
-    . $USHobsproc_satingest/ingest_process_orbits_subscript.sh
+    . $USHsatingest/ingest_process_orbits_subscript.sh
 fi
 
 if [ -s $ORBITLIST.history ] ; then
@@ -727,22 +727,22 @@ fi
 if [ $noproccount -gt 0 ] ; then
    msg="$noproccount files were unsuccessfully processed --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
 if [ $noxfercount -gt 0 ] ; then
    msg="$noxfercount files were unsuccessfully transferred --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
 if [ $unproccount -gt 0 ] ; then
    msg="$unproccount files were declared unprocessable --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
 if [ $repeatcount -gt 0 ] ; then
    msg="$repeatcount files had been previously processed --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
 echo
 [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
@@ -750,7 +750,7 @@ echo
 if [ $unxfercount -gt 0 ] ; then
    msg="Exiting with rc = 199 - $unxfercount files were untransferable in last \
 $orbitnotp_max runs of this job --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo $msg
@@ -761,7 +761,7 @@ if [ $orbitcount -gt 1 ] ; then
    if [ $orbitcount -eq $repeatcount ] ; then
       msg="Exiting with rc = 222 - all files to be processed were already \
 processed --> non-fatal"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg
@@ -776,7 +776,7 @@ were unprocessable --> non-fatal"
          msg="Exiting with rc = 111 - all files to be processed were \
 unprocessable --> non-fatal" 
       fi
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg

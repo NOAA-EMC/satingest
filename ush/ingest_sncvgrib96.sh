@@ -46,7 +46,7 @@
 #                         All references to "GMT" changed to "UTC".  Imported
 #                         variable $timetype now checked for value of "UTC"
 #                         rather than "GMT" ($timetype redefined to be "UTC"
-#                         when time type is Greenwich).  $EXECobsproc_satingest
+#                         when time type is Greenwich).  $EXECsatingest
 #                         replaces $EXECbufr as the environment variable
 #                         representing the directory path to the executables.
 #                         Added information to docblock and new comments.
@@ -72,12 +72,12 @@
 #                                file (in form imsYYYYDDD.asc)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
-#                  $DATA/prep_step
+#     scripts    : postmsg
+#                  prep_step
 #                  $UTILROOT/ush/date2jday.sh
 #                  $UTILROOT/ush/finddate.sh
 #     data cards : none
-#     executables: $EXECobsproc_satingest/snow_sno96grb
+#     executables: $EXECsatingest/snow_sno96grb
 #                  $CNVGRIB
 #                  $NDATE
 #
@@ -92,7 +92,7 @@
 #                               "/dcom/us007003")
 #      USERDIR                - path to directory containing file-processing
 #                               history file (e.g., "$TANKDIR/ingest_hist")
-#      EXECobsproc_satingest  - path to obsproc_satingest executable directory
+#      EXECsatingest  - path to satingest executable directory
 #      $UTILROOT/ush          - path to utility script directory containing
 #                               date2jday.sh and finddate.sh
 #      SENDDBN                - if set to "YES", issue dbnet_alert for GRIB
@@ -124,21 +124,21 @@
 #   > 0 - some problem encountered
 #     Specifically:  95 - SNOW_SNO96GRB could not read standard input in unit 05
 #                         (condition code coming out of
-#                          $EXECobsproc_satingest/snow_sno96grb)
+#                          $EXECsatingest/snow_sno96grb)
 #                    96 - SNOW_SNO96GRB had bad write to grib file in unit 51
 #                         (condition code coming out of
-#                          $EXECobsproc_satingest/snow_sno96grb)
+#                          $EXECsatingest/snow_sno96grb)
 #                    97 - SNOW_SNO96GRB had bad open to grib file in unit 51
 #                         (condition code coming out of
-#                          $EXECobsproc_satingest/snow_sno96grb)
+#                          $EXECsatingest/snow_sno96grb)
 #                    98 - SNOW_SNO96GRB had unexpected end-of-file reading
 #                         in IMS snow cover/sea ice ascii file in unit 11
 #                         (condition code coming out of
-#                          $EXECobsproc_satingest/snow_sno96grb)
+#                          $EXECsatingest/snow_sno96grb)
 #                    99 - SNOW_SNO96GRB found unrecognized data value in IMS
 #                         snow cover/sea ice ascii file in unit 11
 #                         (condition code coming out of
-#                          $EXECobsproc_satingest/snow_sno96grb)
+#                          $EXECsatingest/snow_sno96grb)
 #
 # Attributes:
 #   Language: ksh script
@@ -186,7 +186,7 @@ if [ $(echo $2 | grep \.gz$) ]; then
   err=$?
   if [ $err -ne 0 ];then
      msg="***WARNING: Could not gunzip file $2.  Skip."
-     $DATA/postmsg "$jlogfile" "$msg"
+     postmsg "$jlogfile" "$msg"
      exit $err
   fi
   raw_file=${2%\.gz}
@@ -196,27 +196,27 @@ fi
 
 pgm=snow_sno96grb
 set +u
-. $DATA/prep_step
+. prep_step
 set -u
 export FORT11="$raw_file"
 export FORT51="$DATA/imssnow96.grb"
 
 msg="$pgm start for $yyyymmdd data"
-$DATA/postmsg "$jlogfile" "$msg"
+postmsg "$jlogfile" "$msg"
 
-echo $yyyyddd | $EXECobsproc_satingest/snow_sno96grb
+echo $yyyyddd | $EXECsatingest/snow_sno96grb
 err=$?
-#$DATA/err_chk
+#err_chk
 
 if [ $err -eq 0 ]; then
    cp $DATA/imssnow96.grb $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    echo "imssnow96.grb (for $yyyymmdd) CREATED and WRITTEN to \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
     >> $USERDIR/imssnow96.grb.history
    msg="imssnow96.grb CREATED for $yyyymmdd"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    if [ -s $DATA/imssnow96.grb ]; then
        $CNVGRIB -g12 -p40 \
        $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb $DATA/imssnow96.grb.grib2
@@ -227,7 +227,7 @@ $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
           >> $USERDIR/imssnow96.grb.grib2.history
          msg="imssnow96.grb.grib2 CREATED for $yyyymmdd"
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       fi
       if [ "$SENDDBN" = YES ]; then
          if [ -s $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb ]; then
@@ -277,7 +277,7 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       fi
       if [ -s $TANKDIR/$currdate/wgrbbul/imssnow96.grb.grib2 ] ; then
          cp $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb.grib2 \
@@ -292,7 +292,7 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       fi
    fi
 fi

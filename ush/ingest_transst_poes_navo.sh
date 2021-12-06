@@ -30,11 +30,11 @@
 #                                 Albedo data file
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/prep_step
-#                : $DATA/postmsg 
-#                : $USHobsproc_satingest/bufr_tranjb.sh
+#     scripts    : prep_step
+#                : postmsg 
+#                : $USHsatingest/bufr_tranjb.sh
 #     data cards : unit 15, namelist with satellite info
-#     executables: $EXECobsproc_satingest/bufr_tranpoessst_navo
+#     executables: $EXECsatingest/bufr_tranpoessst_navo
 #
 # Remarks: Invoked by the ush script ingest_translate_orbits.sh.
 #
@@ -42,9 +42,9 @@
 #      DATA                  - path to current working directory
 #      DEBUGSCRIPTS          - if set to "ON" or "YES", will run with "set -x"
 #                              on (intended for debugging)
-#      USHobsproc_satingest  - path to obsproc_satingest ush directory
+#      USHsatingest  - path to satingest ush directory
 #                              containing bufr_tranjb.sh
-#      EXECobsproc_satingest - path to obsproc_satingest executable directory
+#      EXECsatingest - path to satingest executable directory
 #      TANKDIR               - root of directory path to output BUFR database
 #                              tank file (e.g., "/dcom/us007003")
 #      TANKFILE              - path to directory and tank file in
@@ -89,7 +89,7 @@ pgm=bufr_tranpoessst_navo
 export pgm
 cwd=`pwd`
 cd $DATA
-. $DATA/prep_step
+. prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -144,7 +144,7 @@ else
       lenerror=$len
    fi
    echo $msg  >> $tmperr
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    exit 99
 fi
 
@@ -177,7 +177,7 @@ export FORT51="$DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$"
 export FORT71="$DATA/timwin.$dsname.tmpout.$host.$$"
 
 echo "$typsubdir $subtypfil $apndstring $ymdh" | \
- $EXECobsproc_satingest/bufr_tranpoessst_navo
+ $EXECsatingest/bufr_tranpoessst_navo
 retcode=$?
 
 if [ $retcode -eq 4 ]; then
@@ -187,7 +187,7 @@ msg="WARNING: BUFR_TRANPOESSST_NAVO ENCOUNTERED UNKNOWN SATELLITE ID --> non-fat
    echo "$msg"
    echo
    set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    retcode=0
 fi
 
@@ -199,7 +199,7 @@ if [ $retcode -eq 0 ] ; then
    echo " --------------------------------------------- "
    set -x
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 
    rettot=0
    [[ "$SENDCOM" = YES ]] && cp $DATA/timwin.${dsname}.tmpout.$host.$$ $COMOUT
@@ -208,7 +208,7 @@ if [ $retcode -eq 0 ] ; then
      [[ "$SENDCOM" = YES ]] && \
         cp $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$\
           $COMOUT
-#    sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
+#    sh $USHsatingest/bufr_tranjb.sh $TANKDIR \
      sh $TRANush $TANKDIR \
         $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$
      rc=$?
@@ -219,7 +219,7 @@ else
    echo "********  ERROR PROGRAM $pgm RETURN CODE $retcode  ********"
    echo "*******************************************************"
    msg="ERROR PROGRAM $pgm RETURN CODE $retcode"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
      
 

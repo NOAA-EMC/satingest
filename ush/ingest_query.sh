@@ -102,7 +102,7 @@
 #                      $3 - file_group (partial remote filename to look for)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
+#     scripts    : postmsg
 #     data cards : none
 #     executables: none
 #
@@ -288,7 +288,7 @@ while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
     rm $DATA/transquery.output.$host.$$
    if [ $itries -gt 1 ]; then
       msg="QUERY OF $3 FILES FAILED!!!! - SLEEP 30 SEC AND TRY AGAIN."
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       sleep 30
    fi
 
@@ -382,7 +382,7 @@ if [ $transerror -ne 0 ]; then
    [ -s $DATA/transquery.input.$host.$$ ] && rm $DATA/transquery.input.$host.$$
    msg="Exiting with rc = 1 - query of $3 files on remote unix machine \
 $MACHINE failed after $itries tries --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo " Query of file group $3 on remote unix machine $MACHINE failed \
@@ -395,7 +395,7 @@ fi
 #  -----------------------------------
 
 msg="QUERY OF $3 FILES successful on try no. ${itries}."
-$DATA/postmsg "$jlogfile" "$msg"
+postmsg "$jlogfile" "$msg"
 
 #  Check to see if the lines returned by the 'ls' command include the full
 #   directory path - if not add the directory in front of the filename here

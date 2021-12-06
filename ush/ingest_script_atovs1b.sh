@@ -59,10 +59,10 @@
 #                            is now set to run under ksh shell as the default.
 # 2014-01-17  Diane Stokes/Dennis Keyser  USH script tranjb renamed to
 #                            bufr_tranjb.sh and moved from directory path
-#                            $USHbufr to directory path $USHobsproc_satingest.
-#                            $EXECobsproc_satingest replaces $EXECbufr as the
+#                            $USHbufr to directory path $USHsatingest.
+#                            $EXECsatingest replaces $EXECbufr as the
 #                            environment variable representing the directory
-#                            path to the executables.  $FIXobsproc_satingest
+#                            path to the executables.  $FIXsatingest
 #                            replaces $FIXbufr as the environment variable
 #                            representing the directory path to the fixed
 #                            files.  Updated some existing comments.
@@ -76,10 +76,10 @@
 #                 $2: raw_file  - full path definition for ATOVS 1B file
 #
 #   Modules and files referenced:
-#     scripts     : $DATA/prep_step
-#                   $DATA/postmsg
-#                   $USHobsproc_satingest/bufr_tranjb.sh
-#     executables : $EXECobsproc_satingest/$executable (where $executable is
+#     scripts     : prep_step
+#                   postmsg
+#                   $USHsatingest/bufr_tranjb.sh
+#     executables : $EXECsatingest/$executable (where $executable is
 #                                                       either bufr_tranamsua,
 #                                                       bufr_tranamsub,
 #                                                       bufr_tranmhs or
@@ -91,10 +91,10 @@
 #
 #   Imported Variables that must be passed in:
 #      DATA                  - path to current working directory
-#      USHobsproc_satingest  - path to obsproc_satingest ush directory
+#      USHsatingest  - path to satingest ush directory
 #                              containing bufr_tranjb.sh
-#      FIXobsproc_satingest  - path to obsproc_satingest fix directory
-#      EXECobsproc_satingest - path to obsproc_satingest executable directory
+#      FIXsatingest  - path to satingest fix directory
+#      EXECsatingest - path to satingest executable directory
 #      TANKDIR               - root of directory path to output BUFR database
 #                              tank file (e.g., "/dcom/us007003")
 #
@@ -225,7 +225,7 @@ if [[ $INSTRTYPE = AMAX ]] ; then
 #  -----------------------------------------------------------------
 
   [ $satnum = 15 -o  $satnum = 16 ]  &&  \
-   coefile=$FIXobsproc_satingest/bufr_amsua${satnum}_ta2tb.txt
+   coefile=$FIXsatingest/bufr_amsua${satnum}_ta2tb.txt
 
 elif [[ $INSTRTYPE = AMBX ]] ; then
   set +x
@@ -334,17 +334,17 @@ PROCESS_Ta=$PROCESS_Ta_save_here
 #  Link to low topography and HIRS coefficient files
 #  -------------------------------------------------
 
-ln -sf $FIXobsproc_satingest/bufr_hirsrtcf_ibm.dat hirsrtcf_ibm.dat \
+ln -sf $FIXsatingest/bufr_hirsrtcf_ibm.dat hirsrtcf_ibm.dat \
  1>/dev/null 2>&1
-ln -sf $FIXobsproc_satingest/bufr_lowtopog.dat lowtopog.dat 1>/dev/null 2>&1
+ln -sf $FIXsatingest/bufr_lowtopog.dat lowtopog.dat 1>/dev/null 2>&1
 
 #  Execute the program
 #  -------------------
 
 pgm=$executable
-if [ -s $DATA/prep_step ]; then
+if [ -s prep_step ]; then
   set +u
-  . $DATA/prep_step
+  . prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -353,12 +353,12 @@ else
 fi
 
 msg="$pgm has BEGUN"
-$DATA/postmsg "$jlogfile" "$msg"
+postmsg "$jlogfile" "$msg"
 
 export FORT12=$table
 export FORT52=$outfile_52
 export FORT53=$outfile_53
-time -p $EXECobsproc_satingest/$executable < parm 2> errfile
+time -p $EXECsatingest/$executable < parm 2> errfile
 rcsave=$?
 cat errfile
 if [ $rcsave -eq 0 ] ; then
@@ -390,7 +390,7 @@ if [ $PROCESS_Tb = YES ]; then
 
       if [ -s $DATA/bufr_Tb ]; then
          export cword=no
-#        $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Tb
+#        $USHsatingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Tb
          $TRANush $TANKDIR $DATA/bufr_Tb
       fi
    else
@@ -414,7 +414,7 @@ if [ $PROCESS_Ta = YES ]; then
 
       if [ -s $DATA/bufr_Ta ]; then
          export cword=no
-#        $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Ta
+#        $USHsatingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Ta
          $TRANush $TANKDIR $DATA/bufr_Ta
       fi
    else

@@ -46,7 +46,7 @@
 #     "date -u" since WCOSS should always present date in UTC.  All references
 #     to "GMT" changed to "UTC".  Imported variable $timetype now checked for
 #     value of "UTC" rather than "GMT" ($timetype redefined to be "UTC" when
-#     time type is Greenwich).  $USHobsproc_satingest replaces $USHbufr as the
+#     time type is Greenwich).  $USHsatingest replaces $USHbufr as the
 #     environment variable representing the directory path to the ush scripts.
 #     Added information to docblock and new comments.  Updated some existing
 #     comments.
@@ -59,9 +59,9 @@
 #   Script parameters: none
 #
 #   Modules and files referenced:
-#     scripts    : $USHobsproc_satingest/ingest_process_days.sh
-#                  $DATA/postmsg
-#                  $USHobsproc_satingest/$PROCSCRIPT
+#     scripts    : $USHsatingest/ingest_process_days.sh
+#                  postmsg
+#                  $USHsatingest/$PROCSCRIPT
 #                  $USERDIR/$PROCSCRIPT
 #     data cards : none
 #     executables: $NDATE
@@ -124,12 +124,12 @@
 #                               $TANKDIR/$datecurr/$TANKSUBDIR in the event no
 #                               more recent files become available for
 #                               transferring
-#      USHobsproc_satingest   - path to obsproc_satingest ush directory
+#      USHsatingest   - path to satingest ush directory
 #      USERDIR                - path to directory containing file-processing
 #                               history file (e.g., "$TANKDIR/ingest_hist");
 #                               also can be alternate path to directory
 #                               containing $PROCSCRIPT if it is not found in
-#                               $USHobsproc_satingest
+#                               $USHsatingest
 #      MACHINE                - name of remote unix machine to be used in
 #                               transfer requests
 #      COPYFORWARD            - if set to "YES", the first request for a file
@@ -224,7 +224,7 @@ machine and COPIED file to today"
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       found=1
    fi
 
@@ -243,7 +243,7 @@ today"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
          found=1
       fi
    fi
@@ -274,8 +274,8 @@ PROCESSED (from $dateback)" $USERDIR/${dsname_hist}.history)
              $TANKDIR/$datecurr/$TANKSUBDIR
             if [ $PROCSCRIPT != nullexec ] ; then
                cd $TANKDIR/$datecurr/$TANKSUBDIR
-               if [ -s $USHobsproc_satingest/$PROCSCRIPT ] ; then
-                  sh $USHobsproc_satingest/$PROCSCRIPT 
+               if [ -s $USHsatingest/$PROCSCRIPT ] ; then
+                  sh $USHsatingest/$PROCSCRIPT 
                   retcode=$?
                elif [ -s $USERDIR/$PROCSCRIPT ] ; then
                   sh $USERDIR/$PROCSCRIPT $TANKFILE $dateback
@@ -292,7 +292,7 @@ $TANKDIR/$dateback/$TANKSUBDIR to $TANKDIR/$datecurr/$TANKSUBDIR"
                   echo $msg
                   echo
                   [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  postmsg "$jlogfile" "$msg"
                fi
             else
                echo "$dsname_local (for $datecurr) COPIED (from $dateback) AT \
@@ -304,7 +304,7 @@ to $TANKDIR/$datecurr/$TANKSUBDIR"
                echo $msg
                echo
                [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-               $DATA/postmsg "$jlogfile" "$msg"
+               postmsg "$jlogfile" "$msg"
             fi
          fi
       else
@@ -320,7 +320,7 @@ to today, check to see if new file is available for today on remote machine"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
          found=1
       fi
    done
@@ -332,7 +332,7 @@ any previous day --> non-fatal"
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
    fi
 fi
 
@@ -479,4 +479,4 @@ file transfers will proceed."
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
    fi
 fi  
-ksh $USHobsproc_satingest/ingest_process_days.sh $MACHINE
+ksh $USHsatingest/ingest_process_days.sh $MACHINE

@@ -20,12 +20,12 @@
 # 2014-01-17 Diane Stokes/Dennis Keyser - Now includes hostname as well as
 #     process id in temporary filenames where only process id was present
 #     before.  USH script tranjb renamed to bufr_tranjb.sh and moved from
-#     directory path $USHbufr to directory path $USHobsproc_satingest.  Script
+#     directory path $USHbufr to directory path $USHsatingest.  Script
 #     exit code now takes into account a non-zero exit code from any of the
 #     bufr_tranjb.sh executions inside it as well as a non-zero exit code from
 #     its bufr_tranpoessst execution (before it only took into account a non-
 #     zero return code from the latter) - this improves error diagnosis
-#     downstream.  $EXECobsproc_satingest replaces $EXECbufr as the environment
+#     downstream.  $EXECsatingest replaces $EXECbufr as the environment
 #     variable representing the directory path to the executables.  Add check
 #     of variable $SENDCOM to determine whether to send output to $COMOUT.
 #     Added information to docblock and new comments.  Updated some existing
@@ -40,11 +40,11 @@
 #                                 Albedo data file
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/prep_step
-#                : $DATA/postmsg 
-#                : $USHobsproc_satingest/bufr_tranjb.sh
+#     scripts    : prep_step
+#                : postmsg 
+#                : $USHsatingest/bufr_tranjb.sh
 #     data cards : none
-#     executables: $EXECobsproc_satingest/bufr_tranpoessst
+#     executables: $EXECsatingest/bufr_tranpoessst
 #
 # Remarks: Invoked by the ush script ingest_translate_orbits.sh.
 #
@@ -52,9 +52,9 @@
 #      DATA                  - path to current working directory
 #      DEBUGSCRIPTS          - if set to "ON" or "YES", will run with "set -x"
 #                              on (intended for debugging)
-#      USHobsproc_satingest  - path to obsproc_satingest ush directory
+#      USHsatingest  - path to satingest ush directory
 #                              containing bufr_tranjb.sh
-#      EXECobsproc_satingest - path to obsproc_satingest executable directory
+#      EXECsatingest - path to satingest executable directory
 #      TANKDIR               - root of directory path to output BUFR database
 #                              tank file (e.g., "/dcom/us007003")
 #      TANKFILE              - path to directory and tank file in
@@ -99,7 +99,7 @@ pgm=bufr_tranpoessst
 export pgm
 cwd=`pwd`
 cd $DATA
-. $DATA/prep_step
+. prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -156,7 +156,7 @@ else
       lenerror=$len
    fi
    echo $msg  >> $tmperr
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    exit 99
 fi
 
@@ -195,7 +195,7 @@ export FORT73="$DATA/ymd.$dsname.t12z.tmpout.$host.$$"
 export FORT74="$DATA/ymd.$dsname.t18z.tmpout.$host.$$"
 
 echo "$typsubdir $subtypfil $apndstring $ymdh" | \
- $EXECobsproc_satingest/bufr_tranpoessst
+ $EXECsatingest/bufr_tranpoessst
 retcode=$?
 
 if [ $retcode -eq 4 ]; then
@@ -205,7 +205,7 @@ msg="WARNING: BUFR_TRANPOESSST ENCOUNTERED UNKNOWN SATELLITE ID --> non-fatal"
    echo "$msg"
    echo
    set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    retcode=0
 fi
 
@@ -217,7 +217,7 @@ if [ $retcode -eq 0 ] ; then
    echo " --------------------------------------------- "
    set -x
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 
 ## stuff related to physical retrievals deleted ##
 
@@ -240,7 +240,7 @@ if [ $retcode -eq 0 ] ; then
             [[ "$SENDCOM" = YES ]] && \
              cp $DATA/$typsubdir.$subtypfil.$dsname.$cycle.$sat.tmpout.$host.$$\
              $COMOUT
-#           sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
+#           sh $USHsatingest/bufr_tranjb.sh $TANKDIR \
             sh $TRANush $TANKDIR \
              $DATA/$typsubdir.$subtypfil.$dsname.$cycle.$sat.tmpout.$host.$$
             rc=$?
@@ -249,7 +249,7 @@ if [ $retcode -eq 0 ] ; then
                msg="Appending $sat AVHRR data for $adate$cyc cycle to tank \
 $typsubdir/$subtypfil"
                echo $msg
-               $DATA/postmsg "$jlogfile" "$msg"
+               postmsg "$jlogfile" "$msg"
             fi
          fi
       done
@@ -260,7 +260,7 @@ else
    echo "********  ERROR PROGRAM $pgm RETURN CODE $retcode  ********"
    echo "*******************************************************"
    msg="ERROR PROGRAM $pgm RETURN CODE $retcode"
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
 fi
      
 

@@ -80,7 +80,7 @@
 #     housekeeping file containing the list of files on the remote machine file
 #     listing coming out of this run.  This prevents a future run, where
 #     connection is ok in query, from considering these as new or repeat files.
-#     $USHobsproc_satingest replaces $USHbufr as the environment variable
+#     $USHsatingest replaces $USHbufr as the environment variable
 #     representing the directory path to the ush scripts.  Added information to
 #     docblock and new comments.  Updated some existing comments.
 # 2015-11-17  D. Keyser   If environment variable PROC_MULT_FILES is imported
@@ -110,9 +110,9 @@
 #   Script parameters: none
 #
 #   Modules and files referenced:
-#     scripts    : $USHobsproc_satingest/ingest_query.sh
-#                  $USHobsproc_satingest/ingest_process_orbits.sh
-#                  $DATA/postmsg
+#     scripts    : $USHsatingest/ingest_query.sh
+#                  $USHsatingest/ingest_process_orbits.sh
+#                  postmsg
 #     data cards : none
 #     executables: none
 #
@@ -150,7 +150,7 @@
 #                             ($ORBITLIST.oldorbits.$host.$$)
 #      DEBUGSCRIPTS         - if set to "ON" or "YES", will run with "set -x"
 #                             on (intended for debugging)
-#      USHobsproc_satingest - path to obsproc_satingest ush directory
+#      USHsatingest - path to satingest ush directory
 #      MACHINE              - name of remote unix machine to be used in
 #                             transfer requests
 #      IFILES_MAX_GET       - the maximum number of new files on the remote
@@ -260,7 +260,7 @@ while [[ "$firstword" != "" ]] ; do
 #  $DSNFAM.newlist.$host.$$
 #  ---------------------------------------------------------------------------
 
-   ksh $USHobsproc_satingest/ingest_query.sh $MACHINE $DSNFAM.newlist.$host.$$\
+   ksh $USHsatingest/ingest_query.sh $MACHINE $DSNFAM.newlist.$host.$$\
     "$DIRDSNFAM"
    transerror=$?
 
@@ -310,7 +310,7 @@ connection/timeout issue in query - restore them in file-listing history,"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         postmsg "$jlogfile" "$msg"
       else
          > restore.listing_${nfam}.$host.$$
       fi
@@ -429,7 +429,7 @@ since the last run - no further processing is done."
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       rm $ORBITLIST.neworbits.$host.$$
       set +x
       echo
@@ -501,7 +501,7 @@ if [ $num_files -gt $IFILES_MAX_GET ]; then
    echo $msg
    echo
    [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   postmsg "$jlogfile" "$msg"
    mv $ORBITLIST.neworbits.$host.$$ $ORBITLIST.neworbits.$host.$$.full_list
    head --lines=$IFILES_MAX_GET $ORBITLIST.neworbits.$host.$$.full_list > $ORBITLIST.neworbits.$host.$$
    rm $ORBITLIST.neworbits.$host.$$.full_list
@@ -513,7 +513,7 @@ if [ $PROC_MULT_FILES = YES ]; then
       msg="***WARNING: The number of new files for this family, $num_files, \
 exceeds the limit of $IFILES_MAX_MULT - input files will be processed 1 by 1 \
 rather than concatenated"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       export PROC_MULT_FILES=NO
       set +x
       echo
@@ -522,7 +522,7 @@ rather than concatenated"
    elif [ $FTYPE != bufr -a $FTYPE != ncepbufr ]; then
       msg="***WARNING: FTYPE is imported as $FTYPE, it must be bufr or ncepbufr \
 for input files to be concatenated - input files will be processed 1 by 1"
-      $DATA/postmsg "$jlogfile" "$msg"
+      postmsg "$jlogfile" "$msg"
       export PROC_MULT_FILES=NO
       set +x
       echo
@@ -575,10 +575,10 @@ if [ $CONCATCORREL = correlate_families ] ; then
               if(icount==nfamily) print prtline
             }
           }' $ORBITLIST.neworbits.$host.$$ | \
-              ksh $USHobsproc_satingest/ingest_process_orbits.sh 9>> $ORBITLIST
+              ksh $USHsatingest/ingest_process_orbits.sh 9>> $ORBITLIST
    orberror=$?
 elif [ $CONCATCORREL = concatenate_families ] ; then 
-   ksh $USHobsproc_satingest/ingest_process_orbits.sh < \
+   ksh $USHsatingest/ingest_process_orbits.sh < \
     $ORBITLIST.neworbits.$host.$$ 9>> $ORBITLIST
    orberror=$?
 else
