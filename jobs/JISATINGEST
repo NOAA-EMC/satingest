@@ -147,6 +147,7 @@ export EXECobsproc_shared_bufr_cword=$CWORDX
 
 export USHobsproc_shared_bufr_cword=$CWORDush
 
+export TRANJBush=$TRANush
 
 
 # Paths for non-obsproc items
@@ -279,5 +280,3 @@ if [ "${KEEPDATA^^}" != YES ]; then
   rm -rf $DATA
 fi
 date -u
-exit:wq
-

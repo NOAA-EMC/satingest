@@ -58,12 +58,12 @@
 #        existday.sh.ecf since now scheduled by ecFlow.
 # 2014-01-22  Diane Stokes/D. Keyser   Removed all references to script
 #        variables $CNVRT2F77 and $ATTRIBUTES since these are no longer used
-#        now that cnvblk is obsolete.  $USHobsproc_satingest replaces $USHbufr
+#        now that cnvblk is obsolete.  $USHsatingest replaces $USHbufr
 #        as the environment variable representing the directory path to the ush
-#        scripts.  $EXECobsproc_satingest replaces $EXECbufr as the environment
+#        scripts.  $EXECsatingest replaces $EXECbufr as the environment
 #        variable representing the directory path to the executables.  Create
 #        output directories $USERDIR, $TANKDIR and $OUTDIR if they do not
-#        already exist.  Now points to directory path $USHobsproc_satingest
+#        already exist.  Now points to directory path $USHsatingest
 #        rather than directory path $utilscript to execute ingest_qmgr.sh
 #        (moved out of utililty ush location).  Added suffix ".sh" to ush
 #        scripts ingest_check_lapsed_data and ingest_process_onetype_newdays
@@ -92,9 +92,9 @@
 #   Script parameters: None
 #
 #   Modules and files referenced:
-#     scripts    : $USHobsproc_satingest/ingest_qmgr.sh
-#                  $USHobsproc_satingest/ingest_process_onetype_newdays.sh
-#                  $USHobsproc_satingest/ingest_check_lapsed_data.sh
+#     scripts    : $USHsatingest/ingest_qmgr.sh
+#                  $USHsatingest/ingest_process_onetype_newdays.sh
+#                  $USHsatingest/ingest_check_lapsed_data.sh
 #                  $DATA/prep_step
 #                  $DATA/postmsg
 #     data cards : None
@@ -119,17 +119,17 @@
 #
 #   The following script variables are user controllable.  They should be
 #   specified by the user in the script that invokes
-#   $USHobsproc_satingest/ingest_process_onetype_newdays.sh (except where there 
+#   $USHsatingest/ingest_process_onetype_newdays.sh (except where there 
 #   are default values noted).
 #
-#     USHobsproc_satingest : path to obsproc_satingest ush directory.
+#     USHsatingest : path to satingest ush directory.
 #     USERDIR : path to directory containing housekeeping and file-processing
 #       history files.
 #     DATA : path to directory where files from the remote unix machine are to
 #       be put.
 #     TANKDIR : path to directory where files are put for operational use.
 #     OUTDIR : path to directory where output listing is to be put.
-#     EXECobsproc_satingest : path to obsproc_satingest executable directory.
+#     EXECsatingest : path to satingest executable directory.
 #     HISTLENMIN, HISTLENMAX : minimum and maximum length of the file keeping
 #       track of the file-processing history. Each line of the file corresponds
 #       to one file successfully processed.
@@ -210,7 +210,7 @@
 #       user_spec_timedatecurr1, user_spec_timedatecurr2,. . .  (see below).
 #       Defaults to "`date -u '+%Y%m%d %j %w %H%M'" (current UTC time).
 #     MTYPSBT : if set to "YES", the program
-#       $EXECobsproc_satingest/bufr_tranmtypsbt will be executed by the child
+#       $EXECsatingest/bufr_tranmtypsbt will be executed by the child
 #       script ingest_process_days.sh in order to encode the external BUFR
 #       table into the beginning of the statically-named file and to change the
 #       BUFR type and subtype internally in each non- dictionary BUFR message.
@@ -244,7 +244,7 @@
 #
 #       The following environmental variables allow multiple files on the
 #       remote unix machine to be processed with one invocation of
-#       $USHobsproc_satingest/ingest_process_onetype_newdays.sh :
+#       $USHsatingest/ingest_process_onetype_newdays.sh :
 #     
 #     nfiles : The number of files from the remote unix machine that are being
 #       processed.
@@ -252,7 +252,7 @@
 #       In the definitions that follow, the suffixed "n" or "N" means that a
 #       list of variables such as : daysavail1, daysavail2, . . . ,
 #       daysavail$nfiles should be defined for use by the script
-#       $USHobsproc_satingest/ingest_process_onetype_newdays.sh (some values
+#       $USHsatingest/ingest_process_onetype_newdays.sh (some values
 #       below do have default values).
 #
 #     daysavailN : the schedule for the availablity of the file.
@@ -322,7 +322,7 @@
 #       particular file "N", if $user_spec_timedatecurrN does not exist, then
 #       the global default value "$user_spec_timedatecurr" is used (see above).
 #     MTYPSBTn : if set to "YES", the program
-#       $EXECobsproc_satingest/bufr_tranmtypsbt will be executed by the child
+#       $EXECsatingest/bufr_tranmtypsbt will be executed by the child
 #       script ingest_process_days.sh in order to encode the external BUFR
 #       table into the beginning of the statically-named file and to change the
 #       BUFR type and subtype internally in each non- dictionary BUFR message
@@ -344,7 +344,7 @@
 #       dsname, dsname_hist, TANKSUBDIR, TANKFILE, HOURS2ALARM, CRITICAL,
 #       timemade, timetype, user_spec_timedatecurr, MTYPSBT,
 #       wget_network_timeout) and exported for use by the script
-#       $USHobsproc_satingest/ingest_process_onetype_newdays.sh.
+#       $USHsatingest/ingest_process_onetype_newdays.sh.
 #
 # Attributes:
 #   Language: ksh script
@@ -365,7 +365,7 @@ $DATA/postmsg "$jlogfile" "$msg"
 
 ########################################
 
-ksh $USHobsproc_satingest/ingest_qmgr.sh
+ksh $USHsatingest/ingest_qmgr.sh
 errsc=$?
 
 cd $DATA
@@ -482,7 +482,7 @@ while [ $ifiles -lt $nfiles ] ; do
   fi
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  ksh $USHobsproc_satingest/ingest_process_onetype_newdays.sh
+  ksh $USHsatingest/ingest_process_onetype_newdays.sh
   err=$?
 
   echo "error from ingest_process_onetype_newdays.sh is " $err
@@ -490,7 +490,7 @@ while [ $ifiles -lt $nfiles ] ; do
     errsave=$err
   fi
 
-  ksh $USHobsproc_satingest/ingest_check_lapsed_data.sh \
+  ksh $USHsatingest/ingest_check_lapsed_data.sh \
    $USERDIR/$dsname_hist.history
 
 done
