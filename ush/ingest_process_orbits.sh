@@ -190,7 +190,7 @@
 #                  $USHsatingest/ingest_process_orbits_subscript.sh
 #                                                                     (sourced)
 #                  $CWORDush
-#                  postmsg
+#                  $DATA/postmsg
 #     data cards : none
 #     executables: $CWORDX (def: $EXECobsproc_shared_bufr_cword/bufr_cword)
 #                  (invoked by $CWORDush)
@@ -199,7 +199,7 @@
 #     scripts      $UTILROOT/ush/date2jday.sh
 #                  $USHsatingest/ingest_translate_orbits.sh
 #                  $USHsatingest/bufr_tranjb.sh
-#                  postmsg
+#                  $DATA/postmsg
 #     data cards : none
 #     executables: none
 #
@@ -420,7 +420,7 @@ read line
 rc=$?
 if [ $rc -ne 0 ] ; then
    msg="Exiting with rc = 230 - no files submitted for processing --> non-fatal"
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo $msg
@@ -472,7 +472,7 @@ while [ $rc -eq 0 ] ; do
             if [ $itries -gt 1 ]; then
                msg="TRANSFER OF $dsname_full FAILED!!!! - SLEEP 30 SEC AND \
 TRY AGAIN."
-               postmsg "$jlogfile" "$msg"
+               $DATA/postmsg "$jlogfile" "$msg"
                sleep 30
             fi
             ksh $USHsatingest/ingest_get.sh $MACHINE $DATA/$dsname \
@@ -492,7 +492,7 @@ TRY AGAIN."
          echo "$dsname_full RECEIVED AT $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" \
           >> $ORBITLIST.history
             msg="TRANSFER OF $dsname_full successful on try no. ${itries}."
-            postmsg "$jlogfile" "$msg"
+            $DATA/postmsg "$jlogfile" "$msg"
             fdcperr=0
             if [ $UNCOMPRESS_UNIX = YES ] ; then
                dsnuerr=1
@@ -523,7 +523,7 @@ TRY AGAIN."
                   uncerror=$?
                   if [ $uncerror -eq 0 ] ; then
                      msg="UNIX UNCOMPRESS (gunzip) OF $dsname_full successful."
-                     postmsg "$jlogfile" "$msg"
+                     $DATA/postmsg "$jlogfile" "$msg"
                      dsname=$dsname_t
                   fi
                else
@@ -540,7 +540,7 @@ TRY AGAIN."
                      if [ $uncerror -eq 0 ] ; then
                         msg="UNIX UNCOMPRESS (bunzip2) OF $dsname_full \
 successful."
-                        postmsg "$jlogfile" "$msg"
+                        $DATA/postmsg "$jlogfile" "$msg"
                         dsname=$dsname_t
                      fi
                   fi
@@ -549,7 +549,7 @@ successful."
                   msg="UNIX UNCOMPRESS (gunzip or bunzip2) OF $dsname_full \
 UNSUCCESSFUL, original file may just not be compressed but it may also be \
 corrupt so skip processing of this file --> non-fatal"
-                  postmsg "$jlogfile" "$msg"
+                  $DATA/postmsg "$jlogfile" "$msg"
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -579,14 +579,14 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                   err_grep=$?
                   msg=`echo $msg, input file: $dsname_full.`
                   if [ $err_grep -eq 0 ]; then
-                     postmsg "$jlogfile" "$msg"
+                     $DATA/postmsg "$jlogfile" "$msg"
                   fi
                   msg="BUFR_CWORD processing successful for $dsname_full."
-                  postmsg "$jlogfile" "$msg"
+                  $DATA/postmsg "$jlogfile" "$msg"
                else
                   msg="BUFR_CWORD processing UNSUCCESSFUL or INCOMPLETE for \
 $dsname_full, skip processing of this file --> non-fatal"
-                  postmsg "$jlogfile" "$msg"
+                  $DATA/postmsg "$jlogfile" "$msg"
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -604,7 +604,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
             toterr=$(($toterr+$fdcperr))
          else
             msg="TRANSFER OF $dsname_full FAILED AFTER $itries TRIES!!!!"
-            postmsg "$jlogfile" "$msg"
+            $DATA/postmsg "$jlogfile" "$msg"
             noxfercount=$(($noxfercount+1))
             echo "COULD NOT TRANSFER $dsname_full AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -727,22 +727,22 @@ fi
 if [ $noproccount -gt 0 ] ; then
    msg="$noproccount files were unsuccessfully processed --> non-fatal"
    echo $msg
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
 fi
 if [ $noxfercount -gt 0 ] ; then
    msg="$noxfercount files were unsuccessfully transferred --> non-fatal"
    echo $msg
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
 fi
 if [ $unproccount -gt 0 ] ; then
    msg="$unproccount files were declared unprocessable --> non-fatal"
    echo $msg
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
 fi
 if [ $repeatcount -gt 0 ] ; then
    msg="$repeatcount files had been previously processed --> non-fatal"
    echo $msg
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
 fi
 echo
 [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
@@ -750,7 +750,7 @@ echo
 if [ $unxfercount -gt 0 ] ; then
    msg="Exiting with rc = 199 - $unxfercount files were untransferable in last \
 $orbitnotp_max runs of this job --> non-fatal"
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo $msg
@@ -761,7 +761,7 @@ if [ $orbitcount -gt 1 ] ; then
    if [ $orbitcount -eq $repeatcount ] ; then
       msg="Exiting with rc = 222 - all files to be processed were already \
 processed --> non-fatal"
-      postmsg "$jlogfile" "$msg"
+      $DATA/postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg
@@ -776,7 +776,7 @@ were unprocessable --> non-fatal"
          msg="Exiting with rc = 111 - all files to be processed were \
 unprocessable --> non-fatal" 
       fi
-      postmsg "$jlogfile" "$msg"
+      $DATA/postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg

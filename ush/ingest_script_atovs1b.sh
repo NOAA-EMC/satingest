@@ -76,8 +76,8 @@
 #                 $2: raw_file  - full path definition for ATOVS 1B file
 #
 #   Modules and files referenced:
-#     scripts     : prep_step
-#                   postmsg
+#     scripts     : $DATA/prep_step
+#                   $DATA/postmsg
 #                   $USHsatingest/bufr_tranjb.sh
 #     executables : $EXECsatingest/$executable (where $executable is
 #                                                       either bufr_tranamsua,
@@ -342,9 +342,9 @@ ln -sf $FIXsatingest/bufr_lowtopog.dat lowtopog.dat 1>/dev/null 2>&1
 #  -------------------
 
 pgm=$executable
-if [ -s prep_step ]; then
+if [ -s $DATA/prep_step ]; then
   set +u
-  . prep_step
+  $DATA/prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -353,7 +353,7 @@ else
 fi
 
 msg="$pgm has BEGUN"
-postmsg "$jlogfile" "$msg"
+$DATA/postmsg "$jlogfile" "$msg"
 
 export FORT12=$table
 export FORT52=$outfile_52

@@ -70,7 +70,7 @@ echo
 `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> ${ORBITLIST}.${TANKFILE}.history
                   msg="$dsname_full received from remote unix machine and \
 simply copied to $TANKDIR/$TANKFILE/$dsname"
-                  postmsg "$jlogfile" "$msg"
+                  $DATA/postmsg "$jlogfile" "$msg"
                fi
 
             else
@@ -213,7 +213,7 @@ $dsname (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
                          ${ORBITLIST}_copy.history
                         msg="$dsname_full received from remote unix machine, \
 $dsname copied for $yyyymmdd"
-                        postmsg "$jlogfile" "$msg"
+                        $DATA/postmsg "$jlogfile" "$msg"
                      fi
                   else
                      cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
@@ -224,7 +224,7 @@ $TARGETFILE (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
                          $USERDIR/$TARGETFILE.history
                         msg="$dsname_full received from remote unix machine, \
 $TARGETFILE copied for $yyyymmdd"
-                        postmsg "$jlogfile" "$msg"
+                        $DATA/postmsg "$jlogfile" "$msg"
                      fi
                   fi
                fi

@@ -60,7 +60,7 @@
 #
 #   Modules and files referenced:
 #     scripts    : $USHsatingest/ingest_process_days.sh
-#                  postmsg
+#                  $DATA/postmsg
 #                  $USHsatingest/$PROCSCRIPT
 #                  $USERDIR/$PROCSCRIPT
 #     data cards : none
@@ -224,7 +224,7 @@ machine and COPIED file to today"
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      postmsg "$jlogfile" "$msg"
+      $DATA/postmsg "$jlogfile" "$msg"
       found=1
    fi
 
@@ -243,7 +243,7 @@ today"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         postmsg "$jlogfile" "$msg"
+         $DATA/postmsg "$jlogfile" "$msg"
          found=1
       fi
    fi
@@ -292,7 +292,7 @@ $TANKDIR/$dateback/$TANKSUBDIR to $TANKDIR/$datecurr/$TANKSUBDIR"
                   echo $msg
                   echo
                   [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-                  postmsg "$jlogfile" "$msg"
+                  $DATA/postmsg "$jlogfile" "$msg"
                fi
             else
                echo "$dsname_local (for $datecurr) COPIED (from $dateback) AT \
@@ -304,7 +304,7 @@ to $TANKDIR/$datecurr/$TANKSUBDIR"
                echo $msg
                echo
                [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-               postmsg "$jlogfile" "$msg"
+               $DATA/postmsg "$jlogfile" "$msg"
             fi
          fi
       else
@@ -320,7 +320,7 @@ to today, check to see if new file is available for today on remote machine"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         postmsg "$jlogfile" "$msg"
+         $DATA/postmsg "$jlogfile" "$msg"
          found=1
       fi
    done
@@ -332,7 +332,7 @@ any previous day --> non-fatal"
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      postmsg "$jlogfile" "$msg"
+      $DATA/postmsg "$jlogfile" "$msg"
    fi
 fi
 

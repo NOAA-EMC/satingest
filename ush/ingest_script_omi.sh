@@ -43,8 +43,8 @@
 #                                 file
 #
 #   Modules and files referenced:
-#                   prep_step
-#                   postmsg
+#                   $DATA/prep_step
+#                   $DATA/postmsg
 #                   $USHsatingest/bufr_tranjb.sh
 #     executables : $EXECsatingest/bufr_tranomi
 #
@@ -134,9 +134,9 @@ fi
 #  -------------------
 
 pgm=bufr_tranomi
-if [ -s prep_step ]; then
+if [ -s $DATA/prep_step ]; then
   set +u
-  . prep_step
+  $DATA/prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -145,7 +145,7 @@ else
 fi
 
 msg="$pgm has BEGUN"
-postmsg "$jlogfile" "$msg"
+$DATA/postmsg "$jlogfile" "$msg"
 
 export FORT31=$table
 export FORT51=$DATA/omi_bufr.$host.$$

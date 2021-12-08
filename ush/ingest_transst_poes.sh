@@ -40,8 +40,8 @@
 #                                 Albedo data file
 #
 #   Modules and files referenced:
-#     scripts    : prep_step
-#                : postmsg 
+#     scripts    : $DATA/prep_step
+#                : $DATA/postmsg 
 #                : $USHsatingest/bufr_tranjb.sh
 #     data cards : none
 #     executables: $EXECsatingest/bufr_tranpoessst
@@ -99,7 +99,7 @@ pgm=bufr_tranpoessst
 export pgm
 cwd=`pwd`
 cd $DATA
-. prep_step
+$DATA/prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -156,7 +156,7 @@ else
       lenerror=$len
    fi
    echo $msg  >> $tmperr
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
    exit 99
 fi
 
@@ -205,7 +205,7 @@ msg="WARNING: BUFR_TRANPOESSST ENCOUNTERED UNKNOWN SATELLITE ID --> non-fatal"
    echo "$msg"
    echo
    set -x
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
    retcode=0
 fi
 
@@ -217,7 +217,7 @@ if [ $retcode -eq 0 ] ; then
    echo " --------------------------------------------- "
    set -x
    msg="$pgm completed normally"
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
 
 ## stuff related to physical retrievals deleted ##
 
@@ -249,7 +249,7 @@ if [ $retcode -eq 0 ] ; then
                msg="Appending $sat AVHRR data for $adate$cyc cycle to tank \
 $typsubdir/$subtypfil"
                echo $msg
-               postmsg "$jlogfile" "$msg"
+               $DATA/postmsg "$jlogfile" "$msg"
             fi
          fi
       done
@@ -260,7 +260,7 @@ else
    echo "********  ERROR PROGRAM $pgm RETURN CODE $retcode  ********"
    echo "*******************************************************"
    msg="ERROR PROGRAM $pgm RETURN CODE $retcode"
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
 fi
      
 

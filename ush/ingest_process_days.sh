@@ -74,8 +74,8 @@
 #
 #   Modules and files referenced:
 #     scripts    : $USHsatingest/ingest_get.sh
-#                  postmsg
-#                  prep_step
+#                  $DATA/postmsg
+#                  $DATA/prep_step
 #                  $USHsatingest/$PROCSCRIPT
 #                  $USERDIR/$PROCSCRIPT
 #     data cards : none
@@ -199,7 +199,7 @@ if [ $dsnfound -eq 0 ] ; then
    while [ $transerror -gt 0 -a $itries -le $itries_max ]; do
       if [ $itries -gt 1 ]; then
          msg="TRANSFER OF $dsname FAILED!!!! - SLEEP 30 SEC AND TRY AGAIN."
-         postmsg "$jlogfile" "$msg"
+         $DATA/postmsg "$jlogfile" "$msg"
          sleep 30
       fi
       ksh $USHsatingest/ingest_get.sh $MACHINE $dsname_local "$newday"\
@@ -218,7 +218,7 @@ if [ $dsnfound -eq 0 ] ; then
    if [ $transerror -ne 0 ] ; then
       msg="Exiting with rc = $transerror - TRANSFER OF $dsname FAILED AFTER \
 $itries TRIES!!!!"
-      postmsg "$jlogfile" "$msg"
+      $DATA/postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg
@@ -227,7 +227,7 @@ $itries TRIES!!!!"
       exit $transerror
    fi
    msg="TRANSFER OF $dsname successful on try no. ${itries}."
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
    mv $dsname_local ${dsname_local}_temp
    if [ $MTYPSBT = YES ] ; then
 #==============================================================================
@@ -267,15 +267,15 @@ $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
       export FORT11="${dsname_local}_temp"
       pgm=bufr_tranmtypsbt
       msg="$pgm has BEGUN"
-      postmsg "$jlogfile" "$msg"
+      $DATA/postmsg "$jlogfile" "$msg"
       set +u
 
-#  Note - must use "prep_step" here not ". prep_step" because the
+#  Note - must use "$DATA/prep_step" here not ". prep_step" because the
 #         latter would unset the FORT* variables that have previously been
 #         been set.  These may still be used in subsequent programs in this
 #         script.
-#######   . prep_step
-      prep_step
+#######   $DATA/prep_step
+      $DATA/prep_step
       set -u
       export FORT51="$dsname_local"
       $EXECsatingest/bufr_tranmtypsbt >> $tmpout 2>&1
@@ -313,7 +313,7 @@ $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
          rm ${dsname_local}_temp
       else
          msg="Exiting with rc = $ier - BUFR_TRANMTYPSBT FAILED"
-         postmsg "$jlogfile" "$msg"
+         $DATA/postmsg "$jlogfile" "$msg"
          set +x
          echo
          echo $msg
@@ -370,14 +370,14 @@ $TANKDIR/$datecurr/$TANKSUBDIR directory"
       msg="$dsname copied from remote unix machine to \
 $TANKDIR/$datecurr/$TANKSUBDIR/$TANKFILE"
    fi
-   postmsg "$jlogfile" "$msg"
+   $DATA/postmsg "$jlogfile" "$msg"
    if [ $COPYFORWARD = YES -a $timecurr -lt $timemade ] ; then
       cp $TANKFILE $TANKDIR/$datenext/$TANKSUBDIR
       if [ $PROCSCRIPT = nullexec ] ; then
          echo "$dsname (for $datenext) COPIED AGAIN (from $dateback) AT \
 `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> $USERDIR/${dsname_hist}.history
          msg="$dsname copied again to $TANKDIR/$datenext/$TANKSUBDIR/$TANKFILE"
-         postmsg "$jlogfile" "$msg"
+         $DATA/postmsg "$jlogfile" "$msg"
       fi
    fi
 fi

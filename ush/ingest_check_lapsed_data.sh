@@ -80,7 +80,7 @@
 #                                    file
 #
 #   Modules and files referenced:
-#     scripts    : postmsg
+#     scripts    : $DATA/postmsg
 #     data cards : none
 #     executables: $NHOUR
 #
@@ -310,13 +310,13 @@ if [ -s $1 ] ; then
          done
          if [ $hourwait -gt $hourlimit ] ; then
             if [ $RECPRO = PROCESSED ] ; then
-               postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
+               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
 data from $fname processed in the last $hourwait hrs."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
             elif [ $RECPRO = RECEIVED ] ; then
-               postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
+               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
 data from $fname received in the last $hourwait hrs."
              echo "No new files received for $hourwait hours for $ftype $fname."
              echo "No new files received for $hourwait hours for $ftype $fname."
@@ -331,10 +331,10 @@ data from $fname received in the last $hourwait hrs."
             fi
          else
             if [ $RECPRO = PROCESSED ] ; then
-               postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
+               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
 from $fname processed in the last $hourwait hrs."
             elif [ $RECPRO = RECEIVED ] ; then
-               postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
+               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
 from $fname received in the last $hourwait hrs."
             fi
             if [ $SENDBB = 'YES' ]; then
@@ -349,7 +349,7 @@ from $fname received in the last $hourwait hrs."
            "$fname" != snowdepth.grb ] ; then
          oldest_date=`grep " AT " $1 | grep "$fname_grep3$blank" | head -n1 | \
           awk -F" AT " '{print $2}' | cat`
-         postmsg "$jlogfile" "REMOTE INGEST: No data from $fname \
+         $DATA/postmsg "$jlogfile" "REMOTE INGEST: No data from $fname \
 received since before ${oldest_date}."
       fi
    fi

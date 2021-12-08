@@ -67,7 +67,7 @@ for SAT in n19 mta n18; do
         if [ $num_fail -gt 0 ]; then
           if [ $num_fail -gt $max_failedsplit ]; then
             msg="SKIP $bfile.  DESIGNATED UNPROCESSABLE AFTER $num_fail ATTEMPT(s)."
-            postmsg "$jlogfile" "$msg"
+            $DATA/postmsg "$jlogfile" "$msg"
             continue
           else
             echo "Give $bfile another go despite $num_fail failed attempt(s)."
@@ -94,7 +94,7 @@ for SAT in n19 mta n18; do
       done
       export pgmout=stdout
       pgm=bufr_cycsplit
-      . prep_step
+      $DATA/prep_step
       export FORT20=$bfile
 set +x
 echo ""
@@ -111,7 +111,7 @@ set -x
         echo "$bfile DONE $(date) " >> bundled.$SAT.I$IDATE.tmplist
       else
         msg="ERROR PROGRAM $pgm RETURN CODE $retcode. Continue..."
-        postmsg "$jlogfile" "$msg"
+        $DATA/postmsg "$jlogfile" "$msg"
         echo "$bfile $(date) COULD NOT PROCESS" >> bundled.$SAT.I$IDATE.tmplist
         echo "Recover any temp bufr files from backups and continue."
         for tbfile in NC012012.??????????.bufr; do
