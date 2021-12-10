@@ -65,43 +65,43 @@
 #     bash). This script is now set to run under ksh shell as the default.
 # 2014-01-21  Diane Stokes/D. Keyser  Renamed to add suffix .sh qualifier.  Now
 #     includes hostname as well as process id in temporary filenames where only
-#     process id was present before.  $EXECsatingest replaces $EXECbufr
+#     process id was present before.  $EXECobsproc_satingest replaces $EXECbufr
 #     as the environment variable representing the directory path to the
-#     executables.  $FIXsatingest replaces $FIXbufr as the environment
+#     executables.  $FIXobsproc_satingest replaces $FIXbufr as the environment
 #     variable representing the directory path to the fixed files (does not
 #     apply to bufrtab.XXX files which are still looked for in $FIXbufr).
-#     $PARMsatingest replaces $PARMbufr as the environment variable
+#     $PARMobsproc_satingest replaces $PARMbufr as the environment variable
 #     representing the directory path to the fixed files.  USH script tranjb
 #     renamed to bufr_tranjb.sh and moved from directory path $USHbufr to
-#     directory path $USHsatingest.  Removed logic in "foreign" input
+#     directory path $USHobsproc_satingest.  Removed logic in "foreign" input
 #     BUFR file processing which pointed to a foreign BUFR table in $TABLEDIR
 #     (= $FIXbufr) as a first choice with $PARMbufr as a second choice (if
 #     foreign BUFR table not found in $TABLEDIR), and instead now points only
-#     to directory path $FIXsatingest to obtain this file (foreign BUFR
+#     to directory path $FIXobsproc_satingest to obtain this file (foreign BUFR
 #     table files will no longer ever reside in a parm directory, only in a fix
 #     directory).  NCEP BUFR tables bufrtab.XXX are now first looked for in
-#     directory path $FIXsatingest rather than in directory path
+#     directory path $FIXobsproc_satingest rather than in directory path
 #     $TABLEDIR, and if they are not found there they are looked for in
 #     directory path $FIXbufr (which is now defined simply as the path to non-
 #     obsproc fix directory).  $TABLEDIR is no longer referenced in this script
 #     ($FIXbufr and $TABLEDIR were always exported with the same value before).
 #     First choice for looking for scripts to execute is now directory path
-#     $USHsatingest, with last resort now being $USHbufr.  Before,
+#     $USHobsproc_satingest, with last resort now being $USHbufr.  Before,
 #     first choice was $USHbufr.  Logic added to do special processing if
 #     NCO/SIB script ingest_cloud_NASA.sh is being executed: switches priority
 #     for looking for bufrtab.012 in both ingest_cloud_NASA.sh and bufr_tranjb
 #     to $FIXbufr path (latter accomplished by exporting $RUN_TYPE as 'decoder'
 #     rather than as 'satingest'); forces newer versions of
 #     $USHbufr/ingest_cloud_NASA.sh to execute
-#     $USHsatingest/bufr_tranjb.sh, and forces older versions of
+#     $USHobsproc_satingest/bufr_tranjb.sh, and forces older versions of
 #     $USHbufr/ingest_cloud_NASA.sh to execute
-#     $EXECsatingest/bufr_tranjb (even though older versions of
+#     $EXECobsproc_satingest/bufr_tranjb (even though older versions of
 #     ingest_cloud_NASA.sh are hardwired to execute parent script as
 #     $USHbufr/tranjb; the script ingest_cloud_NASA.sh will be found in the
 #     last resort directory path $USHbufr since it is under NCO/SIB control.
 #     All references to "GMT" changed to "UTC".  Progam bufr_transsmi now reads
 #     land-sea tags (from unit 33) from location
-#     $FIXsatingest/nesdis.lstags_transsmi rather than from location
+#     $FIXobsproc_satingest/nesdis.lstags_transsmi rather than from location
 #     $utilparm/nesdis.lstags.  The content is not changed.  Removed reference
 #     to unit 38 in program bufr_tranavhrr as this file
 #     (sst2dvar_aoi.61.90.clim.halfdeg, sea-surface temperature climatology on
@@ -149,36 +149,36 @@
 #   Script parameters: none
 #
 #   Modules and files referenced:
-#     scripts    : $USHsatingest/bufr_tranjb.sh
+#     scripts    : $USHobsproc_satingest/bufr_tranjb.sh
 #                  $DATA/postmsg
 #                  $DATA/prep_step
 #                  $UTILROOT/ush/finddate.sh
-#                  $USHsatingest/$EXECUTE
+#                  $USHobsproc_satingest/$EXECUTE
 #                                (ush script to perform translation - executed
 #                                 only if program
-#                                 $EXECsatingest/$EXECUTE not found)
+#                                 $EXECobsproc_satingest/$EXECUTE not found)
 #                  $USERDIR/$EXECUTE
 #                                (ush script to perform translation - executed
 #                                 only if program
-#                                 $EXECsatingest/$EXECUTE and ush
-#                                 script $USHsatingest/$EXECUTE not
+#                                 $EXECobsproc_satingest/$EXECUTE and ush
+#                                 script $USHobsproc_satingest/$EXECUTE not
 #                                 found and $USERDIR/$EXECUTE is a ush script
 #                                 and not a program)
 #                  $USHbufr/$EXECUTE
 #                                {ush script to perform translation - executed
 #                                 only if program
-#                                 $EXECsatingest/$EXECUTE, ush script
-#                                 $USHsatingest/$EXECUTE and ush script
+#                                 $EXECobsproc_satingest/$EXECUTE, ush script
+#                                 $USHobsproc_satingest/$EXECUTE and ush script
 #                                 or program $USERDIR/$EXECUTE -ALL- not found
 #                                 (e.g., ingest_cloud_NASA.sh)}
 #     data cards : none
-#     executables: $EXECsatingest/$EXECUTE
+#     executables: $EXECobsproc_satingest/$EXECUTE
 #                                (program to perform translation)
 #                  $USERDIR/$EXECUTE
 #                                (program to perform translation - executed
 #                                 only if program
-#                                 $EXECsatingest/$EXECUTE and ush
-#                                 script $USHsatingest/$EXECUTE not
+#                                 $EXECobsproc_satingest/$EXECUTE and ush
+#                                 script $USHobsproc_satingest/$EXECUTE not
 #                                 found and $USERDIR/$EXECUTE is a program and
 #                                 not a ush script)
 #                  $GRBINDEX 
@@ -191,31 +191,31 @@
 #      jlogfile              - path to joblog file
 #      DEBUGSCRIPTS          - if set to "ON" or "YES", will run with "set -x"
 #                              on (intended for debugging)
-#      EXECsatingest - path to satingest executable directory
+#      EXECobsproc_satingest - path to obsproc_satingest executable directory
 #                              possibly containing $EXECUTE (as a program)
-#      USHsatingest  - path to satingest ush directory
+#      USHobsproc_satingest  - path to obsproc_satingest ush directory
 #                              containing bufr_tranjb.sh and possibly
 #                              containing $EXECUTE (as a script) if it is not
-#                              found in as a program in $EXECsatingest
-#      FIXsatingest  - path to satingest fix directory; first
+#                              found in as a program in $EXECobsproc_satingest
+#      FIXobsproc_satingest  - path to obsproc_satingest fix directory; first
 #                              choice to path to directory containing BUFR
 #                              mnemonic table files bufrtab.XXX; path to
 #                              directory containing "foreign" BUFR mnemonic
 #                              table 
 #      USERDIR               - path to directory possibily containing $EXECUTE
 #                              (as a script or a program) if it is not found
-#                              either as a program in $EXECsatingest or
-#                              as a script in $USHsatingest
+#                              either as a program in $EXECobsproc_satingest or
+#                              as a script in $USHobsproc_satingest
 #      OUTDIR                - path to directory containing output listing
 #                              (usually same as $TANKDIR)
-#      BUFRTABLE             - the file in either $FIXsatingest or
+#      BUFRTABLE             - the file in either $FIXobsproc_satingest or
 #                              $FIXbufr holding the BUFR mnemonic table which
 #                              controls the creation of BUFR messages to be
 #                              added to the tank file
 #                              (Note: if imported as either 'none', 'nulltable'
 #                                     or 'nobufrtable' then there is no BUFR
 #                                     mnemonic table)
-#      FORGNTABLE            - the file in $FIXsatingest holding the
+#      FORGNTABLE            - the file in $FIXobsproc_satingest holding the
 #                              BUFR mnemonic table which controls the reading
 #                              of "foreign" BUFR messages
 #      TANKFILE              - path to directory and tank file in
@@ -237,15 +237,15 @@
 #      USHbufr               - path to non-obsproc ush directory possibly
 #                              containing $EXECUTE (as a script) if it is not
 #                              found either as a program in
-#                              $EXECsatingest, as a script in
-#                              $USHsatingest, or as a script or a
+#                              $EXECobsproc_satingest, as a script in
+#                              $USHobsproc_satingest, or as a script or a
 #                              program in $USERDIR (e.g., ingest_cloud_NASA.sh)
 #                              (invoked only conditions above occur)
 #      FIXbufr               - path to non-obsproc fix directory, here second
 #                              choice to path to directory containing BUFR
 #                               mnemonic table files bufrtab.XXX
 #                              (invoked only if first choice path,
-#                              $FIXsatingest, does not yield table;
+#                              $FIXobsproc_satingest, does not yield table;
 #                              does not have to be passed in if BUFRTABLE is
 #                              imported as either 'none', 'nulltable' or
 #                              'nobufrtable')
@@ -266,8 +266,8 @@
 #                   195 - directory $DATA does not exist
 #                   196 - directory $TANKDIR does not exist
 #                   198 - input file $DATA/$dsname does not exist
-#                   244 - Neither $EXECsatingest/$EXECUTE nor
-#                         $USHsatingest/$EXECUTE nor $USERDIR/$EXECUTE
+#                   244 - Neither $EXECobsproc_satingest/$EXECUTE nor
+#                         $USHobsproc_satingest/$EXECUTE nor $USERDIR/$EXECUTE
 #                         nor $USHbufr/$EXECUTE exists
 #
 # Attributes:
@@ -309,8 +309,8 @@ if [ ! -d $TANKDIR ] ; then
 fi
 cd $TANKDIR
 
-if [ -s $EXECsatingest/$EXECUTE ] ; then
-   texec=$EXECsatingest/$EXECUTE
+if [ -s $EXECobsproc_satingest/$EXECUTE ] ; then
+   texec=$EXECobsproc_satingest/$EXECUTE
    outname=${EXECUTE}
    EXECTYPE=executable
    set +x
@@ -323,8 +323,8 @@ translation."
 ------------------------------------------------------------------"
    echo
    set -x
-elif [ -s $USHsatingest/$EXECUTE ] ; then
-   texec=$USHsatingest/$EXECUTE
+elif [ -s $USHobsproc_satingest/$EXECUTE ] ; then
+   texec=$USHobsproc_satingest/$EXECUTE
    outname=${EXECUTE%%.sh}
    EXECTYPE=script
    set +x
@@ -396,11 +396,11 @@ fi
 outfile=$OUTDIR/$outname.out; tmpout=$DATA/$outname.tempout.$host.$$
 file=$DATA/$dsname
 
-# 1st choice path to BUFR table is $FIXsatingest, 2nd choice is FIXbufr
+# 1st choice path to BUFR table is $FIXobsproc_satingest, 2nd choice is FIXbufr
 # -----------------------------------------------------------------------------
 if [ $BUFRTABLE != none -a $BUFRTABLE != nulltable -a \
      $BUFRTABLE != nobufrtable ] ; then
-   table=$FIXsatingest/$BUFRTABLE
+   table=$FIXobsproc_satingest/$BUFRTABLE
    [ ! -s $table ]  &&  table=$FIXbufr/$BUFRTABLE
 else
    table=/dev/null
@@ -408,7 +408,7 @@ fi
 
 if [ $FORGNTABLE != none -a $FORGNTABLE != nulltable -a \
      $FORGNTABLE != noforgntable ] ; then
-   forgntable=$FIXsatingest/$FORGNTABLE
+   forgntable=$FIXobsproc_satingest/$FORGNTABLE
 else
    forgntable=/dev/null
 fi
@@ -604,11 +604,11 @@ if [ $EXECTYPE = executable ] ; then
    pgm=$EXECUTE
    cd $DATA
    set +u
-#  Note - must use "$DATA/prep_step" here not ". prep_step" because the
+#  Note - must use "$DATA/prep_step" here not ". $DATA/prep_step" because the
 #         latter would unset the FORT* variables that have previously been
 #         been set.  These may still be used in subsequent programs in this
 #         script.
-#######   $DATA/prep_step
+#######   . $DATA/prep_step
    $DATA/prep_step
    set -u
    cd $TANKDIR
@@ -661,7 +661,7 @@ if [ $EXECTYPE = executable ] ; then
          else
             export FORT31="$DATA/sstgrb"
             export FORT32="$DATA/sstgrb.index"
-            export FORT33="$FIXsatingest/nesdis.lstags_transsmi"
+            export FORT33="$FIXobsproc_satingest/nesdis.lstags_transsmi"
             export FORT52=\
 "$DATA/$typsubdir.second_tranjb_file.$dsname.tmpout.$host.$$"
             stdin="$typsubdir $subtypfil $apndstring $ymdh \nNOTIMLIM \
@@ -690,7 +690,7 @@ if [ $EXECTYPE = executable ] ; then
       else
          subtypfil_p1=xx054
       fi
-      export FORT37="$FIXsatingest/lnd_sea_mask_dat"
+      export FORT37="$FIXobsproc_satingest/lnd_sea_mask_dat"
       export FORT52=\
 "$DATA/$typsubdir.second_tranjb_file.$dsname.tmpout.$host.$$"
       stdin="$typsubdir $subtypfil $apndstring $ymdh \nNOTIMLIM \
@@ -711,7 +711,7 @@ if [ $EXECTYPE = executable ] ; then
          [ $EXECUTE = "bufr_trantmi" ]  &&  rm -f tmi.hdf
          give_rc="YES"
          cword="no"
-#        ksh $USHsatingest/bufr_tranjb.sh $TANKDIR \
+#        ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
          ksh $TRANush $TANKDIR \
           $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$
          ier=$?
@@ -723,7 +723,7 @@ if [ $EXECTYPE = executable ] ; then
 #   (first BUFR_TRANJB run ingests sea and clear data)
 #  ------------------------------------------------------------------
 
-#           ksh $USHsatingest/bufr_tranjb.sh $TANKDIR \
+#           ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
             ksh $TRANush $TANKDIR \
 $DATA/$typsubdir.second_tranjb_file.$dsname.tmpout.$host.$$
             rc2=$?
@@ -748,7 +748,7 @@ else
 #  (which should be set in parent job script JIGOES_RADSND)
 
 #    - this processing should obtain bufrtab.012 for use by DECOD_DCNCLD
-#      from $FIXbufr as a first choice (with $FIXsatingest as a
+#      from $FIXbufr as a first choice (with $FIXobsproc_satingest as a
 #      second choice if bufrtab.012 not found in $FIXbufr) since message type
 #      NC012150 is under NCO/SIB control
 #      ==> $FIXbufr may now be exported from parent job script JIGOES_RADSND
@@ -768,32 +768,32 @@ else
          [ ! -d $FIXbufr ] && export FIXbufr=/nwprod/fix # remove when bufrtab's no longer in this directory
       fi
       export table=$FIXbufr/$BUFRTABLE
-      [ ! -s $table ]  &&  export table=$FIXsatingest/$BUFRTABLE
+      [ ! -s $table ]  &&  export table=$FIXobsproc_satingest/$BUFRTABLE
 
 #    - newer versions of ingest_cloud_NASA.sh: currently execute
-#      $USHbufr/tranjb (rather than $USHsatingest/bufr_tranjb.sh)
+#      $USHbufr/tranjb (rather than $USHobsproc_satingest/bufr_tranjb.sh)
 #      unless overidden by $TRANJBush, so export $TRANJBush as
-#      $USHsatingest/bufr_tranjb.sh here (this will in turn execute
-#      program $EXECsatingest/bufr_tranjb) (allows the
-#      satingest version of ush script bufr_tranjb.sh and program
+#      $USHobsproc_satingest/bufr_tranjb.sh here (this will in turn execute
+#      program $EXECobsproc_satingest/bufr_tranjb) (allows the
+#      obsproc_satingest version of ush script bufr_tranjb.sh and program
 #      bufr_tranjb to be executed here)
 #    - older versions of ingest_cloud_NASA.sh: execute $USHbufr/tranjb (rather
-#      than $USHsatingest/bufr_tranjb.sh) and $USHbufr/tranjb, in turn,
+#      than $USHobsproc_satingest/bufr_tranjb.sh) and $USHbufr/tranjb, in turn,
 #      will execute the program $EXECbufr/bufr_tranjb unless overidden by
-#      $TRANX (unlike $USHsatingest/bufr_tranjb.sh which executes the
-#      program $EXECsatingest/bufr_tranjb unless also overridden by
+#      $TRANX (unlike $USHobsproc_satingest/bufr_tranjb.sh which executes the
+#      program $EXECobsproc_satingest/bufr_tranjb unless also overridden by
 #      $TRANX), so, override this in $USHbufr/tranjb by exporting TRANX to be
-#      $EXECsatingest/bufr_tranjb (at least the satingest
+#      $EXECobsproc_satingest/bufr_tranjb (at least the obsproc_satingest
 #      version of the bufr_tranjb program can be executed here)
 
-#       export TRANJBush=$USHsatingest/bufr_tranjb.sh
+#       export TRANJBush=$USHobsproc_satingest/bufr_tranjb.sh
 #        -- below only needed for older versions of ingest_cloud_NASA.sh but
 #           won't hurt anything to add it for newer versions too
-#       export TRANX=$EXECsatingest/bufr_tranjb
+#       export TRANX=$EXECobsproc_satingest/bufr_tranjb
 
 #    - export RUN_TYPE as 'decoder' so program bufr_tranjb will likewise obtain
 #      bufrtab.012 from $FIXbufr as a first choice (with
-#      $FIXsatingest as a second choice if bufrtab.012 not found in
+#      $FIXobsproc_satingest as a second choice if bufrtab.012 not found in
 #      $FIXbufr) since message type NC012150 is under NCO/SIB control
 
       export RUN_TYPE=decoder

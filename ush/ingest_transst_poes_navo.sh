@@ -32,9 +32,9 @@
 #   Modules and files referenced:
 #     scripts    : $DATA/prep_step
 #                : $DATA/postmsg 
-#                : $USHsatingest/bufr_tranjb.sh
+#                : $USHobsproc_satingest/bufr_tranjb.sh
 #     data cards : unit 15, namelist with satellite info
-#     executables: $EXECsatingest/bufr_tranpoessst_navo
+#     executables: $EXECobsproc_satingest/bufr_tranpoessst_navo
 #
 # Remarks: Invoked by the ush script ingest_translate_orbits.sh.
 #
@@ -42,9 +42,9 @@
 #      DATA                  - path to current working directory
 #      DEBUGSCRIPTS          - if set to "ON" or "YES", will run with "set -x"
 #                              on (intended for debugging)
-#      USHsatingest  - path to satingest ush directory
+#      USHobsproc_satingest  - path to obsproc_satingest ush directory
 #                              containing bufr_tranjb.sh
-#      EXECsatingest - path to satingest executable directory
+#      EXECobsproc_satingest - path to obsproc_satingest executable directory
 #      TANKDIR               - root of directory path to output BUFR database
 #                              tank file (e.g., "/dcom/us007003")
 #      TANKFILE              - path to directory and tank file in
@@ -89,7 +89,7 @@ pgm=bufr_tranpoessst_navo
 export pgm
 cwd=`pwd`
 cd $DATA
-$DATA/prep_step
+. $DATA/prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -177,7 +177,7 @@ export FORT51="$DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$"
 export FORT71="$DATA/timwin.$dsname.tmpout.$host.$$"
 
 echo "$typsubdir $subtypfil $apndstring $ymdh" | \
- $EXECsatingest/bufr_tranpoessst_navo
+ $EXECobsproc_satingest/bufr_tranpoessst_navo
 retcode=$?
 
 if [ $retcode -eq 4 ]; then
@@ -208,7 +208,7 @@ if [ $retcode -eq 0 ] ; then
      [[ "$SENDCOM" = YES ]] && \
         cp $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$\
           $COMOUT
-#    sh $USHsatingest/bufr_tranjb.sh $TANKDIR \
+#    sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
      sh $TRANush $TANKDIR \
         $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$
      rc=$?

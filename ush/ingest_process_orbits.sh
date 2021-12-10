@@ -69,9 +69,9 @@
 #     and moved from directory path USHbufr to directory path
 #     USHobsproc_shared_bufr_cword.  USH script tranjb renamed to
 #     bufr_tranjb.sh and moved from directory path USHbufr to directory path
-#     USHsatingest.  Removed all references to script variables
+#     USHobsproc_satingest.  Removed all references to script variables
 #     CNVRT2F77 and ATTRIBUTES and logic which executed cnvblk since latter
-#     is now obsolete.  USHsatingest replaces USHbufr as the
+#     is now obsolete.  USHobsproc_satingest replaces USHbufr as the
 #     environment variable representing the directory path to the ush scripts.
 #     Added information to docblock and new comments.  Updated some existing
 #     comments.
@@ -186,8 +186,8 @@
 #   Script parameters: none
 #
 #   Modules and files referenced by this script:
-#     scripts    : $USHsatingest/ingest_get.sh
-#                  $USHsatingest/ingest_process_orbits_subscript.sh
+#     scripts    : $USHobsproc_satingest/ingest_get.sh
+#                  $USHobsproc_satingest/ingest_process_orbits_subscript.sh
 #                                                                     (sourced)
 #                  $CWORDush
 #                  $DATA/postmsg
@@ -197,8 +197,8 @@
 #   Modules and files referenced by sourced script
 #   ingest_process_orbits_subscript.sh:
 #     scripts      $UTILROOT/ush/date2jday.sh
-#                  $USHsatingest/ingest_translate_orbits.sh
-#                  $USHsatingest/bufr_tranjb.sh
+#                  $USHobsproc_satingest/ingest_translate_orbits.sh
+#                  $USHobsproc_satingest/bufr_tranjb.sh
 #                  $DATA/postmsg
 #     data cards : none
 #     executables: none
@@ -231,7 +231,7 @@
 #                             script ingest_translate_orbits.sh is executed
 #                             (it will invoke $EXECUTE), in the latter case
 #                             $EXECUTE is always ush script
-#                             $USHsatingest/bufr_tranjb.sh and it will
+#                             $USHobsproc_satingest/bufr_tranjb.sh and it will
 #                             be invoked here;
 #                             an exception occurs when $EXECUTE is imported as
 #                             "copy_to_target" in which case a file is just
@@ -298,7 +298,7 @@
 #                                (invoked only when $EXECUTE is imported as
 #                                 "copy_to_target")
 #                                (see EXECUTE, TANKDIR and TANKFILE above)
-#      USHsatingest - path to satingest ush directory
+#      USHobsproc_satingest - path to obsproc_satingest ush directory
 #      utilscript           - path to utility ush script directory containing
 #                             date2jday.sh
 #      ITRIES_MAX_GET       - the maximum number of failed attempts to transfer
@@ -317,23 +317,23 @@
 #                                             1) executing any translation
 #                                                programs or scripts which
 #                                                themselves execute
-#                                                $USHsatingest/bufr_tranjb.sh
+#                                                $USHobsproc_satingest/bufr_tranjb.sh
 #                                                after all other processing is
 #                                                complete
 #                                                     -- or --
 #                                             2) executing
-#                                                $USHsatingest/bufr_tranjb.sh
+#                                                $USHobsproc_satingest/bufr_tranjb.sh
 #                                                without any prior execution of
 #                                                translation programs or
 #                                                scripts
 #                                           Note: In this case $CWORDSH is
 #                                                 NEVER executed inside
-#                                                 $USHsatingest/bufr_tranjb.sh.
+#                                                 $USHobsproc_satingest/bufr_tranjb.sh.
 #                                ncepbufr - execute $CWORDush to unblock file
 #                                           and strip off any extraneous
 #                                           characters from BUFR messages
 #                                           within execution of
-#                                           $USHsatingest/bufr_tranjb.sh
+#                                           $USHobsproc_satingest/bufr_tranjb.sh
 #                                           Note: This should only be set if
 #                                                 EXECUTE is exported as
 #                                                 bufr_tranjb.sh (i.e., there
@@ -475,7 +475,7 @@ TRY AGAIN."
                $DATA/postmsg "$jlogfile" "$msg"
                sleep 30
             fi
-            ksh $USHsatingest/ingest_get.sh $MACHINE $DATA/$dsname \
+            ksh $USHobsproc_satingest/ingest_get.sh $MACHINE $DATA/$dsname \
              "$neworbit" 2>&1
             transerror=$?
             itries=`expr $itries + 1`
@@ -640,7 +640,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
 
    if [ $PROC_MULT_FILES != YES ]; then
       [ $toterr -eq 0 ] && \
-       . $USHsatingest/ingest_process_orbits_subscript.sh
+       . $USHobsproc_satingest/ingest_process_orbits_subscript.sh
    else
       if [ $toterr -eq 0 ]; then
          echo $FILEINFO >> $DATA/orbitlist_path_cat
@@ -659,7 +659,7 @@ if [ $PROC_MULT_FILES = YES ]; then
    dsnamelist=dsname_cat
    toterr=$toterr_mult_files
    [ $toterr -eq 0 ] && \
-    . $USHsatingest/ingest_process_orbits_subscript.sh
+    . $USHobsproc_satingest/ingest_process_orbits_subscript.sh
 fi
 
 if [ -s $ORBITLIST.history ] ; then

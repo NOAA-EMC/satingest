@@ -1,4 +1,4 @@
-#!/bin/ksh
+
 ##########################################################################
 # THIS SCRIPT IS SOURCED BY USH SCRIPT ingest_process_orbits.sh
 #  this allows all variables exported from this script to be used
@@ -240,11 +240,11 @@ $TARGETFILE copied for $yyyymmdd"
          else
             cword="no"
          fi
-#        ksh $USHsatingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
+#        ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
          ksh $TRANush $TANKDIR $DATA/$dsname 
          bufrerror=$?
       else
-         ksh $USHsatingest/ingest_translate_orbits.sh
+         ksh $USHobsproc_satingest/ingest_translate_orbits.sh
          bufrerror=$?
       fi
       set +x

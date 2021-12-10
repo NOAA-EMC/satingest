@@ -55,7 +55,7 @@
 #                         All references to "GMT" changed to "UTC".  Imported
 #                         variable $timetype now checked for value of "UTC"
 #                         rather than "GMT" ($timetype redefined to be "UTC"
-#                         when time type is Greenwich).  $EXECsatingest
+#                         when time type is Greenwich).  $EXECobsproc_satingest
 #                         replaces $EXECbufr as the environment variable
 #                         representing the directory path to the executables.
 #                         Added information to docblock and new comments.
@@ -83,7 +83,7 @@
 #                  $DATA/prep_step
 #                  $UTILROOT/ush/date2jday.sh
 #     data cards : none
-#     executables: $EXECsatingest/snow_sno8grb
+#     executables: $EXECobsproc_satingest/snow_sno8grb
 #                  $CNVGRIB
 #                  $NDATE
 #
@@ -103,7 +103,7 @@
 #                               (e.g., "PRD.SPPROD.SNODEPH.SHMAMAP")
 #      USERDIR                - path to directory containing file-processing
 #                               history file (e.g., "$TANKDIR/ingest_hist")
-#      EXECsatingest  - path to satingest executable  directory
+#      EXECobsproc_satingest  - path to obsproc_satingest executable  directory
 #      SENDDBN                - if set to "YES", issue dbnet_alert for GRIB
 #                               and GRIB2 file(s)
 #      SENDDBN_GB2            - if set to "YES", issue dbnet_alert for GRIB2
@@ -133,7 +133,7 @@
 #   > 0 - some problem encountered
 #     Specifically:  99 - Input file PRD.SPPROD.SNODEPH.NHMAMAP not found, or
 #                         some type of error in
-#                         $EXECsatingest/snow_sno8grb
+#                         $EXECobsproc_satingest/snow_sno8grb
 #
 # Attributes:
 #   Language: ksh script
@@ -196,7 +196,7 @@ if [ -s $2 ] ; then
 
    pgm=snow_sno8grb
    set +u
-   $DATA/prep_step
+   . $DATA/prep_step
    set -u
    export FORT11="$2"
    export FORT51="$DATA/snowdepth.grb"
@@ -204,9 +204,9 @@ if [ -s $2 ] ; then
    msg="$pgm start for $yyyymmdd data"
    $DATA/postmsg "$jlogfile" "$msg"
 
-   $EXECsatingest/snow_sno8grb
+   $EXECobsproc_satingest/snow_sno8grb
    err=$?
-   #err_chk
+   #$DATA/err_chk
 
    if [ $err -eq 0 ]; then
       cp $DATA/snowdepth.grb $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb

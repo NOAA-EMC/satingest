@@ -86,18 +86,22 @@ fi
 # Set up ingest related directories
 ####################################
 if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
-#  echo DCOMROOT is ${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}
-  export USERDIR=${DCOMROOT}/ingest_hist
-  export TANKDIR=${DCOMROOT}}
-  export OUTDIR=${DCOMROOT}/ingest_logs
-  export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
+  echo DCOMROOT is ${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}
+  export USERDIR=${DCOMROOT}/${envir}/ingest_hist
+  export TANKDIR=${DCOMROOT}/${envir}
+  export OUTDIR=${DCOMROOT}/${envir}/ingest_logs
+  if [[ ${envir} == prod ]]; then
+    export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
+  else
+    export BBDIR=${BBDIR:-${COMROOT:?}/logs/${envir}/bb/ingest}
+  fi
 else
   export USERDIR=${USERDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/ingest_hist}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}/ingest_hist}
   export TANKDIR=${TANKDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
   export OUTDIR=${OUTDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
 fi
 mkdir -p $USERDIR $TANKDIR $OUTDIR
 
@@ -107,29 +111,29 @@ mkdir -p $USERDIR $TANKDIR $OUTDIR
 
 # RUN_TYPE used by pgms BUFR_TRANJB and BUFR_TRANMTYPSBT to determine priority
 # path directory for bufrtab.XXX files which they read - here set to
-# "satingest" so priority path directory is $FIXsatingest and second
-# choice (if bufrtab.XXX file not found in $FIXsatingest) is $FIXbufr
+# "satingest" so priority path directory is $FIXobsproc_satingest and second
+# choice (if bufrtab.XXX file not found in $FIXobsproc_satingest) is $FIXbufr
 # (other choice for RUN_TYPE is "decoder" which reverses priority)
 # ----------------------------------------------------------------------------
 export RUN_TYPE=${RUN_TYPE:-satingest}
 
 # Paths for obsproc_satingest items
 # ---------------------------------
-export HOMEsatingest=${HOMEsatingest:\
--$PACKAGEROOT/satingest.${satingest_ver:?\
-"###FATAL ERROR \"satingest_ver\" is not set"}}
+export HOMEobsproc_satingest=${HOMEobsproc_satingest:\
+-$NWROOT/obsproc_satingest.${obsproc_satingest_ver:?\
+"###FATAL ERROR \"obsproc_satingest_ver\" is not set"}}
 
-export SCRIPTSsatingest=${SCRIPTSsatingest:\
--$HOMEsatingest/scripts}
+export SCRIPTSobsproc_satingest=${SCRIPTSobsproc_satingest:\
+-$HOMEobsproc_satingest/scripts}
 
-export EXECsatingest=${EXECsatingest:\
--$HOMEsatingest/exec}
+export EXECobsproc_satingest=${EXECobsproc_satingest:\
+-$HOMEobsproc_satingest/exec}
 
-export FIXsatingest=${FIXsatingest:\
--$HOMEsatingest/fix}
+export FIXobsproc_satingest=${FIXobsproc_satingest:\
+-$HOMEobsproc_satingest/fix}
 
-export USHsatingest=${USHsatingest:\
--$HOMEsatingest/ush}
+export USHobsproc_satingest=${USHobsproc_satingest:\
+-$HOMEobsproc_satingest/ush}
 
 # Paths for obsproc_shared_bufr_cword items
 # -----------------------------------------
@@ -147,19 +151,18 @@ export EXECobsproc_shared_bufr_cword=$CWORDX
 
 export USHobsproc_shared_bufr_cword=$CWORDush
 
-export TRANJBush=$TRANush
 
 
 # Paths for non-obsproc items
 # ---------------------------
-# ... $FIXsatingest is  populated with all of the bufrtab.XXX
+# ... $FIXobsproc_satingest is  populated with all of the bufrtab.XXX
 #     files read by bufr_tranjb.sh and ingest_translate_orbits.sh, so to be
 #     safe the second choice directory path to retrieve these files ($FIXbufr)
 #     is being exported as /dev/null - the reasoning being that it is better
 #     for the jobs to fail than to read a bufrtab.XXX that might be obsolete
 #     if, for some bizarre reason, the bufrtab.XXX files are not found in
-#     $FIXsatingest.
-# ... $FIXsatingest is also populated with $TASK and $TASK.$family
+#     $FIXobsproc_satingest.
+# ... $FIXobsproc_satingest is also populated with $TASK and $TASK.$family
 #     files read by JISATINGEST.
 #     -------------------------------------------------------------------------
 export FIXbufr=/dev/null
@@ -175,12 +178,12 @@ cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
 cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
 ##########################################
 
-export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
+export DECDROOT=${DECDROOT:-$NWROOT/decoders}
 export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
-[ ! -d $USHbufr ]  &&  USHbufr=$OPSROOT/ush
+[ ! -d $USHbufr ]  &&  USHbufr=$NWROOT/ush
 
 export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
-[ ! -s $DCNCLD ]  &&  DCNCLD=$OPSROOT/exec/decod_dcncld
+[ ! -s $DCNCLD ]  &&  DCNCLD=$NWROOT/exec/decod_dcncld
 
 ####################################
 # Set-up ingest processing families
@@ -227,7 +230,7 @@ fi
 export TASK=$TASK
 
 echo " THE TASK IS ${TASK} ; STARTING "
-source $HOMEsatingest/fix/${TASK}
+source $HOMEobsproc_satingest/fix/${TASK}
 
 ########### FINISH SOURCING THE TASK ###############
 echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
@@ -251,12 +254,12 @@ if [ $IPDA = 'CBU_' ] ; then
  familyname=`echo $family | cut -c 5-`
  familyname=`echo $familyname |tr "[:upper:]" "[:lower:]"`
  echo " familyname is $familyname and family is $family "
- source $HOMEsatingest/fix/${TASK}.$familyname
+ source $HOMEobsproc_satingest/fix/${TASK}.$familyname
 else
  echo " THIS IS NOT A CBU job; IPDA= $IPDA ; n=$n  "
  family=`echo $family |tr "[:upper:]" "[:lower:]"`
  echo " family is $family "
- source $HOMEsatingest/fix/${TASK}.$family
+ source $HOMEobsproc_satingest/fix/${TASK}.$family
 fi
 
 done
@@ -268,11 +271,11 @@ set -xa
 #####################
 
 if [ $TASK = 'ozone14' -o $TASK = 'snowday' ] ; then
-   echo " RUNNING ozone14 or snowday, so use existday.sh "
-   $SCRIPTSsatingest/existday.sh
+   echo " RUNNING ozone14 or snowday, so use existday.sh.ecf "
+   $SCRIPTSobsproc_satingest/existday.sh.ecf
    err_existday=$?
 else
-   $SCRIPTSsatingest/existore.sh
+   $SCRIPTSobsproc_satingest/existore.sh.ecf
    err_existore=$?
 fi
 
@@ -280,3 +283,4 @@ if [ "${KEEPDATA^^}" != YES ]; then
   rm -rf $DATA
 fi
 date -u
+exit

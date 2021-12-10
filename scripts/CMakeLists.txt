@@ -1,6 +1,6 @@
 list(APPEND scripts_files
-  existday.sh
-  existore.sh
+  existday.sh.ecf
+  existore.sh.ecf
   )
 
 install(PROGRAMS ${scripts_files}

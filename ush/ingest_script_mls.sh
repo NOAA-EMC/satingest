@@ -27,7 +27,7 @@
 #                              process id was present before.  USH script
 #                              tranjb renamed to bufr_tranjb.sh and moved from
 #                              directory path $USHbufr to directory path
-#                              $USHsatingest.  $EXECsatingest
+#                              $USHobsproc_satingest.  $EXECobsproc_satingest
 #                              replaces $EXECbufr as the environment variable
 #                              representing the directory path to the
 #                              executables.  Updated some existing comments.
@@ -43,8 +43,8 @@
 #   Modules and files referenced:
 #                   $DATA/prep_step
 #                   $DATA/postmsg
-#                   $USHsatingest/bufr_tranjb.sh
-#     executables : $EXECsatingest/bufr_tranmls
+#                   $USHobsproc_satingest/bufr_tranjb.sh
+#     executables : $EXECobsproc_satingest/bufr_tranmls
 #
 # Remarks:
 #
@@ -52,9 +52,9 @@
 #
 #   Imported Variables that must be passed in:
 #      DATA                  - path to current working directory
-#      USHsatingest  - path to satingest ush directory
+#      USHobsproc_satingest  - path to obsproc_satingest ush directory
 #                              containing bufr_tranjb.sh
-#      EXECsatingest - path to satingest executable directory
+#      EXECobsproc_satingest - path to obsproc_satingest executable directory
 #      jlogfile              - path to joblog file
 #      TANKDIR               - root of directory path to output BUFR database
 #                              tank file (e.g., "/dcom/us007003")
@@ -77,7 +77,7 @@
 #                                       routine
 #                   103 - input mls data file not found
 #                   253 - no mls reports processed by 
-#                           $EXECsatingest/bufr_tranmls
+#                           $EXECobsproc_satingest/bufr_tranmls
 #                   xxx - an error coming out of program BUFR_TRANJB
 #
 # Attributes:
@@ -134,7 +134,7 @@ fi
 pgm=bufr_tranmls
 if [ -s $DATA/prep_step ]; then
   set +u
-  $DATA/prep_step
+  . $DATA/prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -147,7 +147,7 @@ $DATA/postmsg "$jlogfile" "$msg"
 
 export FORT31=$table
 export FORT51=$DATA/mls_bufr.$host.$$
-time -p $EXECsatingest/bufr_tranmls $file 2> errfile
+time -p $EXECobsproc_satingest/bufr_tranmls $file 2> errfile
 rcsave=$?
 ####################cat $DATA/mls_output
 cat errfile
@@ -194,7 +194,7 @@ fi
 if [ -s $DATA/mls_bufr.$host.$$ ]; then
    give_rc="YES"
    cword="no"
-#  sh $USHsatingest/bufr_tranjb.sh $TANKDIR $DATA/mls_bufr.$host.$$
+#  sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/mls_bufr.$host.$$
    sh $TRANush $TANKDIR $DATA/mls_bufr.$host.$$
    ier=$?
 else

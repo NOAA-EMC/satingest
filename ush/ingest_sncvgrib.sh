@@ -51,7 +51,7 @@
 #                         All references to "GMT" changed to "UTC".  Imported
 #                         variable $timetype now checked for value of "UTC"
 #                         rather than "GMT" ($timetype redefined to be "UTC"
-#                         when time type is Greenwich).  $EXECsatingest
+#                         when time type is Greenwich).  $EXECobsproc_satingest
 #                         replaces $EXECbufr as the environment variable
 #                         representing the directory path to the executables.
 #                         Added information to docblock and new comments.
@@ -82,7 +82,7 @@
 #                  $UTILROOT/ush/date2jday.sh
 #                  $UTILROOT/ush/finddate.sh
 #     data cards : none
-#     executables: $EXECsatingest/snow_sno16grb
+#     executables: $EXECobsproc_satingest/snow_sno16grb
 #                  $CNVGRIB
 #
 # Remarks: Invoked by the script ingest_translate_orbits.sh.
@@ -96,7 +96,7 @@
 #                               "/dcom/us007003")
 #      USERDIR                - path to directory containing file-processing
 #                               history file (e.g., "$TANKDIR/ingest_hist")
-#      EXECsatingest  - path to satingest executable directory
+#      EXECobsproc_satingest  - path to obsproc_satingest executable directory
 #      $UTILROOT/ush             - path to utility script directory containing
 #                               date2jday.sh and finddate.sh
 #      SENDDBN                - if set to "YES", issue dbnet_alert for GRIB
@@ -129,11 +129,11 @@
 #     Specifically:  98 - SNOW_SNO16GRB had unexpected end-of-file reading
 #                         in IMS snow cover/sea ice ascii file in unit 11
 #                         (condition code coming out of
-#                          $EXECsatingest/snow_sno16grb)
+#                          $EXECobsproc_satingest/snow_sno16grb)
 #                    99 - SNOW_SNO16GRB found unrecognized data value in IMS
 #                         snow cover/sea ice ascii file in unit 11
 #                         (condition code coming out of
-#                          $EXECsatingest/snow_sno16grb)
+#                          $EXECobsproc_satingest/snow_sno16grb)
 #
 # Attributes:
 #   Language: ksh script
@@ -191,7 +191,7 @@ fi
 
 pgm=snow_sno16grb
 set +u
- $DATA/prep_step
+. $DATA/prep_step
 set -u
 export FORT11="$raw_file"
 export FORT51="$DATA/imssnow.grb"
@@ -199,9 +199,9 @@ export FORT51="$DATA/imssnow.grb"
 msg="$pgm start for $yyyymmdd data"
 $DATA/postmsg "$jlogfile" "$msg"
 
-echo $yyyyddd | $EXECsatingest/snow_sno16grb
+echo $yyyyddd | $EXECobsproc_satingest/snow_sno16grb
 err=$?
-#err_chk
+#$DATA/err_chk
 
 if [ $err -eq 0 ]; then
    cp $DATA/imssnow.grb $TANKDIR/$yyyymmdd/wgrbbul/imssnow.grb
