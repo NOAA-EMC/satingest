@@ -271,11 +271,11 @@ set -xa
 #####################
 
 if [ $TASK = 'ozone14' -o $TASK = 'snowday' ] ; then
-   echo " RUNNING ozone14 or snowday, so use existday.sh.ecf "
-   $SCRIPTSobsproc_satingest/existday.sh.ecf
+   echo " RUNNING ozone14 or snowday, so use existday.sh "
+   $SCRIPTSobsproc_satingest/existday.sh
    err_existday=$?
 else
-   $SCRIPTSobsproc_satingest/existore.sh.ecf
+   $SCRIPTSobsproc_satingest/existore.sh
    err_existore=$?
 fi
 
