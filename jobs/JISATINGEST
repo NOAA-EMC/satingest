@@ -1,3 +1,4 @@
+#!/bin/ksh
 set -xa
 date -u
 hour=${hour:-`date -u +%H`}
@@ -5,10 +6,10 @@ min=${min:-`date -u +%M`}
 
 
 echo " start running COMMON.TOP "
-if [ -n "$obsproc_satingest_ver" ]; then
+if [ -n "$satingest_ver" ]; then
    set +x
    echo
-   echo "Current OBSPROC_SATINGEST version is $obsproc_satingest_ver"
+   echo "Current OBSPROC_SATINGEST version is $satingest_ver"
    echo
    set -x
 fi
@@ -87,21 +88,21 @@ fi
 ####################################
 if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
   echo DCOMROOT is ${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}
-  export USERDIR=${DCOMROOT}/${envir}/ingest_hist
-  export TANKDIR=${DCOMROOT}/${envir}
-  export OUTDIR=${DCOMROOT}/${envir}/ingest_logs
+  export USERDIR=${DCOMROOT}/ingest_hist
+  export TANKDIR=${DCOMROOT}
+  export OUTDIR=${DCOMROOT}/ingest_logs
   if [[ ${envir} == prod ]]; then
     export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
   else
-    export BBDIR=${BBDIR:-${COMROOT:?}/logs/${envir}/bb/ingest}
+    export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
   fi
 else
   export USERDIR=${USERDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}/ingest_hist}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/ingest_hist}
   export TANKDIR=${TANKDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/}
   export OUTDIR=${OUTDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/}
 fi
 mkdir -p $USERDIR $TANKDIR $OUTDIR
 
@@ -120,8 +121,8 @@ export RUN_TYPE=${RUN_TYPE:-satingest}
 # Paths for obsproc_satingest items
 # ---------------------------------
 export HOMEobsproc_satingest=${HOMEobsproc_satingest:\
--$NWROOT/obsproc_satingest.${obsproc_satingest_ver:?\
-"###FATAL ERROR \"obsproc_satingest_ver\" is not set"}}
+-$PACKAGEROOT/satingest.${satingest_ver:?\
+"###FATAL ERROR \"satingest_ver\" is not set"}}
 
 export SCRIPTSobsproc_satingest=${SCRIPTSobsproc_satingest:\
 -$HOMEobsproc_satingest/scripts}
@@ -178,12 +179,12 @@ cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
 cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
 ##########################################
 
-export DECDROOT=${DECDROOT:-$NWROOT/decoders}
+export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
 export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
-[ ! -d $USHbufr ]  &&  USHbufr=$NWROOT/ush
+#[ ! -d $USHbufr ]  &&  USHbufr=$PACKAGEROOT/ush
 
 export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
-[ ! -s $DCNCLD ]  &&  DCNCLD=$NWROOT/exec/decod_dcncld
+#[ ! -s $DCNCLD ]  &&  DCNCLD=$PACKAGEROOT/exec/decod_dcncld
 
 ####################################
 # Set-up ingest processing families

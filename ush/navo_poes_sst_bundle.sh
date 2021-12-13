@@ -1,4 +1,5 @@
 #!/bin/ksh
+# Run under ksh
 
 # Generate look-alike intermediate bufr files of navo sst obs for downstream job
 #   poes_phyret_sst

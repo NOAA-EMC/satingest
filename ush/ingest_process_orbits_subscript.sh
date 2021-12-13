@@ -1,3 +1,5 @@
+#!/bin/ksh
+# Run under ksh
 
 ##########################################################################
 # THIS SCRIPT IS SOURCED BY USH SCRIPT ingest_process_orbits.sh
