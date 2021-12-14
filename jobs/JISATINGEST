@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/sh
 set -xa
 date -u
 hour=${hour:-`date -u +%H`}
