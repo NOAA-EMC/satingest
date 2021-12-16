@@ -178,13 +178,14 @@ cp $UTILROOT/ush/prep_step .; chmod +x prep_step
 cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
 cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
 ##########################################
+export NHOUR=$UTILROOT/exec/nhour
 
 export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
 export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
-#[ ! -d $USHbufr ]  &&  USHbufr=$PACKAGEROOT/ush
+[ ! -d $USHbufr ]  &&  USHbufr=$PACKAGEROOT/ush
 
 export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
-#[ ! -s $DCNCLD ]  &&  DCNCLD=$PACKAGEROOT/exec/decod_dcncld
+[ ! -s $DCNCLD ]  &&  DCNCLD=$PACKAGEROOT/exec/decod_dcncld
 
 ####################################
 # Set-up ingest processing families
