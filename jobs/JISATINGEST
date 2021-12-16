@@ -121,7 +121,7 @@ export RUN_TYPE=${RUN_TYPE:-satingest}
 # Paths for obsproc_satingest items
 # ---------------------------------
 export HOMEobsproc_satingest=${HOMEobsproc_satingest:\
--$PACKAGEROOT/satingest.${satingest_ver:?\
+-$PACKAGEROOT/satingest/${satingest_ver:?\
 "###FATAL ERROR \"satingest_ver\" is not set"}}
 
 export SCRIPTSobsproc_satingest=${SCRIPTSobsproc_satingest:\
@@ -137,20 +137,10 @@ export USHobsproc_satingest=${USHobsproc_satingest:\
 -$HOMEobsproc_satingest/ush}
 
 # Paths for obsproc_shared_bufr_cword items
+# Defaults defined in bufr_tranjb module
 # -----------------------------------------
-#export HOMEobsproc_shared_bufr_cword=${HOMEobsproc_shared_bufr_cword:\
-#-$NWROOT/obsproc_shared/bufr_cword.${obsproc_shared_bufr_cword_ver:?\
-#"###FATAL ERROR \"obsproc_shared_bufr_cword_ver\" is not set"}}
-
-#export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:\
-#-$HOMEobsproc_shared_bufr_cword/exec}
-
-export EXECobsproc_shared_bufr_cword=$CWORDX
-
-#export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:\
-#-$HOMEobsproc_shared_bufr_cword/ush}
-
-export USHobsproc_shared_bufr_cword=$CWORDush
+export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:-$CWORDX}
+export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:-$CWORDush}
 
 
 
