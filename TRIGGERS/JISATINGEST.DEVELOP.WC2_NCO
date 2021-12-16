@@ -32,6 +32,8 @@ export KEEPDATA=YES
 #export DOGZIP=NO
 export CLEANUP=NO
 
+export satingest_ver=v4.1.0
+
 echo " REDMINE is %REDMINE% and jitask is %jitask% and HH is %HHMM% "
 export DCOMROOT=/lfs/h2/emc/obsproc/noscrub/Sudhir.Nadiga/SCRIPTDIR/REENGG.3TIER/TEMPNEW
 mkdir -p $DCOMROOT
