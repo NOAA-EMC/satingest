@@ -13,13 +13,11 @@ if [ -n "$satingest_ver" ]; then
    echo
    set -x
 fi
-if [ -n "$obsproc_shared_bufr_cword_ver" ]; then
-   set +x
-   echo
-   echo "OBSPROC_SHARED_BUFR_CWORD version used by this job is \
-$obsproc_shared_bufr_cword_ver"
-   echo
-   set -x
+
+# Be sure bufr_tranjb module is loaded!
+if [[ $(echo $LOADEDMODULES | egrep -c "(^|:)bufr_tranjb/") -eq 0 ]]; 
+     then echo "bufr_tranjb is required but not loaded! Exiting..."; 
+     exit; 
 fi
 
 ###################################################################
@@ -175,7 +173,7 @@ export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
 [ ! -d $USHbufr ]  &&  USHbufr=$PACKAGEROOT/ush
 
 export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
-[ ! -s $DCNCLD ]  &&  DCNCLD=$PACKAGEROOT/exec/decod_dcncld
+[ ! -s $DCNCLD ]  &&  DCNCLD=$OPSROOT/decoders/decod_dcncld/exec/decod_dcncld
 
 ####################################
 # Set-up ingest processing families
