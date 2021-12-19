@@ -30,6 +30,7 @@
 #     of variable $SENDCOM to determine whether to send output to $COMOUT.
 #     Added information to docblock and new comments.  Updated some existing
 #     comments.
+# 2021-12-19 Sudhir Nadiga - Modified to use bufr_tranjb module variables.
 #
 #
 # Usage: ingest_transst_poes.sh  <bufrtable>  <raw_file>
@@ -240,7 +241,6 @@ if [ $retcode -eq 0 ] ; then
             [[ "$SENDCOM" = YES ]] && \
              cp $DATA/$typsubdir.$subtypfil.$dsname.$cycle.$sat.tmpout.$host.$$\
              $COMOUT
-#           sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
             sh $TRANush $TANKDIR \
              $DATA/$typsubdir.$subtypfil.$dsname.$cycle.$sat.tmpout.$host.$$
             rc=$?

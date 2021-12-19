@@ -567,11 +567,11 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
             if [ $FTYPE = bufr ] ; then
                DX_SKIP=YES # tell $CWORDush to not copy any dictionary msgs
 #	       if [ $cword = 'yes' ] ; then 
-               $CWORDush unblk $DATA/$dsname $DATA/tmporbit |tee \
-                $DATA/bufr_cword.out.$host.$$
-#       			else
-#	       echo "cword is set to $cword "
-#       		fi
+                 $CWORDush unblk $DATA/$dsname $DATA/tmporbit |tee \
+                  $DATA/bufr_cword.out.$host.$$
+#              else
+#	         echo "cword is set to $cword "
+#              fi
                fdcperr=$?
                if [ $fdcperr -eq 0 -a -s $DATA/tmporbit ] ; then
                   mv $DATA/tmporbit $DATA/$dsname

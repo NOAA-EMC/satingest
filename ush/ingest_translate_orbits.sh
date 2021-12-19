@@ -711,7 +711,6 @@ if [ $EXECTYPE = executable ] ; then
          [ $EXECUTE = "bufr_trantmi" ]  &&  rm -f tmi.hdf
          give_rc="YES"
          cword="no"
-#        ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
          ksh $TRANush $TANKDIR \
           $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$
          ier=$?
@@ -723,7 +722,6 @@ if [ $EXECTYPE = executable ] ; then
 #   (first BUFR_TRANJB run ingests sea and clear data)
 #  ------------------------------------------------------------------
 
-#           ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
             ksh $TRANush $TANKDIR \
 $DATA/$typsubdir.second_tranjb_file.$dsname.tmpout.$host.$$
             rc2=$?
@@ -787,9 +785,11 @@ else
 #      version of the bufr_tranjb program can be executed here)
 
 #       export TRANJBush=$USHobsproc_satingest/bufr_tranjb.sh
+#        -- previously defined in bufr_tranjb module
 #        -- below only needed for older versions of ingest_cloud_NASA.sh but
 #           won't hurt anything to add it for newer versions too
 #       export TRANX=$EXECobsproc_satingest/bufr_tranjb
+#        -- previously defined in bufr_tranjb module
 
 #    - export RUN_TYPE as 'decoder' so program bufr_tranjb will likewise obtain
 #      bufrtab.012 from $FIXbufr as a first choice (with

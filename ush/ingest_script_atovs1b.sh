@@ -67,6 +67,7 @@
 #                            representing the directory path to the fixed
 #                            files.  Updated some existing comments.
 # 2018-12-08  Yangrong Ling  Added ability to handle METOP-3(C) satellite.
+# 2021-12-19  Sudhir Nadiga  Modified to use bufr_tranjb module variables.
 #
 #
 # Usage: ingest_script_atovs1b.sh  <bufrtable>  <raw_file>
@@ -390,7 +391,6 @@ if [ $PROCESS_Tb = YES ]; then
 
       if [ -s $DATA/bufr_Tb ]; then
          export cword=no
-#        $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Tb
          $TRANush $TANKDIR $DATA/bufr_Tb
       fi
    else
@@ -414,7 +414,6 @@ if [ $PROCESS_Ta = YES ]; then
 
       if [ -s $DATA/bufr_Ta ]; then
          export cword=no
-#        $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/bufr_Ta
          $TRANush $TANKDIR $DATA/bufr_Ta
       fi
    else
