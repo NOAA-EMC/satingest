@@ -142,6 +142,7 @@
 # 2020-04-03  S. Nadiga OMI datafiles are now being ingested from the PDA server
 #     and do not suffer from the problem of incompleteness, so the lines to process
 #     incomplete files have been commented out.
+# 2021-12-19  S. Nadiga Modified to use bufr_tranjb module variables.
 #
 #
 # Usage: ingest_translate_orbits.sh
