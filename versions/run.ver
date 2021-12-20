@@ -6,3 +6,5 @@ export bacio_ver=2.4.1
 export w3emc_ver=2.9.1
 export bufr_ver=11.6.0
 export bufr_tranjb_ver=1.0.1
+
+export gfs_ver=v16.2
