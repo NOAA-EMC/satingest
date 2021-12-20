@@ -17,7 +17,8 @@ module load craype/2.7.8
 module load cray-mpich/8.1.4
 
 export HOMEobsproc_satingest=/lfs/h2/emc/obsproc/noscrub/Sudhir.Nadiga/GITHUBDIR/REBUILD/fport2wc2.13DEC2021
-export VERROOT=/lfs/h2/emc/obsproc/noscrub/Sudhir.Nadiga/GITHUBDIR/REBUILD/fport_to_wcoss2/versions.${VERROOT}/run.ver
+export VERROOT=/lfs/h2/emc/obsproc/noscrub/Sudhir.Nadiga/GITHUBDIR/REBUILD/fport_to_wcoss2/versions/
+.  ${VERROOT}/run.ver
 
 #export VERROOT=/lfs/h2/emc/obsproc/noscrub/Steve.Stegall/githubwkspc/satingest/versions
 #. ${VERROOT}/run.ver
