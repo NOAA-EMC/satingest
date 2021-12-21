@@ -14,9 +14,6 @@ if [ -n "$satingest_ver" ]; then
    set -x
 fi
 
-# NEED grib_util to be Loaded for SNOWORE
-module load libjpeg
-module load grib_util
 # Be sure bufr_tranjb module is loaded!
 if [[ $(echo $LOADEDMODULES | egrep -c "(^|:)bufr_tranjb/") -eq 0 ]]; 
      then echo "bufr_tranjb is required but not loaded! Exiting..."; 
