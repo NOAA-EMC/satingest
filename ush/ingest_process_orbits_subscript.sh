@@ -1,3 +1,5 @@
+#!/bin/ksh
+# Run under ksh
 
 ##########################################################################
 # THIS SCRIPT IS SOURCED BY USH SCRIPT ingest_process_orbits.sh
@@ -29,6 +31,7 @@
 #                            PROC_MULT_FILES=NO.
 # 2019-10-09  Sudhir Nadgia  Modified to shift the Y2K windowing technique that
 #                            converts 2-digit years to 4-digit.
+# 2021-12-19  Sudhir Nadiga  Modified to use bufr_tranjb module variables.
 #
 # Usage: . ingest_process_orbits_subscript.sh (inside ingest_process_orbits.sh)
 #
@@ -240,7 +243,6 @@ $TARGETFILE copied for $yyyymmdd"
          else
             cword="no"
          fi
-#        ksh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/$dsname 
          ksh $TRANush $TANKDIR $DATA/$dsname 
          bufrerror=$?
       else

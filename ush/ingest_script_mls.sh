@@ -31,6 +31,7 @@
 #                              replaces $EXECbufr as the environment variable
 #                              representing the directory path to the
 #                              executables.  Updated some existing comments.
+# 2021-12-19  Sudhir Nadiga    Modified to use bufr_tranjb module variables.
 #
 #
 # Usage: ingest_script_mls.sh  <bufrtable>  <raw_file>
@@ -194,7 +195,6 @@ fi
 if [ -s $DATA/mls_bufr.$host.$$ ]; then
    give_rc="YES"
    cword="no"
-#  sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/mls_bufr.$host.$$
    sh $TRANush $TANKDIR $DATA/mls_bufr.$host.$$
    ier=$?
 else

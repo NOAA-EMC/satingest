@@ -1,3 +1,4 @@
+#!/bin/sh
 set -xa
 date -u
 hour=${hour:-`date -u +%H`}
@@ -5,20 +6,18 @@ min=${min:-`date -u +%M`}
 
 
 echo " start running COMMON.TOP "
-if [ -n "$obsproc_satingest_ver" ]; then
+if [ -n "$satingest_ver" ]; then
    set +x
    echo
-   echo "Current OBSPROC_SATINGEST version is $obsproc_satingest_ver"
+   echo "Current OBSPROC_SATINGEST version is $satingest_ver"
    echo
    set -x
 fi
-if [ -n "$obsproc_shared_bufr_cword_ver" ]; then
-   set +x
-   echo
-   echo "OBSPROC_SHARED_BUFR_CWORD version used by this job is \
-$obsproc_shared_bufr_cword_ver"
-   echo
-   set -x
+
+# Be sure bufr_tranjb module is loaded!
+if [[ $(echo $LOADEDMODULES | egrep -c "(^|:)bufr_tranjb/") -eq 0 ]]; 
+     then echo "bufr_tranjb is required but not loaded! Exiting..."; 
+     exit; 
 fi
 
 ###################################################################
@@ -87,21 +86,21 @@ fi
 ####################################
 if [[ "${RUN_ENVIR,,}" == "nco" ]]; then
   echo DCOMROOT is ${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}
-  export USERDIR=${DCOMROOT}/${envir}/ingest_hist
-  export TANKDIR=${DCOMROOT}/${envir}
-  export OUTDIR=${DCOMROOT}/${envir}/ingest_logs
+  export USERDIR=${DCOMROOT}/ingest_hist
+  export TANKDIR=${DCOMROOT}
+  export OUTDIR=${DCOMROOT}/ingest_logs
   if [[ ${envir} == prod ]]; then
     export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
   else
-    export BBDIR=${BBDIR:-${COMROOT:?}/logs/${envir}/bb/ingest}
+    export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
   fi
 else
   export USERDIR=${USERDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}/ingest_hist}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/ingest_hist}
   export TANKDIR=${TANKDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/}
   export OUTDIR=${OUTDIR:\
--${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/${envir}}
+-${DCOMROOT:?"###FATAL ERROR \"DCOMROOT\" is not set"}/}
 fi
 mkdir -p $USERDIR $TANKDIR $OUTDIR
 
@@ -120,8 +119,8 @@ export RUN_TYPE=${RUN_TYPE:-satingest}
 # Paths for obsproc_satingest items
 # ---------------------------------
 export HOMEobsproc_satingest=${HOMEobsproc_satingest:\
--$NWROOT/obsproc_satingest.${obsproc_satingest_ver:?\
-"###FATAL ERROR \"obsproc_satingest_ver\" is not set"}}
+-$PACKAGEROOT/satingest/${satingest_ver:?\
+"###FATAL ERROR \"satingest_ver\" is not set"}}
 
 export SCRIPTSobsproc_satingest=${SCRIPTSobsproc_satingest:\
 -$HOMEobsproc_satingest/scripts}
@@ -136,20 +135,10 @@ export USHobsproc_satingest=${USHobsproc_satingest:\
 -$HOMEobsproc_satingest/ush}
 
 # Paths for obsproc_shared_bufr_cword items
+# Defaults defined in bufr_tranjb module
 # -----------------------------------------
-#export HOMEobsproc_shared_bufr_cword=${HOMEobsproc_shared_bufr_cword:\
-#-$NWROOT/obsproc_shared/bufr_cword.${obsproc_shared_bufr_cword_ver:?\
-#"###FATAL ERROR \"obsproc_shared_bufr_cword_ver\" is not set"}}
-
-#export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:\
-#-$HOMEobsproc_shared_bufr_cword/exec}
-
-export EXECobsproc_shared_bufr_cword=$CWORDX
-
-#export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:\
-#-$HOMEobsproc_shared_bufr_cword/ush}
-
-export USHobsproc_shared_bufr_cword=$CWORDush
+export EXECobsproc_shared_bufr_cword=${EXECobsproc_shared_bufr_cword:-$CWORDX}
+export USHobsproc_shared_bufr_cword=${USHobsproc_shared_bufr_cword:-$CWORDush}
 
 
 
@@ -177,13 +166,14 @@ cp $UTILROOT/ush/prep_step .; chmod +x prep_step
 cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
 cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
 ##########################################
+export NHOUR=$UTILROOT/exec/nhour
 
-export DECDROOT=${DECDROOT:-$NWROOT/decoders}
+export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
 export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
-[ ! -d $USHbufr ]  &&  USHbufr=$NWROOT/ush
+[ ! -d $USHbufr ]  &&  USHbufr=$PACKAGEROOT/ush
 
 export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
-[ ! -s $DCNCLD ]  &&  DCNCLD=$NWROOT/exec/decod_dcncld
+[ ! -s $DCNCLD ]  &&  DCNCLD=$OPSROOT/decoders/decod_dcncld/exec/decod_dcncld
 
 ####################################
 # Set-up ingest processing families
@@ -271,11 +261,11 @@ set -xa
 #####################
 
 if [ $TASK = 'ozone14' -o $TASK = 'snowday' ] ; then
-   echo " RUNNING ozone14 or snowday, so use existday.sh.ecf "
-   $SCRIPTSobsproc_satingest/existday.sh.ecf
+   echo " RUNNING ozone14 or snowday, so use existday.sh "
+   $SCRIPTSobsproc_satingest/existday.sh
    err_existday=$?
 else
-   $SCRIPTSobsproc_satingest/existore.sh.ecf
+   $SCRIPTSobsproc_satingest/existore.sh
    err_existore=$?
 fi
 
