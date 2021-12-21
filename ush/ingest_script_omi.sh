@@ -33,6 +33,7 @@
 # 2020-04-03  Sudhir Nadiga    The OMI files are now on the PDA server, so the 
 #                              portion of the code to deal with incomplete files
 #                              has been commented out.
+# 2021-12-19  Sudhir Nadiga    Modified to use bufr_tranjb module variables.
 #
 #
 # Usage: ingest_script_omi.sh  <bufrtable>  <raw_file>
@@ -198,7 +199,6 @@ fi
 if [ -s $DATA/omi_bufr.$host.$$ ]; then
    give_rc="YES"
    cword="no"
-#   sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR $DATA/omi_bufr.$host.$$
    sh $TRANush $TANKDIR $DATA/omi_bufr.$host.$$
    ier=$?
 else

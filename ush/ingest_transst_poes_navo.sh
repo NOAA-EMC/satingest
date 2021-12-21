@@ -20,7 +20,9 @@
 #     bufr file output. Companion text file is renamed to indicate its content
 #     of time window start and end.  Satellite info is passed in via namelist.
 # 2019-09-18 Jiarui Dong  Added ability to handle METOP-3(C) satellite.
-# 2021-07-08 Steve Stegall - Changed to nsat=7, and added line 171 to output SAID=225, and sat name= NOAA-20. 
+# 2021-07-08 Steve Stegall - Changed to nsat=7, and added line 171 to output 
+#     SAID=225, and sat name= NOAA-20. 
+# 2021-12-19 Sudhir Nadiga - Modified to use bufr_tranjb module variables.
 #
 # Usage: ingest_transst_poes_navo.sh  <bufrtable>  <raw_file>
 #
@@ -208,7 +210,6 @@ if [ $retcode -eq 0 ] ; then
      [[ "$SENDCOM" = YES ]] && \
         cp $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$\
           $COMOUT
-#    sh $USHobsproc_satingest/bufr_tranjb.sh $TANKDIR \
      sh $TRANush $TANKDIR \
         $DATA/$typsubdir.$subtypfil.$dsname.tmpout.$host.$$
      rc=$?

@@ -1,7 +1,9 @@
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-obsproc_satingest release 4.0.2  --> released DEC 27, 2021
-                                 --> implemented ??? ??, 2021
-Transition to WCOSS2 
+obsproc_satingest release 4.1.0  --> released Dec 21, 2021
+                                 --> implemented ??? ??, 2022
+
+Transition to WCOSS2. See google doc:
+https://docs.google.com/document/d/1kLpAJMp-xyVmQcmvJRPSeISzpXSB2I_ndcDjIIORXVE/edit?usp=sharing 
  
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 obsproc_satingest release 4.0.1  --> released Aug 27, 2021
