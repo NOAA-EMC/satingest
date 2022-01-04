@@ -5,9 +5,11 @@ date -u
 hour=${hour:-`date -u +%H`}
 min=${min:-`date -u +%M`}
 
+set +x
 echo " start running COMMON.TOP "
 echo "Current OBSPROC_SATINGEST version is $satingest_ver"
 echo "OBSPROC_SHARED_BUFR_CWORD version used by this job is $obsproc_shared_bufr_cword_ver"
+set -x
 
 ########################################
 # Check that required variables are set
@@ -45,7 +47,7 @@ export pgmout="OUTPUT.$$"
 # SENDECF  - Flag Events on ECFLOW
 # SENDBB   - Allow to talk back to Big Brother
 ###############################################
-export SENDECF=${SENECF:-YES}
+export SENDECF=${SENDECF:-YES}
 export SENDBB=${SENDBB:-YES}
 
 ####################################
@@ -102,12 +104,12 @@ export FIXbufr=/dev/null
 # Copy utility scripts for bufr_tranjb - will remove once bufr_tranjb updated?
 ################################################################
 cp $UTILROOT/ush/finddate.sh   .; chmod +x finddate.sh
-cp $UTILROOT/ush/err_chk   .; chmod +x err_chk
-cp $UTILROOT/ush/err_exit  .; chmod +x err_exit
-cp $UTILROOT/ush/prep_step .; chmod +x prep_step
-cp $UTILROOT/ush/postmsg   .; chmod +x postmsg
-cp $UTILROOT/ush/startmsg .; chmod +x startmsg
-cp $UTILROOT/ush/setpdy.sh .; chmod +x setpdy.sh
+cp $UTILROOT/ush/err_chk       .; chmod +x err_chk
+cp $UTILROOT/ush/err_exit      .; chmod +x err_exit
+cp $UTILROOT/ush/prep_step     .; chmod +x prep_step
+cp $UTILROOT/ush/postmsg       .; chmod +x postmsg
+cp $UTILROOT/ush/startmsg      .; chmod +x startmsg
+cp $UTILROOT/ush/setpdy.sh     .; chmod +x setpdy.sh
 ##########################################
 
 export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
@@ -134,38 +136,44 @@ export MACHINE_CBU=${MACHINE_CBU:-${CBU_PDA_SERVER:-140.172.119.158}} # (PDA CBU
 #export HOURS2ALARM=${HOURS2ALARM:-6}
 
 ############ BEGIN SOURCING THE TASK ###############
+set +x
 echo " THE TASK IS ${TASK} ; STARTING "
+set -x
 source $HOMEsatingest/fix/${TASK}
 
 ########### FINISH SOURCING THE TASK ###############
+set +x
 echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
 echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
+set -x
 
 set $PROCESSING_FAMILIES
 
+set +x
 echo " PROCESSING FAMILIES is $PROCESSING_FAMILIES "
+set -x
 export ngroup=$#
 export nfiles=$#
 n=0
 
 for family in $PROCESSING_FAMILIES
 do
-   n=`expr $n + 1`
+  n=`expr $n + 1`
 
-IPDA=`echo $family | cut -c1-4`
-if [ $IPDA = 'CBU_' ] ; then
- echo " THIS IS A CBU job; IPDA= $IPDA ; n=$n "
- export MACHINE${n}=$MACHINE_CBU # [PDA CBU SERVER]
- familyname=`echo $family | cut -c 5-`
- familyname=`echo $familyname |tr "[:upper:]" "[:lower:]"`
- echo " familyname is $familyname and family is $family "
- source $HOMEsatingest/fix/${TASK}.$familyname
-else
- echo " THIS IS NOT A CBU job; IPDA= $IPDA ; n=$n  "
- family=`echo $family |tr "[:upper:]" "[:lower:]"`
- echo " family is $family "
- source $HOMEsatingest/fix/${TASK}.$family
-fi
+  IPDA=`echo $family | cut -c1-4`
+  if [ $IPDA = 'CBU_' ] ; then
+    echo " THIS IS A CBU job; IPDA= $IPDA ; n=$n "
+    export MACHINE${n}=$MACHINE_CBU # [PDA CBU SERVER]
+    familyname=`echo $family | cut -c 5-`
+    familyname=`echo $familyname |tr "[:upper:]" "[:lower:]"`
+    echo " familyname is $familyname and family is $family "
+    source $HOMEsatingest/fix/${TASK}.$familyname
+  else
+    echo " THIS IS NOT A CBU job; IPDA= $IPDA ; n=$n  "
+    family=`echo $family |tr "[:upper:]" "[:lower:]"`
+    echo " family is $family "
+    source $HOMEsatingest/fix/${TASK}.$family
+  fi
 
 done
 
@@ -176,12 +184,14 @@ set -xa
 #####################
 
 if [ $TASK = 'ozone14' -o $TASK = 'snowday' ] ; then
-   echo " RUNNING ozone14 or snowday, so use existday.sh.ecf "
-   $SCRIPTSsatingest/existday.sh
-   err_existday=$?
+  set +x
+  echo " RUNNING ozone14 or snowday, so use existday.sh.ecf "
+  set -x
+  $SCRIPTSsatingest/existday.sh
+  err_existday=$?
 else
-   $SCRIPTSsatingest/existore.sh
-   err_existore=$?
+  $SCRIPTSsatingest/existore.sh
+  err_existore=$?
 fi
 
 cat $pgmout
