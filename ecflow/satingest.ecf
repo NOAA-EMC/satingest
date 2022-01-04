@@ -1,0 +1,51 @@
+#PBS -N %TASK%_%TIME%
+#PBS -j oe
+#PBS -S /bin/bash
+#PBS -q %QUEUESERV%
+#PBS -A %PROJ%-%PROJENVIR%
+#PBS -l walltime=01:00:00
+#PBS -l place=vscatter,select=1:ncpus=1:mem=%MEM%MB
+#PBS -l debug=true
+
+model=satingest
+
+%include <head.h>
+%include <envir-p1.h>
+
+export cyc=`date -u +%%H`
+export TASK=%TASK%
+export TASK=${TASK#*_}
+
+# Primary: 140.90.190.143
+# Backup: 140.172.119.158
+export PDA_SERVER=%PDA_SERVER%
+
+# Load requisite modules
+module load intel/${intel_ver}
+if [ "radsnd" = $TASK ]; then
+   module load netcdf/${netcdf_ver}
+elif [ "snowore" = $TASK ]; then
+   module load libjpeg/${libjpeg_ver}
+   module load grib_util/${grib_util_ver}
+elif [ "snowday" = $TASK ]; then
+   module load libjpeg/${libjpeg_ver}
+   module load grib_util/${grib_util_ver}
+elif [ "ssmi" = $TASK ]; then
+   module load libjpeg/${libjpeg_ver}
+   module load grib_util/${grib_util_ver}
+elif [ "ozone_orbit" = $TASK ]; then
+   module load hdf5/${hdf5_ver}
+fi
+module load bufr_tranjb/${bufr_tranjb_ver}
+module list
+
+${HOMEsatingest}/jobs/JISATINGEST
+
+%include <tail.h>
+
+%manual
+######################################################################
+TASKSCRIPT DOCUMENTATION BLOCK
+PURPOSE:  To execute the job that ingests %TASK% data from NESDIS.
+######################################################################
+%end

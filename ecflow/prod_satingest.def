@@ -1,0 +1,201 @@
+suite prod
+  family primary
+    family cron
+      family satingest
+        defstatus complete
+        edit PROJ 'OBSPROC'
+        edit PACKAGEHOME '/lfs/h1/ops/%ENVIR%/packages/satingest.%satingest_ver%'
+        family v4.1
+          edit W2RUN 'prod'
+          edit PDA_SERVER '140.90.190.143'
+          edit QUEUESERV 'prod_transfer'
+            edit MEM '500'
+            task jsatingest_aerosol
+              cron 00:10 23:40 00:15
+              cron 09:35
+            task jsatingest_airs
+              cron 00:20 23:20 01:00
+              cron 00:24 23:24 01:00
+              cron 01:00 23:00 02:00
+              cron 01:07 19:07 06:00
+              cron 01:13 19:13 06:00
+              cron 01:50 23:50 02:00
+              cron 02:38 20:38 06:00
+              cron 02:43 20:43 06:00
+              cron 02:46 20:46 06:00
+              cron 04:35 22:35 06:00
+              cron 04:45 22:45 06:00
+              cron 05:40 23:40 06:00
+              cron 05:46 23:46 06:00
+            task jsatingest_avhrr
+              cron 00:20 23:20 01:00
+              cron 00:24 23:24 01:00
+              cron 01:00 23:00 02:00
+              cron 01:07 19:07 06:00
+              cron 01:13 19:13 06:00
+              cron 01:50 23:50 02:00
+              cron 02:38 20:38 06:00
+              cron 02:43 20:43 06:00
+              cron 02:46 20:46 06:00
+              cron 04:35 22:35 06:00
+              cron 04:45 22:45 06:00
+              cron 05:40 23:40 06:00
+              cron 05:46 23:46 06:00
+            family npp
+              edit MEM '5000'
+              task jsatingest_npp_cris_431
+                edit CPUS '1'
+                cron 00:03 23:58 00:05
+              task jsatingest_npp_omps
+                edit CPUS '1'
+                cron 00:03 23:58 00:05
+              task jsatingest_npp_atms
+                edit CPUS '1'
+                cron 00:03 23:58 00:05
+            endfamily
+            task jsatingest_ozone14
+              cron 08:20
+              cron 13:30 15:10 00:20
+              cron 20:45
+            task jsatingest_ozone_orbit
+              cron 00:15 23:15 01:00
+              cron 00:24 23:24 01:00
+              cron 00:30 23:30 01:00
+              cron 00:38 22:38 02:00
+              cron 00:45 22:45 02:00
+              cron 00:52 22:52 02:00
+              cron 00:59 23:59 01:00
+              cron 01:04 19:04 06:00
+              cron 01:09 19:09 06:00
+              cron 01:19 19:19 06:00
+              cron 05:06 23:06 06:00
+              cron 05:20 23:20 06:00
+              cron 05:40 23:40 06:00
+              cron 05:46 23:46 06:00
+              cron 05:49 23:49 06:00
+            task jsatingest_poes_sst
+              cron 00:25 23:25 01:00
+              cron 00:55 23:55 01:00
+            task jsatingest_qscatter
+              cron 00:20 23:50 00:30
+              cron 00:28 23:28 01:00
+              cron 01:07 19:07 06:00
+              cron 01:13 19:13 06:00
+              cron 02:38 20:38 06:00
+              cron 02:43 20:43 06:00
+              cron 02:46 23:46 03:00
+              cron 04:38 22:38 06:00
+              cron 04:58 22:58 06:00
+              cron 05:40 23:40 06:00
+            task jsatingest_radsnd
+              cron 00:03 23:33 00:30
+              cron 00:24 23:24 01:00
+              cron 00:48 18:48 06:00
+              cron 01:09 19:09 06:00
+              cron 01:13 19:13 06:00
+              cron 01:18 13:18 12:00
+              cron 02:38 20:38 06:00
+              cron 02:43 20:43 06:00
+              cron 02:46 20:46 06:00
+              cron 04:37 22:37 06:00
+              cron 04:56 22:56 06:00
+              cron 05:09 17:09 12:00
+              cron 05:15 17:15 12:00
+              cron 05:20 17:20 12:00
+              cron 05:40 23:40 06:00
+              cron 05:46 23:46 06:00
+              cron 05:49 23:49 06:00
+              cron 06:40 18:40 12:00
+              cron 06:50 18:50 12:00
+              cron 10:45 22:45 12:00
+              cron 01:48 03:48 02:00
+              cron 07:48 09:48 02:00
+              cron 13:48 15:48 02:00
+              cron 19:48 21:48 02:00
+              cron 04:45
+              cron 16:45
+            task jsatingest_satwnd
+              cron 00:05 23:35 00:30
+              cron 00:09 23:09 01:00
+              cron 00:15 23:15 01:00
+              cron 00:21 18:21 06:00
+              cron 00:23 23:23 01:00
+              cron 00:25 23:25 01:00
+              cron 00:44 18:21 06:00
+              cron 00:55 18:55 06:00
+              cron 01:17 19:17 06:00
+              cron 02:38 20:38 06:00
+              cron 02:43 20:43 06:00
+              cron 02:46 23:46 03:00
+              cron 04:38 22:38 06:00
+              cron 04:58 22:58 06:00
+              cron 05:40 23:40 06:00
+              cron 05:49 23:49 06:00
+              cron 10:48
+              cron 18:45
+            task jsatingest_snowore
+              edit MEM '5000'
+              event release_snowgrib
+              cron 00:05
+              cron 01:00
+              cron 05:00
+              cron 07:00
+              cron 11:00
+              cron 13:00
+              cron 17:00
+              cron 20:00
+              cron 23:00
+            task jsatingest_snowday
+              edit MEM '5000'
+              event release_snowgrib
+              cron 00:05
+              cron 01:00
+              cron 05:00
+              cron 07:00
+              cron 11:00
+              cron 13:00
+              cron 17:00
+              cron 20:00
+              cron 23:00
+            task jsatingest_ssmi
+              cron 00:20 23:20 01:00
+              cron 00:25 23:25 01:00
+              cron 00:28 23:28 01:00
+              cron 00:40 18:40 06:00
+              cron 00:55 23:55 01:00
+              cron 01:09 19:09 06:00
+              cron 01:13 19:13 06:00
+              cron 01:18 19:18 06:00
+              cron 02:33 20:33 06:00
+              cron 02:38 20:38 06:00
+              cron 02:43 20:43 06:00
+              cron 02:46 23:46 03:00
+              cron 04:36 22:36 06:00
+              cron 04:58 22:58 06:00
+              cron 05:05 23:05 06:00
+              cron 05:15 23:15 06:00
+              cron 05:40 23:40 06:00
+              cron 05:49 23:49 06:00
+              cron 06:50 18:50 12:00
+              cron 10:40 22:40 12:00
+            task jsatingest_tovs
+              cron 00:15 23:15 01:00
+              cron 00:24 23:24 01:00
+              cron 00:30 23:30 01:00
+              cron 00:38 22:38 02:00
+              cron 00:45 22:45 02:00
+              cron 00:52 22:52 02:00
+              cron 00:59 23:59 01:00
+              cron 01:04 19:04 06:00
+              cron 01:09 19:09 06:00
+              cron 01:19 19:19 06:00
+              cron 05:06 23:06 06:00
+              cron 05:20 23:20 06:00
+              cron 05:40 23:40 06:00
+              cron 05:46 23:46 06:00
+              cron 05:49 23:49 06:00
+          endfamily
+        endfamily
+    endfamily
+  endfamily
+endsuite
