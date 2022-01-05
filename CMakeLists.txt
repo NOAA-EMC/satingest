@@ -28,6 +28,9 @@ endif()
 # Build and install code.
 add_subdirectory(sorc)
 
+# Install ecflow drivers.
+add_subdirectory(ecflow)
+
 # Install jobs.
 add_subdirectory(jobs)
 
