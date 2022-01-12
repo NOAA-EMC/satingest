@@ -32,8 +32,8 @@
 #                                 Albedo data file
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/prep_step
-#                : $DATA/postmsg 
+#     scripts    : $UTILROOT/ush/prep_step
+#                : $UTILROOT/ush/postmsg 
 #                : $USHobsproc_satingest/bufr_tranjb.sh
 #     data cards : unit 15, namelist with satellite info
 #     executables: $EXECobsproc_satingest/bufr_tranpoessst_navo
@@ -90,8 +90,8 @@ file=$DATA/$dsname
 pgm=bufr_tranpoessst_navo
 export pgm
 cwd=`pwd`
-cd $DATA
-. $DATA/prep_step
+
+. $UTILROOT/ush/prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -146,7 +146,7 @@ else
       lenerror=$len
    fi
    echo $msg  >> $tmperr
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit 99
 fi
 
@@ -189,7 +189,7 @@ msg="WARNING: BUFR_TRANPOESSST_NAVO ENCOUNTERED UNKNOWN SATELLITE ID --> non-fat
    echo "$msg"
    echo
    set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    retcode=0
 fi
 
@@ -201,7 +201,7 @@ if [ $retcode -eq 0 ] ; then
    echo " --------------------------------------------- "
    set -x
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
    rettot=0
    [[ "$SENDCOM" = YES ]] && cp $DATA/timwin.${dsname}.tmpout.$host.$$ $COMOUT
@@ -220,7 +220,7 @@ else
    echo "********  ERROR PROGRAM $pgm RETURN CODE $retcode  ********"
    echo "*******************************************************"
    msg="ERROR PROGRAM $pgm RETURN CODE $retcode"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
      
 

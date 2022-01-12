@@ -79,8 +79,8 @@
 #                                PRD.SPPROD.SNODEPH.N{S}HMAMAP.Dyyddd)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
-#                  $DATA/prep_step
+#     scripts    : $UTILROOT/ush/postmsg
+#                  $UTILROOT/ush/prep_step
 #                  $UTILROOT/ush/date2jday.sh
 #     data cards : none
 #     executables: $EXECobsproc_satingest/snow_sno8grb
@@ -167,7 +167,7 @@ yyyymmdd=`$UTILROOT/ush/date2jday.sh $yyyyddd`
 
 # change to working directory
 
-cd $DATA
+
 
 bufrerror=0
 if [ $TARGETFILE != NO ] ; then
@@ -182,7 +182,7 @@ $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
        $USERDIR/$TARGETFILE.history
       msg="$dsname_full received from remote unix machine, $TARGETFILE \
 copied for $yyyymmdd"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    fi
 else
    bufrerror=99
@@ -196,27 +196,27 @@ if [ -s $2 ] ; then
 
    pgm=snow_sno8grb
    set +u
-   . $DATA/prep_step
+   . $UTILROOT/ush/prep_step
    set -u
    export FORT11="$2"
    export FORT51="$DATA/snowdepth.grb"
 
    msg="$pgm start for $yyyymmdd data"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
    $EXECobsproc_satingest/snow_sno8grb
    err=$?
-   #$DATA/err_chk
+   #$UTILROOT/ush/err_chk
 
    if [ $err -eq 0 ]; then
       cp $DATA/snowdepth.grb $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb
       msg="$pgm completed normally"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       echo "snowdepth.grb (for $yyyymmdd) CREATED and WRITTEN to \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
        >> $USERDIR/snowdepth.grb.history
       msg="snowdepth.grb CREATED for $yyyymmdd"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       if [ "$SENDDBN" = YES ]; then
          if [ -s $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb ]; then
             $DBNROOT/bin/dbn_alert MODEL SNOW_GB $job \
@@ -231,7 +231,7 @@ $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
           >> $USERDIR/snowdepth.grb.grib2.history
          msg="snowdepth.grb.grib2 CREATED for $yyyymmdd"
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
          if [ "$SENDDBN" = YES ] ; then
             if [ -s $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb.grib2 ]; then
                $DBNROOT/bin/dbn_alert MODEL SNOW_GB_GB2 $job \
@@ -273,7 +273,7 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       fi
       if [ -s $TANKDIR/$currdate/wgrbbul/snowdepth.grb.grib2 ] ; then
          cp $TANKDIR/$yyyymmdd/wgrbbul/snowdepth.grb.grib2 \
@@ -288,13 +288,13 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       fi
    fi
 else
    msg="Input file $2 not found - program SNOW_SNO8GRB was not run \
 --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit 99
 fi
 

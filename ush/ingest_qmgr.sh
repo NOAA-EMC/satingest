@@ -116,7 +116,7 @@ do
                  msg="Another job with this name is in the system, this \
 ingest job will kill itself"
                  echo $msg
-                 $DATA/postmsg "$jlogfile" "$msg"
+                 $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                  [ $SENDECF = YES ] && ecflow_client --complete
                  [ -d $DATAROOT ]  && cd $DATAROOT
                  rm -rf $DATA

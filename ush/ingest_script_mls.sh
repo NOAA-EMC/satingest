@@ -42,8 +42,8 @@
 #                                 file
 #
 #   Modules and files referenced:
-#                   $DATA/prep_step
-#                   $DATA/postmsg
+#                   $UTILROOT/ush/prep_step
+#                   $UTILROOT/ush/postmsg
 #                   $USHobsproc_satingest/bufr_tranjb.sh
 #     executables : $EXECobsproc_satingest/bufr_tranmls
 #
@@ -91,7 +91,7 @@ set -aux
 
 host=$(hostname -s)
 
-cd $DATA
+
 pwd
 
 
@@ -133,9 +133,9 @@ fi
 #  -------------------
 
 pgm=bufr_tranmls
-if [ -s $DATA/prep_step ]; then
+if [ -s $UTILROOT/ush/prep_step ]; then
   set +u
-  . $DATA/prep_step
+  . $UTILROOT/ush/prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -144,7 +144,7 @@ else
 fi
 
 msg="$pgm has BEGUN"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 export FORT31=$table
 export FORT51=$DATA/mls_bufr.$host.$$
