@@ -80,7 +80,7 @@
 #                                    file
 #
 #   Modules and files referenced:
-#     scripts    : $UTILROOT/postmsg
+#     scripts    : $UTILROOT/ush/postmsg
 #     data cards : none
 #     executables: $NHOUR
 #
@@ -142,7 +142,7 @@ if [[ $SENDBB == 'YES' ]] ; then
   BBDIR=${BBDIR:-$DATA}
   [[ -d $BBDIR ]] || mkdir -m 775 -p $BBDIR
   if [ $? -ne 0 ]; then
-    $UTILROOT/errexit "Could not create BigBrother status file directory: $BBDIR"
+    $UTILROOT/ush/errexit "Could not create BigBrother status file directory: $BBDIR"
   fi
 fi
 
@@ -310,13 +310,13 @@ if [ -s $1 ] ; then
          done
          if [ $hourwait -gt $hourlimit ] ; then
             if [ $RECPRO = PROCESSED ] ; then
-               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
+               $UTILROOT/ush/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
 data from $fname processed in the last $hourwait hrs."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
             elif [ $RECPRO = RECEIVED ] ; then
-               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
+               $UTILROOT/ush/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
 data from $fname received in the last $hourwait hrs."
              echo "No new files received for $hourwait hours for $ftype $fname."
              echo "No new files received for $hourwait hours for $ftype $fname."
@@ -331,10 +331,10 @@ data from $fname received in the last $hourwait hrs."
             fi
          else
             if [ $RECPRO = PROCESSED ] ; then
-               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
+               $UTILROOT/ush/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
 from $fname processed in the last $hourwait hrs."
             elif [ $RECPRO = RECEIVED ] ; then
-               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
+               $UTILROOT/ush/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
 from $fname received in the last $hourwait hrs."
             fi
             if [ $SENDBB = 'YES' ]; then
@@ -349,7 +349,7 @@ from $fname received in the last $hourwait hrs."
            "$fname" != snowdepth.grb ] ; then
          oldest_date=`grep " AT " $1 | grep "$fname_grep3$blank" | head -n1 | \
           awk -F" AT " '{print $2}' | cat`
-         $UTILROOT/postmsg "$jlogfile" "REMOTE INGEST: No data from $fname \
+         $UTILROOT/ush/postmsg "$jlogfile" "REMOTE INGEST: No data from $fname \
 received since before ${oldest_date}."
       fi
    fi
