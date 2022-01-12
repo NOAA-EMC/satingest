@@ -80,7 +80,7 @@
 #                                    file
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
+#     scripts    : $UTILROOT/postmsg
 #     data cards : none
 #     executables: $NHOUR
 #
