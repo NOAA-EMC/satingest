@@ -142,7 +142,7 @@ if [[ $SENDBB == 'YES' ]] ; then
   BBDIR=${BBDIR:-$DATA}
   [[ -d $BBDIR ]] || mkdir -m 775 -p $BBDIR
   if [ $? -ne 0 ]; then
-    $DATA/errexit "Could not create BigBrother status file directory: $BBDIR"
+    $UTILROOT/errexit "Could not create BigBrother status file directory: $BBDIR"
   fi
 fi
 
@@ -310,13 +310,13 @@ if [ -s $1 ] ; then
          done
          if [ $hourwait -gt $hourlimit ] ; then
             if [ $RECPRO = PROCESSED ] ; then
-               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
+               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
 data from $fname processed in the last $hourwait hrs."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
               echo "Processing has failed for $hourwait hours on $ftype $fname."
             elif [ $RECPRO = RECEIVED ] ; then
-               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
+               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: No \
 data from $fname received in the last $hourwait hrs."
              echo "No new files received for $hourwait hours for $ftype $fname."
              echo "No new files received for $hourwait hours for $ftype $fname."
