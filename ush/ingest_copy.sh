@@ -56,7 +56,7 @@
 #                 $2: raw_file   - input filename (without path)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
+#     scripts    : $UTILROOT/postmsg
 #     data cards : none
 #     executables: none
 #
@@ -121,7 +121,7 @@
 
 set -aux
 
-cd $DATA
+
 pwd
 
 #  Set environment variables for processing
@@ -228,16 +228,16 @@ cd $TANKDIR
 if [ ! -d ${TANKDIR}${PDY_dir}/$TANKFILE ] ; then
    mkdir -m 775 -p ${TANKDIR}${PDY_dir}/$TANKFILE
 fi
-cd $DATA
+
 
 newfile=$(basename $infile)
 if [ -n "$RENAME_FILE_SUFFIX" ]; then
    newfile=${newfile}${RENAME_FILE_SUFFIX}
    msg="Output file RENAMED from \"$(basename $infile)\" to \"$newfile\""
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/postmsg "$jlogfile" "$msg"
 fi
 msg="copying $newfile"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/postmsg "$jlogfile" "$msg"
 
 if [ ! -e ${TANKDIR}${PDY_dir}/$TANKFILE ] ; then
    mkdir -m 775 -p ${TANKDIR}${PDY_dir}/$TANKFILE
