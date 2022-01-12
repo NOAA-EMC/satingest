@@ -331,10 +331,10 @@ data from $fname received in the last $hourwait hrs."
             fi
          else
             if [ $RECPRO = PROCESSED ] ; then
-               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
+               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
 from $fname processed in the last $hourwait hrs."
             elif [ $RECPRO = RECEIVED ] ; then
-               $DATA/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
+               $UTILROOT/postmsg "$jlogfile" "REMOTE FILE TRANSFER INGEST: Data \
 from $fname received in the last $hourwait hrs."
             fi
             if [ $SENDBB = 'YES' ]; then
@@ -349,7 +349,7 @@ from $fname received in the last $hourwait hrs."
            "$fname" != snowdepth.grb ] ; then
          oldest_date=`grep " AT " $1 | grep "$fname_grep3$blank" | head -n1 | \
           awk -F" AT " '{print $2}' | cat`
-         $DATA/postmsg "$jlogfile" "REMOTE INGEST: No data from $fname \
+         $UTILROOT/postmsg "$jlogfile" "REMOTE INGEST: No data from $fname \
 received since before ${oldest_date}."
       fi
    fi
