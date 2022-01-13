@@ -40,7 +40,7 @@ C              - SST DATA.
 C
 C   SUBPROGRAMS CALLED:
 C     LIBRARY:
-C       W3LIB  - W3TRNARG W3TAGB W3TAGE ERREXIT W3MOVDAT
+C       W3LIB  - W3TRNARG W3TAGB W3TAGE err_exit W3MOVDAT
 C        BUFR  - OPENBF   CLOSBF   OPENMG  UFBINT  WRITSB
 C       BACIO  - BAOPENR BAREAD
 C
@@ -96,7 +96,7 @@ C-----------------------------------------------------------------------
       IF(IERR.NE.0) THEN                                                
         WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',  
      1            '' RETURN CODE = '',I5)') IERR                        
-        CALL ERREXIT(IERR)                                                 
+        CALL err_exit(IERR)                                                 
       ENDIF                                                             
 C-----------------------------------------------------------------------
       SUBSET = 'NC'//SUBDIR(LSUBDR-2:LSUBDR)//TANKID(LTNKID-2:LTNKID)
@@ -126,17 +126,17 @@ ccccc CALL OPENBF(LUNOT,'OUT',LUNDX)
           continue
         case(1)
           print*,'environment variable ',trim(envvar),' does not exist'
-          call errexit(6)
+          call err_exit(6)
         case(-1)
           print*,'env variable ',trim(envvar),' is set to string of',
      1     length,' characters which does not fit in CFILE.'
-          call errexit(7)
+          call err_exit(7)
         case(3)
           print*,'non-specific error(s) from GET_ENVIRONMENT_VARIABLE'
-          call errexit(8)
+          call err_exit(8)
         case default
           print*,'unexpected status from GET_ENVIRONMENT_VARIABLE'
-          call errexit(9)
+          call err_exit(9)
       end select
 
 C We are assuming here the filename ends with pattern YYYY_DDD
@@ -285,15 +285,15 @@ C  ---------------------------------------------------------
       PRINT*,'*** PROCESSING ENDED NORMALLY ***'                        
       STOP
  9990 WRITE(6,'('' UNABLE TO PARSE DATE FROM FILE NAME '')')
-      CALL ERREXIT(33)
+      CALL err_exit(33)
       CALL W3TAGE('BUFR_TRANGOESSST')
       STOP
  9993 WRITE(6,'('' UNABLE TO READ INPUT RECORD '')')
-      CALL ERREXIT(11)
+      CALL err_exit(11)
       CALL W3TAGE('BUFR_TRANGOESSST')
       STOP
  9991 WRITE(6,'('' UNABLE TO OPEN FILE '',A)') CFILE 
-      CALL ERREXIT(22)
+      CALL err_exit(22)
       CALL W3TAGE('BUFR_TRANGOESSST')
       STOP
       END                                                               

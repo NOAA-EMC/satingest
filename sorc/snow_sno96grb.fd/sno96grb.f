@@ -98,7 +98,7 @@ c
       if (iret /= 0) then
         write(6,*) 'Bad read of stdin, iret: ', iret
         CALL W3TAGE('SNO96GRB')
-        call errexit(95)
+        call err_exit(95)
       end if       
 c
 c  Open output GRIB file
@@ -111,17 +111,17 @@ c
           continue
         case(1)
           print*,'environment variable ',trim(envvar),' does not exist'
-          call errexit(6)
+          call err_exit(6)
         case(-1)
           print*,'env variable ',trim(envvar),' is set to string of',
      1     length,' characters which does not fit in fileo.'
-          call errexit(7)
+          call err_exit(7)
         case(3)
           print*,'non-specific error(s) from GET_ENVIRONMENT_VARIABLE'
-          call errexit(8)
+          call err_exit(8)
         case default
           print*,'unexpected status from GET_ENVIRONMENT_VARIABLE'
-          call errexit(9)
+          call err_exit(9)
       end select
 
       call baopen(lun,fileo,iret)
@@ -129,7 +129,7 @@ c
       if (iret /= 0) then
         write(6,*) 'Bad open of unit 51, iret: ', iret
         CALL W3TAGE('SNO96GRB')
-        call errexit(97)
+        call err_exit(97)
       end if       
 c
 c  Use w3movdat to convert julian date to mm/dd:
@@ -174,7 +174,7 @@ c
            else
               write(6,*) 'Invalid irow value! ', irow(i)
               CALL W3TAGE('SNO96GRB')
-              call errexit(99)
+              call err_exit(99)
            endif
  30     continue
  40   continue
@@ -256,11 +256,11 @@ c
       write(6,*) 'Bad write on grib file unit 51'
       CALL W3TAGE('SNO96GRB')
       call baclose(lun,iret)
-      call errexit(96)
+      call err_exit(96)
 c
 9999  continue
       write(6,*) 'Unexpected end-of-file on unit 11'
       CALL W3TAGE('SNO96GRB')
-      call errexit(98)
+      call err_exit(98)
 c
       end program SNO96GRB

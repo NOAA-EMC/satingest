@@ -93,7 +93,7 @@ C     LIBRARY:
 C       SYSTEM - GET_ENVIRONMENT_VARIABLE
 C       W3NCO  - W3TRNARG W3MOVDAT W3DOXDAT W3UTCDAT W3DIFDAT W3AI39
 C              - MOVA2I
-C              - GBYTEC   GBYTESC  GETGB    W3TAGB   W3TAGE   ERREXIT
+C              - GBYTEC   GBYTESC  GETGB    W3TAGB   W3TAGE   err_exit
 C     BUFRLIB  - OPENBF   CLOSBF   OPENMG   UFBINT   UFBREP   WRITSB
 C              - GETBMISS
 C       BACIO  - BAOPENR  BAREAD   BACLOSE
@@ -146,7 +146,7 @@ c.......................................................................
         WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',
      1            '' RETURN CODE = '',I5)') IERR
         CALL W3TAGE('BUFR_TRANSSMI') 
-        CALL ERREXIT(IERR)
+        CALL err_exit(IERR)
       ENDIF
 c.......................................................................
       SUBSET = 'NC'//SUBDIR(LSUBDR-2:LSUBDR)//TANKID(LTNKID-2:LTNKID)
@@ -174,7 +174,7 @@ c.......................................................................
         WRITE(6,1002) SUBSET(6:8)
  1002   FORMAT(1X,'''',A3,''' IS NOT AN ALLOWABLE SSMI SUBCATEGORY.')
         CALL W3TAGE('BUFR_TRANSSMI') 
-        CALL ERREXIT(255)
+        CALL err_exit(255)
 c.......................................................................
       ENDIF
 C-----------------------------------------------------------------------
@@ -282,7 +282,7 @@ c.......................................................................
  1003   FORMAT(' NO SCANS PROCESSED -- DISABLING ALL SUBSEQUENT ',
      1         'PROCESSING.')
         CALL W3TAGE('BUFR_TRANSSMI')
-        CALL ERREXIT(253)
+        CALL err_exit(253)
       ENDIF
 c.......................................................................
       PRINT *
@@ -297,7 +297,7 @@ c.......................................................................
  1001 FORMAT(' ERROR ENCOUNTERED READING INPUT NESDIS SSM/I DATA AFTER',
      1 ' RECORD NO. ',I8)
       CALL W3TAGE('BUFR_TRANSSMI') 
-      CALL ERREXIT(254)
+      CALL err_exit(254)
 c.......................................................................
 
       END
@@ -473,22 +473,22 @@ C-----------------------------------------------------------------------
                 print*,'environment variable ',trim(envvar),
      1                                             ' does not exist'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(6)
+                call err_exit(6)
               case(-1)
                 print*,'env variable ',trim(envvar),
      1                        ' is set to string of',length,
      1                        ' characters which does not fit in fileb.'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(7)
+                call err_exit(7)
               case(3)
                 print*,'non-specific error(s) from ',
      1                                  'GET_ENVIRONMENT_VARIABLE'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(8)
+                call err_exit(8)
               case default
                 print*,'unexpected status from GET_ENVIRONMENT_VARIABLE'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(9)
+                call err_exit(9)
             end select
 
             envvar='FORT  '
@@ -501,22 +501,22 @@ C-----------------------------------------------------------------------
                 print*,'environment variable ',trim(envvar),
      1                                             ' does not exist'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(6)
+                call err_exit(6)
               case(-1)
                 print*,'env variable ',trim(envvar),
      1                        ' is set to string of',length,
      1                        ' characters which does not fit in filei.'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(7)
+                call err_exit(7)
               case(3)
                 print*,'non-specific error(s) from ',
      1                                  'GET_ENVIRONMENT_VARIABLE'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(8)
+                call err_exit(8)
               case default
                 print*,'unexpected status from GET_ENVIRONMENT_VARIABLE'
                 CALL W3TAGE('BUFR_TRANSSMI') 
-                call errexit(9)
+                call err_exit(9)
             end select
 
             CALL BAOPENR(INGBD,fileb,IRET1)

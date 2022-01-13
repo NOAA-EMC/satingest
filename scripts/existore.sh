@@ -251,7 +251,7 @@
 #                  $USHobsproc_satingest/ingest_check_lapsed_data.sh
 #                  $UTILROOT/ush/prep_step
 #                  $UTILROOT/ush/postmsg
-#                  $UTILROOT/ush/err_exit
+#                  $UTILROOT/ush/errexit
 #     data cards : file(s) containing BUFR tables (see below)
 #     executables: executable(s) to create BUFR messages and append to tank
 #                  file (see below)

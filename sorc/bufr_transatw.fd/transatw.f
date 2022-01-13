@@ -119,7 +119,7 @@ C   SUBPROGRAMS CALLED:
 C     UNIQUE   - SCAN_BUFRTABLE
 C     LIBRARY:
 C      SYSTEM  - INQUIRE
-C       W3NCO  - W3TRNARG W3TAGB   W3TAGE   ERREXIT
+C       W3NCO  - W3TRNARG W3TAGB   W3TAGE   err_exit
 C     BUFRLIB  - OPENBF   CLOSBF   OPENMB   UFBINT   UFBREP   WRITSB
 C              - IREADMG  IREADSB  DATELEN  UPFTBV   IBFMS    DIGIT
 C
@@ -264,7 +264,7 @@ ccccc print *, 'TANKID=',TANKID(LTNKID-2:LTNKID)
          WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',
      .             '' RETURN CODE = '',I5)') IERR
          CALL W3TAGE('BUFR_TRANSATW')
-         CALL ERREXIT(IERR)
+         CALL err_exit(IERR)
       ENDIF
       SUBSET = 'NC'//SUBDIR(LSUBDR-2:LSUBDR)//TANKID(LTNKID-2:LTNKID)
 ccccc print *, 'SUBSET=',SUBSET
@@ -763,7 +763,7 @@ C  ---------------------------------------------------------
  2003    FORMAT(' NO REPORTS PROCESSED -- DISABLING ALL SUBSEQUENT ',
      .    'PROCESSING.')
          CALL W3TAGE('BUFR_TRANSATW')
-         CALL ERREXIT(253)
+         CALL err_exit(253)
       ENDIF
       CALL W3TAGE('BUFR_TRANSATW')
 
@@ -815,7 +815,7 @@ cc           write(6,44) card
 
        WRITE(6,'('' ERROR SCANNING OUTPUT BUFR TABLE'')')
        CALL W3TAGE('BUFR_TRANSATW')
-       CALL ERREXIT(44)
+       CALL err_exit(44)
 
   88   continue
 

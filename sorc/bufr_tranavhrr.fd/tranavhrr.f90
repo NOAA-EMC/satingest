@@ -60,7 +60,7 @@
 !                LAG      DATTIM
 !                
 !     LIBRARY:
-!       W3NCO  - W3TAGB   W3TRNARG W3TAGE   ERREXIT  W3MOVDAT W3FS26
+!       W3NCO  - W3TAGB   W3TRNARG W3TAGE   err_exit  W3MOVDAT W3FS26
 !     BUFRLIB  - DATELEN  OPENBF   MAXOUT   CLOSMG   OPENMB   UFBINT
 !                UFBREP   WRITCP
 !
@@ -104,7 +104,7 @@
          write(6,&
  '('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - RETURN CODE = '',i5)') ierr
          call w3tage('BUFR_TRANAVHRR')
-         call errexit(ierr)
+         call err_exit(ierr)
       endif
 !.......................................................................
       subset = 'NC'//subdir(lsubdr-2:lsubdr)//tankid(ltnkid-2:ltnkid)
@@ -119,7 +119,7 @@
          write(6,&
  '('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - RETURN CODE = '',i5)') ierr
          call w3tage('BUFR_TRANAVHRR')
-         call errexit(ierr)
+         call err_exit(ierr)
       endif
 !.......................................................................
       subsetp = 'NC'//subdirp(lsubdrp-2:lsubdrp)//tankidp(ltnkidp-2:ltnkidp)
@@ -145,7 +145,7 @@
          print *,'*****ERROR opening raw 1b AVHRR GAC file',ios
          print *,'*****STOP 2'
          call w3tage('BUFR_TRANAVHRR')
-         call errexit(2)
+         call err_exit(2)
       endif
 
       write(stdout,*)' Begin decoding AVHRR GAC 1B data'
@@ -255,7 +255,7 @@
          print *,'*****INVALID satellite id read in ',jsat
          print *,'*****STOP 3'
          call w3tage('BUFR_TRANAVHRR')
-         call errexit(3)
+         call err_exit(3)
       endif
 
 !  If data type is not that for AVHRR GAC, exit program
@@ -268,7 +268,7 @@
                  'data (type=2) - data type = ',jtype
          print *,'*****STOP 4'
          call w3tage('BUFR_TRANAVHRR')
-         call errexit(4)
+         call err_exit(4)
       endif
 
       write(stdout,*) 'Data and satellite type = ',jtype,jsat
@@ -355,7 +355,7 @@
       close(lu1b)
 
 !     call w3tage('BUFR_TRANAVHRR')
-      call errexit(3)
+      call err_exit(3)
 !
 !
 !
@@ -380,7 +380,7 @@
  1003   format(/' NO RECORDS WRITTEN -- DISABLING ALL SUBSEQUENT ',  &
                'PROCESSING.'/)
         call w3tage('BUFR_TRANAVHRR')
-        call errexit(253)
+        call err_exit(253)
       endiF
 
       call w3tage('BUFR_TRANAVHRR')

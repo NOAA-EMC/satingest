@@ -122,7 +122,7 @@ C  ------------------------------------------------------------------
          WRITE(6,*) '** UNKNOWN SATELLITE INSTRUMENT',
      .    (RDATA(III),III=1,NREAL)
          CALL W3TAGE('BUFR_TRANHIRS2')
-         CALL ERREXIT(7)
+         CALL err_exit(7)
       ENDIF
  
 C  FLIP THE SENSE OF THE LAND/SEA FLAG

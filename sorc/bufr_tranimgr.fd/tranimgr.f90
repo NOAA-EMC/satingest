@@ -42,7 +42,7 @@
 !
 !   SUBPROGRAMS CALLED:
 !     LIBRARY:
-!       W3NCO  - W3TRNARG W3TAGB   W3TAGE   ERREXIT
+!       W3NCO  - W3TRNARG W3TAGB   W3TAGE   err_exit
 !     BUFRLIB  - OPENBF   CLOSBF   OPENMB   UFBINT   UFBREP   WRITSB
 !              - IREADMG  IREADSB  DATELEN
 !
@@ -92,7 +92,7 @@ if(ierr /= 0) then
    write(6,&
    '(''UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - RETURN CODE = '',I5)') IERR
    call  w3tage('BUFR_TRANIMGR')
-   call  errexit(ierr)
+   call  err_exit(ierr)
 end if
 
 subset = 'NC'//subdir(lsubdr-2:lsubdr)//tankid(ltnkid-2:ltnkid)         
@@ -280,7 +280,7 @@ print*,'*** PROCESSING ENDED NORMALLY ***'
 if(iwt == 0) then
    print *, 'NO REPORTS PROCESSED -- DISABLING ALL SUBSEQUENT PROCESSING.'
    CALL W3TAGE('BUFR_TRANIMGR')
-   CALL ERREXIT(253)
+   CALL err_exit(253)
 end if
 
 CALL W3TAGE('BUFR_TRANIMGR')

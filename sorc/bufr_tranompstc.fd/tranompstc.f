@@ -32,7 +32,7 @@ C
 C   SUBPROGRAMS CALLED:
 C     SYSTEM:  - GETENV
 C     LIBRARY:
-C       W3NCO  - W3TRNARG W3TAGB   W3TAGE   ERREXIT
+C       W3NCO  - W3TRNARG W3TAGB   W3TAGE   err_exit
 C     BUFRLIB  - OPENBF   CLOSBF   OPENMB   UFBSEQ   WRITCP   IREADMG
 C              - IREADSB  DATELEN  WRDLEN   RDMSGW   IUPBS01  PKVS01
 C              - GETBMISS
@@ -80,7 +80,7 @@ C-----------------------------------------------------------------------
         WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',
      1            '' RETURN CODE = '',I5)') IERR
         CALL W3TAGE('BUFR_TRANOMPSTC')
-        CALL ERREXIT(IERR)
+        CALL err_exit(IERR)
       ENDIF
       SUBSET = 'NC'//SUBDIR(LSUBDR-2:LSUBDR)//TANKID(LTNKID-2:LTNKID)
 ccccc print *, 'SUBSET = ',SUBSET
@@ -110,7 +110,7 @@ C  --------------------------------------------------------------------
          PRINT *
          PRINT *, '=====> Error reading unit ',LUNIN
          PRINT *
-         CALL ERREXIT(253)
+         CALL err_exit(253)
       ENDIf
 
       IEDTN = IUPBS01(MBAY,'BEN')
@@ -193,7 +193,7 @@ C  -------------------------------------------------------------------
                PRINT *, '=====> Input BUFR message type not ',
      $                  'recognized,',SUBFGN
                PRINT *
-               CALL ERREXIT(253)
+               CALL err_exit(253)
             ENDIF
 ccccc       if(ird.eq.1) then
 ccccc          do i = 1,ndat
@@ -225,7 +225,7 @@ C  ---------------------------------------------------------
  2003   FORMAT(' NO REPORTS PROCESSED -- DISABLING ALL SUBSEQUENT ',
      1         'PROCESSING.')
         CALL W3TAGE('BUFR_TRANOMPSTC')
-        CALL ERREXIT(253)
+        CALL err_exit(253)
       ENDIF
       CALL W3TAGE('BUFR_TRANOMPSTC')
 

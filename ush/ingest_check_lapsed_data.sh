@@ -142,7 +142,7 @@ if [[ $SENDBB == 'YES' ]] ; then
   BBDIR=${BBDIR:-$DATA}
   [[ -d $BBDIR ]] || mkdir -m 775 -p $BBDIR
   if [ $? -ne 0 ]; then
-    $UTILROOT/ush/errexit "Could not create BigBrother status file directory: $BBDIR"
+    $UTILROOT/ush/err_exit "Could not create BigBrother status file directory: $BBDIR"
   fi
 fi
 

@@ -78,17 +78,17 @@ c
           continue
         case(1)
           print*,'environment variable ',trim(envvar),' does not exist'
-          call errexit(6)
+          call err_exit(6)
         case(-1)
           print*,'env variable ',trim(envvar),' is set to string of',
      1     length,' characters which does not fit in fileo.'
-          call errexit(7)
+          call err_exit(7)
         case(3)
           print*,'non-specific error(s) from GET_ENVIRONMENT_VARIABLE'
-          call errexit(8)
+          call err_exit(8)
         case default
           print*,'unexpected status from GET_ENVIRONMENT_VARIABLE'
-          call errexit(9)
+          call err_exit(9)
       end select
 
       call baopen(lun,fileo,iret)
@@ -227,5 +227,5 @@ c
  980  continue
       write(6,*) 'Read Error on USAF snow data!'
       CALL W3TAGE('SNO8GRB ')                                           
-      call errexit(102)
+      call err_exit(102)
       end
