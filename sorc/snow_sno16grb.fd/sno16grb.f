@@ -85,17 +85,17 @@ c
           continue
         case(1)
           print*,'environment variable ',trim(envvar),' does not exist'
-          call err_exit(6)
+          call errexit(6)
         case(-1)
           print*,'env variable ',trim(envvar),' is set to string of',
      1     length,' characters which does not fit in fileo.'
-          call err_exit(7)
+          call errexit(7)
         case(3)
           print*,'non-specific error(s) from GET_ENVIRONMENT_VARIABLE'
-          call err_exit(8)
+          call errexit(8)
         case default
           print*,'unexpected status from GET_ENVIRONMENT_VARIABLE'
-          call err_exit(9)
+          call errexit(9)
       end select
 
       call baopen(lun,fileo,iret)
@@ -131,7 +131,7 @@ c
            elseif (irow(i).ne.1 .and. irow(i).ne.2) then
               write(6,*) 'Invalid irow value!'
               CALL W3TAGE('SNO16GRB')
-              call err_exit(99)
+              call errexit(99)
            endif
  30     continue
  40   continue
@@ -211,6 +211,6 @@ c
 9999  continue
       write(6,*) 'Unexpected end-of-file on unit 11'
       CALL W3TAGE('SNO16GRB')
-      call err_exit(98)
+      call errexit(98)
 c
       end

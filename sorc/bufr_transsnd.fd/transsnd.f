@@ -75,7 +75,7 @@ C
 C   SUBPROGRAMS CALLED:
 C     UNIQUE   - REMTDY
 C     LIBRARY:
-C       W3NCO  - W3TRNARG W3TAGB   W3TAGE   W3FS26   W3DOXDAT err_exit
+C       W3NCO  - W3TRNARG W3TAGB   W3TAGE   W3FS26   W3DOXDAT ERREXIT
 C              - W3MOVDAT
 C     BUFRLIB  - OPENBF   CLOSBF   OPENMB   UFBINT   UFBREP   WRITSB
 C              - IREADMG  IREADSB  DATELEN
@@ -132,7 +132,7 @@ C-----------------------------------------------------------------------
         WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',
      1            '' RETURN CODE = '',I5)') IERR
         CALL W3TAGE('BUFR_TRANSSND')
-        CALL err_exit(IERR)
+        CALL ERREXIT(IERR)
       ENDIF
       SUBSET = 'NC'//SUBDIR(LSUBDR-2:LSUBDR)//TANKID(LTNKID-2:LTNKID)
 C-----------------------------------------------------------------------
@@ -341,7 +341,7 @@ C  ---------------------------------------------------------
  2003   FORMAT(' NO REPORTS PROCESSED -- DISABLING ALL SUBSEQUENT ',
      1         'PROCESSING.')
         CALL W3TAGE('BUFR_TRANSSND')
-        CALL err_exit(253)
+        CALL ERREXIT(253)
       ENDIF
       CALL W3TAGE('BUFR_TRANSSND')
 

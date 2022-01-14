@@ -173,7 +173,7 @@ C-----------------------------------------------------------------------
         WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',
      1            '' RETURN CODE = '',I5)') IERR
         CALL W3TAGE('BUFR_TRANPOESSST') 
-        CALL err_exit(IERR)
+        CALL ERREXIT(IERR)
       ENDIF
       SUBSET = 'NC'//SUBDIR(LSUBDR-2:LSUBDR)//TANKID(LTNKID-2:LTNKID)
 C-----------------------------------------------------------------------
@@ -187,7 +187,7 @@ C-----------------------------------------------------------------------
  9001 FORMAT(' ***** ERROR: DATA SOURCE NOT RECOGNIZED (NEITHER NESDIS',
      1       ' NOR NAVOCEANO, SUBSET IS ',A)
          CALL W3TAGE('BUFR_TRANPOESSST') 
-         CALL err_exit(99)
+         CALL ERREXIT(99)
       ENDIF
 
       PRINT *, '     Source of data is ',type
@@ -371,7 +371,7 @@ C  --------------
  1001 FORMAT(' ERROR ENCOUNTERED IN SST INPUT FILE AFTER RECORD NO. ',
      1       I8)
       CALL W3TAGE('BUFR_TRANPOESSST') 
-      CALL err_exit(255)
+      CALL ERREXIT(255)
 
  9999 CONTINUE
 
@@ -405,7 +405,7 @@ C  ------------------------------------
 
       CALL W3TAGE('BUFR_TRANPOESSST') 
 
-      IF(ISTOP.EQ.4) CALL err_exit(04)
+      IF(ISTOP.EQ.4) CALL ERREXIT(04)
       STOP
 
       END

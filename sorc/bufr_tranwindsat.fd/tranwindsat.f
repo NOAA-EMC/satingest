@@ -58,7 +58,7 @@ C
 C   SUBPROGRAMS CALLED:
 C     SYSTEM:  - GETENV
 C     LIBRARY:
-C       W3LIB  - W3TAGB   W3TRNARG W3TAGE   err_exit
+C       W3LIB  - W3TAGB   W3TRNARG W3TAGE   ERREXIT
 C     BUFRLIB  - DATELEN  OPENBF   W3MOVDAT W3FC06   OPENMB   UFBINT
 C              - WRITSB   CLOSBF
 C
@@ -232,7 +232,7 @@ C-----------------------------------------------------------------------
         WRITE(6,'('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - '',
      1            '' RETURN CODE = '',I5)') IERR
         CALL W3TAGE('BUFR_TRANWINDSAT')
-        CALL err_exit(IERR)
+        CALL ERREXIT(IERR)
       ENDIF
 C-----------------------------------------------------------------------
 
@@ -629,7 +629,7 @@ c ----------------
  2003   FORMAT(' NO REPORTS PROCESSED -- DISABLING ALL SUBSEQUENT ',
      1         'PROCESSING.')
         CALL W3TAGE('BUFR_TRANWINDSAT')
-        CALL err_exit(253)
+        CALL ERREXIT(253)
       ENDIF
       CALL W3TAGE('BUFR_TRANWINDSAT')
 

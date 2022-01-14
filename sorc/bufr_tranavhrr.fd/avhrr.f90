@@ -485,7 +485,7 @@ contains
             write(*,*)'***'
             write(*,*)'*** Exit 7: Unexpected value for mqc: ',mqc,' ***'
             write(*,*)'***'
-            call err_exit(7)
+            call errexit(7)
       endif
 
       CALL OPENMB(nbf,SUBSETO,idate)

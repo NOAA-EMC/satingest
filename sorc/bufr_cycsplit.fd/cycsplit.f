@@ -24,7 +24,7 @@ C     UNIT 50-79  - BUFR FILES CONTAINING TIME WINDOWED DATA
 C
 C   SUBPROGRAMS CALLED:
 C     LIBRARY:
-C       W3NCO  - W3TAGB W3TAGE IW3JDN W3FS26 err_exit
+C       W3NCO  - W3TAGB W3TAGE IW3JDN W3FS26 ERREXIT
 C     BUFRLIB  - DATELEN  OPENBF  IREADNS  UFBINT  IBFMS OPENMG OPENMB
 C                UFBCPY  WRITSB CLOSMG CLOSBF  
 C
@@ -102,7 +102,7 @@ C$$$
             ncycs_found=ncycs_found+1
             if(ncycs_found.gt.mxcyc)then
               print*,'ERROR: More cycles found than expected.  Exit 7'
-              call err_exit(7)
+              call errexit(7)
             endif
           endif
           lunbfo=lunbfo_start+kcyc-1

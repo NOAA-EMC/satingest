@@ -40,7 +40,7 @@
 !   Subprograms called:
 !     Unique:     - O3MR_DATASETS GRANULE_CALENDAR_DATE CHECK_ERROR
 !     Library:
-!       W3NCO     - W3TAGB     W3FI01    err_exit   W3MOVDAT  GBYTE
+!       W3NCO     - W3TAGB     W3FI01    ERREXIT   W3MOVDAT  GBYTE
 !       BUFRLIB   - DATELEN    OPENBF    OPENMB    UFBINT    WRITSB
 !                   CLOSBF     UPFTBV
 !       HDF5LIB   - H5OPEN_F   H5FOPEN_F H5GOPEN_F H5AOPEN_NAME_F H5AREAD_F
@@ -173,7 +173,7 @@
   if(error.ne.0) then 
      write(*,*) "##### Cannot open HDF5 interface, error = ",error
      call W3TAGE('BUFR_TRANMLS')
-     call err_exit(1)
+     call ERREXIT(1)
   endif
 
 
@@ -184,7 +184,7 @@
      write(*,*) "##### PROBLEM: Cannot open HDF5 file ", trim(o3mr_name), &
       ", error = ", error
      call W3TAGE('BUFR_TRANMLS')
-     call err_exit(2)
+     call ERREXIT(2)
   endif
 
 
@@ -205,7 +205,7 @@
      write(*,*) "##### Cannot open groupname ", trim(o3mr_swath), &
       ", error = ",error
      call W3TAGE('BUFR_TRANMLS')
-     call err_exit(3)
+     call ERREXIT(3)
   endif
 
 ! Extract number of scan lines in file and set to "nATscans"
@@ -218,7 +218,7 @@
   if(error.lt.0) then
      write(*,*) "error encountered at H5SGET_SIMPLE_EXTENT_NDIMS_F"
      call W3TAGE('BUFR_TRANMLS')
-     call err_exit(9)
+     call ERREXIT(9)
   end if
   allocate(dims(ndims))
   allocate(maxdims(ndims))
@@ -226,7 +226,7 @@
   if(error.lt.0) then
      write(*,*) "error encountered at H5SGET_SIMPLE_EXTENT_DIMS_F"
      call W3TAGE('BUFR_TRANMLS')
-     call err_exit(10)
+     call ERREXIT(10)
   end if
 
   nATscans=dims(2)
@@ -235,7 +235,7 @@
      write(*,*) "##### Invalid number of scan lines or levels in file (=", &
       nATscans,nLevels,")"
      call W3TAGE('BUFR_TRANMLS')
-     call err_exit(6)
+     call ERREXIT(6)
   endif
 
   print *
@@ -820,7 +820,7 @@
        write(*,*) "##### Cannot open groupname ",file_attr_swath, &
         ", error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(3)
+       call ERREXIT(3)
     endif
 
 
@@ -831,13 +831,13 @@
     if(error.ne.0) then 
        write(*,*) "##### Cannot open GranuleDay attribute, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(4)
+       call ERREXIT(4)
     endif
     call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, date,data_dims,error) 
     if(error.ne.0) then 
        write(*,*) "##### Cannot read GranuleDay, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(5)
+       call ERREXIT(5)
     endif
     call H5ACLOSE_F(attr_id,error)
     if(error.ne.0) then 
@@ -854,13 +854,13 @@
     if(error.ne.0) then 
        write(*,*) "##### Cannot open GranuleMonth attribute, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(4)
+       call ERREXIT(4)
     endif
     call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, date,data_dims,error) 
     if(error.ne.0) then 
        write(*,*) "##### Cannot read GranuleMonth, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(5)
+       call ERREXIT(5)
     endif
     call H5ACLOSE_F(attr_id,error)
     if(error.ne.0) then 
@@ -877,13 +877,13 @@
     if(error.ne.0) then 
        write(*,*) "##### Cannot open GranuleYear attribute, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(4)
+       call ERREXIT(4)
     endif
     call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, date,data_dims,error) 
     if(error.ne.0) then 
        write(*,*) "##### Cannot read GranuleYear, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(5)
+       call ERREXIT(5)
     endif
     call H5ACLOSE_F(attr_id,error)
     if(error.ne.0) then 
@@ -900,7 +900,7 @@
        write(*,*) "##### Cannot close groupname ", file_attr_swath, &
         ", error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(7)
+       call ERREXIT(7)
     endif
 
 !!!!write(*,*) "granule_calendar_date day is ", day, month, year
@@ -921,7 +921,7 @@
        write(*,*) &
         "#### Error returned from an HDF5 interface routine, error = ",error
        call W3TAGE('BUFR_TRANMLS')
-       call err_exit(8)
+       call ERREXIT(8)
     endif
 
   end subroutine CHECK_ERROR

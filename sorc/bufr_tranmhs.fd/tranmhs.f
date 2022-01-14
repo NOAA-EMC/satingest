@@ -66,7 +66,7 @@ C     UNIQUE:    - MHS     CHARS   DATTIM  ICHARS     LANSEA  LBIT
 C                  MBYTE   LBYTE   XFLOAT  SATAZIMUTH BUFR1B
 C     SYSTEM:    - SYSTEM
 C     LIBRARY:
-C       W3NCO    - W3TAGB  W3TAGE  err_exit W3FS26  W3MOVDAT W3DOXDAT
+C       W3NCO    - W3TAGB  W3TAGE  ERREXIT W3FS26  W3MOVDAT W3DOXDAT
 C       BUFRLIB  - OPENBF  CLOSBF  OPENMB  WRITSB  WRITCP   UFBSEQ
 C                  MESGBC
 C
@@ -381,7 +381,7 @@ C  --------------------------------------------------------
       else
          write(stdout,*) '***ERROR***   unknown satellite id ',jsat
          call w3tage('BUFR_TRANMHS')
-         call err_exit(6)
+         call errexit(6)
       endif
 
 C  Extract data type code (76*8+1=609)
@@ -393,7 +393,7 @@ C  -----------------------------------
          write(stdout,*)'***ERROR***  Input data file does not contain',
      x    ' MHS data (type=12).  data type = ',jtype
          call w3tage('BUFR_TRANMHS')
-         call err_exit(1)
+         call errexit(1)
       endif
       write(stdout,*) 'Data type and BUFR satellite id = ',jtype,jsat
 
@@ -1047,7 +1047,7 @@ C  -----------------------------------
       close(lunin)
       call closbf(lubfrb)
       call w3tage('BUFR_TRANMHS')
-      call err_exit(3)
+      call errexit(3)
 
       end
 

@@ -101,7 +101,7 @@ C     UNIQUE:    - AMSUA   CHARS   DATTIM  ICHARS     LANSEA  LBIT
 C                  MBYTE   LBYTE   XFLOAT  SATAZIMUTH BUFR1B
 C     SYSTEM:    - SYSTEM
 C     LIBRARY:
-C       W3NCO    - W3TAGB  W3TAGE  err_exit W3FS26  W3MOVDAT W3DOXDAT
+C       W3NCO    - W3TAGB  W3TAGE  ERREXIT W3FS26  W3MOVDAT W3DOXDAT
 C       BUFRLIB  - OPENBF  CLOSBF  OPENMB  WRITSB  WRITCP   UFBSEQ
 C                  MESGBC
 C
@@ -517,7 +517,7 @@ C  --------------------------------------------------------
       else
          write(stdout,*) '***ERROR***   unknown satellite id ',jsat
          call w3tage('BUFR_TRANAMSUA')
-         call err_exit(6)
+         call errexit(6)
       endif
 
 C  Extract data type code (76*8+1=609)
@@ -529,7 +529,7 @@ C  -----------------------------------
          write(stdout,*)'***ERROR***  Input data file does not contain',
      x    ' AMSU-A data (type=10).  data type = ',jtype
          call w3tage('BUFR_TRANAMSUA')
-         call err_exit(1)
+         call errexit(1)
       endif
       write(stdout,*) 'Data type and BUFR satellite id = ',jtype,jsat
 
@@ -1226,7 +1226,7 @@ C  ---------------------------------------
       call closbf(lubfrb)
       call closbf(lubfra)
       call w3tage('BUFR_TRANAMSUA')
-      call err_exit(2)
+      call errexit(2)
 
 C  Error reading 1B file header record
 C  -----------------------------------
@@ -1238,7 +1238,7 @@ C  -----------------------------------
       call closbf(lubfrb)
       call closbf(lubfra)
       call w3tage('BUFR_TRANAMSUA')
-      call err_exit(3)
+      call errexit(3)
 
       end
 

@@ -68,7 +68,7 @@
 ! Subprogams called:
 !    Unique: -  REMTDY (inline source)
 !   Library:
-!       W3NCO - W3TAGB  W3TAGE W3TRNARG W3DOXDAT W3FS26 err_exit
+!       W3NCO - W3TAGB  W3TAGE W3TRNARG W3DOXDAT W3FS26 ERREXIT
 !     BUFRLIB - DATELEN OPENBF GETBMISS OPENMB   UFBINT WRITCP  CLOSMG CLOSBF
 !
 ! Exit states:
@@ -124,7 +124,7 @@
          write(6,&
  '('' UNABLE TO PARSE ARGS TO TRANSLATION ROUTINE - RETURN CODE = '',i5)') ierr
          call w3tage('BUFR_TRANSKYCOVR')
-         call err_exit(ierr)
+         call errexit(ierr)
       endif
 !.......................................................................
       subset = 'NC'//subdir(lsubdr-2:lsubdr)//tankid(ltnkid-2:ltnkid)
@@ -233,7 +233,7 @@
             go to 67
 66          continue
             call w3tage('BUFR_TRANSKYCOVR')
-            call err_exit(77)
+            call errexit(77)
          endif
 67       continue
 
@@ -245,13 +245,13 @@
             '('' #####> INVALID AVERAGED FOV EFFECTIVE CLOUD AMOUNT '',f7.2, &
             '' -- STOP WITH RETURN CODE 66'')') eca_avg
             call w3tage('BUFR_TRANSKYCOVR')
-            call err_exit(66)
+            call errexit(66)
          else if(eca.lt.0. .or. eca.gt.100.)  then
             write(6,&
             '('' #####> INVALID SINGLE, CENTER FOV EFFECTIVE CLOUD AMOUNT '', &
             f7.2,'' -- STOP WITH RETURN CODE 66'')') eca
             call w3tage('BUFR_TRANSKYCOVR')
-            call err_exit(66)
+            call errexit(66)
          endif
 
          read(csat,'(i2)') isat
@@ -310,7 +310,7 @@
             '('' #####> INVALID INCOMING SATELLITE NUMBER '',i3, &
             '' -- STOP WITH RETURN CODE 88'')') isat
             call w3tage('BUFR_TRANSKYCOVR')
-            call err_exit(88)
+            call errexit(88)
          endif
          arr(1) = dble(said)                       ! SAID
          arr(2) = dble(eca)                        ! ECAS

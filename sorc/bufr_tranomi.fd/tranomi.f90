@@ -31,7 +31,7 @@
 !   Subprograms called:
 !     Unique:     - TO3_DATASETS GRANULE_CALENDAR_DATE CHECK_ERROR
 !     Library:
-!       W3NCO     - W3TAGB     W3FI01    err_exit   W3MOVDAT  GBYTE
+!       W3NCO     - W3TAGB     W3FI01    ERREXIT   W3MOVDAT  GBYTE
 !       BUFRLIB   - DATELEN    OPENBF    OPENMB    UFBINT
 !                   WRITSB     CLOSBF    UPFTBV
 !       HDF5LIB   - H5OPEN_F   H5FOPEN_F H5GOPEN_F H5AOPEN_NAME_F H5AREAD_F
@@ -144,7 +144,7 @@
   if(error.ne.0) then 
      write(*,'(" ##### Cannot open HDF5 interface, error = ",I0)') error
      call W3TAGE('BUFR_TRANOMI')
-     call err_exit(1)
+     call ERREXIT(1)
   endif
 
 
@@ -155,7 +155,7 @@
      write(*,'(" ##### PROBLEM: Cannot open HDF5 file ",A,", error = ",I0)') &
        trim(to3_name),error
      call W3TAGE('BUFR_TRANOMI')
-     call err_exit(2)
+     call ERREXIT(2)
   endif
 
 
@@ -176,7 +176,7 @@
      write(*,'(" ##### Cannot open groupname ",A,", error = ",I0)') &
       trim(totaloz_swath),error
      call W3TAGE('BUFR_TRANOMI')
-     call err_exit(3)
+     call ERREXIT(3)
   endif
 
 
@@ -186,13 +186,13 @@
   if(error.ne.0) then 
      write(*,'(" ##### Cannot open NumTimes attribute, error = ",I0)') error
      call W3TAGE('BUFR_TRANOMI')
-     call err_exit(4)
+     call ERREXIT(4)
   endif
   call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, numTimes,data_dims,error) 
   if(error.ne.0) then 
      write(*,'(" ##### Cannot read NumTimes, error = ",I0)') error
      call W3TAGE('BUFR_TRANOMI')
-     call err_exit(5)
+     call ERREXIT(5)
   endif
   call H5ACLOSE_F(attr_id,error)
   if(error.ne.0) then 
@@ -204,7 +204,7 @@
      write(*,'(" ##### Invalid number of along-track scan lines in file (=", &
       I0)') nATscans
      call W3TAGE('BUFR_TRANOMI')
-     call err_exit(6)
+     call ERREXIT(6)
   endif
 
   print *
@@ -616,7 +616,7 @@
        write(*,'(" ##### Cannot open groupname ",A,", error = ",I0)') &
         file_attr_swath,error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(3)
+       call ERREXIT(3)
     endif
 
 
@@ -627,13 +627,13 @@
     if(error.ne.0) then 
        write(*,'(" ##### Cannot open GranuleDay attribute, error = ",I0)') error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(4)
+       call ERREXIT(4)
     endif
     call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, date,data_dims,error) 
     if(error.ne.0) then 
        write(*,'(" ##### Cannot read GranuleDay, error = ",I0)') error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(5)
+       call ERREXIT(5)
     endif
     call H5ACLOSE_F(attr_id,error)
     if(error.ne.0) then 
@@ -651,13 +651,13 @@
        write(*,'(" ##### Cannot open GranuleMonth attribute, error = ",I0)') &
         error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(4)
+       call ERREXIT(4)
     endif
     call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, date,data_dims,error) 
     if(error.ne.0) then 
        write(*,'(" ##### Cannot read GranuleMonth, error = ",I0)') error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(5)
+       call ERREXIT(5)
     endif
     call H5ACLOSE_F(attr_id,error)
     if(error.ne.0) then 
@@ -675,13 +675,13 @@
        write(*,'(" ##### Cannot open GranuleYear attribute, error = ",I0)') &
         error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(4)
+       call ERREXIT(4)
     endif
     call H5AREAD_F(attr_id,  H5T_NATIVE_INTEGER, date,data_dims,error) 
     if(error.ne.0) then 
        write(*,'(" ##### Cannot read GranuleYear, error = ",I0)') error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(5)
+       call ERREXIT(5)
     endif
     call H5ACLOSE_F(attr_id,error)
     if(error.ne.0) then 
@@ -698,7 +698,7 @@
        write(*,'(" ##### Cannot close groupname ",A,", error = ",I0)') &
         file_attr_swath,error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(7)
+       call ERREXIT(7)
     endif
 
 !!!!write(*,*) "granule_calendar_date day is ", day, month, year
@@ -719,7 +719,7 @@
        write(*,'(" #### Error returned from an HDF5 interface routine, ", &
         "error = ",I0)') error
        call W3TAGE('BUFR_TRANOMI')
-       call err_exit(8)
+       call ERREXIT(8)
     endif
 
   end subroutine CHECK_ERROR
