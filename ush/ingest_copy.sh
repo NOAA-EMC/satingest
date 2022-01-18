@@ -49,6 +49,8 @@
 #                               for new MODIS fire data files.
 # 2021-08-23  S. Nadiga         Modified cutting date from proper place in filename
 #                               for MODIS fire data files with new filenames.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead used $UTILROOT/ush/ to properly leverage the prod_util module.
+#
 # Usage: ingest_copy.sh  <dummy>  <raw_file>
 #
 #   Script parameters:
