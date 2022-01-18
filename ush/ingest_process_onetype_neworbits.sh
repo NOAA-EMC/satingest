@@ -104,6 +104,7 @@
 #     to be processed another time.  (Previously, the script would exit without
 #     processing any of the new files if $IFILES_MAX_GET was exceeded.)
 # 2017-11-10  D. Keyser   Updated definition of REMOTEDSNGRP in Docblock.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 # Usage: ingest_process_onetype_neworbits.sh
 #
