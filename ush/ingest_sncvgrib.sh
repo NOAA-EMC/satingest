@@ -67,6 +67,8 @@
 # 2021-01-21  S. Stegall  Deprecated SENDDBN_GB2 to SENDDBN.
 #                         [ $SENDDBN = YES ] changed to [ "$SENDDBN" = YES ]
 #                         (quotes added).
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#                         used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_sncvgrib.sh  <dummy>  <raw_file>
