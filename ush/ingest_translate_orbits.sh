@@ -143,6 +143,8 @@
 #     and do not suffer from the problem of incompleteness, so the lines to process
 #     incomplete files have been commented out.
 # 2021-12-19  S. Nadiga Modified to use bufr_tranjb module variables.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_translate_orbits.sh
@@ -151,8 +153,8 @@
 #
 #   Modules and files referenced:
 #     scripts    : $USHobsproc_satingest/bufr_tranjb.sh
-#                  $DATA/postmsg
-#                  $DATA/prep_step
+#                  $UTILROOT/ush/postmsg
+#                  $UTILROOT/ush/prep_step
 #                  $UTILROOT/ush/finddate.sh
 #                  $USHobsproc_satingest/$EXECUTE
 #                                (ush script to perform translation - executed
@@ -388,8 +390,8 @@ script named $EXECUTE."
    echo $msg
    echo
    set -x
-   cd $DATA
-   $DATA/postmsg "$jlogfile" "$msg"
+   
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    cd $TANKDIR
    exit 244
 fi
@@ -463,7 +465,7 @@ while [ $iargs -lt $nargs ] ; do
             dsname=${dsname%\.gz}
          else
             msg="***WARNING: Could not gunzip file $DATA/$dsname. Skip"
-            $DATA/postmsg "$jlogfile" "$msg"
+            $UTILROOT/ush/postmsg "$jlogfile" "$msg"
             exit $err
          fi
       fi
@@ -603,14 +605,14 @@ if [ $EXECTYPE = executable ] ; then
 #  ----------------------------------------
 
    pgm=$EXECUTE
-   cd $DATA
+   
    set +u
-#  Note - must use "$DATA/prep_step" here not ". $DATA/prep_step" because the
+#  Note - must use "$UTILROOT/ush/prep_step" here not ". $UTILROOT/ush/prep_step" because the
 #         latter would unset the FORT* variables that have previously been
 #         been set.  These may still be used in subsequent programs in this
 #         script.
-#######   . $DATA/prep_step
-   $DATA/prep_step
+#######   . $UTILROOT/ush/prep_step
+   $UTILROOT/ush/prep_step
    set -u
    cd $TANKDIR
 
@@ -657,7 +659,7 @@ if [ $EXECTYPE = executable ] ; then
          rm -f errfile
          if [ $sst_found != true ]; then
             msg="***WARNING: NO USABLE SST FILE FOUND!!!"
-            $DATA/postmsg "$jlogfile" "$msg"
+            $UTILROOT/ush/postmsg "$jlogfile" "$msg"
             ssmi_sdr_err=99
          else
             export FORT31="$DATA/sstgrb"
@@ -702,8 +704,8 @@ if [ $EXECTYPE = executable ] ; then
    if [ $ssmi_sdr_err -eq 0 ]; then
 
       msg="$pgm has BEGUN"
-      cd $DATA
-      $DATA/postmsg "$jlogfile" "$msg"
+      
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 ##### cd $TANKDIR # if commented out prm will run in $DATA, not $TANKDIR
 
       echo -e $stdin|time -p $texec >> $tmpout 2>&1

@@ -240,6 +240,8 @@
 #                 server in a different directory than the same files pulled by
 #                 LGYCLD2 (the primary) which continues to pull these same files
 #                 from the LaRC typhoon server.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#         used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 # Usage: existore.sh.ecf
 #
@@ -249,9 +251,9 @@
 #     scripts    : $USHobsproc_satingest/ingest_qmgr.sh
 #                  $USHobsproc_satingest/ingest_process_onetype_neworbits.sh
 #                  $USHobsproc_satingest/ingest_check_lapsed_data.sh
-#                  $DATA/prep_step
-#                  $DATA/postmsg
-#                  $DATA/errexit
+#                  $UTILROOT/ush/prep_step
+#                  $UTILROOT/ush/postmsg
+#                  $UTILROOT/ush/err_exit
 #     data cards : file(s) containing BUFR tables (see below)
 #     executables: executable(s) to create BUFR messages and append to tank
 #                  file (see below)
@@ -844,20 +846,20 @@
 ########################################
 set -aux
 msg="$DATATYPE PROCESSING FROM TIME-STAMPED FILES HAS BEGUN"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 ########################################
 
 ksh $USHobsproc_satingest/ingest_qmgr.sh
 errsc=$?
 
-cd $DATA
+
 
 if [ $errsc -eq 99 ]; then
    msg="Another job with this name is in the system, this ingest job will \
 continue but not ingest any satellite data"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit $errsc
 fi
 
@@ -865,7 +867,7 @@ fi
 pwd
 ls -ltr
 
-cd $DATA
+
 
 ##########################################
 
@@ -881,7 +883,7 @@ set -x
 pgm='ingest_process_onetype_neworbits.sh'
 
 set +u
-. $DATA/prep_step
+. $UTILROOT/ush/prep_step
 set -u
 
 set +u
@@ -953,7 +955,7 @@ while [ $igroup -lt $ngroup ] ; do
   igroup=$(($igroup+1))
 
   msg="$pgm group $igroup has begun."
-  $DATA/postmsg "$jlogfile" "$msg"
+  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
   set +x
   echo
@@ -1065,7 +1067,7 @@ ABNORMALLY WITH R.C.=$err  --> non-fatal"
       echo $err
       echo
       set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    else
       msg="**FATAL ERROR: NO ELIGIBLE EXECUTABLE OR SCRIPT IN ONE OR MORE \
 GROUPS (FAMILIES) IN $DATATYPE PROCESSING FROM TIME-STAMPED FILES - R.C.=$err"
@@ -1075,8 +1077,8 @@ GROUPS (FAMILIES) IN $DATATYPE PROCESSING FROM TIME-STAMPED FILES - R.C.=$err"
       echo $err
       echo
       set -x
-      $DATA/postmsg "$jlogfile" "$msg"
-      $DATA/errexit
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/err_exit
    fi
 
 else
@@ -1098,7 +1100,7 @@ set -x
 
    msg="$DATATYPE PROCESSING FROM TIME-STAMPED FILES HAS COMPLETED NORMALLY."
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 fi
 
