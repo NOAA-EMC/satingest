@@ -32,6 +32,8 @@
 #                              representing the directory path to the
 #                              executables.  Updated some existing comments.
 # 2021-12-19  Sudhir Nadiga    Modified to use bufr_tranjb module variables.
+# 2022-01-18  S. Stegall       Replaced $DATA/ before calling utility scripts and instead 
+#                              used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_script_mls.sh  <bufrtable>  <raw_file>
@@ -42,8 +44,8 @@
 #                                 file
 #
 #   Modules and files referenced:
-#                   $DATA/prep_step
-#                   $DATA/postmsg
+#                   $UTILROOT/ush/prep_step
+#                   $UTILROOT/ush/postmsg
 #                   $USHobsproc_satingest/bufr_tranjb.sh
 #     executables : $EXECobsproc_satingest/bufr_tranmls
 #
@@ -91,7 +93,7 @@ set -aux
 
 host=$(hostname -s)
 
-cd $DATA
+
 pwd
 
 
@@ -133,9 +135,9 @@ fi
 #  -------------------
 
 pgm=bufr_tranmls
-if [ -s $DATA/prep_step ]; then
+if [ -s $UTILROOT/ush/prep_step ]; then
   set +u
-  . $DATA/prep_step
+  . $UTILROOT/ush/prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -144,7 +146,7 @@ else
 fi
 
 msg="$pgm has BEGUN"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 export FORT31=$table
 export FORT51=$DATA/mls_bufr.$host.$$

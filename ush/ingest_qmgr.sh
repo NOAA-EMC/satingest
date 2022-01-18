@@ -45,6 +45,9 @@
 #                            in bjobs for $OWNER (since there is sometimes a
 #                            lag).
 #  2021-10-15  Nadiga     -  changed bjobs to qstat
+#  2022-01-18  S. Stegall -  Replaced $DATA/ before calling utility scripts and
+#                            instead used $UTILROOT/ush/ to properly leverage the
+#                            prod_util module.
 #
 
 set -x
@@ -116,7 +119,7 @@ do
                  msg="Another job with this name is in the system, this \
 ingest job will kill itself"
                  echo $msg
-                 $DATA/postmsg "$jlogfile" "$msg"
+                 $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                  [ $SENDECF = YES ] && ecflow_client --complete
                  [ -d $DATAROOT ]  && cd $DATAROOT
                  rm -rf $DATA

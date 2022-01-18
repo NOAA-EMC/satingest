@@ -62,6 +62,8 @@
 # 2021-01-21  S.Stegall   Deprecated SENDDBN_GB2 to SENDDBN.
 #                         [ $SENDDBN = YES ] changed to [ "$SENDDBN" = YES ]
 #                         (quotes added)
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#                         used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_sncvgrib96.sh  <dummy>  <raw_file>
@@ -72,8 +74,8 @@
 #                                file (in form imsYYYYDDD.asc)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
-#                  $DATA/prep_step
+#     scripts    : $UTILROOT/ush/postmsg
+#                  $UTILROOT/ush/prep_step
 #                  $UTILROOT/ush/date2jday.sh
 #                  $UTILROOT/ush/finddate.sh
 #     data cards : none
@@ -179,14 +181,14 @@ fi
 
 # change to working directory
 
-cd $DATA
+
 
 if [ $(echo $2 | grep \.gz$) ]; then
   gunzip $2
   err=$?
   if [ $err -ne 0 ];then
      msg="***WARNING: Could not gunzip file $2.  Skip."
-     $DATA/postmsg "$jlogfile" "$msg"
+     $UTILROOT/ush/postmsg "$jlogfile" "$msg"
      exit $err
   fi
   raw_file=${2%\.gz}
@@ -196,27 +198,27 @@ fi
 
 pgm=snow_sno96grb
 set +u
-. $DATA/prep_step
+. $UTILROOT/ush/prep_step
 set -u
 export FORT11="$raw_file"
 export FORT51="$DATA/imssnow96.grb"
 
 msg="$pgm start for $yyyymmdd data"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 echo $yyyyddd | $EXECobsproc_satingest/snow_sno96grb
 err=$?
-#$DATA/err_chk
+#$UTILROOT/ush/err_chk
 
 if [ $err -eq 0 ]; then
    cp $DATA/imssnow96.grb $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    echo "imssnow96.grb (for $yyyymmdd) CREATED and WRITTEN to \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
     >> $USERDIR/imssnow96.grb.history
    msg="imssnow96.grb CREATED for $yyyymmdd"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    if [ -s $DATA/imssnow96.grb ]; then
        $CNVGRIB -g12 -p40 \
        $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb $DATA/imssnow96.grb.grib2
@@ -227,7 +229,7 @@ $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
 $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
           >> $USERDIR/imssnow96.grb.grib2.history
          msg="imssnow96.grb.grib2 CREATED for $yyyymmdd"
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       fi
       if [ "$SENDDBN" = YES ]; then
          if [ -s $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb ]; then
@@ -277,7 +279,7 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       fi
       if [ -s $TANKDIR/$currdate/wgrbbul/imssnow96.grb.grib2 ] ; then
          cp $TANKDIR/$yyyymmdd/wgrbbul/imssnow96.grb.grib2 \
@@ -292,7 +294,7 @@ $TANKDIR/$yyyymmdd/wgrbbul to $TANKDIR/$currdate/wgrbbul , replacing older copy"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       fi
    fi
 fi

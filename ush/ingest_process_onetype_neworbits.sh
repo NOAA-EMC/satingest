@@ -104,6 +104,8 @@
 #     to be processed another time.  (Previously, the script would exit without
 #     processing any of the new files if $IFILES_MAX_GET was exceeded.)
 # 2017-11-10  D. Keyser   Updated definition of REMOTEDSNGRP in Docblock.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 # Usage: ingest_process_onetype_neworbits.sh
 #
@@ -112,7 +114,7 @@
 #   Modules and files referenced:
 #     scripts    : $USHobsproc_satingest/ingest_query.sh
 #                  $USHobsproc_satingest/ingest_process_orbits.sh
-#                  $DATA/postmsg
+#                  $UTILROOT/ush/postmsg
 #     data cards : none
 #     executables: none
 #
@@ -310,7 +312,7 @@ connection/timeout issue in query - restore them in file-listing history,"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       else
          > restore.listing_${nfam}.$host.$$
       fi
@@ -429,7 +431,7 @@ since the last run - no further processing is done."
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       rm $ORBITLIST.neworbits.$host.$$
       set +x
       echo
@@ -501,7 +503,7 @@ if [ $num_files -gt $IFILES_MAX_GET ]; then
    echo $msg
    echo
    [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    mv $ORBITLIST.neworbits.$host.$$ $ORBITLIST.neworbits.$host.$$.full_list
    head --lines=$IFILES_MAX_GET $ORBITLIST.neworbits.$host.$$.full_list > $ORBITLIST.neworbits.$host.$$
    rm $ORBITLIST.neworbits.$host.$$.full_list
@@ -513,7 +515,7 @@ if [ $PROC_MULT_FILES = YES ]; then
       msg="***WARNING: The number of new files for this family, $num_files, \
 exceeds the limit of $IFILES_MAX_MULT - input files will be processed 1 by 1 \
 rather than concatenated"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       export PROC_MULT_FILES=NO
       set +x
       echo
@@ -522,7 +524,7 @@ rather than concatenated"
    elif [ $FTYPE != bufr -a $FTYPE != ncepbufr ]; then
       msg="***WARNING: FTYPE is imported as $FTYPE, it must be bufr or ncepbufr \
 for input files to be concatenated - input files will be processed 1 by 1"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       export PROC_MULT_FILES=NO
       set +x
       echo

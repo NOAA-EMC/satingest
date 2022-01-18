@@ -66,6 +66,8 @@
 #     representing the directory path to the executables.  Added information to
 #     docblock and new comments.  Updated some existing comments.
 # 2018-12-06  Y. Ling  Updated to run on phase 3 machine.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_process_days.sh
@@ -74,8 +76,8 @@
 #
 #   Modules and files referenced:
 #     scripts    : $USHobsproc_satingest/ingest_get.sh
-#                  $DATA/postmsg
-#                  $DATA/prep_step
+#                  $UTILROOT/ush/postmsg
+#                  $UTILROOT/ush/prep_step
 #                  $USHobsproc_satingest/$PROCSCRIPT
 #                  $USERDIR/$PROCSCRIPT
 #     data cards : none
@@ -185,7 +187,7 @@ fi
 
 if [ $dsnfound -eq 0 ] ; then
    newday="$dsname"
-   cd $DATA
+   
 ###itries_max=1
    itries_max=2
    set +x
@@ -199,7 +201,7 @@ if [ $dsnfound -eq 0 ] ; then
    while [ $transerror -gt 0 -a $itries -le $itries_max ]; do
       if [ $itries -gt 1 ]; then
          msg="TRANSFER OF $dsname FAILED!!!! - SLEEP 30 SEC AND TRY AGAIN."
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
          sleep 30
       fi
       ksh $USHobsproc_satingest/ingest_get.sh $MACHINE $dsname_local "$newday"\
@@ -218,7 +220,7 @@ if [ $dsnfound -eq 0 ] ; then
    if [ $transerror -ne 0 ] ; then
       msg="Exiting with rc = $transerror - TRANSFER OF $dsname FAILED AFTER \
 $itries TRIES!!!!"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg
@@ -227,7 +229,7 @@ $itries TRIES!!!!"
       exit $transerror
    fi
    msg="TRANSFER OF $dsname successful on try no. ${itries}."
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    mv $dsname_local ${dsname_local}_temp
    if [ $MTYPSBT = YES ] ; then
 #==============================================================================
@@ -267,15 +269,15 @@ $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
       export FORT11="${dsname_local}_temp"
       pgm=bufr_tranmtypsbt
       msg="$pgm has BEGUN"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       set +u
 
-#  Note - must use "$DATA/prep_step" here not ". $DATA/prep_step" because the
+#  Note - must use "$UTILROOT/ush/prep_step" here not ". $UTILROOT/ush/prep_step" because the
 #         latter would unset the FORT* variables that have previously been
 #         been set.  These may still be used in subsequent programs in this
 #         script.
-#######   . $DATA/prep_step
-      $DATA/prep_step
+#######   . $UTILROOT/ush/prep_step
+      $UTILROOT/ush/prep_step
       set -u
       export FORT51="$dsname_local"
       $EXECobsproc_satingest/bufr_tranmtypsbt >> $tmpout 2>&1
@@ -313,7 +315,7 @@ $(date -u '+%Y/%m/%d at %H:%M:%S') UTC"
          rm ${dsname_local}_temp
       else
          msg="Exiting with rc = $ier - BUFR_TRANMTYPSBT FAILED"
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
          set +x
          echo
          echo $msg
@@ -370,14 +372,14 @@ $TANKDIR/$datecurr/$TANKSUBDIR directory"
       msg="$dsname copied from remote unix machine to \
 $TANKDIR/$datecurr/$TANKSUBDIR/$TANKFILE"
    fi
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    if [ $COPYFORWARD = YES -a $timecurr -lt $timemade ] ; then
       cp $TANKFILE $TANKDIR/$datenext/$TANKSUBDIR
       if [ $PROCSCRIPT = nullexec ] ; then
          echo "$dsname (for $datenext) COPIED AGAIN (from $dateback) AT \
 `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> $USERDIR/${dsname_hist}.history
          msg="$dsname copied again to $TANKDIR/$datenext/$TANKSUBDIR/$TANKFILE"
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       fi
    fi
 fi

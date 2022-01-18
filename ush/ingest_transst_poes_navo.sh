@@ -23,6 +23,8 @@
 # 2021-07-08 Steve Stegall - Changed to nsat=7, and added line 171 to output 
 #     SAID=225, and sat name= NOAA-20. 
 # 2021-12-19 Sudhir Nadiga - Modified to use bufr_tranjb module variables.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 # Usage: ingest_transst_poes_navo.sh  <bufrtable>  <raw_file>
 #
@@ -32,8 +34,8 @@
 #                                 Albedo data file
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/prep_step
-#                : $DATA/postmsg 
+#     scripts    : $UTILROOT/ush/prep_step
+#                : $UTILROOT/ush/postmsg 
 #                : $USHobsproc_satingest/bufr_tranjb.sh
 #     data cards : unit 15, namelist with satellite info
 #     executables: $EXECobsproc_satingest/bufr_tranpoessst_navo
@@ -90,8 +92,8 @@ file=$DATA/$dsname
 pgm=bufr_tranpoessst_navo
 export pgm
 cwd=`pwd`
-cd $DATA
-. $DATA/prep_step
+
+. $UTILROOT/ush/prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -146,7 +148,7 @@ else
       lenerror=$len
    fi
    echo $msg  >> $tmperr
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit 99
 fi
 
@@ -189,7 +191,7 @@ msg="WARNING: BUFR_TRANPOESSST_NAVO ENCOUNTERED UNKNOWN SATELLITE ID --> non-fat
    echo "$msg"
    echo
    set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    retcode=0
 fi
 
@@ -201,7 +203,7 @@ if [ $retcode -eq 0 ] ; then
    echo " --------------------------------------------- "
    set -x
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
    rettot=0
    [[ "$SENDCOM" = YES ]] && cp $DATA/timwin.${dsname}.tmpout.$host.$$ $COMOUT
@@ -220,7 +222,7 @@ else
    echo "********  ERROR PROGRAM $pgm RETURN CODE $retcode  ********"
    echo "*******************************************************"
    msg="ERROR PROGRAM $pgm RETURN CODE $retcode"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
      
 
