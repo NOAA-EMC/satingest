@@ -390,7 +390,7 @@ script named $EXECUTE."
    echo $msg
    echo
    set -x
-   
+cd $DATA   
    $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    cd $TANKDIR
    exit 244
@@ -605,7 +605,7 @@ if [ $EXECTYPE = executable ] ; then
 #  ----------------------------------------
 
    pgm=$EXECUTE
-   
+cd $DATA   
    set +u
 #  Note - must use "$UTILROOT/ush/prep_step" here not ". $UTILROOT/ush/prep_step" because the
 #         latter would unset the FORT* variables that have previously been

@@ -379,11 +379,12 @@ continue but not ingest any satellite data"
    exit $errsc
 fi
 
+cd $DATA
 
 pwd
 ls -ltr
 
-cd $DATA
+
  
 ##########################################
 

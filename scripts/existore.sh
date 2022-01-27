@@ -862,12 +862,12 @@ continue but not ingest any satellite data"
    $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit $errsc
 fi
-
+cd $DATA
 
 pwd
 ls -ltr
 
-cd $DATA
+
 
 ##########################################
 

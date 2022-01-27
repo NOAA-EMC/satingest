@@ -124,8 +124,8 @@
 ####
 
 set -aux
-
 cd $DATA
+
 pwd
 
 #  Set environment variables for processing
