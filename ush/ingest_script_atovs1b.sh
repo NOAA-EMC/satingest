@@ -135,7 +135,7 @@
 
 set -aux
 
-
+cd $DATA
 pwd
 
 

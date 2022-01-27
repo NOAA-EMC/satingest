@@ -369,7 +369,7 @@ $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 ksh $USHobsproc_satingest/ingest_qmgr.sh
 errsc=$?
 
-
+cd $DATA
 
 if [ $errsc -eq 99 ]; then
    msg="Another job with this name is in the system, this ingest job will \
@@ -383,7 +383,7 @@ fi
 pwd
 ls -ltr
 
-
+cd $DATA
  
 ##########################################
 

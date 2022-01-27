@@ -704,7 +704,7 @@ if [ $EXECTYPE = executable ] ; then
    if [ $ssmi_sdr_err -eq 0 ]; then
 
       msg="$pgm has BEGUN"
-      
+      cd $DATA
       $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 ##### cd $TANKDIR # if commented out prm will run in $DATA, not $TANKDIR
 

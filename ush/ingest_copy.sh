@@ -125,7 +125,7 @@
 
 set -aux
 
-
+cd $DATA
 pwd
 
 #  Set environment variables for processing
@@ -232,7 +232,7 @@ cd $TANKDIR
 if [ ! -d ${TANKDIR}${PDY_dir}/$TANKFILE ] ; then
    mkdir -m 775 -p ${TANKDIR}${PDY_dir}/$TANKFILE
 fi
-
+cd $DATA
 
 newfile=$(basename $infile)
 if [ -n "$RENAME_FILE_SUFFIX" ]; then
