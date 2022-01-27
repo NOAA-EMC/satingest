@@ -93,7 +93,7 @@ set -aux
 
 host=$(hostname -s)
 
-
+cd $DATA
 pwd
 
 

@@ -169,7 +169,7 @@ yyyymmdd=`$UTILROOT/ush/date2jday.sh $yyyyddd`
 
 # change to working directory
 
-
+cd $DATA
 
 bufrerror=0
 if [ $TARGETFILE != NO ] ; then

@@ -187,7 +187,7 @@ fi
 
 if [ $dsnfound -eq 0 ] ; then
    newday="$dsname"
-   
+   cd $DATA
 ###itries_max=1
    itries_max=2
    set +x

@@ -181,7 +181,7 @@ fi
 
 # change to working directory
 
-
+cd $DATA
 
 if [ $(echo $2 | grep \.gz$) ]; then
   gunzip $2
