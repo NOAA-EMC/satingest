@@ -91,8 +91,10 @@ file=$DATA/$dsname
 
 pgm=bufr_tranpoessst_navo
 export pgm
-
+cwd=`pwd`
+cd $DATA
 . $UTILROOT/ush/prep_step
+cd $cwd
 
 if [ ! -s $file ] ; then
    outstring="$dsname does not exist or has zero length"
