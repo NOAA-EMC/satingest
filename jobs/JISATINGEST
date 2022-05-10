@@ -104,10 +104,8 @@ export FIXbufr=/dev/null
 
 export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
 export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
-#[ ! -d $USHbufr ]  &&  USHbufr=$NWROOT/ush
 
 export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
-#[ ! -s $DCNCLD ]  &&  DCNCLD=$NWROOT/exec/decod_dcncld
 
 ####################################
 # Set-up ingest processing families
