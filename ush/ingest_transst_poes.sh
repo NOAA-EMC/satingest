@@ -31,6 +31,8 @@
 #     Added information to docblock and new comments.  Updated some existing
 #     comments.
 # 2021-12-19 Sudhir Nadiga - Modified to use bufr_tranjb module variables.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_transst_poes.sh  <bufrtable>  <raw_file>
@@ -41,8 +43,8 @@
 #                                 Albedo data file
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/prep_step
-#                : $DATA/postmsg 
+#     scripts    : $UTILROOT/ush/prep_step
+#                : $UTILROOT/ush/postmsg 
 #                : $USHobsproc_satingest/bufr_tranjb.sh
 #     data cards : none
 #     executables: $EXECobsproc_satingest/bufr_tranpoessst
@@ -100,7 +102,7 @@ pgm=bufr_tranpoessst
 export pgm
 cwd=`pwd`
 cd $DATA
-. $DATA/prep_step
+. $UTILROOT/ush/prep_step
 cd $cwd
 
 if [ ! -s $file ] ; then
@@ -157,7 +159,7 @@ else
       lenerror=$len
    fi
    echo $msg  >> $tmperr
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit 99
 fi
 
@@ -206,7 +208,7 @@ msg="WARNING: BUFR_TRANPOESSST ENCOUNTERED UNKNOWN SATELLITE ID --> non-fatal"
    echo "$msg"
    echo
    set -x
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    retcode=0
 fi
 
@@ -218,7 +220,7 @@ if [ $retcode -eq 0 ] ; then
    echo " --------------------------------------------- "
    set -x
    msg="$pgm completed normally"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 ## stuff related to physical retrievals deleted ##
 
@@ -249,7 +251,7 @@ if [ $retcode -eq 0 ] ; then
                msg="Appending $sat AVHRR data for $adate$cyc cycle to tank \
 $typsubdir/$subtypfil"
                echo $msg
-               $DATA/postmsg "$jlogfile" "$msg"
+               $UTILROOT/ush/postmsg "$jlogfile" "$msg"
             fi
          fi
       done
@@ -260,7 +262,7 @@ else
    echo "********  ERROR PROGRAM $pgm RETURN CODE $retcode  ********"
    echo "*******************************************************"
    msg="ERROR PROGRAM $pgm RETURN CODE $retcode"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
      
 

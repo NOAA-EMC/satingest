@@ -85,7 +85,8 @@
 #        from model script existore.sh.ecf. It is set here to avoid an "unset
 #        variable" error in ingest_get.sh when that script is executed
 #        downstream from this model script (existday.sh.ecf).
-#
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+         used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 # Usage: existday.sh.ecf
 #
@@ -95,8 +96,8 @@
 #     scripts    : $USHobsproc_satingest/ingest_qmgr.sh
 #                  $USHobsproc_satingest/ingest_process_onetype_newdays.sh
 #                  $USHobsproc_satingest/ingest_check_lapsed_data.sh
-#                  $DATA/prep_step
-#                  $DATA/postmsg
+#                  $UTILROOT/ush/prep_step
+#                  $UTILROOT/ush/postmsg
 #     data cards : None
 #     executables: None
 #
@@ -361,7 +362,7 @@
 ########################################
 set -aux
 msg="$DATATYPE PROCESSING FROM STATICALLY-NAMED FILES HAS BEGUN"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 ########################################
 
@@ -374,15 +375,16 @@ if [ $errsc -eq 99 ]; then
    msg="Another job with this name is in the system, this ingest job will \
 continue but not ingest any satellite data"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    exit $errsc
 fi
 
+cd $DATA
 
 pwd
 ls -ltr
 
-cd $DATA
+
  
 ##########################################
 
@@ -403,7 +405,7 @@ set -u
 
 pgm='ingest_process_onetype_newdays.sh'
 set +u
-. $DATA/prep_step
+. $UTILROOT/ush/prep_step
 set -u
 
 MACHINE=${MACHINE:-none}
@@ -437,7 +439,7 @@ while [ $ifiles -lt $nfiles ] ; do
   ifiles=$(($ifiles+1)) 
 
   msg="$pgm files $ifiles has begun."
-  $DATA/postmsg "$jlogfile" "$msg"
+  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
   set +x
   echo
@@ -519,7 +521,7 @@ set -x
 ABNORMALLY WITH R.C.=$err  --> non-fatal"
    echo $msg
    echo $err
-###$DATA/err_chk
+###$UTILROOT/ush/err_chk
 
 else
 
@@ -543,6 +545,6 @@ NORMALLY."
    echo $msg
 
 fi
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 ############## END OF SCRIPT #######################
