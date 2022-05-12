@@ -27,6 +27,24 @@ mkdir -p build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DCMAKE_INSTALL_BINDIR=exec ..
 make -j ${BUILD_JOBS:-6} VERBOSE=${BUILD_VERBOSE:-}
 make install
+exit 0 # EMC can use exit here; NCO can comment this line out
+#############################################################################
+# This section to be removed when NCO is comfortable with the typical
+# `cmake`, `make` and `make install` process.
+# To abide by current NCO working practices,
+# manually copy compiled executables and fix files from `$INSTALL_PREFIX/`
+# directory to `pkg_root` and then remove `$INSTALL_PREFIX/`
+mkdir -p $pkg_root/exec
+cp -f $INSTALL_PREFIX/exec/*                     $pkg_root/exec/
+cp -f $INSTALL_PREFIX/fix/bufr_hirsrtcf_ibm.dat  $pkg_root/fix/
+cp -f $INSTALL_PREFIX/fix/bufr_lowtopog.dat      $pkg_root/fix/
+cp -f $INSTALL_PREFIX/fix/nesdis.lstags_transsmi $pkg_root/fix/
+rm -rf $INSTALL_PREFIX
+#############################################################################
+
+# Remove build directory upon successfull build and install
+cd $pkg_root
+rm -rf build
 
 #############################################################################
 # This section to be removed when NCO is comfortable with the typical

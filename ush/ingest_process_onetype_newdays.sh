@@ -52,6 +52,8 @@
 #     comments.
 # 2017-11-10  D. Keyser   Fixed a minor comment typo.
 # 2018-12-06  Y. Ling   Updated to run on phase 3 machine.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_process_onetype_newdays.sh
@@ -60,7 +62,7 @@
 #
 #   Modules and files referenced:
 #     scripts    : $USHobsproc_satingest/ingest_process_days.sh
-#                  $DATA/postmsg
+#                  $UTILROOT/ush/postmsg
 #                  $USHobsproc_satingest/$PROCSCRIPT
 #                  $USERDIR/$PROCSCRIPT
 #     data cards : none
@@ -224,7 +226,7 @@ machine and COPIED file to today"
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       found=1
    fi
 
@@ -243,7 +245,7 @@ today"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
          found=1
       fi
    fi
@@ -292,7 +294,7 @@ $TANKDIR/$dateback/$TANKSUBDIR to $TANKDIR/$datecurr/$TANKSUBDIR"
                   echo $msg
                   echo
                   [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                fi
             else
                echo "$dsname_local (for $datecurr) COPIED (from $dateback) AT \
@@ -304,7 +306,7 @@ to $TANKDIR/$datecurr/$TANKSUBDIR"
                echo $msg
                echo
                [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-               $DATA/postmsg "$jlogfile" "$msg"
+               $UTILROOT/ush/postmsg "$jlogfile" "$msg"
             fi
          fi
       else
@@ -320,7 +322,7 @@ to today, check to see if new file is available for today on remote machine"
          echo $msg
          echo
          [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-         $DATA/postmsg "$jlogfile" "$msg"
+         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
          found=1
       fi
    done
@@ -332,7 +334,7 @@ any previous day --> non-fatal"
       echo $msg
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    fi
 fi
 

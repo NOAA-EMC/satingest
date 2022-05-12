@@ -179,6 +179,8 @@
 #     one of the expected patterns for either gzip or bzip2 compression, then
 #     the file is skipped.  This is also the case if the execution of gunzip
 #     or bunzip2 fails.
+# 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
+#      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_process_orbits.sh
@@ -190,7 +192,7 @@
 #                  $USHobsproc_satingest/ingest_process_orbits_subscript.sh
 #                                                                     (sourced)
 #                  $CWORDush
-#                  $DATA/postmsg
+#                  $UTILROOT/ush/postmsg
 #     data cards : none
 #     executables: $CWORDX (def: $EXECobsproc_shared_bufr_cword/bufr_cword)
 #                  (invoked by $CWORDush)
@@ -199,7 +201,7 @@
 #     scripts      $UTILROOT/ush/date2jday.sh
 #                  $USHobsproc_satingest/ingest_translate_orbits.sh
 #                  $USHobsproc_satingest/bufr_tranjb.sh
-#                  $DATA/postmsg
+#                  $UTILROOT/ush/postmsg
 #     data cards : none
 #     executables: none
 #
@@ -420,7 +422,7 @@ read line
 rc=$?
 if [ $rc -ne 0 ] ; then
    msg="Exiting with rc = 230 - no files submitted for processing --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo $msg
@@ -472,7 +474,7 @@ while [ $rc -eq 0 ] ; do
             if [ $itries -gt 1 ]; then
                msg="TRANSFER OF $dsname_full FAILED!!!! - SLEEP 30 SEC AND \
 TRY AGAIN."
-               $DATA/postmsg "$jlogfile" "$msg"
+               $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                sleep 30
             fi
             ksh $USHobsproc_satingest/ingest_get.sh $MACHINE $DATA/$dsname \
@@ -492,7 +494,7 @@ TRY AGAIN."
          echo "$dsname_full RECEIVED AT $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" \
           >> $ORBITLIST.history
             msg="TRANSFER OF $dsname_full successful on try no. ${itries}."
-            $DATA/postmsg "$jlogfile" "$msg"
+            $UTILROOT/ush/postmsg "$jlogfile" "$msg"
             fdcperr=0
             if [ $UNCOMPRESS_UNIX = YES ] ; then
                dsnuerr=1
@@ -523,7 +525,7 @@ TRY AGAIN."
                   uncerror=$?
                   if [ $uncerror -eq 0 ] ; then
                      msg="UNIX UNCOMPRESS (gunzip) OF $dsname_full successful."
-                     $DATA/postmsg "$jlogfile" "$msg"
+                     $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      dsname=$dsname_t
                   fi
                else
@@ -540,7 +542,7 @@ TRY AGAIN."
                      if [ $uncerror -eq 0 ] ; then
                         msg="UNIX UNCOMPRESS (bunzip2) OF $dsname_full \
 successful."
-                        $DATA/postmsg "$jlogfile" "$msg"
+                        $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                         dsname=$dsname_t
                      fi
                   fi
@@ -549,7 +551,7 @@ successful."
                   msg="UNIX UNCOMPRESS (gunzip or bunzip2) OF $dsname_full \
 UNSUCCESSFUL, original file may just not be compressed but it may also be \
 corrupt so skip processing of this file --> non-fatal"
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -579,14 +581,14 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                   err_grep=$?
                   msg=`echo $msg, input file: $dsname_full.`
                   if [ $err_grep -eq 0 ]; then
-                     $DATA/postmsg "$jlogfile" "$msg"
+                     $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                   fi
                   msg="BUFR_CWORD processing successful for $dsname_full."
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                else
                   msg="BUFR_CWORD processing UNSUCCESSFUL or INCOMPLETE for \
 $dsname_full, skip processing of this file --> non-fatal"
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -604,7 +606,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
             toterr=$(($toterr+$fdcperr))
          else
             msg="TRANSFER OF $dsname_full FAILED AFTER $itries TRIES!!!!"
-            $DATA/postmsg "$jlogfile" "$msg"
+            $UTILROOT/ush/postmsg "$jlogfile" "$msg"
             noxfercount=$(($noxfercount+1))
             echo "COULD NOT TRANSFER $dsname_full AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
@@ -727,22 +729,22 @@ fi
 if [ $noproccount -gt 0 ] ; then
    msg="$noproccount files were unsuccessfully processed --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
 if [ $noxfercount -gt 0 ] ; then
    msg="$noxfercount files were unsuccessfully transferred --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
 if [ $unproccount -gt 0 ] ; then
    msg="$unproccount files were declared unprocessable --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
 if [ $repeatcount -gt 0 ] ; then
    msg="$repeatcount files had been previously processed --> non-fatal"
    echo $msg
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
 echo
 [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
@@ -750,7 +752,7 @@ echo
 if [ $unxfercount -gt 0 ] ; then
    msg="Exiting with rc = 199 - $unxfercount files were untransferable in last \
 $orbitnotp_max runs of this job --> non-fatal"
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
    set +x
    echo
    echo $msg
@@ -761,7 +763,7 @@ if [ $orbitcount -gt 1 ] ; then
    if [ $orbitcount -eq $repeatcount ] ; then
       msg="Exiting with rc = 222 - all files to be processed were already \
 processed --> non-fatal"
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg
@@ -776,7 +778,7 @@ were unprocessable --> non-fatal"
          msg="Exiting with rc = 111 - all files to be processed were \
 unprocessable --> non-fatal" 
       fi
-      $DATA/postmsg "$jlogfile" "$msg"
+      $UTILROOT/ush/postmsg "$jlogfile" "$msg"
       set +x
       echo
       echo $msg

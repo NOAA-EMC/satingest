@@ -49,6 +49,10 @@
 #                               for new MODIS fire data files.
 # 2021-08-23  S. Nadiga         Modified cutting date from proper place in filename
 #                               for MODIS fire data files with new filenames.
+# 2022-01-18  S. Stegall        Replaced $DATA/ before calling utility scripts and 
+#                               instead used $UTILROOT/ush/ to properly leverage the 
+#                               prod_util module.
+#
 # Usage: ingest_copy.sh  <dummy>  <raw_file>
 #
 #   Script parameters:
@@ -56,7 +60,7 @@
 #                 $2: raw_file   - input filename (without path)
 #
 #   Modules and files referenced:
-#     scripts    : $DATA/postmsg
+#     scripts    : $UTILROOT/ush/postmsg
 #     data cards : none
 #     executables: none
 #
@@ -120,8 +124,8 @@
 ####
 
 set -aux
-
 cd $DATA
+
 pwd
 
 #  Set environment variables for processing
@@ -234,10 +238,10 @@ newfile=$(basename $infile)
 if [ -n "$RENAME_FILE_SUFFIX" ]; then
    newfile=${newfile}${RENAME_FILE_SUFFIX}
    msg="Output file RENAMED from \"$(basename $infile)\" to \"$newfile\""
-   $DATA/postmsg "$jlogfile" "$msg"
+   $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 fi
 msg="copying $newfile"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 if [ ! -e ${TANKDIR}${PDY_dir}/$TANKFILE ] ; then
    mkdir -m 775 -p ${TANKDIR}${PDY_dir}/$TANKFILE

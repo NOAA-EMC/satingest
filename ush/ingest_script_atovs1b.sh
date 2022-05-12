@@ -68,6 +68,8 @@
 #                            files.  Updated some existing comments.
 # 2018-12-08  Yangrong Ling  Added ability to handle METOP-3(C) satellite.
 # 2021-12-19  Sudhir Nadiga  Modified to use bufr_tranjb module variables.
+# 2022-01-18  S. Stegall     Replaced $DATA/ before calling utility scripts and instead 
+#                            used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
 #
 # Usage: ingest_script_atovs1b.sh  <bufrtable>  <raw_file>
@@ -77,8 +79,8 @@
 #                 $2: raw_file  - full path definition for ATOVS 1B file
 #
 #   Modules and files referenced:
-#     scripts     : $DATA/prep_step
-#                   $DATA/postmsg
+#     scripts     : $UTILROOT/ush/prep_step
+#                   $UTILROOT/ush/postmsg
 #                   $USHobsproc_satingest/bufr_tranjb.sh
 #     executables : $EXECobsproc_satingest/$executable (where $executable is
 #                                                       either bufr_tranamsua,
@@ -343,9 +345,9 @@ ln -sf $FIXobsproc_satingest/bufr_lowtopog.dat lowtopog.dat 1>/dev/null 2>&1
 #  -------------------
 
 pgm=$executable
-if [ -s $DATA/prep_step ]; then
+if [ -s $UTILROOT/ush/prep_step ]; then
   set +u
-  . $DATA/prep_step
+  . $UTILROOT/ush/prep_step
   set -u
 else
   [ -f errfile ] && rm errfile
@@ -354,7 +356,7 @@ else
 fi
 
 msg="$pgm has BEGUN"
-$DATA/postmsg "$jlogfile" "$msg"
+$UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
 export FORT12=$table
 export FORT52=$outfile_52

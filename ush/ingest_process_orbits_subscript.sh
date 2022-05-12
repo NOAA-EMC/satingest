@@ -32,6 +32,9 @@
 # 2019-10-09  Sudhir Nadgia  Modified to shift the Y2K windowing technique that
 #                            converts 2-digit years to 4-digit.
 # 2021-12-19  Sudhir Nadiga  Modified to use bufr_tranjb module variables.
+# 2022-01-18  S. Stegall     Replaced $DATA/ before calling utility scripts and 
+#                            instead used $UTILROOT/ush/ to properly leverage
+#                            the prod_util module.
 #
 # Usage: . ingest_process_orbits_subscript.sh (inside ingest_process_orbits.sh)
 #
@@ -73,7 +76,7 @@ echo
 `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> ${ORBITLIST}.${TANKFILE}.history
                   msg="$dsname_full received from remote unix machine and \
 simply copied to $TANKDIR/$TANKFILE/$dsname"
-                  $DATA/postmsg "$jlogfile" "$msg"
+                  $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                fi
 
             else
@@ -216,7 +219,7 @@ $dsname (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
                          ${ORBITLIST}_copy.history
                         msg="$dsname_full received from remote unix machine, \
 $dsname copied for $yyyymmdd"
-                        $DATA/postmsg "$jlogfile" "$msg"
+                        $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      fi
                   else
                      cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
@@ -227,7 +230,7 @@ $TARGETFILE (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
                          $USERDIR/$TARGETFILE.history
                         msg="$dsname_full received from remote unix machine, \
 $TARGETFILE copied for $yyyymmdd"
-                        $DATA/postmsg "$jlogfile" "$msg"
+                        $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      fi
                   fi
                fi

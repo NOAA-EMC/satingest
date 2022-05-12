@@ -35,6 +35,10 @@ else
    PROC_FAM_group2=" "
 fi
 
+# No longer needed for WCOSS2 because downstream application,
+# HYSPLIT-SMOKE, not being ported to WCOSS2
+# This logic can be removed
+# fix/aerosol.hms_smoke_prelim can be removed from software suite
 group3=NO
 if [ $hour -eq 09 ] ; then
    if [ $min -ge 30 ] ; then
@@ -47,6 +51,10 @@ else
    PROC_FAM_group3=" "
 fi
 
+# No longer needed for WCOSS2 because downstream application,
+# HYSPLIT-SMOKE, not being ported to WCOSS2
+# This logic can be removed
+# fix/aerosol.hms_smoke_final can be removed from software suite
 group4=NO
 if [ $hour -ge 18 ] ; then
    PROC_FAM_group4=${PROC_FAM_group4:-"HMS_SMOKE_FINAL"}
@@ -77,6 +85,10 @@ else
    PROC_FAM_group7=" "
 fi
 
+# No longer needed for WCOSS2 because downstream application,
+# HYSPLIT-SMOKE, not being ported to WCOSS2
+# This logic can be removed
+# fix/aerosol.hms_smoke_prelim_early can be removed from software suite
 group8=NO
 if [ $hour -eq 07 -o $hour -eq 08 ] ; then
    PROC_FAM_group8=${PROC_FAM_group8:-"HMS_SMOKE_PRELIM_EARLY"}
@@ -85,9 +97,11 @@ else
    PROC_FAM_group8=" "
 fi
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 $PROC_FAM_group3 \
-$PROC_FAM_group4 $PROC_FAM_group6 $PROC_FAM_group7 \
-$PROC_FAM_group8 $PROC_FAM_group1"}
+#PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 $PROC_FAM_group3 \
+#$PROC_FAM_group4 $PROC_FAM_group6 $PROC_FAM_group7 \
+#$PROC_FAM_group8 $PROC_FAM_group1"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 \
+$PROC_FAM_group6 $PROC_FAM_group7 $PROC_FAM_group1"}
 
 echo "leaving fix/aerosol"
 echo $ngroup 
