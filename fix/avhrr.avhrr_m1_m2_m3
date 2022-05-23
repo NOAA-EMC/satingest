@@ -6,7 +6,7 @@ echo " Starting $TASK and  $TASK.$family "
 # The METOP-1/2/3 satellite AVHRR Family (AVHRR_M1/M2/M3)
 # ---------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-avhrr1b_M1_M2_M3.gac.orbitlist}
-      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'" \
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
 PDAFileLinks/PULL/AVHRRGAC/NSS.GHRR.M3.D?????.S????.E????.????????.??"'}
       eval FTYPE${n}=\${FTYPE${n}:-none}
       eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx051}
