@@ -6,8 +6,7 @@ echo " Starting $TASK and  $TASK.$family "
 # The GMI L1C-R Brightness Temperature Family (GMI_TMBR) (GPM-core satellite)
 # ---------------------------------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-gmitmbr.orbitlist}
-      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-PDAFileLinks/PULL/GMI/1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V05A.bufr \
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'" \
 PDAFileLinks/PULL/GMI/1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V07A.bufr"'}
       eval FTYPE${n}=\${FTYPE${n}:-bufr}
       eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx246}
