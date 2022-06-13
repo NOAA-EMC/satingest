@@ -46,22 +46,4 @@ rm -rf $INSTALL_PREFIX
 cd $pkg_root
 rm -rf build
 
-#############################################################################
-# This section to be removed when NCO is comfortable with the typical
-# `cmake`, `make` and `make install` process.
-# To abide by current NCO working practices,
-# manually copy compiled executables and fix files from `$INSTALL_PREFIX/`
-# directory to `pkg_root` and then remove `$INSTALL_PREFIX/`
-mkdir -p $pkg_root/exec
-cp -f $INSTALL_PREFIX/exec/*                     $pkg_root/exec/
-cp -f $INSTALL_PREFIX/fix/bufr_hirsrtcf_ibm.dat  $pkg_root/fix/
-cp -f $INSTALL_PREFIX/fix/bufr_lowtopog.dat      $pkg_root/fix/
-cp -f $INSTALL_PREFIX/fix/nesdis.lstags_transsmi $pkg_root/fix/
-rm -rf $INSTALL_PREFIX
-#############################################################################
-
-# Remove build directory upon successfull build and install
-cd $pkg_root
-rm -rf build
-
 exit 0
