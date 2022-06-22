@@ -1,7 +1,7 @@
 #!/bin/bash -l
 #
 set -x
-
+ 
 #DIRSCRIPTS=`pwd`
 #DIRSCRIPTS=/lfs/h2/emc/obsproc/noscrub/Sudhir.Nadiga/SCRIPTDIR/REENGG.3TIER
 DIRSCRIPTS=/lfs/h2/emc/obsproc/noscrub/$USER/githubwkspc/satingest_OMPS_IASI_new/satingest/TRIGGERS
