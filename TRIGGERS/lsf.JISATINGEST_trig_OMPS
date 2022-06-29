@@ -1,0 +1,27 @@
+#!/bin/bash -l
+#
+set -x
+ 
+#DIRSCRIPTS=`pwd`
+#DIRSCRIPTS=/lfs/h2/emc/obsproc/noscrub/Sudhir.Nadiga/SCRIPTDIR/REENGG.3TIER
+DIRSCRIPTS=/lfs/h2/emc/obsproc/noscrub/$USER/githubwkspc/satingest_OMPS_IASI_new/satingest/TRIGGERS
+
+#[ -d /usrx/local/prod/lmod ] && . /usrx/local/prod/lmod/lmod/init/profile > /dev/null 2>&1
+#module load EnvVars/1.0.2
+#module load prod_envir/1.0.2
+#module load ips/18.0.1.163
+#module load impi/18.0.1
+#module load prod_util/1.1.0
+#module load lsf/10.1
+
+export REDMINE=$1
+export jitask=$2
+
+echo " Dirscripts is $DIRSCRIPTS "
+
+
+sed "s/%HHMM%/`date +\%H\%M`/;s/%REDMINE%/$REDMINE/;s/%jitask%/$jitask/" $DIRSCRIPTS/JISATINGEST_trig_OMPS | qsub
+
+#sed "s/%HHMM%/`date +\%H\%M`/;" $DIRSCRIPTS/JISATINGEST.DEVELOP.WCOSS2 | qsub
+
+
