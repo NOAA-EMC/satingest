@@ -249,6 +249,10 @@ FIX file changes
  fix/bufrtab.005
  Rename mnemonic MUCE to MUNCEX ??? 
 
+ fix/aerosol
+ Removed logic pertaning to HMS Split smoke model ingest (not transitioned to WCOSS2), 
+ and deleted the related fix/aerosol.hms_smoke_* files
+
 ????
 
 JOBS script changes
@@ -303,6 +307,12 @@ Libraries
 Build Instructions
 ------------------
  See README.md
+ NOTE: fix/CMakeLists.txt mentions the following files:
+       fix/bufr_hirsrtcf_ibm.dat
+       fix/bufr_lowtopog.dat
+       fix/nesdis.lstags_transsmi
+       These are binary files that belong to satingest, but are not on GitHub.
+       They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
 
 Preimplementation Testing Requirements
 --------------------------------------
