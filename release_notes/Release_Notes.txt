@@ -12,15 +12,15 @@ List of all code/scripts modified with this release
  M VERSION
    build.sh
    fix/CMakeLists.txt
-   fix/aerosol
+ M fix/aerosol
    fix/aerosol.af_viirs
    fix/aerosol.avhrr_weekly_gvf
    fix/aerosol.burned_area
    fix/aerosol.burning_emissions
    fix/aerosol.dust
-   fix/aerosol.hms_smoke_final
-   fix/aerosol.hms_smoke_prelim
-   fix/aerosol.hms_smoke_prelim_early
+ D fix/aerosol.hms_smoke_final
+ D fix/aerosol.hms_smoke_prelim
+ D fix/aerosol.hms_smoke_prelim_early
    fix/aerosol.modis_aod
    fix/aerosol.modis_fire
    fix/aerosol.nic_lks
