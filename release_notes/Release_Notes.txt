@@ -622,4 +622,6 @@ Provide a pointer to your COMOUT, temp directory and pbspro output file that was
  logs in $OPSROOT/output/YYYYMMDD
  ingest history = $DCOMROOT/ingest_hist
 
+WCOSS1 RN:https://github.com/ShelleyMelchior-NOAA/smelchior/tree/main/RNs
+
 END
