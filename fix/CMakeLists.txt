@@ -116,7 +116,6 @@ list(APPEND fix_files
   ssmi.gmi_tmbr
   ssmi.sdr
   ssmi.ssmis
-  swd.wvics_dmw
   tovs
   tovs.amsua
   tovs.atovs

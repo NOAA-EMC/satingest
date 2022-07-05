@@ -9,7 +9,7 @@ List of all code/scripts modified with this release
    README.md
  M VERSION
    build.sh
-   fix/CMakeLists.txt
+ M fix/CMakeLists.txt
  M fix/aerosol
    fix/aerosol.af_viirs
    fix/aerosol.avhrr_weekly_gvf
