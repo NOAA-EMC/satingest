@@ -26,9 +26,6 @@ list(APPEND fix_files
   aerosol.burned_area
   aerosol.burning_emissions
   aerosol.dust
-  aerosol.hms_smoke_final
-  aerosol.hms_smoke_prelim
-  aerosol.hms_smoke_prelim_early
   aerosol.modis_aod
   aerosol.modis_fire
   aerosol.nic_lks
