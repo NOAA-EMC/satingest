@@ -12,6 +12,7 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
       eval MACHINE${n}=\${MACHINE${n}:-wcoss_nasa@ftps-out1.ncep.noaa.gov}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-goescld_NASA.hrlylist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+G18V04.0.RR.???????.????.PX.06K.nc \
 G17V04.0.RR.???????.????.PX.06K.nc \
 G16V04.0.RR.???????.????.PX.06K.nc"'}
                                       # LaRC may retain a lot of files on server
