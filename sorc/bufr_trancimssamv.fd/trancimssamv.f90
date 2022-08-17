@@ -53,7 +53,7 @@
       integer nl,nused
       integer jdate,itime,isat,iyr,idyr,ierr,iday,mnth,ihr,imin,isec
       integer lsubdr,ltnkid,lapchr,jjdate,kkdate,idate,iret
-      integer dir,pre,qi
+      integer dir,pre,qi,itype
 
       real*8 arr(9),bmiss,getbmiss
       real rlat,rlon,spd,said
@@ -63,7 +63,7 @@
       character*12  subdir,tankid
       character*10  datechar
       character*8   subset,tlflag
-      character*4   itype
+      character*4   ctype
 
       logical       db   /.false./
 
@@ -120,7 +120,7 @@
 
          if (db) write(*,'(1x,i3,1x,a)') nl,">>>" // trim(line) // "<<<"
 
-         read(line,*) itype,jdate,itime,rlat,rlon,spd,dir,pre,qi
+         read(line,*) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
 
 ! --parse date & time
 
@@ -214,6 +214,23 @@
          endif
 
          read(csat,'(i2)') isat
+
+! -- convert CIMSS char type to SWCM int type (see SWCM in https://www.nco.ncep.noaa.gov/sib/jeff/CodeFlag_0_STDv31_LOC7.html#002023)
+! -- ex.  ctype=IR -> itype=1 -> SWCM=1
+! -- May need to update if more ctypes are found in files.  The 4 below are the ones found in the files so far
+
+	if(ctype.eq.'IR') then
+	  itype=1
+	else if(ctype.eq.'VIS') then
+	  itype=2
+        else if(ctype.eq.'WVCT') then
+          itype=3
+        else if(ctype.eq.'OIR') then
+          itype=6
+	else
+	  itype=15	!SWCM missing value
+
+
 !-NEED TO FIGURE OUT LONGITUDES-------------------------------------------------------------------------------------------------------------------------
 ! Lon read in is positive W oriented (either 0 to +360 W, or 0 to +180 W and
 ! 0 to -180 E - not sure which) - convert to positive East oriented (0 to 360 E)
