@@ -39,3 +39,7 @@ add_subdirectory(ush)
 
 # Install fix files.
 add_subdirectory(fix)
+
+# Install release notes.
+add_subdirectory(release_notes)
+

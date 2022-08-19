@@ -36,9 +36,15 @@
 | NC005034 | A62119 | MSG TYPE 005-034 NESDIS SATWIND, GOES-16 WV-IMG/CT(BUFR) |
 | NC005039 | A62120 | MSG TYPE 005-039 NESDIS SATWIND, GOES-16 IR(SW)   (BUFR) |
 |          |        |                                                          |
-| NC005050 | A63228 | MSG TYPE 005-050 NESDIS SATWIND, GMS IR(LW) CHANNEL      |
+| NC005052 | A62126 | MSG TYPE 005-052 NESDIS SATWIND, GOES-16 IR(LW)   (BUFR) |
+| NC005053 | A62127 | MSG TYPE 005-053 NESDIS SATWIND, GOES-16 WV-IMG/DL(BUFR) |
+| NC005054 | A62128 | MSG TYPE 005-054 NESDIS SATWIND, GOES-16 VIS      (BUFR) |
+| NC005055 | A62129 | MSG TYPE 005-055 NESDIS SATWIND, GOES-16 WV-IMG/CT(BUFR) |
+| NC005056 | A62130 | MSG TYPE 005-056 NESDIS SATWIND, GOES-16 IR(SW)   (BUFR) |
+|          |        |                                                          |
+* NC005050 | A63228 | MSG TYPE 005-050 NESDIS SATWIND, GMS IR(LW) CHANNEL      |
 *  ** MESSAGE TYPE 005-050 NO LONGER PRODUCED AFTER APPROX. JANUARY 2003 **    |
-| NC005051 | A63229 | MSG TYPE 005-051 NESDIS SATWIND, GMS WV-IMG CHANNEL      |
+* NC005051 | A63229 | MSG TYPE 005-051 NESDIS SATWIND, GMS WV-IMG CHANNEL      |
 *  ** MESSAGE TYPE 005-051 NO LONGER PRODUCED AFTER APPROX. JANUARY 2003 **    |
 |          |        |                                                          |
 | NC005070 | A63254 | MSG TYPE 005-070 MODIS SATWIND, AQUA/TERRA IR(LW) CHN    |
@@ -46,6 +52,7 @@
 | NC005072 | A62233 | MSG TYPE 005-072 SSEC/WISC LEO-GEO WINDS                 |
 |          |        |                                                          |
 | NC005080 | A63190 | MSG TYPE 005-080 AVHRR SATWIND, NOAA/METOP IR(LW) CHN    |
+| NC005081 | A63191 | MSG TYPE 005-081 AVHRR SATWIND, NOAA/METOP IR(LW) CHN    |
 |          |        |                                                          |
 | NC005090 | A63189 | MSG TYPE 005-090 VIIRS SATWIND, NPP IR(LW) CHANNEL       |
 *  ** Msg Type 005-090 discontinued in late 2019; replaced by 005-091 **       |
@@ -143,8 +150,8 @@
 | TSIG     | 008021 | TIME SIGNIFICANCE                                        |
 | FOST     | 008023 | FIRST ORDER STATISTICS                                   |
 | VSNWP    | 008086 | VERTICAL SIGNIFICANCE FOR NWP                            |
-| MUCE     | 008092 | MEASUREMENT UNCERTAINTY EXPRESSION                       |
-* MUNCEX   | 008092 | Measurement uncertainty expression                       |
+| MUNCEX   | 008092 | MEASUREMENT UNCERTAINTY EXPRESSION                       |
+* MUNCXX   | 008092 | Measurement uncertainty expression                       |
 | RCTS     | 008202 | RECEIPT TIME SIGNIFICANCE                                |
 |          |        |                                                          |
 | HGHT     | 010007 | HEIGHT                                                   |
@@ -298,8 +305,8 @@
 | NC005030 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
 | NC005030 |          TSIG     PRLC     UMWV     VWMV                          |
 | NC005030 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
-| NC005030 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
-* NC005030 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005030 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005030 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
 | NC005030 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
 |          |                                                                   |
 | NC005031 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
@@ -313,8 +320,8 @@
 | NC005031 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
 | NC005031 |          TSIG     PRLC     UMWV     VWMV                          |
 | NC005031 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
-| NC005031 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
-* NC005031 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005031 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005031 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
 | NC005031 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
 |          |                                                                   |
 | NC005032 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
@@ -328,8 +335,8 @@
 | NC005032 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
 | NC005032 |          TSIG     PRLC     UMWV     VWMV                          |
 | NC005032 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
-| NC005032 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
-* NC005032 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005032 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005032 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
 | NC005032 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
 |          |                                                                   |
 | NC005034 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
@@ -343,8 +350,8 @@
 | NC005034 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
 | NC005034 |          TSIG     PRLC     UMWV     VWMV                          |
 | NC005034 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
-| NC005034 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
-* NC005034 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005034 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005034 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
 | NC005034 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
 |          |                                                                   |
 | NC005039 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
@@ -358,23 +365,98 @@
 | NC005039 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
 | NC005039 |          TSIG     PRLC     UMWV     VWMV                          |
 | NC005039 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
-| NC005039 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
-* NC005039 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005039 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005039 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
 | NC005039 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
 |          |                                                                   |
+| NC005052 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005052 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005052 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005052 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005052 | EHAM     PRLC                                                     |
+| NC005052 | WDIR     WSPD     UWND     VWND                                   |
+| NC005052 |                   TMDBST   HOCT                                   |
+| NC005052 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005052 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005052 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005052 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005052 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005052 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
+| NC005052 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005053 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005053 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005053 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005053 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005053 | EHAM     PRLC                                                     |
+| NC005053 | WDIR     WSPD     UWND     VWND                                   |
+| NC005053 |                   TMDBST   HOCT                                   |
+| NC005053 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005053 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005053 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005053 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005053 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005053 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
+| NC005053 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005054 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005054 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005054 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005054 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005054 | EHAM     PRLC                                                     |
+| NC005054 | WDIR     WSPD     UWND     VWND                                   |
+| NC005054 |                   TMDBST   HOCT                                   |
+| NC005054 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005054 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005054 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005054 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005054 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005054 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
+| NC005054 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005055 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005055 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005055 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005055 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005055 | EHAM     PRLC                                                     |
+| NC005055 | WDIR     WSPD     UWND     VWND                                   |
+| NC005055 |                   TMDBST   HOCT                                   |
+| NC005055 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005055 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005055 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005055 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005055 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005055 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
+| NC005055 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
+| NC005056 | OGCE     GSES     SOFTV    DBID     SAID     SCCF     DOMO        |
+| NC005056 | 201138   CTRE     ATRE     201000   SSNX     SSNY     WDPF        |
+| NC005056 | TCMD     SWCM     LSQL     DNQL     GPTI     CLATH    CLONH       |
+| NC005056 | YEAR     MNTH     DAYS     HOUR     MINU     SECO     LTDS        |
+| NC005056 | EHAM     PRLC                                                     |
+| NC005056 | WDIR     WSPD     UWND     VWND                                   |
+| NC005056 |                   TMDBST   HOCT                                   |
+| NC005056 | SAZA     OSQN     {AMVAHA} {AMVIII} {AMVIVR}                      |
+| NC005056 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
+| NC005056 |          TSIG     PRLC     UMWV     VWMV                          |
+| NC005056 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
+| NC005056 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005056 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
+| NC005056 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
+|          |                                                                   |
 * **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-050, DISCONTINUED  ~JAN 2003  **  |
-| NC005050 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
-| NC005050 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
-| NC005050 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
-| NC005050 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
-| NC005050 | RFFL   SWDL   SWQM   RPID                                         |
+* NC005050 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
+* NC005050 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
+* NC005050 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
+* NC005050 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
+* NC005050 | RFFL   SWDL   SWQM   RPID                                         |
 |          |                                                                   |
 * **  FINAL SUBSET STRUCTURE IN MSG TYPE 005-051, DISCONTINUED  ~JAN 2003  **  |
-| NC005051 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
-| NC005051 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
-| NC005051 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
-| NC005051 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
-| NC005051 | RFFL   SWDL   SWQM   RPID                                         |
+* NC005051 | SAID   GCLONG SCLF   SSNX   SSNY                                  |
+* NC005051 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   CLAT  CLON              |
+* NC005051 | SIDP   SWCM   PRLC   WDIR   WSPD   SCCF   CCST                    |
+* NC005051 | HAMD   TCMD   LSQL   SAZA   "TWIND"4      "RPSEQ2"5               |
+* NC005051 | RFFL   SWDL   SWQM   RPID                                         |
 |          |                                                                   |
 | NC005070 | RCPTIM RPID   CORN                                                |
 | NC005070 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
@@ -434,6 +516,20 @@
 | NC005080 | "TWIND"4                                                          |
 | NC005080 | "RPSEQ2"10                                                        |
 |          |                                                                   |
+|          |                                                                   |
+********** |     METOP-B/C AVHRR WINDS FOR ILIANA BELOW   ***************      *
+|          |                                                                   |
+| NC005081 | OGCE  GSES  SOFTV  DBID  SAID  SCCF  DOMO  201138  CTRE  ATRE     |
+| NC005081 | 201000  SSNX  SSNY  WDPF  TCMD  SWCM  LSQL  DNQL  GPTI  CLATH     |
+| NC005081 | CLONH  YEAR  MNTH  DAYS  HOUR  MINU  SECO  LTDS  EHAM  PRLC  WDIR |
+| NC005081 | WSPD  UWND  VWND  TMDBST  HOCT  SAZA  OSQN  {AMVAHA}              |
+| NC005081 | {AMVIII}  {AMVIVR}  OGCE  TSIG  PRLC  UMWV  VWMV  TSIG  PRLC      |
+| NC005081 | UMWV  VWMV  TSIG  VSNWP  PRLC  UMWV  VWMV  VSNWP  "AMVQIC"4       |
+| NC005081 | MUNCEX  PRLC  UWND  VWND  MUNCEX  AMVQ  CLDMNT  CLTP  CLDP        |
+| NC005081 | {AMVCLD}  FOST                                                    |
+|          |                                                                   |
+********** |     METOP-B/C AVHRR WINDS FOR ILIANA ABOVE  ****************      *
+|          |                                                                   |
 | NC005090 | RCPTIM RPID   CORN                                                |
 | NC005090 | SAID   OGCE   SCLF   SAZA   SSNX   SSNY                           |
 | NC005090 | YEAR   MNTH   DAYS   HOUR   MINU   SECO   TPHR   CLAT   CLON      |
@@ -456,8 +552,8 @@
 | NC005091 | OGCE     TSIG     PRLC     UMWV     VWMV                          |
 | NC005091 |          TSIG     PRLC     UMWV     VWMV                          |
 | NC005091 | TSIG     VSNWP    PRLC     UMWV     VWMV     VSNWP                |
-| NC005091 | "AMVQIC"4         MUCE     PRLC     UWND     VWND     MUCE        |
-* NC005091 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+| NC005091 | "AMVQIC"4         MUNCEX   PRLC     UWND     VWND     MUNCEX      |
+* NC005091 | "AMVQIC"4         MUNCXX   PRLC     UWND     VWND     MUNCXX      |
 | NC005091 | AMVQ     CLDMNT   CLTP     CLDP     {AMVCLD} FOST                 |
 |          |                                                                   |
 |          |                                                                   |
@@ -475,9 +571,9 @@
 |          |                                                                   |
 | AMVIVE   | XEEM     YEEM     AXEE                                            |
 |          |                                                                   |
-| AMVCLD   | FOST     CDTP     MUCE     VSAT     TMDBST   VSAT     CDTP        |
+| AMVCLD   | FOST     CDTP     MUNCEX    VSAT     TMDBST   VSAT     CDTP       |
 * AMVCLD   |                   ^^^^ Standard uncertainty cloud top ^^^^        *
-| AMVCLD   | MUCE     OECS     CDTP     HOCT     COPT     ILWP     COTH        |
+| AMVCLD   | MUNCEX   OECS     CDTP     HOCT     COPT     ILWP     COTH        |
 | AMVCLD   | METFET   EMMI     METFET                                          |
 * AMVCLD   | ^Cld emissivity^                                                  *
 *   Repl.  1: FOST=2 (maximum value)
@@ -538,10 +634,10 @@
 | SWCM     |    0 |           0 |   4 | CODE TABLE               |-------------|
 |          |      |             |     |                          |-------------|
 | CTRE     |    2 |           0 |  12 | M                        |-------------|
-* CTRE stored   2 *           0 *  20 * M (NC005030-032, 034, 039 only)        *
+* CTRE stored   2 *           0 *  20 * M (NC005052-054, 055, 056 only)        *
 |          |      |             |     |                          |-------------|
 | ATRE     |    2 |           0 |  12 | M                        |-------------|
-* ATRE stored   2 *           0 *  20 * M (NC005030-032, 034, 039 only)        *
+* ATRE stored   2 *           0 *  20 * M (NC005052-054, 055, 056 only)        *
 |          |      |             |     |                          |-------------|
 | SSNX     |    0 |           0 |  18 | M                        |-------------|
 | SSNY     |    0 |           0 |  18 | M                        |-------------|
@@ -589,8 +685,8 @@
 | TSIG     |    0 |           0 |   5 | CODE TABLE               |-------------|
 | FOST     |    0 |           0 |   6 | CODE TABLE               |-------------|
 | VSNWP    |    0 |           0 |  12 | FLAG TABLE               |-------------|
-| MUCE     |    0 |           0 |   5 | CODE TABLE               |-------------|
-* MUNCEX   |    0 |           0 |   5 | CODE TABLE               |-------------|
+| MUNCEX   |    0 |           0 |   5 | CODE TABLE               |-------------|
+* MUNCXX   |    0 |           0 |   5 | CODE TABLE               |-------------|
 | RCTS     |    0 |           0 |   6 | CODE TABLE               |-------------|
 |          |      |             |     |                          |-------------|
 | HGHT     |    0 |       -1000 |  17 | M                        |-------------|

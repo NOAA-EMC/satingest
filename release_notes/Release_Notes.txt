@@ -1,0 +1,518 @@
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+satingest v4.2.0        -> released to NCO on Jul 21,2022
+          v4.2.1        -> implemented Jul 28,2022 (ARFC,SPA Simon)
+
+
+List of all code/scripts modified with this release
+---------------------------------------------------
+ M CMakeLists.txt
+   README.md
+ M VERSION
+   build.sh
+ M fix/CMakeLists.txt
+ M fix/aerosol
+   fix/aerosol.af_viirs
+   fix/aerosol.avhrr_weekly_gvf
+   fix/aerosol.burned_area
+   fix/aerosol.burning_emissions
+   fix/aerosol.dust
+ D fix/aerosol.hms_smoke_final
+ D fix/aerosol.hms_smoke_prelim
+ D fix/aerosol.hms_smoke_prelim_early
+   fix/aerosol.modis_aod
+   fix/aerosol.modis_fire
+   fix/aerosol.nic_lks
+   fix/aerosol.sat_comp_mosaic_imgry
+   fix/aerosol.viirs_weekly_gvf
+   fix/aerosol.wf_abba
+   fix/airs
+ M fix/airs.airs_efov
+   fix/airs.amsr2
+   fix/airs.iasi_efov
+   fix/airs.mt_saphir
+   fix/avhrr
+   fix/avhrr.avhrr_18_19
+   fix/avhrr.avhrr_m1_m2_m3
+   fix/bufr_V10satwind.4qual.bufrtable
+   fix/bufr_amsua15_ta2tb.txt
+   fix/bufr_amsua16_ta2tb.txt
+   fix/bufr_goes.cloud.bufrtable
+   fix/bufr_goes.imgrdn.bufrtable
+   fix/bufr_goes.sounding_1x1.bufrtable
+   fix/bufr_ompstc.bufrtable
+   fix/bufr_ompstc.bufrtable.no_corners
+   fix/bufrtab.003
+ M fix/bufrtab.005
+   fix/bufrtab.008
+   fix/bufrtab.012
+   fix/bufrtab.021
+   fix/bufrtab.GOES16ASR_NESDIS
+   fix/bufrtab.GOES16CSR_NESDIS
+   fix/bufrtab_saphir_foreign
+   fix/idsb_ingest.source.html
+   fix/lnd_sea_mask_dat
+   fix/npp_atms
+   fix/npp_atms.atms
+   fix/npp_cris_2211
+   fix/npp_cris_2211.cris_fsr_2211
+   fix/npp_cris_431
+   fix/npp_cris_431.cris_fsr_431
+   fix/npp_omps
+   fix/npp_omps.omps_lp
+   fix/npp_omps.ompsnp_v8
+ M fix/npp_omps.ompstc_v8
+   fix/ozone14
+   fix/ozone14.ozone19_v8bufr
+   fix/ozone_orbit
+   fix/ozone_orbit.gome
+   fix/ozone_orbit.omi
+   fix/ozone_orbit.ozone_v8bufr
+   fix/poes_sst
+   fix/poes_sst.amsr2_sst
+   fix/poes_sst.navy_avhrr
+   fix/poes_sst.viirs_clear_sky
+   fix/poes_sst.viirs_probclear_sky
+   fix/qscatter
+   fix/qscatter.ascat_50km
+   fix/radsnd
+   fix/radsnd.efclamzip
+   fix/radsnd.goes16_asr_base
+   fix/radsnd.goes_csr_base
+   fix/radsnd.lgycld
+ M fix/satwnd
+   fix/satwnd.avhrr
+   fix/satwnd.ircd_dmw
+   fix/satwnd.leo-geo
+   fix/satwnd.modir
+   fix/satwnd.modwv
+ A fix/satwnd.nb_avhrr
+   fix/satwnd.nb_viirs
+   fix/satwnd.shrtwv_dmw
+   fix/satwnd.visb_dmw
+   fix/satwnd.wvics_dmw
+   fix/satwnd.wvict_dmw
+   fix/snowday
+   fix/snowday.copy_forward_grib_16_ims
+   fix/snowday.copy_forward_grib_16_usaf_nh
+   fix/snowday.copy_forward_grib_16_usaf_sh
+   fix/snowday.copy_forward_grib_96_ims
+   fix/snowore
+   fix/snowore.ascii2grib_16_ims
+   fix/snowore.ascii2grib_96_ims
+   fix/snowore.gribcopy_autosnow_sh
+   fix/snowore.gribcopy_usaf_nh
+   fix/snowore.gribcopy_usaf_sh
+   fix/ssmi
+   fix/ssmi.edr
+   fix/ssmi.gmi_tmbr
+   fix/ssmi.sdr
+   fix/ssmi.ssmis
+ D fix/swd.wvics_dmw
+   fix/tovs
+   fix/tovs.amsua
+   fix/tovs.atovs
+   fix/tovs.hirs4
+   fix/tovs.mhs
+   jobs/CMakeLists.txt
+   jobs/JISATINGEST
+   modulefiles/satingest_common.lua
+   modulefiles/satingest_hera.lua
+   modulefiles/satingest_orion.lua
+   modulefiles/satingest_wcoss2.lua
+ A release_notes/CMakeLists.txt
+ A release_notes/Release_Notes.txt
+   scripts/CMakeLists.txt
+   scripts/existday.sh.ecf
+   scripts/existore.sh.ecf
+   scripts/existday.sh
+   scripts/existore.sh
+   sorc/CMakeLists.txt
+   sorc/bufr_cycsplit.fd/CMakeLists.txt
+   sorc/bufr_cycsplit.fd/cycsplit.f
+   sorc/bufr_tranamsua.fd/CMakeLists.txt
+   sorc/bufr_tranamsua.fd/bufr1b.f
+   sorc/bufr_tranamsua.fd/rfac.inc
+   sorc/bufr_tranamsua.fd/tranamsua.f
+   sorc/bufr_tranavhrr.fd/CMakeLists.txt
+   sorc/bufr_tranavhrr.fd/avhrr.f90
+   sorc/bufr_tranavhrr.fd/cavh_cpi.inc
+   sorc/bufr_tranavhrr.fd/func.f90
+   sorc/bufr_tranavhrr.fd/gac1b.inc
+   sorc/bufr_tranavhrr.fd/rfac.inc
+   sorc/bufr_tranavhrr.fd/tranavhrr.f90
+   sorc/bufr_trangoescld.fd/CMakeLists.txt
+   sorc/bufr_trangoescld.fd/trangoescld.f
+   sorc/bufr_trangoessst.fd/CMakeLists.txt
+   sorc/bufr_trangoessst.fd/trangoessst.f
+   sorc/bufr_tranhirs3.fd/CMakeLists.txt
+   sorc/bufr_tranhirs3.fd/bufr1b.f
+   sorc/bufr_tranhirs3.fd/rfac.inc
+   sorc/bufr_tranhirs3.fd/tranhirs3.f
+   sorc/bufr_tranimgr.fd/CMakeLists.txt
+   sorc/bufr_tranimgr.fd/tranimgr.f90
+   sorc/bufr_tranmhs.fd/CMakeLists.txt
+   sorc/bufr_tranmhs.fd/bufr1b.f
+   sorc/bufr_tranmhs.fd/rfac.inc
+   sorc/bufr_tranmhs.fd/tranmhs.f
+   sorc/bufr_tranmls.fd/CMakeLists.txt
+   sorc/bufr_tranmls.fd/o3mr_datasets.f90
+   sorc/bufr_tranmls.fd/tranmls.f90
+   sorc/bufr_tranmtypsbt.fd/CMakeLists.txt
+   sorc/bufr_tranmtypsbt.fd/tranmtypsbt.f
+   sorc/bufr_tranomi.fd/CMakeLists.txt
+   sorc/bufr_tranomi.fd/to3_datasets.f90
+   sorc/bufr_tranomi.fd/tranomi.f90
+   sorc/bufr_tranompstc.fd/CMakeLists.txt
+   sorc/bufr_tranompstc.fd/tranompstc.f
+   sorc/bufr_tranpoessst.fd/CMakeLists.txt
+   sorc/bufr_tranpoessst.fd/tranpoessst.f
+   sorc/bufr_tranpoessst_navo.fd/CMakeLists.txt
+   sorc/bufr_tranpoessst_navo.fd/tranpoessst_navo.f
+   sorc/bufr_transaphir.fd/CMakeLists.txt
+   sorc/bufr_transaphir.fd/transaphir.f90
+   sorc/bufr_transatw.fd/CMakeLists.txt
+   sorc/bufr_transatw.fd/transatw.f
+   sorc/bufr_transkycovr.fd/CMakeLists.txt
+   sorc/bufr_transkycovr.fd/transkycovr.f90
+   sorc/bufr_transsmi.fd/CMakeLists.txt
+   sorc/bufr_transsmi.fd/transsmi.f
+   sorc/bufr_transsnd.fd/CMakeLists.txt
+   sorc/bufr_transsnd.fd/transsnd.f
+   sorc/bufr_tranwindsat.fd/CMakeLists.txt
+   sorc/bufr_tranwindsat.fd/tranwindsat.f
+   sorc/snow_sno16grb.fd/CMakeLists.txt
+   sorc/snow_sno16grb.fd/sno16grb.f
+   sorc/snow_sno8grb.fd/CMakeLists.txt
+   sorc/snow_sno8grb.fd/sno8grb.f
+   sorc/snow_sno96grb.fd/CMakeLists.txt
+   sorc/snow_sno96grb.fd/sno96grb.f
+   TRIGGERS/ (2)
+   ush/CMakeLists.txt
+   ush/download_fix.sh
+   ush/ingest_check_lapsed_data.sh
+   ush/ingest_copy.sh
+   ush/ingest_get.sh
+   ush/ingest_process_days.sh
+   ush/ingest_process_onetype_newdays.sh
+   ush/ingest_process_onetype_neworbits.sh
+   ush/ingest_process_orbits.sh
+   ush/ingest_process_orbits_subscript.sh
+   ush/ingest_qmgr.sh
+   ush/ingest_query.sh
+   ush/ingest_script_atovs1b.sh
+   ush/ingest_script_mls.sh
+   ush/ingest_script_omi.sh
+ M ush/ingest_sncvgrib.sh
+ M ush/ingest_sncvgrib96.sh
+   ush/ingest_snodepgr.sh
+   ush/ingest_translate_orbits.sh
+   ush/ingest_transst_poes.sh
+   ush/ingest_transst_poes_navo.sh
+   ush/navo_poes_sst_bundle.sh
+   versions/build.ver
+   versions/run.ver
+------------------
+M-modified; A-added; D-deleted
+
+USH script changes
+------------------
+ ush/ingest_sncvgrib.sh:
+ Preserve the ASCII format snow file and place in $DCOMROOT/YYYYMMDD/wgrbbul
+
+ ush/ingest_sncvgrib96.sh:
+ Preserve the ASCII format snow file (different resolution) and place in $DCOMROOT/YYYYMMDD/wgrbbul
+
+FIX file changes
+----------------
+ fix/airs.iasi_efov
+ Introduce new IASI HEAP data filenames (Impl.of Metop-B/C HEAP IASI in NCCF due 27 July 2022):
+  NUCAPS-GMAO-616_v3r0_m01_s???????????????_e???????????????_c???????????????.bufr 
+  NUCAPS-GMAO-616_v3r0_m03_s???????????????_e???????????????_c???????????????.bufr
+ Old file names will be removed with next implementation:
+  NUCAPS-GMAO-616_v2r0_m03_s???????????????_e???????????????_c???????????????.bufr 
+  NPR_IARD.M02_D?????_S??????_E??????_G???_C0616_U6 
+  NPR_IARD.M01_D?????_S??????_E??????_G???_C0616_U6
+
+ fix/npp_omps.ompstc_v8
+ Introduce new OMPS-TC data filename (NDE update/release 2.0.32 due July 21, 2022)
+  OMPS-TC_v4r2_npp_s???????????????_e???????????????_c???????????????.bufr
+  OMPS-TC_v4r2_j01_s???????????????_e???????????????_c???????????????.bufr
+ Old file names will be removed with next implementation:
+  OMPS-TC_v4r0_npp_s???????????????_e???????????????_c???????????????.bufr 
+  OMPS-TC_v4r0_j01_s???????????????_e???????????????_c???????????????.bufr 
+
+ fix/bufrtab.005
+ Rename old mnemonic MUCE to MUNCEX
+ Rename old mnemonic MUNCEX to MUNCXX 
+
+ fix/aerosol
+ Remove logic pertaning to HMS Split smoke model ingest (not transitioned to WCOSS2), 
+  and deleted the related fix/aerosol.hms_smoke_* files
+
+ fix/aerosol.hms_smoke_final, fix/aerosol.hms_smoke_prelim, fix/aerosol.hms_smoke_prelim_early
+ Remove because associated HYSPLIT model did not transition to WCOSS2.
+
+ fix/satwnd
+ Introduce new processing family NB_AVHRR
+ 
+ fix/satwnd.nb_avhrr
+ Introduce ingest and processing steps for new family NB_AVHRR's files:
+ NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
+ NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr
+ NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
+ NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr
+
+JOBS script changes
+-------------------
+ No changes.
+
+Source code changes
+-------------------
+ No changes.
+
+Output changes
+--------------
+ Generate new tank b005/xx081 from Metop-B/C satellite winds.
+
+Big Brother information
+-----------------------
+ Monitor new filename patterns:
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v3r0_m01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v3r0_m03_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/OMPS-TC_v4r2_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/OMPS-TC_v4r2_j01_s???????????????_e???????????????_c???????????????.bufr
+
+ Remove following from monitoring once new names are present and BB begins identifying them as missing:
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v2r0_m03_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NPR_IARD.M02_D?????_S??????_E??????_G???_C0616_U6
+ $COMROOT/logs/bb/ingest/NPR_IARD.M01_D?????_S??????_E??????_G???_C0616_U6
+ $COMROOT/logs/bb/ingest/OMPS-TC_v4r0_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/OMPS-TC_v4r0_j01_s???????????????_e???????????????_c???????????????.bufr
+
+ Remove the following from monitoring:
+ $COMROOT/logs/bb/ingest/hmshysplit????????.prelim.txt
+ $COMROOT/logs/bb/ingest/hmshysplit????????.txt
+ $COMROOT/logs/bb/ingest/hms????????.prelim.txt
+ $COMROOT/logs/bb/ingest/hms????????.txt
+
+Disable BB alerts for
+---------------------
+ SAPHIR
+ METOP-A
+ HMS HYSPLIT
+
+Compute Resource Information
+----------------------------
+ No changes in requested resources in the job cards for any jobs. 
+ No changes to memory usage for any jobs.
+
+Disk Space Changes 
+------------------
+ New b005/xx081 tank will partially replace b005/xx080 and will be larger.
+ Old b005/xx080 tanks size: ~2-7MB. New b005/xx081 tank size: ~10-15MB
+ 
+Shared Software 
+---------------
+ Module bufr-tranjb v1.0.2 is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov) 
+
+Libraries
+---------
+ w3emc   2.9.1 
+ bufr   11.6.0 
+ bacio   2.4.1
+ hdf5    1.10.6 
+ netcdf  4.7.4 
+ libjpeg 9c
+   
+Build Instructions
+------------------
+ See README.md
+ NOTE: fix/CMakeLists.txt mentions the following files:
+       fix/bufr_hirsrtcf_ibm.dat
+       fix/bufr_lowtopog.dat
+       fix/nesdis.lstags_transsmi
+       These are binary files that belong to satingest, but are not on GitHub.
+       They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+Preimplementation Testing Requirements
+--------------------------------------
+ Run JISATINGEST for the following tasks: airs, npp_omps, satwnd
+
+Dissemination
+-------------
+ No change in dissemination.
+ Add tank b005/xx081 to archival on HPSS. 
+
+Special Instructions
+--------------------
+  On Jul 21, 2022 (or a day earlier), subscribe to the following product(s) on PDA OPS:
+   OMPS-TC_v4r2_npp_s???????????????_e???????????????_c???????????????.bufr
+   OMPS-TC_v4r2_j01_s???????????????_e???????????????_c???????????????.bufr 
+ 
+  On Jul 28, 2022 (or a day earlier), subscribe to the following product(s) on PDA OPS:
+   NUCAPS-GMAO-616_v3r0_m01_s???????????????_e???????????????_c???????????????.bufr
+   NUCAPS-GMAO-616_v3r0_m03_s???????????????_e???????????????_c???????????????.bufr 
+
+  On implementation day (Jul 21,2022), or sooner, stop the ingest of all satingest b005 tanks 
+  (i.e. b005/xx030,b005/xx031,b005/xx032,b005/xx034,b005/xx039,b005/xx070,b005/xx071,b005/xx072,b005/xx080,b005/xx081,b005/xx091)
+  and use the apxdx tool to add the updated fix/bufrtab.005 table to each satingest tank.
+  (/apps/ops/prod/nco/intel/19.1.3.304/bufr_util.v1.1.0/exec/apxdx)
+  Run apxdx tool with $APXDX_TYPE=satingest.
+  Resume ingest for the tanks in question. 
+
+  On implementation day (Jul 21,2022), or sooner, subscribe to the following Metop-B/C AMVs product(s) on PDA OPS:
+  NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
+  NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr
+  NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
+  NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+satingest v4.1.0	-> released to NCO on Dec 22, 2021
+   	  v4.1.3	-> implemented Jun 28, 2022
+
+Transition from WCOSS Phase3 to WCOSS2
+======================================
+https://docs.google.com/document/d/1kLpAJMp-xyVmQcmvJRPSeISzpXSB2I_ndcDjIIORXVE/edit?usp=sharing
+
+Where is the release tag on subversion/git/vlab? 
+ git clone https://github.com/NOAA-EMC/satingest
+ git checkout release/satingest.v4.1.0
+
+List of external software used (anything outside of your vertical structure), including compilers and version numbers for everything
+Software used must be a minimal list of modules/versions specified per job
+ netcdf_ver=4.7.4
+ hdf5_ver=1.10.6
+ bacio_ver=2.4.1
+ w3emc_ver=2.9.1
+ bufr_ver=11.6.0
+ bufr_tranjb_ver=1.0.2
+ libjpeg_ver=9c
+ grib_util_ver=1.2.2
+ gfs_ver=v16.2
+
+List of all code/scripts modified with this release
+A CMakeLists.txt
+A README.md
+M Release_Notes.txt
+A VERSION
+A build.sh
+A fix/CMakeLists.txt
+M fix/airs
+M fix/ssmi.sdr
+A jobs/CMakeLists.txt
+M jobs/JISATINGEST
+A modulefiles/satingest_common.lua
+A modulefiles/satingest_hera.lua
+A modulefiles/satingest_orion.lua
+A modulefiles/satingest_wcoss2.lua
+A scripts/CMakeLists.txt
+D scripts/existday.sh.ecf
+D scripts/existore.sh.ecf
+A scripts/existday.sh
+A scripts/existore.sh
+A sorc/CMakeLists.txt
+A sorc/bufr_cycsplit.fd/CMakeLists.txt
+A sorc/bufr_tranamsua.fd/CMakeLists.txt
+A sorc/bufr_tranavhrr.fd/CMakeLists.txt
+A sorc/bufr_trangoescld.fd/CMakeLists.txt
+A sorc/bufr_trangoessst.fd/CMakeLists.txt
+A sorc/bufr_tranhirs3.fd/CMakeLists.txt
+A sorc/bufr_tranimgr.fd/CMakeLists.txt
+A sorc/bufr_tranmhs.fd/CMakeLists.txt
+A sorc/bufr_tranmls.fd/CMakeLists.txt
+M sorc/bufr_tranmls.fd/tranmls.f90
+A sorc/bufr_tranmtypsbt.fd/CMakeLists.txt
+A sorc/bufr_tranomi.fd/CMakeLists.txt
+M sorc/bufr_tranomi.fd/tranomi.f90
+A sorc/bufr_tranompstc.fd/CMakeLists.txt
+A sorc/bufr_tranpoessst.fd/CMakeLists.txt
+A sorc/bufr_tranpoessst_navo.fd/CMakeLists.txt
+A sorc/bufr_transaphir.fd/CMakeLists.txt
+A sorc/bufr_transatw.fd/CMakeLists.txt
+A sorc/bufr_transkycovr.fd/CMakeLists.txt
+A sorc/bufr_transsmi.fd/CMakeLists.txt
+A sorc/bufr_transsnd.fd/CMakeLists.txt
+A sorc/bufr_tranwindsat.fd/CMakeLists.txt
+M sorc/bufr_tranwindsat.fd/tranwindsat.f
+A sorc/snow_sno16grb.fd/CMakeLists.txt
+A sorc/snow_sno8grb.fd/CMakeLists.txt
+A sorc/snow_sno96grb.fd/CMakeLists.txt
+A TRIGGERS/ (2)
+A ush/CMakeLists.txt
+A ush/download_fix.sh
+M ush/ingest_check_lapsed_data.sh
+M ush/ingest_copy.sh
+M ush/ingest_process_days.sh
+M ush/ingest_process_onetype_newdays.sh
+M ush/ingest_process_onetype_neworbits.sh
+M ush/ingest_process_orbits.sh
+M ush/ingest_process_orbits_subscript.sh
+M ush/ingest_qmgr.sh
+M ush/ingest_query.sh
+M ush/ingest_script_atovs1b.sh
+M ush/ingest_script_mls.sh
+M ush/ingest_script_omi.sh
+M ush/ingest_sncvgrib.sh
+M ush/ingest_sncvgrib96.sh
+M ush/ingest_snodepgr.sh
+M ush/ingest_translate_orbits.sh
+M ush/ingest_transst_poes.sh
+M ush/ingest_transst_poes_navo.sh
+M ush/navo_poes_sst_bundle.sh
+A versions/build.ver
+A versions/run.ver
+------------------ 
+M-modified; A-added; D-deleted
+
+What changes were made to the above code/scripts to support the new architecture?
+ -satingest now uses cmake to build and install the software package 
+ -build satingest repo with cmake
+ -bufr_tranjb was moved out from underneath satingest and now is its own entity installed as a module
+ -satingest software was modified to work with bufr_tranjb as a module (bufr_tranjb.v1.0.2)
+
+Were any other changes made that aren’t directly related to the transition?
+ Obsolete data types were removed from processing:MEGHA-TROPIQUES SAPHIR L1A2 Brightness Temperatures. Affected file: fix/airs
+
+Are there any changes to incoming data needs or outgoing products? 
+ No
+
+If output filenames are changing, list the current and new filename:
+ N/A
+
+Compute resource information, for every job:
+ See TRIGGERS/ directory
+
+Usage:
+ bash -l /path/to/triggers/lsf.JISATINGEST.DEVELOP.WCOSS2 $package $task  > /path/to/output/log/file/lsf.JISATINGEST.DEVELOP.WCOSS2.${task}$$ 2>&1
+ For example:
+ bash -l /path/to/triggers/lsf.JISATINGEST.DEVELOP.WCOSS2 satingest npp_omps  > /path/to/output/log/file/lsf.JISATINGEST.DEVELOP.WCOSS2.npp_omps$$ 2>&1
+  Total tasks
+  Tasks per node
+  Serial or parallel or mpmd
+  Memory requirements (exclusive or shared)
+  List any other PBS resource information requirements or MPI tunables
+  *** Providing PBS and/or ecFlow submission scripts as part of release tag is preferred; if they are provided then resource information is not needed in the release notes.
+
+Runtime changes compared to current production (/gpfs/dell1/nco/ops/com/logs/runtime/daily/* for current stats)
+ WCOSS2 runtimes:
+  grep "resources_used.walltime =" $OPSROOT/output/YYYYMMDD/satingest_${task}*
+
+Disk space required per day or per cycle; data retention on disk will remain the same unless otherwise requested.
+ Same as WCOSS1
+
+Dissemination will remain the same unless otherwise communicated to NCO and a PNS/SCN issued
+
+HPSS archive retention will remain the same unless approval granted by HPCRAC
+
+What are your up and downstream dependencies?
+ NESDIS PDA subscriptions; decoders (decod_dcncld)
+
+Provide a pointer to your COMOUT, temp directory and pbspro output file that was used during testing:
+ This is already running on dogwood by SPA group
+ COMOUT=$DCOMROOT
+ logs in $OPSROOT/output/YYYYMMDD
+ ingest history = $DCOMROOT/ingest_hist
+
+WCOSS1 RN:https://github.com/ShelleyMelchior-NOAA/smelchior/tree/main/RNs
+
+END

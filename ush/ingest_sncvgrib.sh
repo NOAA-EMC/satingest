@@ -238,7 +238,8 @@ $TANKDIR/$yyyymmdd/wgrbbul AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" \
    fi
 fi
 
-rm -f $raw_file  # remove IMS snow cover/sea ice file from temporary working directory
+#rm -f $raw_file  # remove IMS snow cover/sea ice file from temporary working directory
+cp $raw_file $TANKDIR/$yyyymmdd/wgrbbul/  #copy IMS snow cover/sea ice file to dir for user to pick up
 
 #  If a new file was successfully created and written to its appropriate date's
 #   wgrbbul directory, check to see if the current day is actually one day
