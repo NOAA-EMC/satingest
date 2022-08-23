@@ -55,6 +55,8 @@
       integer lsubdr,ltnkid,lapchr,jjdate,kkdate,idate,iret
       integer dir,pre,qi,itype
 
+      integer iGNAPS,iGCLONG,iOGCE
+
       real*8 arr(9),bmiss,getbmiss
       real rlat,rlon,spd,said
 
@@ -230,6 +232,11 @@
 	else
 	  itype=15	!SWCM missing value
 
+!-qi stuff------------------------------------------------------------------------------------------------
+iGNAPS=5
+iGCLONG=160
+iOGCE=160
+
 
 !-NEED TO FIGURE OUT LONGITUDES-------------------------------------------------------------------------------------------------------------------------
 ! Lon read in is positive W oriented (either 0 to +360 W, or 0 to +180 W and
@@ -295,9 +302,12 @@
          arr(1) = dble(spd)                        ! WSPD
          arr(2) = dble(dir)                        ! WDIR
          arr(3) = dble(pre)                        ! PRLC
-         arr(4) = dble(qi)                         ! PCCF
-         arr(5) = dble(said)                       ! SAID
-         call UFBINT(LUNOUT,arr, 5, 1,iret,'WSPD WDIR PRLC PCCF SAID')
+         arr(4) = dble(iGNAPS)                     ! GNAPS
+         arr(5) = dble(iGCLONG)                    ! GCLONG
+         arr(6) = dble(iOGCE)                      ! OGCE
+         arr(7) = dble(qi)                         ! PCCF
+         arr(8) = dble(said)                       ! SAID
+         call UFBINT(LUNOUT,arr, 5, 1,iret,'WSPD WDIR PRLC GNAPS GCLONG OGCE PCCF SAID')
          call WRITCP(LUNOUT)  ! write out compressed BUFR messages to save space
 
          if (db .and. nl.ge.183) exit       ! debug interrupt
