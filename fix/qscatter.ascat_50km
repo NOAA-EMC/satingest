@@ -3,11 +3,10 @@ echo " Starting $TASK and  $TASK.$family "
 # ----------------------------------------------------------------------
 
 
-# The 50 km ASCAT Family (ASCAT_50km) (METOP-2(A) and METOP-1(B) satellites)
+# The 50 km ASCAT Family (ASCAT_50km) and METOP-1(B) satellites)
 # --------------------------------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-ascat50.orbitlist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-PDAFileLinks/PULL/SCAT/ascat_????????_??????_metopa_?????_srv_o_250_ovw.l2_bufr \
 PDAFileLinks/PULL/SCAT/ascat_????????_??????_metopb_?????_srv_o_250_ovw.l2_bufr"'}
       eval FTYPE${n}=\${FTYPE${n}:-bufr}
       eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx122}

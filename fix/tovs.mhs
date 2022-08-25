@@ -3,13 +3,12 @@ echo " Starting $TASK and  $TASK.$family "
 # ----------------------------------------------------------------------
 
 
-# The MHS Family (MHS) (NOAA-19, and METOP-2(A),-1(B),-3(C) satellites)
+# The MHS Family (MHS) (NOAA-19, and METOP-1(B),-3(C) satellites)
 # NOAA-18 MHS instrument failed 10/2018; removed from processing 3/2019
 # ---------------------------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-atovs1b.mhsx.orbitlist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
 PDAFileLinks/PULL/MHS/NSS.MHSX.NP.D?????.S????.E????.B???????.?? \
-PDAFileLinks/PULL/MHS/NSS.MHSX.M2.D?????.S????.E????.B???????.?? \
 PDAFileLinks/PULL/MHS/NSS.MHSX.M1.D?????.S????.E????.B???????.?? \
 PDAFileLinks/PULL/MHS/NSS.MHSX.M3.D?????.S????.E????.B???????.??"'}
       eval FTYPE${n}=\${FTYPE${n}:-none}

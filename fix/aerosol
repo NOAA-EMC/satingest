@@ -20,7 +20,7 @@ export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 group1=YES
 PROC_FAM_group1=\
 ${PROC_FAM_group1:-"MODIS_AOD BURNED_AREA SAT_COMP_MOSAIC_IMGRY \
-                    NIC_LKS AF_VIIRS MODIS_FIRE WF_ABBA"}
+                    NIC_LKS AF_VIIRS MODIS_FIRE "}
 
 group2=NO
 if [ $hour -eq 00 -o $hour -eq 08 -o $hour -eq 10 -o $hour -eq 12 -o \
