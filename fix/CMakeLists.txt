@@ -88,6 +88,7 @@ list(APPEND fix_files
   radsnd.lgycld
   satwnd
   satwnd.avhrr
+  satwnd.cimss
   satwnd.ircd_dmw
   satwnd.leo-geo
   satwnd.modir

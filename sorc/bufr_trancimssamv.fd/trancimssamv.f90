@@ -99,6 +99,14 @@
 
       call datelen(10)
 
+!-qi stuff------------------------------------------------------------------------------------------------
+iGNAPS=5
+iGCLONG=160
+iOGCE=160
+itype=15      !SWCM missing value
+
+
+
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
       call openbf (LUNOUT,'NODX',LUNTAB)! Open new output BUFR file
 
@@ -215,7 +223,7 @@
             call errexit(66)
          endif
 
-         read(csat,'(i2)') isat
+!         read(csat,'(i2)') isat
 
 ! -- convert CIMSS char type to SWCM int type (see SWCM in https://www.nco.ncep.noaa.gov/sib/jeff/CodeFlag_0_STDv31_LOC7.html#002023)
 ! -- ex.  ctype=IR -> itype=1 -> SWCM=1
@@ -227,16 +235,11 @@
 	  itype=2
         else if(ctype.eq.'WVCT') then
           itype=3
+        else if(ctype.eq.'WVCA') then
+          itype=5
         else if(ctype.eq.'OIR') then
           itype=6
-	else
-	  itype=15	!SWCM missing value
-
-!-qi stuff------------------------------------------------------------------------------------------------
-iGNAPS=5
-iGCLONG=160
-iOGCE=160
-
+	endif
 
 !-NEED TO FIGURE OUT LONGITUDES-------------------------------------------------------------------------------------------------------------------------
 ! Lon read in is positive W oriented (either 0 to +360 W, or 0 to +180 W and
@@ -251,7 +254,8 @@ iOGCE=160
          if(rlon.gt.180.)  rlon = rlon-360.
 
          fmt='(1x,i7,1x,i6,1x,f9.4,1x,f10.4,2(1x,f6.2),1x,i2)'
-         if (db) write(*,fmt) jdate,itime,rlat,rlon,eca_avg,eca,isat
+!         if (db) write(*,fmt) jdate,itime,rlat,rlon,eca_avg,eca,isat
+         if (db) write(*,fmt) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
   
          nused=nused+1     
 !---------------------------------------------------------------------------------------------------------------------------------------------------------
