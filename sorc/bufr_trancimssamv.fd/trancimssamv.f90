@@ -53,14 +53,14 @@
       integer nl,nused
       integer jdate,itime,isat,iyr,idyr,ierr,iday,mnth,ihr,imin,isec
       integer lsubdr,ltnkid,lapchr,jjdate,kkdate,idate,iret
-      integer dir,pre,qi,itype
+      integer dir,pre,qi,itype,said
 
       integer iGNAPS,iGCLONG,iOGCE
 
       real*8 arr(9),bmiss,getbmiss
-      real rlat,rlon,spd,said
+      real rlat,rlon,spd
 
-      character*132 line
+      character*132 line,temp
       character*80  fmt,appchr
       character*12  subdir,tankid
       character*10  datechar
@@ -104,12 +104,16 @@ iGNAPS=5
 iGCLONG=160
 iOGCE=160
 itype=15      !SWCM missing value
-
+said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
 
 
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
       call openbf (LUNOUT,'NODX',LUNTAB)! Open new output BUFR file
 
+!read in text of firstline
+         read(lunin,'(a)',end=200) temp
+
+print*,  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^temp ', temp 
 ! Loop thru lines of input data
       nl=0
       nused=0
@@ -123,13 +127,17 @@ itype=15      !SWCM missing value
 !IR     2022083    164500   44.8000   74.2121      14.5       238       754        87
 !IR     2022083    164500   44.8000   74.1010      14.4       242       742        85
 
+!if (nl.eq.0) then
+!	nl=nl+1
+!end if
+
          read(lunin,'(a)',end=200) line
          nl=nl+1
 
-!         if (mod(nl,100)==0) print*,'working on report', nl
+         if (mod(nl,100)==0) print*,'working on report', nl
 
          if (db) write(*,'(1x,i3,1x,a)') nl,">>>" // trim(line) // "<<<"
-
+print*, '-----line 140------', 'line ', line
          read(line,*) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
 
 ! --parse date & time
@@ -252,12 +260,14 @@ itype=15      !SWCM missing value
 !  which is not BUFR standard of 0 to -180 W - so convert
 
          if(rlon.gt.180.)  rlon = rlon-360.
-
+print*, '-----line 263------'
          fmt='(1x,i7,1x,i6,1x,f9.4,1x,f10.4,2(1x,f6.2),1x,i2)'
 !         if (db) write(*,fmt) jdate,itime,rlat,rlon,eca_avg,eca,isat
-         if (db) write(*,fmt) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
+!         if (db) write(*,fmt) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
+         if (db) write(*,*) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
   
          nused=nused+1     
+print*, '-----line 269------'
 !---------------------------------------------------------------------------------------------------------------------------------------------------------
 ! build BUFR file
 ! -- open message (as needed)
@@ -266,9 +276,10 @@ itype=15      !SWCM missing value
          write(datechar,fmt='(I4.4,I2.2,I2.2,I2.2)') iyr,mnth,iday,ihr
          read(datechar,fmt='(I10.10)') idate
          if (db) write(*,*) 'idate',idate
+print*, 'lunout ', lunout, ' subset ', subset
          call OPENMB(lunout,subset,idate)
 
-
+print*, '-----line 281------'
    ! -- populate output array w/ content
    ! -- subset mnemonics:
    !   SWCM YEAR MNTH DAYS HOUR MINU SECO CLATH CLONH WSPD WDIR PRLC PCCF SAID 
@@ -285,19 +296,13 @@ itype=15      !SWCM missing value
          arr(9) = dble(rlon)                        ! CLONH
          call UFBINT(LUNOUT,arr, 9, 1,iret, &
                     'SWCM YEAR MNTH DAYS HOUR MINU SECO CLATH CLONH')
-!-NEED to FIGURE OUT SAT ID--------------------------------------------------------------------------------------------------------------------------
-! -- convert GOES satellite number to BUFR satellite id
-!!   (currently handles GOES-13 to 19)
+!----------- SAT ID-------------------------------
 
-         if(isat.ge.13 .and. isat.le.15) then
-            said = isat + 244
-         else if(isat.ge.16 .and. isat.le.19) then
-            said = isat + 254
-         else
+         if(said.ge.273 .or. said.le.269) then
             write(6,&
             '('' #####> INVALID INCOMING SATELLITE NUMBER '',i3, &
-            '' -- STOP WITH RETURN CODE 88'')') isat
-            call w3tage('BUFR_TRANSKYCOVR')
+            '' -- STOP WITH RETURN CODE 88'')') said
+            call w3tage('BUFR_TRANCIMSSAMV')
             call errexit(88)
          endif
 !----------------------------------------------------------------------------------------------------------------------------------------------------
