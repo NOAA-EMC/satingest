@@ -137,7 +137,7 @@ print*,  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^temp ', temp
          if (mod(nl,100)==0) print*,'working on report', nl
 
          if (db) write(*,'(1x,i3,1x,a)') nl,">>>" // trim(line) // "<<<"
-print*, '-----line 140------', 'line ', line
+
          read(line,*) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
 
 ! --parse date & time
@@ -260,14 +260,14 @@ print*, '-----line 140------', 'line ', line
 !  which is not BUFR standard of 0 to -180 W - so convert
 
          if(rlon.gt.180.)  rlon = rlon-360.
-print*, '-----line 263------'
+
          fmt='(1x,i7,1x,i6,1x,f9.4,1x,f10.4,2(1x,f6.2),1x,i2)'
 !         if (db) write(*,fmt) jdate,itime,rlat,rlon,eca_avg,eca,isat
 !         if (db) write(*,fmt) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
          if (db) write(*,*) ctype,jdate,itime,rlat,rlon,spd,dir,pre,qi
   
          nused=nused+1     
-print*, '-----line 269------'
+
 !---------------------------------------------------------------------------------------------------------------------------------------------------------
 ! build BUFR file
 ! -- open message (as needed)
@@ -276,10 +276,10 @@ print*, '-----line 269------'
          write(datechar,fmt='(I4.4,I2.2,I2.2,I2.2)') iyr,mnth,iday,ihr
          read(datechar,fmt='(I10.10)') idate
          if (db) write(*,*) 'idate',idate
-print*, 'lunout ', lunout, ' subset ', subset
+
          call OPENMB(lunout,subset,idate)
 
-print*, '-----line 281------'
+
    ! -- populate output array w/ content
    ! -- subset mnemonics:
    !   SWCM YEAR MNTH DAYS HOUR MINU SECO CLATH CLONH WSPD WDIR PRLC PCCF SAID 
@@ -316,7 +316,7 @@ print*, '-----line 281------'
          arr(6) = dble(iOGCE)                      ! OGCE
          arr(7) = dble(qi)                         ! PCCF
          arr(8) = dble(said)                       ! SAID
-         call UFBINT(LUNOUT,arr, 5, 1,iret,'WSPD WDIR PRLC GNAPS GCLONG OGCE PCCF SAID')
+         call UFBINT(LUNOUT,arr, 8, 1,iret,'WSPD WDIR PRLC GNAPS GCLONG OGCE PCCF SAID')
          call WRITCP(LUNOUT)  ! write out compressed BUFR messages to save space
 
          if (db .and. nl.ge.183) exit       ! debug interrupt
