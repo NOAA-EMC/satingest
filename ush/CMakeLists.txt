@@ -1,4 +1,5 @@
 list(APPEND ush_files
+  build.sh
   ingest_check_lapsed_data.sh
   ingest_copy.sh
   ingest_get.sh
