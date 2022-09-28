@@ -7,7 +7,6 @@ echo " Starting $TASK and  $TASK.$family "
 # The OMPS LIMB PROFILER
 #  (S-NPP satellite)
 # --------------------------------------------------------------
-#export MACHINE=${MACHINE:-${PDA_SERVER:-140.90.190.122}} # (PDA I&T server)
       eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
       eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-150}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-ompslp.orbitlist}
