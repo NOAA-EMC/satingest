@@ -40,10 +40,14 @@ DOCS CHANGES
 FIX CHANGES
 
  fix/aerosol
- Turn off WF_ABBA processing family
+ Turn off (remove) WF_ABBA processing family
 
  fix/aerosol.modis_fire 
- Remove obsolete flename
+ Remove obsolete flenames
+ MODIS_C6_1_Global_MCD14DL_NRT_???????_????????????.txt 
+ MODIS_C6_Global_MCD14DL_NRT_???????_????????????.txt
+ Added
+ MODIS_C6_1_Global_MCD14DL_NRT_???????_????????????.txt
 
  fix/airs.iasi_efov 
  fix/avhrr.avhrr_m1_m2_m3 
@@ -53,7 +57,7 @@ FIX CHANGES
  fix/tovs.hirs4 
  fix/tovs.mhs
  fix/satwnd.avhrr
- Remove Metop-2(A) references
+ Remove Metop-2(A) references (filenames with Metop-2(A))
 
  fix/idsb_ingest.source.html
  Updated filenames 
@@ -106,12 +110,12 @@ CHANGES IN COMPUTE RESOURCES
  No changes in requested resources in the job cards for any jobs.
  No changes to memory usage for any jobs.
 
-Shared Software
----------------
- Module bufr-tranjb v1.0.3 is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov)
+SHARED SOFTWARE
 
-LIBRRAIESLibraries
----------
+ Module bufr-tranjb v1.0.3 needs to be installed in sync. It is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRRAIES
+
  w3emc   2.9.1
  bufr   11.7.0
  bacio   2.4.1
@@ -131,11 +135,11 @@ BUILD INNSTRUCTIONS
 
 PRE-IMPLEMENTATION TESTING REQUIREMENTS
 
- satingest needs module bufr-tranjb to be installed inn order to run.
- Module bufr-tranjb v1.0.3 is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov)
+ satingest needs module bufr-tranjb.v1.0.3 to be installed inn order to run.
+ Module bufr-tranjb.v1.0.3 is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov)
  See versions/*.ver for libaries and required versions
 
- Run JISATINGEST for the following tasks: ???
+ Run JISATINGEST for the following tasks: 
 
 DISSEMINATION INFORMATION
 
@@ -144,27 +148,39 @@ DISSEMINATION INFORMATION
 
 SPECIAL INSTRUCTIONS
 
-  ???
-  On Jul 21, 2022 (or a day earlier), subscribe to the following product(s) on PDA OPS:
-   OMPS-TC_v4r2_npp_s???????????????_e???????????????_c???????????????.bufr
-   OMPS-TC_v4r2_j01_s???????????????_e???????????????_c???????????????.bufr
+ A.On Oct 13, 2022 (or a day earlier), subscribe to the following product(s) on PDA OPS:
 
-  On Jul 28, 2022 (or a day earlier), subscribe to the following product(s) on PDA OPS:
-   NUCAPS-GMAO-616_v3r0_m01_s???????????????_e???????????????_c???????????????.bufr
-   NUCAPS-GMAO-616_v3r0_m03_s???????????????_e???????????????_c???????????????.bufr
+ Short name: CrIS_C0431_BUFR_TEST
+ Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
+ Regular Expression NUCAPS-C0431_v_r__n21_s________________e________________c_______________.bufr
+ Destination Dir: PDAFileLinks/NDE/NUCAPS
 
-  On implementation day (Jul 21,2022), or sooner, stop the ingest of all satingest b005 tanks
-  (i.e. b005/xx030,b005/xx031,b005/xx032,b005/xx034,b005/xx039,b005/xx070,b005/xx071,b005/xx072,b005/xx080,b005/xx081,b005/xx091)
-  and use the apxdx tool to add the updated fix/bufrtab.005 table to each satingest tank.
-  (/apps/ops/prod/nco/intel/19.1.3.304/bufr_util.v1.1.0/exec/apxdx)
-  Run apxdx tool with $APXDX_TYPE=satingest.
-  Resume ingest for the tanks in question.
+ Short name: CrIS_C2211_BUFR_TEST
+ Long name: CrIS_C2211_BUFR LongName JPSS2_TEST
+ Regular Expression NUCAPS-C2211_v_r__n21_s________________e________________c_______________.bufr
+ Destination Dir: PDAFileLinks/NDE/NUCAPS
 
-  On implementation day (Jul 21,2022), or sooner, subscribe to the following Metop-B/C AMVs product(s) on PDA OPS:
-  NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
-  NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr
-  NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
-  NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr
+ Short name: OMPS_LP_EV_EDR_BUFR_TEST
+ Long name: J2 OMPS LP Earth View EDR LongName_TEST
+ Regular Expression OMPS-LP-EV-EDR_v_r___n21_s________________e________________c_______________.bufr
+ Destination Dir: PDAFileLinks/NDE/OMPS
+
+ Short name: ACSPO_VIIRS_Clear_BUFR_TEST
+ Long name: ACSPO VIIRS_GHRSST_Clear_BUFR LongName JPSS2_TEST
+ Regular Expression VIIRS-ACSPO-SST-Clear_v%_n21_%.bufr
+ Destination Dir: PDAFileLinks/NDE/VIIRS_GHRSST
+
+ Short name: ACSPO_VIIRS_ProbClear_BUFR_TEST
+ Long name: ACSPO VIIRS_GHRSST_BUFR LongName JPSS2_TEST
+ Regular Expression VIIRS-ACSPO-SST-ProbClear_v%_n21_%.bufr
+ Destination Dir: PDAFileLinks/NDE/VIIRS_GHRSST
+
+ Short name: SEAP_ASCAT_OSW_500_BUFR
+ Long name: Scatterometer 50km ASCAT Ocean Surface Winds BUFR Products
+ Regular Expression OSVW50kmASCAT_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr$ 
+ Destination Dir: PDAFileLinks/PULL/SCAT
+
+ B. Satingest v4.3.0 must be implemented in sync with bufr-tranjb v1.0.3 
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v4.2.0	RELEASED	JUL 21, 2022
