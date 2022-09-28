@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 
 # Get the version from the VERSION file.
-file(STRINGS "VERSION" pVersion)
+file(STRINGS "versions/VERSION" pVersion)
 
 project(
   satingest
@@ -39,7 +39,4 @@ add_subdirectory(ush)
 
 # Install fix files.
 add_subdirectory(fix)
-
-# Install release notes.
-add_subdirectory(release_notes)
 
