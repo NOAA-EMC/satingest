@@ -13,16 +13,12 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-cimssamv_tc.list}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-/pub/winds/geowinds/GOESEmeso/AMV202209141615GOESEM1 \
-/pub/winds/geowinds/GOESEmeso/AMV202209141615GOESEM2"'}
-#      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-#/pub/winds/geowinds/GOESEmeso/AMV????????????GOESEM1 \
-#/pub/winds/geowinds/GOESEmeso/AMV????????????GOESEM2"'}
+/pub/winds/geowinds/GOESEmeso/AMV????????????GOESEM1 \
+/pub/winds/geowinds/GOESEmeso/AMV????????????GOESEM2"'}
       eval FTYPE${n}=\${FTYPE${n}:-none}
       eval TANKFILE${n}=\${TANKFILE${n}:-b005/xx099}
       eval EXECUTE${n}=\${EXECUTE${n}:-bufr_trancimssamv}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.005}
-#      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.005.steve}
       eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-NO}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
 

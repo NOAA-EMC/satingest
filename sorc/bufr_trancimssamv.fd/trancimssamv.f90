@@ -1,15 +1,18 @@
 !$$$  main program documentation block
 !
 ! Main program: BUFR_TRANCIMSSAMV
-!   Prgmmr: Stegall           Org: EMC         Date: 2022-08-01
+!   Prgmmr: Stegall           Org: EMC         Date: 2022-09-15
 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!Rewrite/update abstract:
-! ABSTRACT:  Reads in University of Wisconsin supplied ASCII data files
+! ABSTRACT:  Reads in University of Wisconsin supplied ASCII data files 
+!            containing CIMSS AMV wind speeds and wind directions.  The
+!            ASCII files are subject to some gross QC.  Then the ASCII 
+!            data is translated into an output BUFR file. 
 !
 !!!!!!!!!!!!!!!!!!!!!!!!!!rewrite/update program history
 ! Program history log:
-! 2015-01-15  D. A. Keyser   -- Adapted from program PROCESS_GOESIMGR_SKYCOVER
-!             written by Carley/Whiting. Updated Docblock.
+! 2022-09-15  S. T. Stegall   -- Adapted from program PROCESS_GOESIMGR_SKYCOVER
+!             written by KEYSER/Carley/Whiting. 
 !
 ! Usage:
 !  Input files:
@@ -73,10 +76,10 @@
       call w3tagb('BUFR_TRANCIMSSAMV',2022,0313,0050,'NP22')
 
       print*
-      print*, 'WELCOME TO BUFR_TRANCIMSSAMV - VERSION 08-01-2022'
+      print*, 'WELCOME TO BUFR_TRANCIMSSAMV - VERSION 09-15-2022'
       print*
 
-      db=.true.    ! debug
+!      db=.true.    ! debug
 
       call w3trnarg(subdir,lsubdr,tankid,ltnkid,appchr,lapchr,tlflag,jjdate, &
                     kkdate,ierr)
@@ -110,16 +113,6 @@ said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data fro
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
       call openbf (LUNOUT,'NODX',LUNTAB)! Open new output BUFR file
 
-!read in text of firstline
-         read(lunin,'(a)',end=200) temp
-
-print*,  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^temp ', temp 
-! Loop thru lines of input data
-      nl=0
-      nused=0
-
-      read1: do
-            
 !expected ascii format for new CIMSS AMV data:
 !type     day        hms     lat       lon         spd        dir       pre        qi
 !IR     2022083    164500   44.8000   79.3434       4.3       261       754        66
@@ -127,9 +120,15 @@ print*,  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^temp ', temp
 !IR     2022083    164500   44.8000   74.2121      14.5       238       754        87
 !IR     2022083    164500   44.8000   74.1010      14.4       242       742        85
 
-!if (nl.eq.0) then
-!	nl=nl+1
-!end if
+!read in text of firstline into dummy variable (skip first line)
+         read(lunin,'(a)',end=200) temp
+ 
+! Loop thru lines of input data
+      nl=0
+      nused=0
+
+      read1: do
+            
 
          read(lunin,'(a)',end=200) line
          nl=nl+1
@@ -235,7 +234,7 @@ print*,  '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^temp ', temp
 
 ! -- convert CIMSS char type to SWCM int type (see SWCM in https://www.nco.ncep.noaa.gov/sib/jeff/CodeFlag_0_STDv31_LOC7.html#002023)
 ! -- ex.  ctype=IR -> itype=1 -> SWCM=1
-! -- May need to update if more ctypes are found in files.  The 4 below are the ones found in the files so far
+! -- May need to update if more ctypes are found in files.  The 5 below are the ones found in the files so far
 
 	if(ctype.eq.'IR') then
 	  itype=1
