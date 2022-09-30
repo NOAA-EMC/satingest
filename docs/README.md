@@ -6,7 +6,7 @@ Description of the repository and its contents, use and what have you ...
 
 NCEP/EMC and NCEP/NCO developers.
 
-Code manager: Who-dun-it?
+Code manager: Satingest Crew (ObsProc team)
 
 ## Supported Compilers
 
@@ -19,6 +19,14 @@ Code manager: Who-dun-it?
 - [NCEPLIBS-bufr](https://github.com/NOAA-EMC/NCEPLIBS-bufr) >= 11.5.0
 
 ## How to Build and Install
+
+A shell script to build and install on NOAA platforms is provided [build.sh](./ush/build.sh).  Its usage on WCOSS2 is:
+```bash
+INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+```
+
+## More info on Build and Install
+
 The utilities under this repository use CMake for configuration.
 
 ```bash
@@ -32,7 +40,8 @@ make install
 
 Installation of the utilities will be under `<installation_prefix>`.
 
-### Notes for WCOSS installation
+### Further notes for WCOSS installation
+
 Prior to executing the above "Build and Install" instructions, source and load modules for WCOSS2:
 ```bash
 source versions/build.ver
@@ -43,11 +52,6 @@ module load satingest_wcoss2
 NCEP/NCO requires executables be placed under `exec/`.  Provide additional argument during CMake configuration as follows
 ```bash
 -DCMAKE_INSTALL_BINDIR=exec
-```
-
-A shell script to build and install on NOAA platforms is provided [build.sh](./build.sh).  Its usage on WCOSS2 is:
-```bash
-INSTALL_PREFIX=<installation_prefix> ./build.sh
 ```
 
 ## Disclaimer
