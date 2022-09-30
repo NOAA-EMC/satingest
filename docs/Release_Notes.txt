@@ -158,20 +158,15 @@ SPECIAL INSTRUCTIONS
  Regular Expression OMPS-LP-EV-EDR_v_r___n21_s________________e________________c_______________.bufr
  Destination Dir: PDAFileLinks/NDE/OMPS
 
- Short name: ACSPO_VIIRS_Clear_BUFR_TEST
+ Short name: ACSPO_VIIRS_Clear_BUFR_TEST (NCO may have this already, but let's be explicit about Dest Dir)
  Long name: ACSPO VIIRS_GHRSST_Clear_BUFR LongName JPSS2_TEST
  Regular Expression VIIRS-ACSPO-SST-Clear_v%_n21_%.bufr
  Destination Dir: PDAFileLinks/NDE/VIIRS_GHRSST
 
- Short name: ACSPO_VIIRS_ProbClear_BUFR_TEST
+ Short name: ACSPO_VIIRS_ProbClear_BUFR_TEST (NCO may have this already, but let's be explicit about Dest Dir)
  Long name: ACSPO VIIRS_GHRSST_BUFR LongName JPSS2_TEST
  Regular Expression VIIRS-ACSPO-SST-ProbClear_v%_n21_%.bufr
  Destination Dir: PDAFileLinks/NDE/VIIRS_GHRSST
-
- Short name: SEAP_ASCAT_OSW_500_BUFR
- Long name: Scatterometer 50km ASCAT Ocean Surface Winds BUFR Products
- Regular Expression OSVW50kmASCAT_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr$ 
- Destination Dir: PDAFileLinks/PULL/SCAT
 
  B. Satingest v4.3.0 must be implemented in sync with bufr-tranjb v1.0.3 
 
