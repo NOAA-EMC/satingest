@@ -5,7 +5,6 @@ echo " Starting $TASK and  $TASK.$family "
 
 # The 50 km ASCAT Family (ASCAT_50km) (METOP-2(A) and METOP-1(B) satellites)
 # --------------------------------------------------------------------------
-      eval MACHINE${n}=140.90.190.122
       eval ORBITLIST${n}=\${ORBITLIST${n}:-ascat50.orbitlist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'" \
 PDAFileLinks/PULL/SCAT/ascat_????????_??????_metopb_?????_srv_o_250_ovw.l2_bufr"'}
