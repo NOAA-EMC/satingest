@@ -8,7 +8,6 @@ echo " Starting $TASK and  $TASK.$family "
 # ------------------------------------------------------------------------
 #
 
-      eval MACHINE${n}=\${MACHINE${n}:-140.90.190.122}
       eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
       eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-150}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-cris_fsr_431.orbitlist}
