@@ -104,7 +104,8 @@
 
 !-qi stuff------------------------------------------------------------------------------------------------
 iGNAPS=5
-iGCLONG=160
+!iGCLONG=160
+iGCLONG=bmiss
 iOGCE=160
 itype=15      !SWCM missing value
 said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
