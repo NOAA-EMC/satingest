@@ -9,7 +9,7 @@ echo " Starting $TASK and  $TASK.$family "
 
       eval ORBITLIST${n}=dust.aod
       eval REMOTEDSNGRP${n}='"\
-PDAFileLinks/PULL/GRIB/MYDdust.aod_conc.v6.3.4.????????.hr??.grib"'
+#PDAFileLinks/PULL/GRIB/MYDdust.aod_conc.v6.3.4.????????.hr??.grib"'
       eval FTYPE${n}=none
       eval TANKFILE${n}=wgrbbul/dust
       eval EXECUTE${n}=ingest_copy.sh

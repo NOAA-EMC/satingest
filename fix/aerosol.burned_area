@@ -8,8 +8,8 @@ echo " Starting $TASK and  $TASK.$family "
 
       eval ORBITLIST${n}=burned_area
       eval REMOTEDSNGRP${n}='"concatenate_families \
-PDAFileLinks/PULL/GRIB/burned_area_????????_??_??_1km.grib2.gz \
-PDAFileLinks/PULL/GRIB/burned_area_????????_??_??_12km.grib2.gz"'
+#PDAFileLinks/PULL/GRIB/burned_area_????????_??_??_1km.grib2.gz \
+#PDAFileLinks/PULL/GRIB/burned_area_????????_??_??_12km.grib2.gz"'
       eval FTYPE${n}=none
       eval TANKFILE${n}=\${TANKFILE${n}:-burned_area}
       eval EXECUTE${n}=ingest_copy.sh
