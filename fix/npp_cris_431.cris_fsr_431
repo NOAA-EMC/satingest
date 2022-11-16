@@ -6,6 +6,8 @@ echo " Starting $TASK and  $TASK.$family "
 # The CrIS Full Spectral Radiance Subset 431 Channel Family (CRIS_FSR_431)
 #  {S-NPP and JPSS-1 (NOAA-20) satellites}
 # ------------------------------------------------------------------------
+#
+
       eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
       eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-150}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-cris_fsr_431.orbitlist}
@@ -29,7 +31,6 @@ PDAFileLinks/NDE/NUCAPS/NUCAPS-C0431_v2r0_j01_s???????????????_e???????????????_
       eval HISTLENMIN${n}=\${HISTLENMIN${n}:-59700}
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-60000}
       eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_cris_fsr_431.out}
-
 
 
 echo " Completed $TASK and $TASK.$family "

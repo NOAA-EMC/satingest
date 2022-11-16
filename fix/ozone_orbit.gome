@@ -3,11 +3,10 @@ echo " Starting $TASK and  $TASK.$family "
 # ----------------------------------------------------------------------
 
 
-# The GOME OZONE Family (GOME) (METOP-2(A) and METOP-1(B) satellites)
+# The GOME OZONE Family (GOME) ( METOP-1(B) satellites)
 # -------------------------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-ozone.gome.orbitlist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-PDAFileLinks/PULL/OZONE/GOME_M02_8TO3_??????????????Z_??????????????Z.BUFR \
 PDAFileLinks/PULL/OZONE/GOME_M01_8TO3_??????????????Z_??????????????Z.BUFR"'}
       eval FTYPE${n}=\${FTYPE${n}:-bufr}
       eval TANKFILE${n}=\${TANKFILE${n}:-b008/xx012}

@@ -12,7 +12,7 @@ target=$(echo $INSTALL_TARGET | tr [:upper:] [:lower:])
 if [[ "$target" =~ ^(wcoss2|hera|orion)$ ]]; then
   source $pkg_root/versions/build.ver
   set +x
-  module purge
+  module reset
   module use $pkg_root/modulefiles
   module load satingest_$target
   module list

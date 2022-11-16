@@ -4,11 +4,10 @@ echo " Starting $TASK and  $TASK.$family "
 
 
 # The NESDIS AVHRR IR/Long-Wave Wind Family (AVHRR)
-#  (METOP-A, METOP-B, NOAA-15, -18 & -19 Satellites)
+#  (METOP-B, NOAA-15, -18 & -19 Satellites)
 # --------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-poeswind.avhrr.infrared.list}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.METOPA.D?????.T??:??:??Z \
 PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.METOPB.D?????.T??:??:??Z \
 PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.N15.D?????.T??:??:??Z \
 PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.N18.D?????.T??:??:??Z \

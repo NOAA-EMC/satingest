@@ -1,3 +1,168 @@
+satingest v4.3.0        RELEASED        SEP 29, 2022
+          v4.3.?        IMPLEMENTED     OCT ??, 2022
+
+PRELUDE
+
+ Top level documents (except CMakeLists.txt) were moved to relevant directories to meet EIB standards. 
+ A number of /fix files were updated with new filenames from NESDIS NDE release 2.0.33.
+ Metop-2(A) references were removed from /fix files (instrument was decomissioned). 
+
+FILE CHANGES
+  
+ M CMakeLists.txt
+ D README.md
+ A docs/README.md
+ A docs/Release_Notes.txt
+ M fix/aerosol
+ M fix/aerosol.modis_fire
+ M fix/airs.iasi_efov
+ M fix/avhrr.avhrr_m1_m2_m3
+ M fix/idsb_ingest.source.html
+ M fix/npp_omps.omps_lp 
+ M fix/ozone_orbit.gome
+ M fix/qscatter.ascat_50km
+ M fix/satwnd.avhrr
+ M fix/tovs.amsua
+ M fix/tovs.hirs4
+ M fix/tovs.mhs
+ D release_notes/Release_Notes.txt
+ D VERSION 
+ M versions/build.ver
+ M versions/run.ver
+ A versions/VERSION
+ (M-modified; A-added; D-deleted)
+
+DOCS CHANGES
+
+ docs/README.md
+ Updated contents and moved from top level dir to docs/
+
+ docs/Release_Notes.txt
+ Updated contents and renamed release_notes/ to docs/
+ 
+FIX CHANGES
+
+ fix/aerosol
+ Turn off (remove) WF_ABBA processing family
+
+ fix/aerosol.modis_fire 
+ Remove obsolete flenames
+ MODIS_C6_Global_MCD14DL_NRT_???????_????????????.txt
+
+ fix/airs.iasi_efov 
+ fix/avhrr.avhrr_m1_m2_m3 
+ fix/ozone_orbit.gome
+ fix/qscatter.ascat_50km
+ fix/satwnd.avhrr
+ fix/tovs.amsua
+ fix/tovs.hirs4 
+ fix/tovs.mhs
+ fix/satwnd.avhrr
+ Remove Metop-2(A) references (filenames with Metop-2(A))
+
+ fix/idsb_ingest.source.html
+ Updated filenames 
+
+ fix/npp_omps.omps_lp
+ Introduced new OMPS LP filename
+ OMPS-LP-EV-EDR_v2r51_npp_s???????????????_e???????????????_c???????????????.bufr 
+ There is no j01 product
+ Remove obsolete filennames:
+ OMPS-LP-EV-EDR_v2r50_npp_s???????????????_e???????????????_c???????????????.bufr
+ OMPS-LP-EV-EDR_v2r50_j01_s???????????????_e???????????????_c???????????????.bufr
+
+CHANGES TO OUTPUT AND FILE SIZES
+
+ No new tanks are generated, output file sizes are compariable to v4.2.1.
+
+BIG BROTHER INFORMATION
+
+ Monitor new filename patterns:
+ $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r51_npp_s???????????????_e???????????????_c???????????????.bufr
+ 
+ Remove the following filenames from monitoring once new names (above) are present
+ $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r50_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r50_j01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/VIIRS-ACSPO-SST-ProbClear_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/VIIRS-ACSPO-SST-ProbClear_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/VIIRS-ACSPO-SST-Clear_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/VIIRS-ACSPO-SST-Clear_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/OMPS-TC_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/OMPS-TC_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/OMPS-NP_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/ascat_????????_??????_metopa_?????_srv_o_250_ovw.l2_bufr
+
+CHANGES IN COMPUTE RESOURCES
+
+ No changes in requested resources in the job cards for any jobs.
+ No changes to memory usage for any jobs.
+
+SHARED SOFTWARE
+
+ Module bufr-tranjb v1.0.3 needs to be installed in sync. It is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+
+ w3emc   2.9.1
+ bufr   11.7.0
+ bacio   2.4.1
+ hdf5    1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INNSTRUCTIONS
+
+ See README.md
+ NOTE: fix/CMakeLists.txt mentions the following files:
+       fix/bufr_hirsrtcf_ibm.dat
+       fix/bufr_lowtopog.dat
+       fix/nesdis.lstags_transsmi
+       These are binary files that belong to satingest, but are not on GitHub.
+       They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+
+ satingest needs module bufr-tranjb.v1.0.3 to be installed inn order to run.
+ Module bufr-tranjb.v1.0.3 is co-owned/co-devoped with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libaries and required versions
+
+ Run JISATINGEST for the following tasks:
+ npp_omps.omps_lp (generating tank b008/xx019) 
+
+DISSEMINATION INFORMATION
+
+ No change in dissemination.
+
+SPECIAL INSTRUCTIONS
+
+ A.On Oct 18, 2022 (or a day earlier), subscribe to the following product(s) on PDA OPS:
+
+ Short name: OMPS_LP_EV_EDR_BUFR_TEST
+ Long name: J2 OMPS LP Earth View EDR LongName_TEST
+ Regular Expression OMPS-LP-EV-EDR_v_r___n21_s________________e________________c_______________.bufr
+ Destination Dir: PDAFileLinks/NDE/OMPS
+
+ Short name: ACSPO_VIIRS_Clear_BUFR_TEST (NCO may have this already, but let's be explicit about Dest Dir)
+ Long name: ACSPO VIIRS_GHRSST_Clear_BUFR LongName JPSS2_TEST
+ Regular Expression VIIRS-ACSPO-SST-Clear_v%_n21_%.bufr
+ Destination Dir: PDAFileLinks/NDE/VIIRS_GHRSST
+
+ Short name: ACSPO_VIIRS_ProbClear_BUFR_TEST (NCO may have this already, but let's be explicit about Dest Dir)
+ Long name: ACSPO VIIRS_GHRSST_BUFR LongName JPSS2_TEST
+ Regular Expression VIIRS-ACSPO-SST-ProbClear_v%_n21_%.bufr
+ Destination Dir: PDAFileLinks/NDE/VIIRS_GHRSST
+
+ DISCLAIMER:
+ i)The appearance of _n21_ may be confusing b/c NOAA-21 doesn't exist yet. 
+   The names were taken from PDA I&T product desciptions, exactly as entered by NESDIS.
+   The filenames on PDA I&T server, however, contain _npp_ and _j01_ as expected. 
+
+ ii)The _TEST part of the names will probably drop out when subscribing on PDA OPS. 
+    At the time of handing this code to NCO, these products are only on PDA I&T. 
+    It is NESDIS's discretion to use the same filename on OPS.          
+
+ B. Satingest v4.3.0 must be implemented in sync with bufr-tranjb v1.0.3 
+
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v4.2.0	RELEASED	JUL 21, 2022
           v4.2.1	IMPLEMENTED	JUL 28, 2022(ARFC, SPAA Simon)
