@@ -18,5 +18,6 @@ export COPYFORWARD=${COPYFORWARD:-YES}
 export tankfile=${tankfile:-b008/xx011}  # needed by program BUFR_TRANMTYPSBT
 
 ##ozone19_v8bufr removed from processing families since it is not ingesting anything.
+#PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"ozone19_v8bufr"}
 PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-""}
 ##################################
