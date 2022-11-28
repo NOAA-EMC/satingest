@@ -7,8 +7,8 @@ echo " Starting $TASK and  $TASK.$family "
 
       eval ORBITLIST${n}=modis.aod
       eval REMOTEDSNGRP${n}='"concatenate_families \
-PDAFileLinks/PULL/BUFR/Terra_AOD_BUFR.???????.???? \
-PDAFileLinks/PULL/BUFR/Aqua_AOD_BUFR.???????.????"'
+#PDAFileLinks/PULL/BUFR/Terra_AOD_BUFR.???????.???? \
+#PDAFileLinks/PULL/BUFR/Aqua_AOD_BUFR.???????.????"'
       eval FTYPE${n}=ncepbufr
       eval TANKFILE${n}=b008/xx041
       eval EXECUTE${n}=bufr_tranjb.sh
