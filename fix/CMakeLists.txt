@@ -83,7 +83,7 @@ list(APPEND fix_files
   qscatter.ascat_50km
   radsnd
   radsnd.efclamzip
-  radsnd.goes16_asr_base
+  radsnd.goes_asr_base
   radsnd.goes_csr_base
   radsnd.lgycld
   satwnd
