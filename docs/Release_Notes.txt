@@ -1,34 +1,54 @@
+VERIFY STATUS of OMPS-NP WITH CHANGUY before CDF!!!!!!!
+
 satingest v4.4.0        RELEASED        NOV 29, 2022
-          v4.4.?        IMPLEMENTED     DEC 14, 2022 ??
+          v4.4.?        IMPLEMENTED     DEC 14, 2022?
 
 PRELUDE
 
  NESDIS retired a number of NOAA-19, MODIS Terra and Aqua products on Oct.31,2022. The corresponding data filenames were removed from satingest configuration files (i.e. /fix files).
  NESDIS NDE release 2.0.34 includes a BUFR toolkit upgrade to version 5.4. The impacted BUFR products filenames are refelected in the relevant /fix files.
-
- Metop-2(A) references were removed from /fix files (instrument was decomissioned).
+ NESDIS CrIS and ATMS producst are now NCCF generated (on the cloud) and have updated filenames.
+ NESDIS started generating Metop-B and -C ASCAT winds, they are introduced in this release.
+ Filenames for GOES-18 ASR, CSR and AMV are added to the config files, in preparation for these products promotion on Jan 4, 2022.
 
 FILE CHANGES
 
- ? CMakeLists.txt
  M docs/Release_Notes.txt
  M fix/aerosol
  M fix/aerosol.burned_area 
  M fix/aerosol.dust
  M fix/aerosol.modis_aod 
+ M fix/CMakeLists.txt
+ M fix/npp_cris_2211.cris_fsr_2211
+ M fix/npp_cris_431.cris_fsr_431
+ M fix/npp_omps.ompsnp_v8
+ M fix/npp_omps.ompstc_v8
  M fix/ozone14 
  M fix/ozone14.ozone19_v8bufr
  M fix/ozone_orbit
  M fix/ozone_orbit.ozone_v8bufr
+ M fix/qscatter.ascat_50km
+ M fix/radsnd
+ D fix/radsnd.goes16_asr_base
+ A fix/radsnd.goes_asr_base
+ M fix/radsnd.goes_csr_base
+ M fix/satwnd.ircd_dmw
+ M fix/satwnd.shrtwv_dmw
+ M fix/satwnd.visb_dmw
+ M fix/satwnd.wvics_dmw
+ M fix/satwnd.wvict_dmw
  M versions/VERSION
  (M-modified; A-added; D-deleted)
 
 DOCS CHANGES
 
  docs/Release_Notes.txt
- Updated contents and renamed release_notes/ to docs/
+ Update contents and renamed release_notes/ to docs/
 
 FIX CHANGES
+
+ fix/CMakeLists.txt
+ Replace radsnd.goes16_asr_base (Deleted) with radsnd.goes_asr_base (Added)
 
  fix/aerosol
  Turn off (remove) MODIS_AOD and BURNED_AREA processing family
@@ -42,20 +62,60 @@ FIX CHANGES
  fix/aerosol.modis_aod 
  Comment out Terra_AOD_* and Aqua_AOD_* filenames (equivalent to stop their ingest)
 
+ fix/npp_cris_2211.cris_fsr_2211
+ Update version in filenames NUCAPS-C2211_*
+
+ fix/npp_cris_431.cris_fsr_431
+ Update version in filenames NUCAPS-C0431_* 
+
+ fix/npp_omps.ompsnp_v8
+ Update version in filenames OMPS-NP_*
+
+ fix/npp_omps.ompstc_v8
+ Remove filenames OMPS-TC_v2r0*
+
  fix/ozone14 
  Turn off (remove) OZONE19_V8bufr processing family
 
  fix/ozone14.ozone19_v8bufr
- Comment out PRD.OZONE.PMFV8.N19.BUFR filename (equivalent to stop its ingest)
+ Comment out PRD.OZONE.PMFV8.N19.BUFR filenames (equivalent to stop its ingest)
 
  fix/ozone_orbit
- Turn off (remove)  OZONE_V8bufr processing family
+ Turn off (remove) OZONE_V8bufr processing family
 
  fix/ozone_orbit.ozone_v8bufr
  Comment out PRD.OZONE.PMFV8.N19.D?????.S????.E????.????? filename (equivalent to stop its ingest)
 
+ fix/qscatter.ascat_50km
+ Remove old ascat_* filename. 
+ Add new OSVW50kmASCAT_v1r1_m0*_* filenames
+
+ fix/radsnd
+ Remove processing family GOES16_ASR_BASE. Add procesing family GOES_ASR_BASE
+
+ fix/radsnd.goes_asr_base
+ Added to accomodate all GOES-16/17/18 filenames for ASR
+
+ fix/radsnd.goes_csr_base
+ Update version in filenames ABI-L2-CSRF-M6* and add filenames for GOES-18
+
+ fix/satwnd.ircd_dmw
+ Add filename for GOES_18
+
+ fix/satwnd.shrtwv_dmw
+ Add filename for GOES_18
+
+ fix/satwnd.visb_dmw
+ Add filename for GOES_18
+
+ fix/satwnd.wvics_dmw
+ Add filename for GOES_18
+
+ fix/satwnd.wvict_dmw
+ Add filename for GOES_18
+
  versions/VERSION
- Updated version from v4.3.0 to v4.4.0
+ Update version from v4.3.0 to v4.4.0
 
 CHANGES TO OUTPUT AND FILE SIZES
 
@@ -111,20 +171,18 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  See versions/*.ver for libaries and required versions
  
  B.
- Run JISATINGEST for the following tasks (on implemenatation day)
- 
- npp_omps.omps_lp (generating tank b008/xx019)
- ?????????? TO FINISH ???
- CSR 
- ASR
- AMVs
- ATMS - despite unchanegd filenames
- CrIS
- ASCAT
- OMPS
+ Run JISATINGEST for the following tasks (on implemenatation day) and verify the generation of the listed tanks: 
+ npp_cris_431 : b021/xx206
+ npp_atms     : b021/xx203
+ npp_omps     : b008/xx017 (OMPS-NP), b008/xx018 (OMPS-TC), b008/xx019 (OMPS-LP)
+ qscatter     : b012/xx122
+ radsnd       : b021/xx045 (ASR), b021/xx046 (CSR)
+ satwnd       : b005/xx030, b005/xx031, b005/xx032, b005/xx034, b005/xx039
  
  C.
- There shoudl be no more warnings for files not found/retrieved in the satingest logs for: 
+ Run JISATINGEST for the following tasks (at any time after code release): 
+ aerosol,ozone14,ozone_orbit 
+ There should be no more warnings for files not found/retrieved in the satingest logs for: 
  aerosol.burned_area
  aerosol.dust
  aerosol.modis_aod
@@ -139,7 +197,7 @@ SPECIAL INSTRUCTIONS
  
  Subscribe to the following product(s) on PDA OPS a day or two prior to implementation day (Dec 14, 2022)
 
- Short name: OMPS_NP_V8_BUFR - !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VERIFY STATUS WITH CHANGUY
+ Short name: OMPS_NP_V8_BUFR 
  RegEx:      OMPS-NP_v4r2_???_s???????????????_e???????????????_c???????????????.bufr
  Dest Dir:   PDAFileLinks/NDE/OMPS
 
