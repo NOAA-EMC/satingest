@@ -9,4 +9,3 @@ export bufr_tranjb_ver=1.0.3
 export libjpeg_ver=9c
 export grib_util_ver=1.2.2
 
-export gfs_ver=v16.3
