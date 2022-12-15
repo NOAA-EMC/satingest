@@ -15,9 +15,8 @@ echo " Starting $TASK and  $TASK.$family "
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
 mcsst_mtc_d*tmp \
 mcsst_mtb_d*tmp \
-mcsst_mta_d*tmp"'}
-#mcsst_npp_d*tmp \
-#mcsst_n20_d*tmp \
+mcsst_npp_d*tmp \
+mcsst_n20_d*tmp"'}
       eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx012}
       eval EXECUTE${n}=\${EXECUTE${n}:-ingest_transst_poes_navo.sh}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
