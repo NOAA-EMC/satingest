@@ -8,7 +8,7 @@ echo " Starting $TASK and  $TASK.$family "
       eval ORBITLIST${n}=\${ORBITLIST${n}:-snodeph.sh.16th.mesh}
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
-PDAFileLinks/PULL/GRIB/NPR.SNWS.SP.D?????.S1200.MESH16"'}
+#PDAFileLinks/PULL/GRIB/NPR.SNWS.SP.D?????.S1200.MESH16"'}
       eval TANKFILE${n}=\${TANKFILE${n}:-wgrbbul}
       eval EXECUTE${n}=\${EXECUTE${n}:-copy_to_target}
       eval TARGETFILE${n}=\${TARGETFILE${n}:-'"NPR.SNWS.SP.S1200.MESH16"'}
