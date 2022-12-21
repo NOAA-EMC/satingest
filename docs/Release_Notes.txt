@@ -1,13 +1,15 @@
 satingest v4.4.0        RELEASED        NOV 29, 2022
-          v4.4.?        IMPLEMENTED     DEC 14, 2022?
+          v4.4.0        IMPLEMENTED     DEC 14&15, 2022?
 
 PRELUDE
 
- NESDIS retired a number of NOAA-19, MODIS Terra and Aqua products on Oct.31,2022. The corresponding data filenames were removed from satingest configuration files (i.e. /fix files).
- NESDIS NDE release 2.0.34 includes a BUFR toolkit upgrade to version 5.4. The impacted BUFR products filenames are refelected in the relevant /fix files.
- NESDIS CrIS and ATMS producst are now NCCF generated (on the cloud) and have updated filenames.
- NESDIS started generating Metop-B and -C ASCAT winds, they are introduced in this release.
- Filenames for GOES-18 ASR, CSR and AMV are added to the config files, in preparation for these products promotion on Jan 4, 2022.
+ NESDIS retired a number of NOAA-19, MODIS Terra and Aqua products on Oct.31,2022. The corresponding data filenames were removed from satingest configuration files (i.e. /fix files).[implement 14Dec2022]
+ NESDIS NDE release 2.0.34 includes a BUFR toolkit upgrade to version 5.4. The impacted BUFR products filenames are refelected in the relevant /fix files.[implement 14Dec2022]
+ NESDIS started generating Metop-B and -C ASCAT winds, they are introduced in this release.[implement 14Dec2022,v4.4.0]
+ NESDIS CrIS and ATMS producst are now NCCF generated (on the cloud) and have updated filenames.[implement 15Dec2022, v4.4.0]
+
+ Filenames for GOES-18 NESDIS ASR, CSR and AMV, UWisc Total Sky Cover, NASA LARC Cloud products, and VIIRS GVF products might be added to the config files, 
+ in preparation for these products promotion on Jan 4, 2022.[implement 4Jan2023, most likely v4.4.1]
 
 FILE CHANGES
 
@@ -15,7 +17,8 @@ FILE CHANGES
  M fix/aerosol
  M fix/aerosol.burned_area 
  M fix/aerosol.dust
- M fix/aerosol.modis_aod 
+ M fix/aerosol.modis_aod
+ M fix/aerosol.viirs_weekly_gvf (4Jan2023) 
  M fix/CMakeLists.txt
  M fix/npp_cris_2211.cris_fsr_2211
  M fix/npp_cris_431.cris_fsr_431
@@ -30,6 +33,8 @@ FILE CHANGES
  D fix/radsnd.goes16_asr_base
  A fix/radsnd.goes_asr_base
  M fix/radsnd.goes_csr_base
+ M fix/radsnd.efclamzip (4Jan2023)
+ M fix/radsnd.lgycld    (4Jan2023)
  M fix/satwnd.ircd_dmw
  M fix/satwnd.shrtwv_dmw
  M fix/satwnd.visb_dmw
@@ -59,6 +64,9 @@ FIX CHANGES
 
  fix/aerosol.modis_aod 
  Comment out Terra_AOD_* and Aqua_AOD_* filenames (equivalent to stop their ingest)
+
+ fix/aerosol.viirs_weekly_gvf (4Jan2023)
+ Update version in filenames GVF-WKL-GBL_*
 
  fix/npp_cris_2211.cris_fsr_2211
  Update version in filenames NUCAPS-C2211_*
@@ -91,25 +99,31 @@ FIX CHANGES
  fix/radsnd
  Remove processing family GOES16_ASR_BASE. Add procesing family GOES_ASR_BASE
 
- fix/radsnd.goes_asr_base
+ fix/radsnd.goes_asr_base (and on 4Jan2023)
  Added to accomodate all GOES-16/17/18 filenames for ASR
 
- fix/radsnd.goes_csr_base
+ fix/radsnd.goes_csr_base (and on 4Jan2023)
  Update version in filenames ABI-L2-CSRF-M6* and add filenames for GOES-18
 
- fix/satwnd.ircd_dmw
+ fix/radsnd.efclamzip (4Jan2023)
+ Add filename for GOES_18, No PDA sub needed, data on ftp
+
+ fix/radsnd.lgycld (4Jan2023)
+ Add filename for GOES_18, No PDA sub needed, data on ftp
+
+ fix/satwnd.ircd_dmw (and on 4Jan2023)
  Add filename for GOES_18
 
- fix/satwnd.shrtwv_dmw
+ fix/satwnd.shrtwv_dmw (and on 4Jan2023)
  Add filename for GOES_18
 
- fix/satwnd.visb_dmw
+ fix/satwnd.visb_dmw (and on 4Jan2023)
  Add filename for GOES_18
 
- fix/satwnd.wvics_dmw
+ fix/satwnd.wvics_dmw (and on 4Jan2023)
  Add filename for GOES_18
 
- fix/satwnd.wvict_dmw
+ fix/satwnd.wvict_dmw (and on 4Jan2023)
  Add filename for GOES_18
 
  versions/VERSION
@@ -136,8 +150,6 @@ BIG BROTHER INFORMATION
  $COMROOT/logs/bb/ingest/OMPS-NP_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr
  $COMROOT/logs/bb/ingest/OMPS-TC_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr
  $COMROOT/logs/bb/ingest/OMPS-TC_v2r0_j01_s???????????????_e???????????????_c???????????????.bufr
-
-
 
  Start monitoring the following new filename patterns:
  $COMROOT/logs/bb/ingest/OMPS-TC_v4r2_???_s???????????????_e???????????????_c???????????????.bufr 
@@ -201,7 +213,7 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  npp_atms     : b021/xx203
  npp_omps     : b008/xx018 (OMPS-TC), b008/xx019 (OMPS-LP)
  qscatter     : b012/xx122
- radsnd       : b021/xx045 (ASR), b021/xx046 (CSR)
+ radsnd       : b021/xx045 (ASR), b021/xx046 (CSR), b012/xx150(NASA LARC Cloud Product), b012/xx160 (UWisc Total Sky Cover)
  satwnd       : b005/xx030, b005/xx031, b005/xx032, b005/xx034, b005/xx039
  
  C.
@@ -227,7 +239,7 @@ SPECIAL INSTRUCTIONS
  Dest Dir:   PDAFileLinks/NDE/OMPS
 
  Short name: OMPS_LP_EV_EDR_BUFR
- RegEx:      OMPS-LP_EV_EDR_v2r51_npp_s???????????????_e???????????????_c???????????????.bufr
+ RegEx:      OMPS-LP-EV-EDR_v2r51_npp_s???????????????_e???????????????_c???????????????.bufr
  Dest Dir:   PDAFileLinks/NDE/OMPS
  (no _j01_ product)
 
@@ -272,15 +284,15 @@ SPECIAL INSTRUCTIONS
  Dest Dir:   PDAFileLinks/NDE/GOESAMV
 
  Short Name: NB_DMWVC_C08_BUFR
- RegEx:      NB-DMWC-M6C08_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ RegEx:      NB-DMWVC-M6C08_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
  Dest Dir:   PDAFileLinks/NDE/GOESAMV
 
  Short Name: NB_DMWVC_C09_BUFR
- RegEx:      NB-DMWC-M6C09_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ RegEx:      NB-DMWVC-M6C09_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
  Dest Dir:   PDAFileLinks/NDE/GOESAMV
 
  Short Name: NB_DMWVC_C10_BUFR
- RegEx:      NB-DMWC-M6C10_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ RegEx:      NB-DMWVC-M6C10_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
  Dest Dir:   PDAFileLinks/NDE/GOESAMV
 
  Short Name: NB_DMWVF_C08_BUFR
