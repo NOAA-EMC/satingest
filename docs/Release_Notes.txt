@@ -1,5 +1,5 @@
 satingest v4.3.0        RELEASED        SEP 29, 2022
-          v4.3.?        IMPLEMENTED     OCT ??, 2022
+          v4.3.0        IMPLEMENTED     OCT 18, 2022
 
 PRELUDE
 
