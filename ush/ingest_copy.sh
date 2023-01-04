@@ -187,8 +187,15 @@ if [ $CUT_DATE = YES ]; then
         echo "  fname=$2 and PDY=$PDY "
      fi
    elif  [ "$fl" == "A" ] ; then  # VIIRS AF
+     f4=`echo $2 | cut -c4`
+     if [ "$f4" == "I" ] ; then # I for Iband
+     export PDY=`echo $2 | cut -c20-27`
+     echo " ACTIVE FIRE DATA Iband , fname=$2 and PDY=$PDY "
+     else
      export PDY=`echo $2 | cut -c14-21`
      echo " ACTIVE FIRE DATA , fname=$2 and PDY=$PDY "
+     fi
+
    elif  [ "$fl" == "f" ] ; then  # WF_ABBA
      export PDYJ=`echo $2 | cut -c2-8`
        export PDY=`$UTILROOT/ush/date2jday.sh $PDYJ`
