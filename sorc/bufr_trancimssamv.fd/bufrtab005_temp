@@ -36,7 +36,7 @@
 | NC005034 | A62119 | MSG TYPE 005-034 NESDIS SATWIND, GOES-16 WV-IMG/CT(BUFR) |
 | NC005039 | A62120 | MSG TYPE 005-039 NESDIS SATWIND, GOES-16 IR(SW)   (BUFR) |
 |          |        |                                                          |
-| NC005052 | A62131 | MSG TYPE 005-052 NESDIS SATWIND, GOES-16 IR(LW)   (BUFR) |
+| NC005052 | A62126 | MSG TYPE 005-052 NESDIS SATWIND, GOES-16 IR(LW)   (BUFR) |
 | NC005053 | A62127 | MSG TYPE 005-053 NESDIS SATWIND, GOES-16 WV-IMG/DL(BUFR) |
 | NC005054 | A62128 | MSG TYPE 005-054 NESDIS SATWIND, GOES-16 VIS      (BUFR) |
 | NC005055 | A62129 | MSG TYPE 005-055 NESDIS SATWIND, GOES-16 WV-IMG/CT(BUFR) |
@@ -52,16 +52,13 @@
 | NC005072 | A62233 | MSG TYPE 005-072 SSEC/WISC LEO-GEO WINDS                 |
 |          |        |                                                          |
 | NC005080 | A63190 | MSG TYPE 005-080 AVHRR SATWIND, NOAA/METOP IR(LW) CHN    |
-| NC005081 | A63184 | MSG TYPE 005-081 AVHRR SATWIND, NOAA/METOP IR(LW) CHN    |
+| NC005081 | A63191 | MSG TYPE 005-081 AVHRR SATWIND, NOAA/METOP IR(LW) CHN    |
 |          |        |                                                          |
 | NC005090 | A63189 | MSG TYPE 005-090 VIIRS SATWIND, NPP IR(LW) CHANNEL       |
 *  ** Msg Type 005-090 discontinued in late 2019; replaced by 005-091 **       |
 |          |        |                                                          |
 | NC005091 | A63180 | MSG TYPE 005-091 VIIRS SATWIND, NPP IR(LW) CHANNEL       |
 *  ** Msg Type 005-091 new in late 2019; replaces 005-090 **                   |
-|          |        |                                                          |
-| NC005099 | A63018 | MSG TYPE 005-099 CIMSS AMV TROPICAL CYCLONE WINDS        |
-*  ** Msg Type 005-099 new in 2022 for cimss amv winds **                      |
 |          |        |                                                          |
 |          |        |                                                          |
 | YYMMDD   | 301011 | DATE -- YEAR, MONTH, DAY                                 |
@@ -615,12 +612,6 @@
 *   Repl.  2: OGCE=160 (NESDIS), GNAP=2 (NESDIS Recursive Filter Function)     *
 *   Repl.  3: OGCE=160 (NESDIS), GNAP=3 (EUMETSAT QI w/ fcst consistency test) *
 *   Repl.  4: OGCE=160 (NESDIS), GNAP=4 (NESDIS Expected Error)                *
-|          |                                                                   |
-*** CIMSS AMV, implemented late 2022                                           *
-| NC005099 | SWCM    YEAR    MNTH    DAYS    HOUR    MINU    SECO              |
-| NC005099 | CLATH   CLONH   WSPD    WDIR    PRLC    GNAPS   OGCE              |
-| NC005099 | PCCF    SAID                                                      |
-|          |                                                                   |
 |          |                                                                   |
 |------------------------------------------------------------------------------|
 | MNEMONIC | SCAL | REFERENCE   | BIT | UNITS                    |-------------|

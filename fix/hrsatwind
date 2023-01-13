@@ -1,0 +1,24 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-satwnd}
+export DATATYPE=${DATATYPE:-SATWND}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export FTYPE=${FTYPE:-bufr}
+export HISTLENMIN=${HISTLENMIN:-4200}
+export HISTLENMAX=${HISTLENMAX:-4500}
+export ndayarch=${ndayarch:-4}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export log=${log:-$OUTDIR/tranjb_ingest_satwnd.out}
+
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-" \
+circd_dmw cshrtwv_dmw cvisb_dmw cwvics_dmw cwvict_dmw cimss"}
+################################

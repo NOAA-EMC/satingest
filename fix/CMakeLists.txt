@@ -56,6 +56,13 @@ list(APPEND fix_files
   bufrtab.GOES16ASR_NESDIS
   bufrtab.GOES16CSR_NESDIS
   bufrtab_saphir_foreign
+  hrsatwind  
+  hrsatwind.cimss  
+  hrsatwind.circd_dmw  
+  hrsatwind.cshrtwv_dmw  
+  hrsatwind.cvisb_dmw  
+  hrsatwind.cwvics_dmw  
+  hrsatwind.cwvict_dmw
   idsb_ingest.source.html
   lnd_sea_mask_dat
   npp_atms
