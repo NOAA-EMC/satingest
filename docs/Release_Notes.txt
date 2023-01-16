@@ -1,6 +1,6 @@
 satingest v4.4.0        RELEASED        NOV 29, 2022
           v4.4.0        IMPLEMENTED     DEC 14&15, 2022
-
+          v4.4.1        IMPLEMENTED     JAN 04, 2023
 PRELUDE
 
  NESDIS retired a number of NOAA-19, MODIS Terra and Aqua products on Oct.31,2022. The corresponding data filenames were removed from satingest configuration files (i.e. /fix files).[implement 14Dec2022]
