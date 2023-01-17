@@ -41,78 +41,105 @@ FILE CHANGES
 
 DOCS CHANGES
 
+ docs/README.md
+ Update build instructions
+
  docs/Release_Notes.txt
- Update contents and renamed release_notes/ to docs/
+ Update contents to refelct this release
 
 FIX CHANGES
 
- fix/aerosol.af_viirs
- Updated files version number for AF-Iband
+ fix/aerosol
+ Turn off processing of MODIS_AOD BURNED_AREA ???
 
- fix/aerosol.viirs_weekly_gvf
- Updated files version number for GVF-WKL-GLB
+ fix/CMakeLists.txt
+ Add fix filenames for high-res CONUS and CIMSS AMVs
  
+ fix/aerosol.af_viirs
+ Add NOAA-21 file name versions for old AF product and support for new AF-Iband_* product:
+  AF_v1r2_n21_s???????????????_e???????????????_c???????????????.txt
+  AF-Iband_v1r1_???_s???????????????_e???????????????_c???????????????.txt 
+
+ fix/bufrtab.005
+ Updat FXY value (with unique ones) for NC00505* (CONUS AMVs) and NC005081 (Metop-B/C AMVs)
+ Add entry for NC005099 (CIMSS AMVs)
+
+ fix/idsb_ingest.source.html
+ Update filenames and criticality status to reflect the NCO DF subscriiptons  
+
+ fix/hrsatwind
+ Add a processinig family for the high-res AMVs
+
+ fix/hrsatwind.cimss
+ Add a processinig group for the CIMSS high-res AMVs
+
+ fix/hrsatwind.circd_dmw
+ fix/hrsatwind.cshrtwv_dmw
+ fix/hrsatwind.cvisb_dmw
+ fix/hrsatwind.cwvics_dmw
+ fix/hrsatwind.cwvict_dmw
+ Add processinig groups for the CIMSS high-res IR, SWIR, VIS, WVCT, WVCA AMVs
+
  fix/npp_omps.ompsnp_v8
- Remove old OMPS-NP_v2r0* filenames   
+ Update OMPS V8Pro product filenames
+ Old: OMPS-NP_v4r1_???_s???????????????_e???????????????_c???????????????.bufr 
+ New: OMPS-NP_v4r2_???_s???????????????_e???????????????_c???????????????.bufr   
 
  fix/poes_sst.navy_avhrr
- Add mcsst_npp_d and mcsst_n20_d, removed mcsst_mta_d
-
- fix/radsnd.efclamzip (4Jan2023)
- Add filename for GOES_18, No PDA sub needed, data on ftp
-
- fix/radsnd.lgycld (4Jan2023)
- Add filename for GOES_18, No PDA sub needed, data on ftp
+ Removed Metop-A filename mcsst_mta_d
 
  fix/snowore.gribcopy_usaf_nh
- turned off PDA pulls for *MESH16
-
  fix/snowore.gribcopy_usaf_sh
- turned off PDA pulls for *MESH16
+ Turn off PDA pulls for *MESH16, now pulled by DF
 
  fix/ssmi.gmi_tmbr
- Updated for new GMI file name
-OMPS V8Pro
-
-OMPS-NP_v4r2_npp_s<yyymmddhhmmsss>_e<yyymmddhhmmsss>_c<yyymmddhhmmsss>.bufr
-
-OMPS-NP_v4r2_j01_s<yyymmddhhmmsss>_e<yyymmddhhmmsss>_c<yyymmddhhmmsss>.bufr
-
-a
-
-
+ Update GMI file name
+ Old: 1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V07A.bufr
+ New: GMI-1CR_v7r0_gpm_s???????????????_e???????????????_c???????????????.bufr
 
 SORC CHANGES
 
- sorc/bufr_trancimssamv.fd/trancimssamv.f90
+ sorc/CMakeLists.txt
+ Add directory bufr_trancimssamv.fd for CIMSS AMVs
 
  sorc/bufr_trancimssamv.fd/CMakeLists.txt
+ List files for cmake
 
+ sorc/bufr_trancimssamv.fd/trancimssamv.f90
+ Add iingest code for CIMSS AMVs
+ 
 USH CHANGES
 
  ush/ingest_copy.sh
- Updated logic to copy new AFI file names for fix/aerosol.af_viirs
+ Update logic to copy new AFI file names for fix/aerosol.af_viirs
 
  versions/VERSION
  Update version from v4.4.0 to v4.5.0
 
 CHANGES TO OUTPUT AND FILE SIZES
 
- No new tanks are generated, output file sizes are comparable to satingest v4.3.0
+ The following new tanks, and their expected sizes, are generated:
+ b005/052  120M
+ b005/053   25M 
+ b005/054  250M
+ b005/055   25M
+ b005/056   35M
+ b005/099  200M-600M 
 
 BIG BROTHER INFORMATION
 
  Remove the following filenames from monitoring once new names (see below for subscription instructions) are present
- 
+ $COMROOT/logs/bb/ingest/OMPS-NP_v2r1_???_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V07A.bufr
 
  Start monitoring the following new filename patterns:
  $COMROOT/logs/bb/ingest/OMPS-NP_v4r2_???_s???????????????_e???????????????_c???????????????.bufr
- 
+ $COMROOT/logs/bb/ingest/GMI-1CR_v7r0_gpm_s???????????????_e???????????????_c???????????????.bufr
 
 CHANGES IN COMPUTE RESOURCES
 
- No changes in requested resources in the job cards for any jobs.
- No changes to memory usage for any jobs.
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
 
 SHARED SOFTWARE
 
@@ -129,7 +156,16 @@ LIBRARIES
 
 BUILD INSTRUCTIONS
 
- See README.md
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh. 
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE: At the moment, the following does not work: 
+      cd ush 
+      ./build.sh (or alternatvely: source build.sh)
+      It will be fixed soon.
+
  NOTE: fix/CMakeLists.txt mentions the following files:
    	fix/bufr_hirsrtcf_ibm.dat
    	fix/bufr_lowtopog.dat
@@ -148,29 +184,72 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  Run JISATINGEST for the following tasks (on implementation day) and verify the generation of the listed tanks:
  npp_omps 	: b008/xx017 (OMPS-NP)
  poes_sst 	: b012/xx012 (navy_avhrr)
- radsnd   	: b012/xx150(NASA LARC Cloud Product), b012/xx160 (UWisc Total Sky Cover)
- ssmi               : b021/xx246 (gmi_tmbr)
- 
+ ssmi           : b021/xx246 (gmi_tmbr)
+ hrsatwind      : b005/xx052,xx053,xx054,xx055,xx056 (CONUS AMVs) and xx099 (CIMSS AMVs)
+ aerosol        : /lfs/h1/ops/prod/dcom/YYYYMMDD/af_viirs/AF-Iband_* files are pulled
+
  C.
- Run JISATINGEST for the following tasks (at any time after code release):
- 
+ During the testing of satingest v4.5.0, please run JISATINGEST for radsnd.efclamzip with 2 minutes delay.
+ This could be accomplished by delaying the processing of the entire radsnd family.
+ Then run parallel RTMA obsproc job using the delayed radsnd.efclamzip tanks (b012/xx160). 
+ The goal is to test if delaying the ingest would resolve the generation of blank *efclam*dump_d files for RTMA Rapit Update HH:15 cycles. 
+ Please reach out to obsproc for clarifciation if needed. 
+
 DISSEMINATION INFORMATION
 
- No change in dissemination.
+ No change in dissemination methods.
 
 SPECIAL INSTRUCTIONS
  
-Instruct SPAs to run radsnd.efclam a minute or two later
- Subscribe to the following product(s) on PDA OPS a day or two prior to implementation day (Dec 14, 2022)
+ 1)Follow the PRE-IMPLEMENTATION TESTING instructioins above
+
+ 2)Subscribe to the following product(s) on PDA OPS a day or two prior to implementation day (Feb 8, 2023)
 
  Short name: OMPS_NP_V8_BUFR
- RegEx:  	OMPS-NP_v4r2_???_s???????????????_e???????????????_c???????????????.bufr
+ RegEx:      OMPS-NP_v4r2_???_s???????????????_e???????????????_c???????????????.bufr
  Dest Dir:   PDAFileLinks/NDE/OMPS
 
+ Short name: NCCF_GPM_GMI_L1C-R_BUFR
+ RedEx:      GMI-1CR_v\d{1}r\d{1}_gpm_s\d{15}_e\d{15}_c\d{15}.bufr
+ Dest Dir:   PDAFileLinks/PULL/GMI
+
+ Short name: AF_Iband_VIIRS_ASCII_List
+ RegEx:      AF-Iband_v1r1_jo1_s???????????????_e???????????????_c???????????????.txt
+ Dest Dir:   PDAFileLinks/PULL/ASCII 
+ 
+ Also, if NCO DF is not subscrbed to these already, please do so for:
+
+ Short name: NB_DMWC_C02_BUFR
+ RegEx:      NB-DMWC-M6C02_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
+
+ Short name: NB_DMWC_C07_BUFR
+ RegEx:      NB-DMWC-M6C07_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
+
+ Short Name: NB_DMWC_C08_BUFR
+ RegEx:      NB-DMWC-M6C08_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
+
+ Short Name: NB_DMWC_C14_BUFR
+ RegEx:      NB-DMWC-M6C14_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
+
+ Short Name: NB_DMWVC_C08_BUFR
+ RegEx:      NB-DMWVC-M6C08_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
+
+ Short Name: NB_DMWVC_C09_BUFR
+ RegEx:      NB-DMWVC-M6C09_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
+
+ Short Name: NB_DMWVC_C10_BUFR
+ RegEx:      NB-DMWVC-M6C10_v1r0_g1?_s???????????????_e???????????????_c???????????????.bufr
+ Dest Dir:   PDAFileLinks/NDE/GOESAMV
 
 
- DISCLAIMER: In case of Critical Weather Day, NESDIS's updates will be postponed.
-         	Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+ DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v4.4.0        RELEASED        NOV 29, 2022
