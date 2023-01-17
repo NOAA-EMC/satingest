@@ -24,35 +24,10 @@ A shell script to build and install on NOAA platforms is provided [build.sh](./u
 ```bash
 INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
 ```
-
-## More info on Build and Install
-
-The utilities under this repository use CMake for configuration.
-
-```bash
-mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=<installation_prefix> /path/to/satingest
-make -j4
-make install
-```
-
-`<installation_prefix>` is the path to install the package and may be full or relative pathname.
-
-Installation of the utilities will be under `<installation_prefix>`.
-
-### Further notes for WCOSS installation
-
-Prior to executing the above "Build and Install" instructions, source and load modules for WCOSS2:
-```bash
-source versions/build.ver
-module use $PWD/modulefiles
-module load satingest_wcoss2
-```
-
-NCEP/NCO requires executables be placed under `exec/`.  Provide additional argument during CMake configuration as follows
-```bash
--DCMAKE_INSTALL_BINDIR=exec
-```
+NOTE: At the moment, the following does not work:
+      cd ush 
+      ./build.sh (or alternatvely: source build.sh)
+      It will be fixed soon.
 
 ## Disclaimer
 
