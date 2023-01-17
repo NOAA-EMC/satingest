@@ -1,13 +1,13 @@
 satingest v4.5.0    	RELEASED    	JAN 16, 2023
-  	  v4.5.?    	IMPLEMENTED 	FEB 08, 2023 ??
+  	  v4.5.?    	IMPLEMENTED 	FEB 08, 2023/FEB 15, 2023
 
 PRELUDE
 
  Respond to several NESDIS product upgrades and resultng filename changes:  
- - NDE release 2.0.35 prepares Active Fire and OMPS V8Pro products for NOAA-21 (Feb 8, 2023)
- - Declare GPM GMI L1 BUFR Products Operational in NCCF (Feb 15, 2023)
+ - NDE release 2.0.35 prepares Active Fire and OMPS V8Pro products for NOAA-21 (Feb  8, 2023)
+ - Declare GPM GMI L1 BUFR Products Operational in NCCF                        (Feb 15, 2023)
 
- Add a new processing family for ingesting high-resolution winds:
+ Add a new processing family for ingesting high-resolution winds:              (Feb  8, 2023)
  i)CONUS domain NESDIS generated AMVs; tanks b005/xx05**
  ii)Tropical Cyclon domain UWisconsin generated AMVs; tank b005/xx099
 
@@ -31,7 +31,7 @@ FILE CHANGES
  M fix/poes_sst.navy_avhrr ??
  M fix/snowore.gribcopy_usaf_nh
  M fix/snowore.gribcopy_usaf_sh
- M fix/ssmi.gmi_tmbr
+ M fix/ssmi.gmi_tmbr (Please update on Feb 15, 2023)
  M sorc/CMakeLists.txt
  A sorc/bufr_trancimssamv.fd/CMakeLists.txt
  A sorc/bufr_trancimssamv.fd/trancimssamv.f90
@@ -92,7 +92,7 @@ FIX CHANGES
  fix/snowore.gribcopy_usaf_sh
  Turn off PDA pulls for *MESH16, now pulled by DF
 
- fix/ssmi.gmi_tmbr
+ fix/ssmi.gmi_tmbr (Please update on Feb 15, 2023)
  Update GMI file name
  Old: 1C-R.GPM.GMI.XCAL2016-C.????????-S??????-E??????.V07A.bufr
  New: GMI-1CR_v7r0_gpm_s???????????????_e???????????????_c???????????????.bufr
@@ -184,7 +184,7 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  Run JISATINGEST for the following tasks (on implementation day) and verify the generation of the listed tanks:
  npp_omps 	: b008/xx017 (OMPS-NP)
  poes_sst 	: b012/xx012 (navy_avhrr)
- ssmi           : b021/xx246 (gmi_tmbr)
+ ssmi           : b021/xx246 (gmi_tmbr) (Please update on Feb 15, 2023)
  hrsatwind      : b005/xx052,xx053,xx054,xx055,xx056 (CONUS AMVs) and xx099 (CIMSS AMVs)
  aerosol        : /lfs/h1/ops/prod/dcom/YYYYMMDD/af_viirs/AF-Iband_* files are pulled
 
@@ -203,7 +203,9 @@ SPECIAL INSTRUCTIONS
  
  1)Follow the PRE-IMPLEMENTATION TESTING instructioins above
 
- 2)Subscribe to the following product(s) on PDA OPS a day or two prior to implementation day (Feb 8, 2023)
+ 2)Make sure to wait and update fix/ssmi.gmi_tmbr on Feb 15, 2023 (unlike everything else on Feb 8, 2023) 
+
+ 3)Subscribe to the following product(s) on PDA OPS a day or two prior to implementation day (Feb 8, 2023)
 
  Short name: OMPS_NP_V8_BUFR
  RegEx:      OMPS-NP_v4r2_???_s???????????????_e???????????????_c???????????????.bufr
