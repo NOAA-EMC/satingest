@@ -57,11 +57,22 @@
       integer jdate,itime,isat,iyr,idyr,ierr,iday,mnth,ihr,imin,isec
       integer lsubdr,ltnkid,lapchr,jjdate,kkdate,idate,iret
       integer dir,pre,qi,itype,said
+      integer sccf,saza
 
       integer iGNAPS,iGCLONG,iOGCE
 
       real*8 arr(8),bmiss,getbmiss
       real rlat,rlon,spd
+
+      real GSES,SOFTV,DBID,SCCF,DOMO,CTRE,ATRE,SSNX
+      real SSNY,WDPF,TCMD,LSQL,DNQL,GPTI,LTDS,EHAM,UWND,VWND
+      real TMDBST,HOCT,OSQN,TSIG
+      real UMWV,VWMV,VSNWP,MUNCEX,AMVQ,CLDMNT,CLTP
+      real FOST
+      real SCLF,SIID,CHNM,ORBN,BEARAZ,TCOV,CVWD
+      real XEEM,YEEM,AXEE,CDTP,VSAT,COTH,ILWP
+      real COPT,OECS,METFET,EMMI
+
 
       character*132 line,temp
       character*80  fmt,appchr
@@ -109,6 +120,7 @@ iGNAPS=5
 iOGCE=160
 itype=15      !SWCM missing value
 said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
+saza=65
 
 
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
@@ -239,14 +251,19 @@ said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data fro
 
 	if(ctype.eq.'IR') then
 	  itype=1
+          sccf=26767200000000
 	else if(ctype.eq.'VIS') then
 	  itype=2
+          sccf=468425700000000
         else if(ctype.eq.'WVCT') then
           itype=3
+          sccf=48431700000000
         else if(ctype.eq.'WVCA') then
-          itype=5
+          itype=3
+          sccf=48431700000000
         else if(ctype.eq.'OIR') then
-          itype=6
+          itype=1
+          sccf=76869900000000
 	endif
 
 !-NEED TO FIGURE OUT LONGITUDES-------------------------------------------------------------------------------------------------------------------------
