@@ -61,7 +61,7 @@
 
       integer iGNAPS,iGCLONG,iOGCE
 
-      real*8 arr(8),bmiss,getbmiss
+      real*8 arr(60),bmiss,getbmiss
       real rlat,rlon,spd
 
       real GSES,SOFTV,DBID,SCCF,DOMO,CTRE,ATRE,SSNX
@@ -333,7 +333,73 @@ saza=65
          arr(5) = dble(iOGCE)                      ! OGCE
          arr(6) = dble(qi)                         ! PCCF
          arr(7) = dble(said)                       ! SAID
-         call UFBINT(LUNOUT,arr, 8, 1,iret,'WSPD WDIR PRLC GNAPS OGCE PCCF SAID')
+
+
+         arr(8) = dble(saza)                        ! SAZA
+         arr(9) = dble(sccf)                        ! SCCF
+         arr(10) = dble(gses)                       ! GSES
+         arr(11) = dble(softv)                      ! SOFTV 
+         arr(12) = dble(dbid)                       ! DBID
+         arr(13) = dble(domo)                       ! DOMO
+         arr(14) = dble(ctre)                       ! CTRE
+         arr(15) = dble(atre)                       ! ATRE
+
+         arr(16) = dble(ssnx)                       ! SSNX
+         arr(17) = dble(ssny)                       ! SSNY
+         arr(18) = dble(wdpf)                       ! WDPF
+         arr(19) = dble(tcmd)                       ! TCMD
+         arr(20) = dble(lsql)                       ! LSQL
+         arr(21) = dble(dnql)                       ! DNQL
+         arr(22) = dble(gpti)                       ! GPTI
+         arr(23) = dble(ltds)                       ! LTDS
+
+         arr(24) = dble(eham)                       ! EHAM
+         arr(25) = dble(uwnd)                       ! UWND
+         arr(26) = dble(vwnd)                       ! VWND
+         arr(27) = dble(tmdbst)                     ! TMDBST
+         arr(28) = dble(hoct)                       ! HOCT
+         arr(29) = dble(osqn)                       ! OSQN
+         arr(30) = dble(tsig)                       ! TSIG
+         arr(31) = dble(umwv)                       ! UMWV
+
+         arr(32) = dble(vwmv)                       ! VWMV
+         arr(33) = dble(vsnwp)                      ! VSNWP
+         arr(34) = dble(muncex)                     ! MUNCEX
+         arr(35) = dble(amvq)                       ! AMVQ
+         arr(36) = dble(cldmnt)                     ! CLDMNT
+         arr(37) = dble(cltp)                       ! CLTP
+         arr(38) = dble(fost)                       ! FOST
+         arr(39) = dble(sclf)                       ! SCLF
+
+         arr(40) = dble(siid)                       ! SIID
+         arr(41) = dble(chnm)                       ! CHNM
+         arr(42) = dble(orbn)                       ! ORBN 
+         arr(43) = dble(bearaz)                     ! BEARAZ
+         arr(44) = dble(tcov)                       ! TCOV
+         arr(45) = dble(cvwd)                       ! CVWD
+         arr(46) = dble(XEEM)                       ! XEEM
+         arr(47) = dble(YEEM)                       ! YEEM
+
+         arr(48) = dble(axee)                       ! AXEE
+         arr(49) = dble(cdtp)                       ! CDTP
+         arr(50) = dble(vsat)                       ! VSAT 
+         arr(51) = dble(coth)                       ! COTH
+         arr(52) = dble(ilwp)                       ! ILWP
+         arr(53) = dble(copt)                       ! COPT
+         arr(54) = dble(oecs)                       ! OECS
+         arr(55) = dble(METFET)                     ! METFET
+         arr(56) = dble(emmi)                       ! EMMI
+
+
+!         call UFBINT(LUNOUT,arr, 8, 1,iret,'WSPD WDIR PRLC GNAPS OGCE PCCF SAID')
+         call UFBINT(LUNOUT,arr, 60, 1,iret,'WSPD WDIR PRLC GNAPS OGCE PCCF SAID &
+                                       SAZA SCCF GSES SOFTV DBID DOMO CTRE ATRE &
+                                       SSNX SSNY WDPF TCMD LSQL DNQL GPTI LTDS &
+                                       EHAM UWND VWND TMDBST HOCT OSQN TSIG UMWV &
+                                       VWMV VSNWP MUNCEX AMVQ CLDMNT CLTP FOST SCLF &
+                                       SIID CHNM ORBN  BEARAZ TCOV CVWD XEEM YEEM &
+                                       AXEE CDTP VSAT COTH ILWP COPT OECS METFET EMMI')
+
          call WRITCP(LUNOUT)  ! write out compressed BUFR messages to save space
 
          if (db .and. nl.ge.183) exit       ! debug interrupt
