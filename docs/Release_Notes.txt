@@ -4,7 +4,9 @@ satingest v4.5.0    	RELEASED    	JAN 16, 2023
 PRELUDE
 
  Respond to several NESDIS product upgrades and resultng filename changes:  
- - NDE release 2.0.35 prepares Active Fire and OMPS V8Pro products for NOAA-21 (Feb  8, 2023)
+ - NDE release 2.0.35 delivers:
+   = Active Fire I-band product                                                (Feb  8, 2023)
+   = Update OMPS V8Pro products and prepare for NOAA-21                        (Feb 15, 2023)
  - Declare GPM GMI L1 BUFR Products Operational in NCCF                        (Feb 15, 2023)
 
  Add a new processing family for ingesting high-resolution winds:              (Feb  8, 2023)
@@ -26,12 +28,11 @@ FILE CHANGES
  A fix/hrsatwind.cvisb_dmw
  A fix/hrsatwind.cwvics_dmw
  A fix/hrsatwind.cwvict_dmw
- M fix/npp_omps.ompsnp_v8
+ M fix/npp_omps.ompsnp_v8       (Please update on Feb 15, 2023)
  M fix/idsb_ingest.source.html
- M fix/poes_sst.navy_avhrr ??
  M fix/snowore.gribcopy_usaf_nh
  M fix/snowore.gribcopy_usaf_sh
- M fix/ssmi.gmi_tmbr (Please update on Feb 15, 2023)
+ M fix/ssmi.gmi_tmbr            (Please update on Feb 15, 2023)
  M sorc/CMakeLists.txt
  A sorc/bufr_trancimssamv.fd/CMakeLists.txt
  A sorc/bufr_trancimssamv.fd/trancimssamv.f90
