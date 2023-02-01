@@ -12,7 +12,7 @@ PDAFileLinks/PULL/DMSP/NPR.SDRR.S9.D?????.S????.E????.????????.NS"'}
       eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transsmi}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
-      COM_SSTOI=${COM_SSTOI:-$(compath.py gfs/${gfs_ver}/sst)}
+#      COM_SSTOI=${COM_SSTOI:-$(compath.py gfs/${gfs_ver}/sst)}
 
 
 
