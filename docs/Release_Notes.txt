@@ -7,7 +7,7 @@ PRELUDE
  - NDE release 2.0.35 delivers:
    = Active Fire I-band product                                                (Feb  8, 2023)
    = Update OMPS V8Pro products and prepare for NOAA-21                        (Feb 15, 2023)
- - Declare GPM GMI L1 BUFR Products Operational in NCCF                        (Feb 15, 2023)
+ - Declare GPM GMI L1 BUFR Products Operational in NCCF                      --(Feb 15, 2023)-- NEW:FEB 22,2023
 
  Add a new processing family for ingesting high-resolution winds:              (Feb  8, 2023)
  i)CONUS domain NESDIS generated AMVs; tanks b005/xx05**
