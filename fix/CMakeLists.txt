@@ -56,6 +56,8 @@ list(APPEND fix_files
   bufrtab.GOES16ASR_NESDIS
   bufrtab.GOES16CSR_NESDIS
   bufrtab_saphir_foreign
+  copyingest
+  copyingest.smap
   idsb_ingest.source.html
   lnd_sea_mask_dat
   npp_atms
