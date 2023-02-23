@@ -1,0 +1,27 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+#  Great Lakes ice concentration data from National Ice Center
+#  (zipped ascii format)
+#  ----------------------------------------------------------
+
+      eval ORBITLIST${n}=smap.list
+      eval REMOTEDSNGRP${n}='"concatenate_families \
+PDAFileLinks/PULL/MHS/SMAP_L2_SM_P_NRT_?????_?_???????????????_N?????_???.h5 \
+PDAFileLinks/PULL/NETCDF/SMAP_L2_SM_P_NRT_?????_?_???????????????_N?????_???.h5.iso.xml \
+PDAFileLinks/PULL/NETCDF/SMAP_L2_SM_P_NRT_?????_?_???????????????_N?????_???.qa"'
+      eval FTYPE${n}=none
+      eval TANKFILE${n}=\${TANKFILE${n}:-smap}
+      eval EXECUTE${n}=ingest_copy.sh
+      eval BUFRTABLE${n}=none
+      eval FORGNTABLE${n}=noforgntable
+      eval HOURS2ALARM${n}=24
+      eval ndayarch${n}=\${ndayarch${n}:-10}
+      eval CRITICAL${n}=NO
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------
