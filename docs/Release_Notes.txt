@@ -1,5 +1,5 @@
 satingest v4.5.0    	RELEASED    	JAN 16, 2023
-  	  v4.5.?    	IMPLEMENTED 	FEB 08, 2023/FEB 15, 2023
+  	  v4.5.0|.1|.2 	IMPLEMENTED 	FEB 08, 2023/FEB 15, 2023/ MAR 01, 2023
 
 PRELUDE
 
@@ -7,11 +7,13 @@ PRELUDE
  - NDE release 2.0.35 delivers:
    = Active Fire I-band product                                                (Feb  8, 2023)
    = Update OMPS V8Pro products and prepare for NOAA-21                        (Feb 15, 2023)
- - Declare GPM GMI L1 BUFR Products Operational in NCCF                      --(Feb 15, 2023)-- NEW:FEB 22,2023
+ - Declare GPM GMI L1 BUFR Products Operational in NCCF                      --(Feb 15, 2023)-(Feb 22,2023)-NEW: Mar 01, 2023
 
  Add a new processing family for ingesting high-resolution winds:              (Feb  8, 2023)
  i)CONUS domain NESDIS generated AMVs; tanks b005/xx05**
  ii)Tropical Cyclon domain UWisconsin generated AMVs; tank b005/xx099
+ 
+ Postpone radsnd task by 1 minute to allow UW Total Sky data to arrive for HH:15 RTMA RU cycles
 
 FILE CHANGES
 
@@ -32,7 +34,7 @@ FILE CHANGES
  M fix/idsb_ingest.source.html
  M fix/snowore.gribcopy_usaf_nh
  M fix/snowore.gribcopy_usaf_sh
- M fix/ssmi.gmi_tmbr            (Please update on Feb 15, 2023)
+ M fix/ssmi.gmi_tmbr            (Please update on Mar 01, 2023)
  M sorc/CMakeLists.txt
  A sorc/bufr_trancimssamv.fd/CMakeLists.txt
  A sorc/bufr_trancimssamv.fd/trancimssamv.f90
