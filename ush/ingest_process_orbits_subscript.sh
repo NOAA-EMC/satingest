@@ -143,17 +143,6 @@ simply copied to $TANKDIR/$TANKFILE/$dsname"
                   done
                fi
 
-
-
-
-
-
-
-
-
-
-
-
 ###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
 
                if [ $yy -eq -99 -a $yyyy -eq 9999 ]; then
@@ -164,16 +153,7 @@ simply copied to $TANKDIR/$TANKFILE/$dsname"
 #   it, e.g., "<yyyymmddhh>" or "<yyyymmdd>.")
 #  ----------------------------------------------------------------------------
 
-echo " dsname is  $dsname  "
-echo " dsname is  $dsname  "
-echo " dsname is  $dsname  "
-echo " dsname is  $dsname  "
-echo " dsname is  $dsname  "
-# DON"T TAKE ABOVE
-		  echo 'IN HERE 1'    
-		  echo 'IN HERE 1'    
-		  echo 'IN HERE 1'    
-		  echo 'IN HERE 1'    
+                  echo " dsname is  $dsname  "
 
 #  No luck, next look for filename ending on _cYYYYMMDDHHMMSSS.nc *.bin , etc.
 #  Delimited "_" should be the last "_c" in the file name
@@ -182,28 +162,14 @@ echo " dsname is  $dsname  "
         	       if [ `echo $dsname | cut -c 1-5` = GBBEP  \
 			     -o `echo $dsname | cut -c 1-5` = GMASI  ] ; then 
 			  echo " TESTING THIS PART OF THE IF LOOP l  "
-			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
-			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
-			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
-			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
-			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
-			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+	   		  echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
                   for delim in "_" ; do
                           echo " delim is $delim "
-
-                          echo " TESTING THIS PART OF THE IF LOOP 2 "
-                          echo " TESTING THIS PART OF THE IF LOOP 2 "
-                          echo " TESTING THIS PART OF THE IF LOOP 2 "
-                          echo " TESTING THIS PART OF THE IF LOOP 2 "
                      num_qual=`echo $dsname | awk -F"$delim" '{print NF}'`
                      echo num_qual=  $num_qual
-		     
 		     echo " delim is $delim and  num_qual is $num_qual "
-                     echo " delim is $delim and  num_qual is $num_qual "
-                     echo " delim is $delim and  num_qual is $num_qual "
-                     echo " delim is $delim and  num_qual is $num_qual "
 		     i=$num_qual
-		     echo $i 'i HERE!!!!'
+		     echo $i 
                      #while [ $i -ge 1 ]; do
                         qual=$(echo $dsname | cut -d"$delim" -f${i})
 			echo "qual is :" $qual
@@ -215,9 +181,6 @@ echo " dsname is  $dsname  "
 			echo "qual1_8 is: "$qual1_8
 
                         echo " qual is $qual and inum is $inum and qual1_8 is " $qual1_8
-                        echo " qual is $qual and inum is $inum and qual1_8 is $qual1_8 "
-                        echo " qual is $qual and inum is $inum and qual1_8 is $qual1_8 "
-                        echo " qual is $qual and inum is $inum and qual1_8 is $qual1_8 "
                         if [[ ! -z $( echo $qual1_8 | grep "^[0-9]*$" ) ]]
                         then
                            if [ `echo $qual1_8 | cut -c1-4` -ge 1800 -a \
@@ -239,16 +202,12 @@ echo " dsname is  $dsname  "
                      [ $yyyy -ne 9999 ]  &&  break
                   done
 	      
-# DON"T TAKE THIS
-echo '===================='
-echo $yyyy
-echo $mm
-echo $dd
+                  echo '===================='
+                  echo $yyyy
+                  echo $mm
+                  echo $dd
 
 		else # if it is not GBBEPX or AUTOSNOW
-		echo " IT IS NOT GBBEPX OR AUTOSNOW "
-		echo " IT IS NOT GBBEPX OR AUTOSNOW "
-		echo " IT IS NOT GBBEPX OR AUTOSNOW "
 		echo " IT IS NOT GBBEPX OR AUTOSNOW "
 
                   for delim in "_" "." ; do
