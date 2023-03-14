@@ -143,6 +143,19 @@ simply copied to $TANKDIR/$TANKFILE/$dsname"
                   done
                fi
 
+
+
+
+
+
+
+
+
+
+
+
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
+
                if [ $yy -eq -99 -a $yyyy -eq 9999 ]; then
 
 #  No luck, next look for a qualifier which begins with the date in the form
@@ -151,13 +164,115 @@ simply copied to $TANKDIR/$TANKFILE/$dsname"
 #   it, e.g., "<yyyymmddhh>" or "<yyyymmdd>.")
 #  ----------------------------------------------------------------------------
 
-                  for delim in "_" "." ; do
+echo " dsname is  $dsname  "
+echo " dsname is  $dsname  "
+echo " dsname is  $dsname  "
+echo " dsname is  $dsname  "
+echo " dsname is  $dsname  "
+# DON"T TAKE ABOVE
+		  echo 'IN HERE 1'    
+		  echo 'IN HERE 1'    
+		  echo 'IN HERE 1'    
+		  echo 'IN HERE 1'    
+
+#  No luck, next look for filename ending on _cYYYYMMDDHHMMSSS.nc *.bin , etc.
+#  Delimited "_" should be the last "_c" in the file name
+#  ----------------------------------------------------------------------------
+
+        	       if [ `echo $dsname | cut -c 1-5` = GBBEP  \
+			     -o `echo $dsname | cut -c 1-5` = GMASI  ] ; then 
+			  echo " TESTING THIS PART OF THE IF LOOP l  "
+			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+			echo "  THIS IS FOR GBBEPX OR AUTOSNOS ; TANKFILE is $TANKFILE "
+                  for delim in "_" ; do
+                          echo " delim is $delim "
+
+                          echo " TESTING THIS PART OF THE IF LOOP 2 "
+                          echo " TESTING THIS PART OF THE IF LOOP 2 "
+                          echo " TESTING THIS PART OF THE IF LOOP 2 "
+                          echo " TESTING THIS PART OF THE IF LOOP 2 "
                      num_qual=`echo $dsname | awk -F"$delim" '{print NF}'`
+                     echo num_qual=  $num_qual
+		     
+		     echo " delim is $delim and  num_qual is $num_qual "
+                     echo " delim is $delim and  num_qual is $num_qual "
+                     echo " delim is $delim and  num_qual is $num_qual "
+                     echo " delim is $delim and  num_qual is $num_qual "
+		     i=$num_qual
+		     echo $i 'i HERE!!!!'
+                     #while [ $i -ge 1 ]; do
+                        qual=$(echo $dsname | cut -d"$delim" -f${i})
+			echo "qual is :" $qual
+
+                        inum=${#qual}
+			echo "inum is: " $inum 
+
+                        qual1_8=`echo $qual | cut -c2-9`
+			echo "qual1_8 is: "$qual1_8
+
+                        echo " qual is $qual and inum is $inum and qual1_8 is " $qual1_8
+                        echo " qual is $qual and inum is $inum and qual1_8 is $qual1_8 "
+                        echo " qual is $qual and inum is $inum and qual1_8 is $qual1_8 "
+                        echo " qual is $qual and inum is $inum and qual1_8 is $qual1_8 "
+                        if [[ ! -z $( echo $qual1_8 | grep "^[0-9]*$" ) ]]
+                        then
+                           if [ `echo $qual1_8 | cut -c1-4` -ge 1800 -a \
+                                `echo $qual1_8 | cut -c1-4` -le 3000 ]; then
+                              if [ `echo $qual1_8 | cut -c5-6` -ge 01 -a \
+                                   `echo $qual1_8 | cut -c5-6` -le 12 ]; then
+                                 if [ `echo $qual1_8 | cut -c7-8` -ge 01 -a \
+                                      `echo $qual1_8 | cut -c7-8` -le 31 ]
+                                 then
+                                    yyyy=$(echo $qual1_8 | cut -c1-4)
+                                    mm=$(echo $qual1_8 | cut -c5-6)
+                                    dd=$(echo $qual1_8 | cut -c7-8)
+                                 fi
+                              fi
+                           fi
+                        fi
+                        #i=`expr $i - 1`
+                     #done
+                     [ $yyyy -ne 9999 ]  &&  break
+                  done
+	      
+# DON"T TAKE THIS
+echo '===================='
+echo $yyyy
+echo $mm
+echo $dd
+
+		else # if it is not GBBEPX or AUTOSNOW
+		echo " IT IS NOT GBBEPX OR AUTOSNOW "
+		echo " IT IS NOT GBBEPX OR AUTOSNOW "
+		echo " IT IS NOT GBBEPX OR AUTOSNOW "
+		echo " IT IS NOT GBBEPX OR AUTOSNOW "
+
+                  for delim in "_" "." ; do
+			  echo " delim is $delim "
+
+
+#  Set environment variables for processing
+#  ----------------------------------------
+
+                     num_qual=`echo $dsname | awk -F"$delim" '{print NF}'`  #num_qual is total number of characters in string
+		     echo " delim is $delim and  num_qual is $num_qual "
+		     echo " delim is $delim and  num_qual is $num_qual "
+		     echo " delim is $delim and  num_qual is $num_qual "
+		     echo " delim is $delim and  num_qual is $num_qual "
                      i=1
                      while [ $i -le $num_qual ]; do
+
                         qual=$(echo $dsname | cut -d"$delim" -f${i})
                         inum=${#qual}
                         qual1_8=`echo $qual | cut -c1-8`
+			echo " qual is $qual and inum is $inum and quall_8 is $quall_8 "
+			echo " qual is $qual and inum is $inum and quall_8 is $quall_8 "
+			echo " qual is $qual and inum is $inum and quall_8 is $quall_8 "
+			echo " qual is $qual and inum is $inum and quall_8 is $quall_8 "
                         if [[ ! -z $( echo $qual1_8 | grep "^[0-9]*$" ) ]]
                         then
                            if [ `echo $qual1_8 | cut -c1-4` -ge 1800 -a \
@@ -179,7 +294,13 @@ simply copied to $TANKDIR/$TANKFILE/$dsname"
                      [ $yyyy -ne 9999 ]  &&  break
                   done
                fi
-
+	fi
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
+###################### THE GBBEPX MODIFICATIONS ARE HERE ########################
                if [ $yy -eq -99 -a $yyyy -eq 9999 ]; then
 
 #  Still no luck, give up

@@ -1,0 +1,22 @@
+set -xa
+echo " Starting $TASK and  $TASK.$family "
+# ----------------------------------------------------------------------
+
+
+# The NESDIS 4 km S. Hem. autosnow product grib2 file copy processing family
+# --------------------------------------------------------------------------
+
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-autoice4km.grib2}
+      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
+PDAFileLinks/PULL/GRIB/GMASI-Ice-NH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2"'}
+      eval TANKFILE${n}=\${TANKFILE${n}:-wgrbbul}
+      eval EXECUTE${n}=\${EXECUTE${n}:-copy_to_target}
+      eval TARGETFILE${n}=\${TARGETFILE${n}:-'"NH4km_autoice.grb.grib2"'}
+      eval BUFRTABLE${n}=\${BUFRTABLE${n}:-none}
+      eval HOURS2ALARM${n}=\${HOURS2ALARM${n}:-48}
+
+
+
+echo " Completed $TASK and $TASK.$family "
+# ----------------------------------------------------------------------
