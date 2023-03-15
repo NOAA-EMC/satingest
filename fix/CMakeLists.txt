@@ -113,6 +113,8 @@ list(APPEND fix_files
   snowore.ascii2grib_16_ims
   snowore.ascii2grib_96_ims
   snowore.gribcopy_autosnow_sh
+  snowore.gribcopy_autoice_nh
+  snowore.gribcopy_autoice_sh
   snowore.gribcopy_usaf_nh
   snowore.gribcopy_usaf_sh
   ssmi
