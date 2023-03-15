@@ -13,6 +13,7 @@ FILE CHANGES
 
  M docs/Release_Notes.txt
  M fix/CMakeLists.txt
+ M fix/aerosol.af_viirs
  A fix/snowore.gribcopy_autoice_nh
  A fix/snowore.gribcopy_autoice_sh
  M fix/snowore.gribcopy_autosnow_sh
@@ -31,6 +32,8 @@ FIX CHANGES
  fix/CMakeLists.txt
  Add new fix files' names for autoice - snowore.gribcopy_autoice_nh, snowore.gribcopy_autoice_sh 
 
+ fix/aerosol.af_viirs
+ Correct a typo in instrument name, _jo1_ is now _j01_
  fix/snowore.gribcopy_autoice_nh
  Introduce new processing family for autoice NH and relevant filenames:
  PDAFileLinks/PULL/GRIB/GMASI-Ice-NH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
@@ -110,6 +113,11 @@ BUILD INSTRUCTIONS
         fix/nesdis.lstags_transsmi
         These are binary files that belong to satingest, but are not on GitHub.
         They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+      
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
 
 PRE-IMPLEMENTATION TESTING REQUIREMENTS
 
