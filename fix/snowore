@@ -43,5 +43,6 @@ export log=${log:-/dev/null}  # log is not used since bufr_tranjb does not run
 ###############################################################################
 
 PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"ASCII2GRIB_16_IMS ASCII2GRIB_96_IMS \
- GRIBCOPY_AUTOSNOW_SH GRIBCOPY_USAF_NH GRIBCOPY_USAF_SH"}
+ GRIBCOPY_AUTOSNOW_NH GRIBCOPY_AUTOSNOW_SH GRIBCOPY_AUTOICE_NH GRIBCOPY_AUTOICE_SH \
+ GRIBCOPY_USAF_NH GRIBCOPY_USAF_SH"}
 #####################
