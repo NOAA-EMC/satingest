@@ -17,7 +17,7 @@ PDAFileLinks/PULL/HIRS/NSS.HIRX.M1.D?????.S????.E????.B???????.??"'}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
       eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
       eval COMPRESS${n}=\${COMPRESS${n}:-YES}
-      eval CRITICAL${n}=\${CRITICAL${n}:-YES}
+      eval CRITICAL${n}=\${CRITICAL${n}:-NO}
 
 
 echo " Completed $TASK and $TASK.$family "
