@@ -14,12 +14,13 @@ FILE CHANGES
  M docs/Release_Notes.txt
  M fix/CMakeLists.txt
  M fix/aerosol.af_viirs
+ M fix/idsb_ingest.source.html
  M fix/snowore
  A fix/snowore.gribcopy_autoice_nh
  A fix/snowore.gribcopy_autoice_sh
  A fix/snowore.gribcopy_autosnow_nh
  M fix/snowore.gribcopy_autosnow_sh
- M fix/idsb_ingest.source.html
+ M fix/tovs.hirs4
  M ush/ingest_process_orbits_subscript.sh
  M versions/VERSION
  (M-modified; A-added; D-deleted)
@@ -37,6 +38,10 @@ FIX CHANGES
  fix/aerosol.af_viirs
  Correct a typo in instrument name, _jo1_ is now _j01_
  
+ fix/idsb_ingest.source.html
+ Correct filenames for NAVO SST data: mcsst_*
+ Add AutoSnow products: GMASI-*
+
  fix/snowore
  Added three new processing familes: GRIBCOPY_AUTOSNOW_NH GRIBCOPY_AUTOICE_NH GRIBCOPY_AUTOICE_SH  
  
@@ -56,10 +61,9 @@ FIX CHANGES
  Use new resolution product filenames:
  PDAFileLinks/PULL/GRIB/GMASI-Snow-SH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
 
- fix/idsb_ingest.source.html
- Correct filenames for NAVO SST data: mcsst_*
- Add AutoSnow products: GMASI-*
-
+ fix/tovs.hirs4
+ Remove commented lines
+ 
 SORC CHANGES
 
  None
