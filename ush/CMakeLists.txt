@@ -1,6 +1,7 @@
 list(APPEND ush_files
   ingest_check_lapsed_data.sh
   ingest_copy.sh
+  ingest_copytotarget.sh
   ingest_get.sh
   ingest_process_days.sh
   ingest_process_onetype_newdays.sh
