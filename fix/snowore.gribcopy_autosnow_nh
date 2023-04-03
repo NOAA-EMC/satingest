@@ -11,7 +11,7 @@ echo " Starting $TASK and  $TASK.$family "
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
 PDAFileLinks/PULL/GRIB/GMASI-Snow-NH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2"'}
       eval TANKFILE${n}=\${TANKFILE${n}:-wgrbbul}
-      eval EXECUTE${n}=\${EXECUTE${n}:-copy_to_target}
+      eval EXECUTE${n}=\${EXECUTE${n}:-ingest_copytotarget.sh}
       eval TARGETFILE${n}=\${TARGETFILE${n}:-'"NH2km_autosnow.grb.grib2"'}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-none}
       eval HOURS2ALARM${n}=\${HOURS2ALARM${n}:-48}
