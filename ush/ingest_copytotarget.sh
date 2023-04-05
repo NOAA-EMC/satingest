@@ -37,7 +37,7 @@
 #                            the prod_util module.
 # 2023-04-02 Sudhir.Nadiga   Copied ingest_process_orbits_subscripts.sh to a new 
 #                            script called ingest_copytotarget.sh to process GMASI files
-# Usage: . ingest_process_orbits_subscript.sh (inside ingest_process_orbits.sh)
+# Usage: . ingest_copytotarget.sh (inside ingest_process_orbits.sh)
 #
 # Remarks: See Docblock in ingest_process_orbits.sh.
 #
@@ -50,12 +50,18 @@
    set +x
 echo
 echo "......................................................................."
-echo "            START INGEST_PROCESS_ORBITS_SUBSCRIPT.SH (sourced)         "
+echo "            START INGEST_COPYTOTARGET.SH (sourced)         "
 echo "......................................................................."
 echo
+
+# IG
+EXECUTE=copy_to_target
+echo $EXECUTE
+
    [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
 
    if [ $toterr -eq 0 ] ; then
+
       if [ $EXECUTE = nullexec ] ; then
          bufrerror=0
       elif [ $EXECUTE = copy_to_target ] ; then
@@ -70,7 +76,8 @@ echo
                if [ ! -d $TANKDIR/$TANKFILE ] ; then
                   mkdir -m 775 -p $TANKDIR/$TANKFILE
                fi
-               cp $dsname $TANKDIR/$TANKFILE/$dsname
+               cp $DATA/$dsname $TANKDIR/$TANKFILE/$dsname
+#               cp $dsname $TANKDIR/$TANKFILE/$dsname
                bufrerror=$?
                if [ $bufrerror -eq 0 ] ; then
                   echo "$dsname_full SIMPLY COPIED TO $TANKDIR/$TANKFILE AT \
@@ -274,13 +281,15 @@ echo $dd
                   else
                      yyyymmdd=${yyyy}${mm}${dd}
                   fi
-               fi
+               fi # IG end of check if year is 2 or 4 digs
+
                if [ $bufrerror -ne 99 ]; then
                   if [ ! -d $TANKDIR/$yyyymmdd/$TANKFILE ] ; then
                      mkdir -m 775 -p $TANKDIR/$yyyymmdd/$TANKFILE
                   fi
                   if [ $TARGETFILE = same_name2 ]; then
-                     cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$dsname
+                     cp $DATA/$dsname $TANKDIR/$yyyymmdd/$TANKFILE/$dsname
+#                     cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$dsname
                      bufrerror=$?
                      if [ $bufrerror -eq 0 ] ; then
                         echo "$dsname_full RECEIVED FROM REMOTE MACHINE, \
@@ -290,8 +299,9 @@ $dsname (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
 $dsname copied for $yyyymmdd"
                         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      fi
-                  else
-                     cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
+                  else #IG GMASI will come here
+                     cp $DATA/$dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
+#                     cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
                      bufrerror=$?
                      if [ $bufrerror -eq 0 ] ; then
                         echo "$dsname_full RECEIVED FROM REMOTE MACHINE, \
@@ -301,33 +311,37 @@ $TARGETFILE (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
 $TARGETFILE copied for $yyyymmdd"
                         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      fi
-                  fi
-               fi
-            fi
+                  fi #IG GMASI is copied ok
+               fi # IG ??
+            fi # IG ??
          else
             bufrerror=99
          fi
-      elif [ $EXECUTE = bufr_tranjb.sh ] ; then
-         give_rc="YES"
-         if [ $FTYPE = ncepbufr ] ; then
-            cword="yes"
-            DX_SKIP=YES # tell $CWORDush to not copy any dictionary msgs
-         else
-            cword="no"
-         fi
-         ksh $TRANush $TANKDIR $DATA/$dsname 
-         bufrerror=$?
-      else
-         ksh $USHobsproc_satingest/ingest_translate_orbits.sh
-         bufrerror=$?
-      fi
+# IG GMASI DON"T GO HERE
+      fi 
+      #elif [ $EXECUTE = bufr_tranjb.sh ] ; then
+      #   give_rc="YES"
+      #   if [ $FTYPE = ncepbufr ] ; then
+      #      cword="yes"
+      #      DX_SKIP=YES # tell $CWORDush to not copy any dictionary msgs
+      #   else
+      #      cword="no"
+      #   fi
+      #   ksh $TRANush $TANKDIR $DATA/$dsname 
+      #   bufrerror=$?
+      #else
+      #   ksh $USHobsproc_satingest/ingest_translate_orbits.sh
+      #   bufrerror=$?
+      #fi
+# IG end of GMASI DON"T GO HERE 
+#
       set +x
       echo
       echo "Time is now $(date -u)."
       echo
       [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
 
-      if [ $PROC_MULT_FILES = YES ]; then
+      if [ $PROC_MULT_FILES = YES ]; then #IG if concatenation, more than one filename, rethink this if-then-fi block !!!
          cat $DATA/orbitlist_path_cat | {
          read line
          rc=$?
@@ -393,5 +407,6 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                iword=$(($iword+1))
             done
          fi
-      fi
-   fi
+      fi # IG end of concatenated
+
+   fi # closes $toterr
