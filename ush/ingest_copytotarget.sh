@@ -11,7 +11,7 @@
 
 ####  UNIX Script Documentation Block
 #
-# Script name:   ingest_process_orbits_subscript.sh
+# Script name:   ingest_copytotarget.sh
 #
 # RFC contact:  Nadiga               org: NP22        date: 2019-10-09
 #
@@ -54,8 +54,9 @@ echo "            START INGEST_COPYTOTARGET.SH (sourced)         "
 echo "......................................................................."
 echo
 
-# IG
+
 EXECUTE=copy_to_target
+
 echo $EXECUTE
 
    [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
@@ -281,7 +282,7 @@ echo $dd
                   else
                      yyyymmdd=${yyyy}${mm}${dd}
                   fi
-               fi # IG end of check if year is 2 or 4 digs
+               fi # end of check if year is 2 or 4 digs
 
                if [ $bufrerror -ne 99 ]; then
                   if [ ! -d $TANKDIR/$yyyymmdd/$TANKFILE ] ; then
@@ -299,7 +300,7 @@ $dsname (for $yyyymmdd) COPIED AT `date -u +%Y/%m/%d' '%H:%M:%S' UTC'`" >> \
 $dsname copied for $yyyymmdd"
                         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      fi
-                  else #IG GMASI will come here
+                  else # GMASI data will route through here
                      cp $DATA/$dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
 #                     cp $dsname $TANKDIR/$yyyymmdd/$TANKFILE/$TARGETFILE
                      bufrerror=$?
@@ -312,13 +313,14 @@ $TARGETFILE copied for $yyyymmdd"
                         $UTILROOT/ush/postmsg "$jlogfile" "$msg"
                      fi
                   fi #IG GMASI is copied ok
-               fi # IG ??
-            fi # IG ??
+               fi 
+            fi 
          else
             bufrerror=99
          fi
-# IG GMASI DON"T GO HERE
+
       fi 
+      ## not utilized by GMASI data
       #elif [ $EXECUTE = bufr_tranjb.sh ] ; then
       #   give_rc="YES"
       #   if [ $FTYPE = ncepbufr ] ; then
@@ -333,8 +335,7 @@ $TARGETFILE copied for $yyyymmdd"
       #   ksh $USHobsproc_satingest/ingest_translate_orbits.sh
       #   bufrerror=$?
       #fi
-# IG end of GMASI DON"T GO HERE 
-#
+
       set +x
       echo
       echo "Time is now $(date -u)."
