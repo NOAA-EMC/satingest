@@ -57,7 +57,7 @@ fi
 
 group7=NO
 if [ $hour -ge 05 -a $hour -le 10 ] ; then
-   PROC_FAM_group7=${PROC_FAM_group7:-"BURNING_EMISSIONS VIIRS_WEEKLY_GVF"}
+   PROC_FAM_group7=${PROC_FAM_group7:-"VIIRS_WEEKLY_GVF"}
    group7=YES
 else
    PROC_FAM_group7=" "

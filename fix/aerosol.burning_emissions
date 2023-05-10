@@ -12,12 +12,12 @@ echo " Starting $TASK and  $TASK.$family "
 
       eval ORBITLIST${n}=blended_GBBEPx
       eval REMOTEDSNGRP${n}='"concatenate_families \
-PDAFileLinks/PULL/NETCDF/GBBEPx.emis_bc.*.????????.nc \
-PDAFileLinks/PULL/NETCDF/GBBEPx.emis_oc.*.????????.nc \
-PDAFileLinks/PULL/NETCDF/GBBEPx.emis_so2.*.????????.nc \
-PDAFileLinks/PULL/NETCDF/GBBEPx_BC.emissions_v003_????????.nc \
-PDAFileLinks/PULL/NETCDF/GBBEPx_OC.emissions_v003_????????.nc \
-PDAFileLinks/PULL/NETCDF/GBBEPx_SO2.emissions_v003_????????.nc"'
+#PDAFileLinks/PULL/NETCDF/GBBEPx.emis_bc.*.????????.nc \
+#PDAFileLinks/PULL/NETCDF/GBBEPx.emis_oc.*.????????.nc \
+#PDAFileLinks/PULL/NETCDF/GBBEPx.emis_so2.*.????????.nc \
+#PDAFileLinks/PULL/NETCDF/GBBEPx_BC.emissions_v003_????????.nc \
+#PDAFileLinks/PULL/NETCDF/GBBEPx_OC.emissions_v003_????????.nc \
+#PDAFileLinks/PULL/NETCDF/GBBEPx_SO2.emissions_v003_????????.nc"'
       eval FTYPE${n}=none
       eval TANKFILE${n}=\${TANKFILE${n}:-burned_emission}
       eval EXECUTE${n}=copy_to_target
