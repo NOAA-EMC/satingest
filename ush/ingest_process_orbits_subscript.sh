@@ -46,7 +46,8 @@
 #
 ####
 
-   set +x
+set +x
+
 echo
 echo "......................................................................."
 echo "            START INGEST_PROCESS_ORBITS_SUBSCRIPT.SH (sourced)         "
@@ -55,6 +56,78 @@ echo
    [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
 
    if [ $toterr -eq 0 ] ; then
+
+   echo "----RUNNING JACK WOOLEN CHECK----"
+   if [ iflag_CRIS -eq 1 ]; then
+    iflag_ABORT=0
+    iflag_ABORT="$(/lfs/h2/emc/obsproc/noscrub/iliana.genkova/new_CRIS_NESDIS/readmp.x $dsname  |grep ABORT | wc -l)"
+    if [[ "$iflag_ABORT" -ne  0 ]]; then 
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+      bufrerror=99
+      break
+    else
+	echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+	echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+
+                                    ICRISyyyymmdd=$(echo $dsname | cut -c58-65)
+                                    ICRISyyyymmdd2=$(echo $dsname | cut -c58-77)
+				    echo "dsname is $dsname and ICRISyyyymmdd is $ICRISyyyymmdd "
+				    echo "dsname is $dsname and ICRISyyyymmdd2 is $ICRISyyyymmdd2 "
+
+
+   echo "----RUNNING JACK WOOLEN SPLIT BY SUBSET----"
+			   btank=b021
+			   itank=206
+			   set -euax
+			   splitbysubset=/apps/ops/prod/libs/intel/19.1.3.304/bufr/11.7.0/bin/split_by_subset
+			   echo " LISTING FILES BEFORE SPLIT BY SUBSET "
+			   echo " TANKDIR = $TANKDIR and TANKFILE = $TANKFILE "
+			   ls -l $TANKDIR/$ICRISyyyymmdd/$btank
+			   if [ -s $TANKDIR/$ICRISyyyymmdd/$TANKFILE ] ; then
+				   echo "the tank exists $TANKDIR/$ICRISyyyymmdd/$TANKFILE "
+				   ls -l $TANKDIR/$ICRISyyyymmdd
+				   ls -l $TANKDIR/$ICRISyyyymmdd/$btank
+			   cp  $TANKDIR/$ICRISyyyymmdd/$TANKFILE $TANKDIR/$ICRISyyyymmdd/$TANKFILE.BACKUP
+			    echo " LISTING FILES BEFORE SPLIT BY SUBSET " 
+			   ls -l $TANKDIR/$ICRISyyyymmdd
+			   if [ -s $TANKDIR/$ICRISyyyymmdd/$btank/NC$itank ] ; then 
+				   echo " $TANKDIR/$ICRISyyyymmdd/$btank/NC$itank does exist "
+				   rm $TANKDIR/$ICRISyyyymmdd/$btank/NC$itank
+
+			   else
+				   echo " $TANKDIR/$ICRISyyyymmdd/$btank/NC$itank does not exist "
+		           fi
+
+			   $splitbysubset $TANKDIR/$ICRISyyyymmdd/$TANKFILE
+			   echo " LISTING FILES AFTER SPLIT BY SUBSET "
+			   ls -l $TANKDIR/$ICRISyyyymmdd/$btank
+			   mv $TANKDIR/$ICRISyyyymmdd/$btank/NC$itank $TANKDIR/$ICRISyyyymmdd/$TANKFILE
+			   echo " SPLIT BY SUBSET DONE FOR $TANKDIR/$ICRISyyyymmdd/$btank "
+			   echo " LISTING FILES AFTER SPLIT BY SUBSET ALL DONE "
+			   ls -l $TANKDIR/$ICRISyyyymmdd/$btank
+		   else
+			   echo " TANKFILE does not exist $TANKDIR/$ICRISyyyymmdd/$btank "
+				ls -l $TANKDIR/$ICRISyyyymmdd
+				fi
+
+
+	    #	  dsname is NUCAPS-C0431_v3r0_npp_s202305061459199_e202305061459497_c202305061626070.bufr
+	    #
+
+	echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+	echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+    fi
+   fi #close iflag_CRIS
+   echo "----RUNNING JACK WOOLEN CHECK----"
+
+
       if [ $EXECUTE = nullexec ] ; then
          bufrerror=0
       elif [ $EXECUTE = copy_to_target ] ; then
