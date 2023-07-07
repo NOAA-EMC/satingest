@@ -7,7 +7,7 @@ echo " Starting $TASK and  $TASK.$family "
 #  {S-NPP and JPSS-1 (NOAA-20) satellites}
 # ------------------------------------------------------------------------
 #
-      export iflag_CRIS=${iflag_CRIS:1} # (iflag_CRIS is exported as 1)
+      export iflag_CRIS=${iflag_CRIS:-1}
       eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
       eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-150}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-cris_fsr_431.orbitlist}
