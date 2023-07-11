@@ -60,7 +60,7 @@ echo
    echo "----RUNNING JACK WOOLEN CHECK----"
    if [ iflag_CRIS -eq 1 ]; then
     iflag_ABORT=0
-    iflag_ABORT="$($EXECobsproc_satingest/temp_readmp $dsname  |grep ABORT | wc -l)"
+    iflag_ABORT="$($EXECobsproc_satingest/bufr_readmp $dsname  |grep ABORT | wc -l)"
         if [[ "$iflag_ABORT" -ne  0 ]]; then 
 	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
 	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
@@ -75,13 +75,6 @@ echo
 	        echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
 	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
 	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
-
-                                    ICRISyyyymmdd=$(echo $dsname | cut -c58-65)
-                                    ICRISyyyymmdd2=$(echo $dsname | cut -c58-77)
-				    echo "dsname is $dsname and ICRISyyyymmdd is $ICRISyyyymmdd "
-				    echo "dsname is $dsname and ICRISyyyymmdd2 is $ICRISyyyymmdd2 "
-
-
 	   echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
 	   echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
        fi
