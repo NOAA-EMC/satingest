@@ -1,15 +1,24 @@
-satingest v4.6.2        RELEASED        JUN 08, 2023
-          v4.6.2        IMPLEMENTED     JUN ??, 2023
+satingest [--v4.6.2--]v4.7.0        RELEASED        [--JUN 08,--]JUL ?? 2023
+          [--v4.6.2--]v4.7.?        IMPLEMENTED     [--JUN ??,--]JUL ?? 2023
 
 PRELUDE
 
- NOAA-21 ATMS data was declaired operational in early 2023. NOAA_21 ATMS processing coefficient table was updated on May 12,2023 
- This implementation maked NOAA-21 ATMS data availble to GFS/GSI
+ NOAA-21 ATMS data was declaired operational in early 2023. NOAA_21 ATMS processing coefficient table was updated on May 12,2023. 
+ This implementation makes NOAA-21 ATMS data availble to GFS/GSI.
+
+ Obsolete fix files, used by now retired data sets, were removed.
 
 FILE CHANGES
 
  M docs/Release_Notes.txt
+ D fix/aerosol.burned_area
+ D fix/aerosol.burning_emissions
+ D fix/aerosol.modis_aod
+ D fix/snowore.gribcopy_usaf_nh
+ D fix/snowore.gribcopy_usaf_sh
+ M fix/CMakeLists.txt
  M fix/npp_atms.atms
+ M fix/snowore
  M versions/VERSION
  (M-modified; A-added; D-deleted)
 
@@ -19,10 +28,23 @@ DOCS CHANGES
  Update contents to reflect this release
 
 FIX CHANGES
+ 
+ fix/CMakeLists.txt
+ Remove the names for the deleted fix files
+ 
+ Delete fix files for data no longer ingested by satingest:                        
+ fix/aerosol.burned_area         : burned_area_*_*_*_*km.grib2.gz
+ fix/aerosol.burning_emissions   : GBBEPx*.nc
+ fix/aerosol.modis_aod           : Terra_AOS_BUFR.* Aqua_AOD_BUFR.*
+ fix/snowore.gribcopy_usaf_nh    : NPR.SNWN.SP.D*.S1200.MESH16
+ fix/snowore.gribcopy_usaf_sh    : NPR.SNWS.SP.D*.S1200.MESH16
 
  fix/npp_atms.atms
  Introduce a filename for NOAA-21 ATMS
  PDAFileLinks/NDE/ATMS/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
+
+ fix/snowore
+ Turn off snowore.gribcopy_usaf_nh and snowore.gribcopy_usaf_sh 
 
 SORC CHANGES
 
@@ -109,7 +131,7 @@ SPECIAL INSTRUCTIONS
    Contact Andrew.Collard@noaa.gov for a specific date. 
 
  2)Confirm that NCO has an ACTIVE subscribtion to the following product(s) on PDA OPS a day or two prior to implementation day
-   Short name: CrIS_C0431_BUFR
+   Short name: ATMS_BUFR
    RegEx:      ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
    Dest Dir:   NDE/ATMS
 
@@ -120,7 +142,6 @@ SPECIAL INSTRUCTIONS
 
  DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
              Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
-
 
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
