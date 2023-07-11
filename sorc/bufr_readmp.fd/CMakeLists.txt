@@ -8,7 +8,7 @@ list(APPEND fortran_src
   temp_readmp.f90
 )
 
-set(exe_name temp_readmp)
+set(exe_name bufr_readmp)
 add_executable(${exe_name} ${fortran_src})
 target_link_libraries(
   ${exe_name}
