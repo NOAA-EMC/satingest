@@ -1,6 +1,6 @@
 #!/bin/sh
 set -xa
-export PS4='+ ${SECONDS}s + '
+export PS4=${PS4:-'+ ${SECONDS}s + '}
 date -u
 hour=${hour:-`date -u +%H`}
 min=${min:-`date -u +%M`}
