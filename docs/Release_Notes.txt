@@ -37,6 +37,7 @@ FILE CHANGES
  fix/bufr_hirsrtcf_ibm.dat
  fix/bufr_lowtopog.dat
  fix/nesdis.lstags_transsmi
+ versions/run.ver.prod
 
 DOCS CHANGES
 
@@ -117,7 +118,8 @@ CHANGES IN COMPUTE RESOURCES
 
 SHARED SOFTWARE
 
- Module bufr-tranjb v1.0.3 stays as is. It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ Satingest works together with module bufr-tranjb (v1.0.3 or v1.0.4)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
 
 LIBRARIES
 
@@ -155,9 +157,11 @@ BUILD INSTRUCTIONS
 PRE-IMPLEMENTATION TESTING REQUIREMENTS
 
  A.
- satingest needs module bufr-tranjb.v1.0.3 to be installed in order to run successfully.
- Module bufr-tranjb.v1.0.3 is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ satingest needs module bufr-tranjb.v1.0.3  or bufr-tranjb.v1.0.4 to be installed in order to run successfully.
+ Module bufr-tranjb.v1.0.* is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
  See versions/*.ver for libraries and required versions
+
+ NOTE: Separate CDF will be submitted for bufr-tranjb.v1.0.4, at the same time as satingest.v4.7.0
 
  B.
  Run JISATINGEST for the following satingest tasks (on implementation day) and verify the generation of the listed tanks:
