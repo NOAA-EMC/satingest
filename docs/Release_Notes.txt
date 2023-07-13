@@ -1,17 +1,42 @@
-satingest v4.6.2        RELEASED        JUN 08, 2023
-          v4.6.2        IMPLEMENTED     JUN ??, 2023
+satingest [--v4.6.2--]v4.7.0        RELEASED        [--JUN 08,--]JUL ?? 2023 ATMS+CRIS
+          [--v4.6.2--]v4.7.?        IMPLEMENTED     [--JUN ??,--]JUL ?? 2023
 
 PRELUDE
+ 
+ NOAA-21 CrIS data was declaired operational in early 2023.
+ This implementation makes NOAA-21 CrIS data availble to GFS/GSI.
 
- NOAA-21 ATMS data was declaired operational in early 2023. NOAA_21 ATMS processing coefficient table was updated on May 12,2023 
- This implementation maked NOAA-21 ATMS data availble to GFS/GSI
+ NOAA-21 ATMS data was declaired operational in early 2023. NOAA_21 ATMS processing coefficient table was updated on May 12,2023. 
+ This implementation makes NOAA-21 ATMS data availble to GFS/GSI.
 
-FILE CHANGES
+ Obsolete fix files, used by now retired data sets, were removed.
+
+FILE CHANGES 
 
  M docs/Release_Notes.txt
+ D fix/aerosol.burned_area
+ D fix/aerosol.burning_emissions
+ D fix/aerosol.modis_aod
+ D fix/snowore.gribcopy_usaf_nh
+ D fix/snowore.gribcopy_usaf_sh
+ M fix/CMakeLists.txt
  M fix/npp_atms.atms
+ M fix/npp_cris_431
+ M fix/npp_cris_431.cris_fsr_431
+ M fix/snowore
+ M jobs/JISATINGEST
+ M sorc/CMakeLists.txt
+ A sorc/bufr_readmp.fd
+ A sorc/bufr_readmp.fd/CMakeLists.txt
+ A sorc/bufr_readmp.fd/temp_readmp.f90
+ M ush/ingest_process_orbits_subscript.sh
  M versions/VERSION
  (M-modified; A-added; D-deleted)
+
+ Only in $PACKAGEROOT/satingest.v4.6.1 (not part of the satingest.v4.6.1 S/W package that EMC released)
+ fix/bufr_hirsrtcf_ibm.dat
+ fix/bufr_lowtopog.dat
+ fix/nesdis.lstags_transsmi
 
 DOCS CHANGES
 
@@ -19,32 +44,71 @@ DOCS CHANGES
  Update contents to reflect this release
 
 FIX CHANGES
+ 
+ fix/CMakeLists.txt
+ Remove the names for the deleted fix files
+ 
+ Delete fix files for data no longer ingested by satingest:                        
+ fix/aerosol.burned_area         : burned_area_*_*_*_*km.grib2.gz
+ fix/aerosol.burning_emissions   : GBBEPx*.nc
+ fix/aerosol.modis_aod           : Terra_AOS_BUFR.* Aqua_AOD_BUFR.*
+ fix/snowore.gribcopy_usaf_nh    : NPR.SNWN.SP.D*.S1200.MESH16
+ fix/snowore.gribcopy_usaf_sh    : NPR.SNWS.SP.D*.S1200.MESH16
 
  fix/npp_atms.atms
- Introduce a filename for NOAA-21 ATMS
+ Introduce filename for NOAA-21 ATMS data
  PDAFileLinks/NDE/ATMS/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
+
+ fix/npp_cris_431
+ Introduce iflag_CRIS
+
+ fix/npp_cris_431.cris_fsr_431
+ Export iflag_CRIS, introduce filename for NOAA-21 CrIS data
+ PDAFileLinks/NDE/NUCAPS/NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
+
+ fix/snowore
+ Turn off snowore.gribcopy_usaf_nh and snowore.gribcopy_usaf_sh 
+
+JOBS CHANGES
+ 
+ jobs/JISATINGEST
+ Change PS4 format to print scripts names in log file
 
 SORC CHANGES
 
- None
+ sorc/CMakeLists.txt
+ Add directory bufr_readmp.fd to list of directories
 
+ sorc/bufr_readmp.fd
+ Create directory bufr_readmp.fd
+
+ sorc/bufr_readmp.fd/CMakeLists.txt
+ Introduce source code temp_readmp.f90
+
+ sorc/bufr_readmp.fd/temp_readmp.f90
+ Add code to "proof read" incoming NESDIS CrIS data
+ 
 USH CHANGES
 
- None
+ ush/ingest_process_orbits_subscript.sh
+ Add "proof reading" of incoming NESDIS CrIS data, a.k.a "JACK WOOLLEN CHECK"
 
  versions/VERSION
  Update version to reflect this release
 
 CHANGES TO OUTPUT AND FILE SIZES
 
- No new tanks are generated. The ATMS data tank, b021/xx203, will increase in size by ~50% as we add a 3rd ATMS instrument to the ingest.
- The tank size will return to normal when the S-NPP ATMS instrument is switched off (i.e. no more *_npp_* files). NESDIS hasn't provided a data for this.
+ No new tanks are generated. 
+ The ATMS data tank, b021/xx203, will increase in size by ~50% as we add a 3rd ATMS instrument to the ingest.
+ The CrIS data tank, b021/xx206, will increase in size by ~50% as we add a 3rd CrIS instrument to the ingest.
+ The ATMS and CrIS tank sizes will return to normal when the S-NPP ATMS and CrIS instrument is switched off (i.e. no more *_npp_* files). NESDIS hasn't provided a data for this.
 
 
 BIG BROTHER INFORMATION
 
  Start monitoring the following new filename patterns:
  $COMROOT/logs/bb/ingest/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
 
 CHANGES IN COMPUTE RESOURCES
 
@@ -98,6 +162,7 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  B.
  Run JISATINGEST for the following satingest tasks (on implementation day) and verify the generation of the listed tanks:
  npp_atms - generates tanks b021/xx203
+ npp_cris_431 - generates tanks b021/xx206
 
 DISSEMINATION INFORMATION
 
@@ -109,18 +174,21 @@ SPECIAL INSTRUCTIONS
    Contact Andrew.Collard@noaa.gov for a specific date. 
 
  2)Confirm that NCO has an ACTIVE subscribtion to the following product(s) on PDA OPS a day or two prior to implementation day
-   Short name: CrIS_C0431_BUFR
+   Short name: ATMS_BUFR
    RegEx:      ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
    Dest Dir:   NDE/ATMS
-
    NOTE:One and the same Short name is used for ATMS_v1r0_npp_* ATMS_v1r0_j01_* and ATMS_v1r0_n21_* filenames 
+
+   Short name: CrIS_C0431_BUFR
+   RegEx:      NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr 
+   Dest Dir:   NDE/NUCAPS
+   NOTE:One and the same Short name is used for NUCAPS-C0431_v3r_npp_* NUCAPS-C0431_v3r_j01_* and NUCAPS-C0431_v3r_n21_* filenames
   
  3)Follow the PRE-IMPLEMENTATION TESTING instructioins above.
    Implementation could be done at any hour b/c the new data will be monitored at first.
 
  DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
              Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
-
 
 
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
