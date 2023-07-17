@@ -39,7 +39,7 @@ cp -f $INSTALL_PREFIX/exec/*                     $pkg_root/exec/
 cp -f $INSTALL_PREFIX/fix/bufr_hirsrtcf_ibm.dat  $pkg_root/fix/
 cp -f $INSTALL_PREFIX/fix/bufr_lowtopog.dat      $pkg_root/fix/
 cp -f $INSTALL_PREFIX/fix/nesdis.lstags_transsmi $pkg_root/fix/
-rm -rf $INSTALL_PREFIX
+#rm -rf $INSTALL_PREFIX
 #############################################################################
 
 # Remove build directory upon successfull build and install
