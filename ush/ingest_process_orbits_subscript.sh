@@ -57,8 +57,9 @@ echo
 
    if [ $toterr -eq 0 ] ; then
 
-   echo "----RUNNING JACK WOOLEN CHECK----"
+   echo "----CHECK TO SEE IF WE ARE RUNNING JACK WOOLEN CHECK----"
    if [ iflag_CRIS -eq 1 ]; then
+   echo "----WE ARE RUNNING JACK WOOLEN CHECK----"
     iflag_ABORT=0
     iflag_ABORT="$($EXECobsproc_satingest/bufr_readmp $dsname  |grep ABORT | wc -l)"
         if [[ "$iflag_ABORT" -ne  0 ]]; then 
@@ -78,6 +79,8 @@ echo
 	   echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
 	   echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
        fi
+   else
+   echo "----WE ARE NOT RUNNING JACK WOOLEN CHECK----"
    fi #close iflag_CRIS
 
 
