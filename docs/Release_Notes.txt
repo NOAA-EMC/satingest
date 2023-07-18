@@ -19,6 +19,7 @@ FILE CHANGES
  D fix/aerosol.modis_aod
  D fix/snowore.gribcopy_usaf_nh
  D fix/snowore.gribcopy_usaf_sh
+ M fix/idsb_ingest.source.html !
  M fix/CMakeLists.txt
  M fix/npp_atms.atms
  M fix/npp_cris_431
@@ -30,6 +31,8 @@ FILE CHANGES
  A sorc/bufr_readmp.fd/CMakeLists.txt
  A sorc/bufr_readmp.fd/temp_readmp.f90
  M ush/ingest_process_orbits_subscript.sh
+ M versions/build.ver 
+ M versions/run.ver 
  M versions/VERSION
  (M-modified; A-added; D-deleted)
 
@@ -70,6 +73,9 @@ FIX CHANGES
  fix/snowore
  Turn off snowore.gribcopy_usaf_nh and snowore.gribcopy_usaf_sh 
 
+ fix/idsb_ingest.source.html
+ Removed obsolete data filenames and contact info
+
 JOBS CHANGES
  
  jobs/JISATINGEST
@@ -93,6 +99,12 @@ USH CHANGES
 
  ush/ingest_process_orbits_subscript.sh
  Add "proof reading" of incoming NESDIS CrIS data, a.k.a "JACK WOOLLEN CHECK"
+
+VERSIONS CHANGES
+
+ versions/build.ver
+ versions/run.ver
+ Update bufr_tranjb_ver to v1.0.4
 
  versions/VERSION
  Update version to reflect this release
@@ -118,7 +130,7 @@ CHANGES IN COMPUTE RESOURCES
 
 SHARED SOFTWARE
 
- Satingest works together with module bufr-tranjb (v1.0.3 or v1.0.4)
+ Satingest works together with module bufr-tranjb (THIS RELEASE REQUIERS v1.0.4)
  It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
 
 LIBRARIES
@@ -188,7 +200,9 @@ SPECIAL INSTRUCTIONS
    Dest Dir:   NDE/NUCAPS
    NOTE:One and the same Short name is used for NUCAPS-C0431_v3r_npp_* NUCAPS-C0431_v3r_j01_* and NUCAPS-C0431_v3r_n21_* filenames
   
- 3)Follow the PRE-IMPLEMENTATION TESTING instructioins above.
+ 3) This satingest v4.7.0 requires that module bufr-trankb v1.0.4 is installed 
+
+ 4)Follow the PRE-IMPLEMENTATION TESTING instructioins above.
    Implementation could be done at any hour b/c the new data will be monitored at first.
 
  DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
