@@ -114,7 +114,7 @@ CHANGES TO OUTPUT AND FILE SIZES
  No new tanks are generated. 
  The ATMS data tank, b021/xx203, will increase in size by ~50% as we add a 3rd ATMS instrument to the ingest.
  The CrIS data tank, b021/xx206, will increase in size by ~50% as we add a 3rd CrIS instrument to the ingest.
- The ATMS and CrIS tank sizes will return to normal when the S-NPP ATMS and CrIS instrument is switched off (i.e. no more *_npp_* files). NESDIS hasn't provided a data for this.
+ The ATMS and CrIS tank sizes will return to normal when the S-NPP ATMS and CrIS instrument is switched off (i.e. no more *_npp_* files). NESDIS hasn't provided a date for this.
 
 
 BIG BROTHER INFORMATION
