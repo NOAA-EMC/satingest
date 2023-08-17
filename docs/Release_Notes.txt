@@ -1,5 +1,5 @@
-satingest [--v4.6.2--]v4.7.0        RELEASED        [--JUN 08,--]JUL ?? 2023 ATMS+CRIS
-          [--v4.6.2--]v4.7.?        IMPLEMENTED     [--JUN ??,--]JUL ?? 2023
+satingest [--v4.6.2--]v4.7.0        RELEASED        [--JUN 08,--]AUG 14 2023 ATMS+CRIS
+          [--v4.6.2--]v4.7.?        IMPLEMENTED     [--JUN ??,--]AUG 29 2023
 
 PRELUDE
  
