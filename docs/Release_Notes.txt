@@ -21,7 +21,7 @@ FILE CHANGES
  M fix/npp_omps.ompstc_v8
  D fix/snowore.gribcopy_usaf_nh
  D fix/snowore.gribcopy_usaf_sh
- M fix/idsb_ingest.source.html !
+ M fix/idsb_ingest.source.html 
  M fix/CMakeLists.txt
  M fix/npp_atms.atms
  M fix/npp_cris_431
@@ -32,6 +32,7 @@ FILE CHANGES
  A sorc/bufr_readmp.fd
  A sorc/bufr_readmp.fd/CMakeLists.txt
  A sorc/bufr_readmp.fd/temp_readmp.f90
+ M ush/ingest_copy.sh
  M ush/ingest_process_orbits_subscript.sh
  M versions/build.ver 
  M versions/run.ver 
@@ -64,6 +65,9 @@ FIX CHANGES
  fix/aerosol.af_viirs
  Introduced new filename for active fire products from NCCF
  EFIRE-VIIRSI_v1r2_???_s???????????????_e???????????????_c???????????????.txt  
+
+ fix/idsb_ingest.source.html
+ Update filenames that change in this release
 
  fix/npp_atms.atms
  Introduce filename for NOAA-21 ATMS data
@@ -106,6 +110,9 @@ SORC CHANGES
  Add code to "proof read" incoming NESDIS CrIS data
  
 USH CHANGES
+ 
+ ush/ingest_copy.sh
+ Add functionality to process EFIRE data filenames
 
  ush/ingest_process_orbits_subscript.sh
  Add "proof reading" of incoming NESDIS CrIS data, a.k.a "JACK WOOLLEN CHECK"
