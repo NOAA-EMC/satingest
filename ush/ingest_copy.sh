@@ -138,6 +138,7 @@ if [ `echo $TANKFILE | cut -c 1-7` = wbufbul -o \
      `echo $TANKFILE | cut -c 1-7` = wtxtbul -o \
      `echo $TANKFILE | cut -c 1-7` = wf_abba -o \
      `echo $TANKFILE | cut -c 1-7` = modis_f -o \
+     `echo $TANKFILE | cut -c 1-7` = EFIRE-V -o \
      `echo $TANKFILE | cut -c 1-8` = af_viirs ]; then
    CUT_DATE=${CUT_DATE:-YES}
    CLEAN=${CLEAN:-NO}
@@ -195,6 +196,11 @@ if [ $CUT_DATE = YES ]; then
      export PDY=`echo $2 | cut -c14-21`
      echo " ACTIVE FIRE DATA , fname=$2 and PDY=$PDY "
      fi
+
+   elif  [ "$fl" == "E" ] ; then  # EFIRE 
+     f4=`echo $2 | cut -c4`
+     export PDY=`echo $2 | cut -c24-31`
+     echo " ACTIVE FIRE DATA , fname=$2 and PDY=$PDY "
 
    elif  [ "$fl" == "f" ] ; then  # WF_ABBA
      export PDYJ=`echo $2 | cut -c2-8`
