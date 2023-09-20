@@ -199,6 +199,10 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  npp_atms - generates tanks b021/xx203
  npp_cris_431 - generates tanks b021/xx206
 
+ C.
+ If there is a NCO parallel run running, it must be stopped BEFORE the implementation, 
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type) 
+
 DISSEMINATION INFORMATION
 
  No change in dissemination methods.
