@@ -1,5 +1,5 @@
 satingest [--v4.6.2--]v4.7.0        RELEASED        [--JUN 08,--]AUG 14 2023 ATMS+CRIS
-          [--v4.6.2--]v4.7.?        IMPLEMENTED     [--JUN ??,--]AUG 29 2023
+          [--v4.6.2--]v4.7.0        IMPLEMENTED     [--JUN ??,--]SEP 20 2023
 
 PRELUDE
  
@@ -10,6 +10,8 @@ PRELUDE
  This implementation makes NOAA-21 ATMS data availble to GFS/GSI.
 
  Obsolete fix files, used by now retired data sets, were removed.
+
+ Activates the use of EFIRE and cloud generated OMPS TC
 
 FILE CHANGES 
 
