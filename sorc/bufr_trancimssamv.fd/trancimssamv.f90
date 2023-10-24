@@ -29,7 +29,7 @@
 !    Unique: -  REMTDY (inline source)
 !   Library:
 !       W3NCO - W3TAGB  W3TAGE W3TRNARG W3DOXDAT W3FS26 ERREXIT
-!     BUFRLIB - DATELEN OPENBF GETBMISS OPENMB   UFBINT WRITCP  CLOSMG CLOSBF
+!     BUFRLIB - DATELEN OPENBF GETBMISS OPENMB UFBINT WRITCP CLOSMG CLOSBF UFBSEQ
 !
 ! Exit states:
 !   Cond = 0  - successful run
@@ -48,6 +48,7 @@
 
       program BUFR_TRANCIMSSAMV
 
+
       implicit none
 
       integer lunin  /11/
@@ -56,21 +57,28 @@
       integer nl,nused
       integer jdate,itime,isat,iyr,idyr,ierr,iday,mnth,ihr,imin,isec
       integer lsubdr,ltnkid,lapchr,jjdate,kkdate,idate,iret
-      integer dir,pre,qi,itype,said
-
+      integer dir,pre,qi,itype,said,irundt(5),iergtm
+      integer, dimension(8) :: d
       integer iGNAPS,iGCLONG,iOGCE
+      integer year,mo,day,hr,min,rcts
+      integer*8 rcptime 
+
 
       real*8 arr(8),bmiss,getbmiss
       real rlat,rlon,spd
 
       character*132 line,temp
       character*80  fmt,appchr
-      character*12  subdir,tankid
-      character*10  datechar
-      character*8   subset,tlflag
+      character*12  subdir,tankid,rundt*12, sysdt*12,te
+      character*10  datechar,time
+      character*8   subset,tlflag,date
       character*4   ctype
 
       logical       db   /.false./
+
+!        INCLUDE         'GEMPRM.PRM'
+!        INCLUDE         'BRIDGE.PRM'
+!         INCLUDE         'ERMISS.FNC'
 
 !      call w3tagb('BUFR_TRANSKYCOVR',2017,0313,0050,'NP22')
       call w3tagb('BUFR_TRANCIMSSAMV',2022,0313,0050,'NP22')
@@ -98,7 +106,7 @@
 
       bmiss = getbmiss()
       print*, 'bmiss returned as ',bmiss
-      print*
+!      print*
 
       call datelen(10)
 
@@ -279,12 +287,51 @@ said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data fro
 
          call OPENMB(lunout,subset,idate)
 
+!!
+!!*              Get the system time.
+!!
+
+         call date_and_time (values=d)
+!         print *,'******d******* ',d
+         call date_and_time(date,time,values=d)
+!         print *, date
+!         print *, time
+         year=d(1)
+         mo=d(2)
+         day=d(3)
+         hr=d(5)
+         min=d(6)
+
+!         print *, '-------------------------'
+!         print *, year
+!         print *, mo
+!         print *, day
+!         print *, hr
+!         print *, min
+         te = date//time
+!         print *, te
+         
+         read(te,fmt='(I12.12)') rcptime
+!         print *, '********************'
+!         print *, rcptime
+
+
+         arr=BMISS                                  ! initialize to BUFR missing
+!         CALL UFBSEQ(LUNOUT,arr,6,1,iret,'RCPTIM')
+         arr(1) = dble(rcts)                       ! RCTS
+         arr(2) = dble(year)                       ! RCYR
+         arr(3) = dble(mo)                         ! RCMO
+         arr(4) = dble(day)                        ! RCDY
+         arr(5) = dble(hr)                         ! RCHR
+         arr(6) = dble(min)                        ! RCMI
+         CALL UFBSEQ(LUNOUT,arr,6,1,iret,'RCPTIM')
+
 
    ! -- populate output array w/ content
    ! -- subset mnemonics:
    !   SWCM YEAR MNTH DAYS HOUR MINU SECO CLATH CLONH WSPD WDIR PRLC PCCF SAID 
 
-         arr=BMISS                                  ! initialize to BUFR missing
+!         arr=BMISS                                  ! initialize to BUFR missing
          arr(1) = dble(itype)                       ! SWCM
          arr(2) = dble(iyr)                         ! YEAR
          arr(3) = dble(mnth)                        ! MNTH
