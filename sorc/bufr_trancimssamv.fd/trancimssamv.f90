@@ -63,6 +63,8 @@
       real*8 arr(8),bmiss,getbmiss
       real rlat,rlon,spd
 
+      character*20  dsname
+      character*5   dsname_trim
       character*132 line,temp
       character*80  fmt,appchr
       character*12  subdir,tankid
@@ -74,6 +76,8 @@
 
 !      call w3tagb('BUFR_TRANSKYCOVR',2017,0313,0050,'NP22')
       call w3tagb('BUFR_TRANCIMSSAMV',2022,0313,0050,'NP22')
+
+      CALL GET_ENVIRONMENT_VARIABLE('dsname',dsname)
 
       print*
       print*, 'WELCOME TO BUFR_TRANCIMSSAMV - VERSION 09-15-2022'
@@ -92,7 +96,7 @@
       endif
 !.......................................................................
       subset = 'NC'//subdir(lsubdr-2:lsubdr)//tankid(ltnkid-2:ltnkid)
-!!!!! print*, 'SUBSET = ',SUBSET
+ print*, 'SUBSET = ',SUBSET
 
 ! Obtain BUFRLIB value for missing
 
@@ -102,13 +106,23 @@
 
       call datelen(10)
 
+     dsname_trim = dsname(16:20)
+     print*, 'dsname ', dsname
+     print*, 'dsname_trim ', dsname_trim
+
+     if(dsname_trim.eq.'GOESE') then
+	said=270
+     else if(dsname_trim.eq.'GOESW') then
+	said=272
+     endif
+
 !-qi stuff------------------------------------------------------------------------------------------------
 iGNAPS=5
 !!!!iGCLONG=160
 !!!iGCLONG=bmiss
 iOGCE=160
 itype=15      !SWCM missing value
-said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
+!said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
 
 
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
