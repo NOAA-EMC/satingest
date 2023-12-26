@@ -1,6 +1,6 @@
 #!/bin/sh
 set -xa
-export PS4='+ ${SECONDS}s + '
+export PS4=${PS4:-'+ ${SECONDS}s + '}
 date -u
 hour=${hour:-`date -u +%H`}
 min=${min:-`date -u +%M`}
@@ -141,6 +141,11 @@ n=0
 for family in $PROCESSING_FAMILIES
 do
    n=`expr $n + 1`
+
+export iflag_CRIS=0
+if [ $family = 'cris_fsr_431' ] ; then
+     export iflag_CRIS=1
+fi
 
 IPDA=`echo $family | cut -c1-4`
 if [ $IPDA = 'CBU_' ] ; then

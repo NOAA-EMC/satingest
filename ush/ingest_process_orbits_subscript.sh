@@ -46,7 +46,8 @@
 #
 ####
 
-   set +x
+set +x
+
 echo
 echo "......................................................................."
 echo "            START INGEST_PROCESS_ORBITS_SUBSCRIPT.SH (sourced)         "
@@ -55,6 +56,34 @@ echo
    [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
 
    if [ $toterr -eq 0 ] ; then
+
+   echo "----CHECK TO SEE IF WE ARE RUNNING JACK WOOLEN CHECK----"
+   if [ iflag_CRIS -eq 1 ]; then
+   echo "----WE ARE RUNNING JACK WOOLEN CHECK----"
+    iflag_ABORT=0
+    iflag_ABORT="$($EXECobsproc_satingest/bufr_readmp $dsname  |grep ABORT | wc -l)"
+        if [[ "$iflag_ABORT" -ne  0 ]]; then 
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+	    echo " --------------- FAILED JACK WOOLLEN CHECK --------------------"
+            bufrerror=99
+          break
+        else
+        	echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+	        echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	    echo " iflag_CRIS is $iflag_CRIS ; iflag_ABORT is $iflag_ABORT and dsname is $dsname "
+	   echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+	   echo " -------------- PASSED JACK WOOLLEN CHECK -------------------------"
+       fi
+   else
+   echo "----WE ARE NOT RUNNING JACK WOOLEN CHECK----"
+   fi #close iflag_CRIS
+
+
       if [ $EXECUTE = nullexec ] ; then
          bufrerror=0
       elif [ $EXECUTE = copy_to_target ] ; then

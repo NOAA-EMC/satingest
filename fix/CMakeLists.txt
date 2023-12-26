@@ -23,10 +23,7 @@ list(APPEND fix_files
   aerosol
   aerosol.af_viirs
   aerosol.avhrr_weekly_gvf
-  aerosol.burned_area
-  aerosol.burning_emissions
   aerosol.dust
-  aerosol.modis_aod
   aerosol.modis_fire
   aerosol.nic_lks
   aerosol.sat_comp_mosaic_imgry
@@ -99,6 +96,7 @@ list(APPEND fix_files
   satwnd.leo-geo
   satwnd.modir
   satwnd.modwv
+  satwnd.nb_avhrr
   satwnd.nb_viirs
   satwnd.shrtwv_dmw
   satwnd.visb_dmw
@@ -116,8 +114,6 @@ list(APPEND fix_files
   snowore.gribcopy_autosnow_sh
   snowore.gribcopy_autoice_nh
   snowore.gribcopy_autoice_sh
-  snowore.gribcopy_usaf_nh
-  snowore.gribcopy_usaf_sh
   ssmi
   ssmi.edr
   ssmi.gmi_tmbr
