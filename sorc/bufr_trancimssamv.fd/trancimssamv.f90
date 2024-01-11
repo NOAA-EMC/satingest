@@ -63,6 +63,11 @@
       real*8 arr(8),bmiss,getbmiss
       real rlat,rlon,spd
 
+<<<<<<< HEAD
+=======
+      character*20  dsname
+      character*5   dsname_trim
+>>>>>>> origin/feature/hrsatwind.cimss_bugfix
       character*132 line,temp
       character*80  fmt,appchr
       character*12  subdir,tankid
@@ -75,6 +80,11 @@
 !      call w3tagb('BUFR_TRANSKYCOVR',2017,0313,0050,'NP22')
       call w3tagb('BUFR_TRANCIMSSAMV',2022,0313,0050,'NP22')
 
+<<<<<<< HEAD
+=======
+      CALL GET_ENVIRONMENT_VARIABLE('dsname',dsname)
+
+>>>>>>> origin/feature/hrsatwind.cimss_bugfix
       print*
       print*, 'WELCOME TO BUFR_TRANCIMSSAMV - VERSION 09-15-2022'
       print*
@@ -92,7 +102,11 @@
       endif
 !.......................................................................
       subset = 'NC'//subdir(lsubdr-2:lsubdr)//tankid(ltnkid-2:ltnkid)
+<<<<<<< HEAD
 !!!!! print*, 'SUBSET = ',SUBSET
+=======
+ print*, 'SUBSET = ',SUBSET
+>>>>>>> origin/feature/hrsatwind.cimss_bugfix
 
 ! Obtain BUFRLIB value for missing
 
@@ -102,13 +116,30 @@
 
       call datelen(10)
 
+<<<<<<< HEAD
+=======
+     dsname_trim = dsname(16:20)
+     print*, 'dsname ', dsname
+     print*, 'dsname_trim ', dsname_trim
+
+     if(dsname_trim.eq.'GOESE') then
+	said=270
+     else if(dsname_trim.eq.'GOESW') then
+	said=272
+     endif
+
+>>>>>>> origin/feature/hrsatwind.cimss_bugfix
 !-qi stuff------------------------------------------------------------------------------------------------
 iGNAPS=5
 !!!!iGCLONG=160
 !!!iGCLONG=bmiss
 iOGCE=160
 itype=15      !SWCM missing value
+<<<<<<< HEAD
 said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
+=======
+!said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
+>>>>>>> origin/feature/hrsatwind.cimss_bugfix
 
 
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
