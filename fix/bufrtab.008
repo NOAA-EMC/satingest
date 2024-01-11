@@ -340,6 +340,9 @@
 | QMMIXRV  | 050221 | Quality Info for VOLUMETRIC MIXING RATIO SIGNFICAND      |
 | LTNDOSD  | 050238 | STANDARD DEVIATION OF LOG10 OF NUMBER DENSITY OF OZONE   |
 | MIXRVSD  | 050239 | STANDARD DEVIATION OF VOLUMETRIC MIXING RATIO SIGNFICAND |
+* 206006   | 054001 | Local descriptor of   6 bits                             |
+* 206005   | 054002 | Local descriptor of   5 bits                             |
+* 206013   | 054003 | Local descriptor of  13 bits                             |
 |          |        |                                                          |
 |------------------------------------------------------------------------------|
 | MNEMONIC | SEQUENCE                                                          |
@@ -375,20 +378,24 @@
 |          |                                                                   |
 | NC008011 | SBUV2OZN                                                          |
 |          |                                                                   |
-|          |                                                                   |
-| NC008012 | SAID   ORBN   YEAR   DOYR   HHMMSS 207002 INTIME 207000           |
+***********************  ORIGINAL NC008012          ***************************|
+* NC008012 | SAID   ORBN   YEAR   DOYR   HHMMSS 207002 INTIME 207000           |
 *          |                                                                   |
-| NC008012 | LTLONC GOMEEF SOZA   SOLAZI 207002 OZON   207000                  |
+* NC008012 | LTLONC GOMEEF SOZA   SOLAZI 207002 OZON   207000                  |
 *          |                                 total ozone                       |
 *          |                                                                   |
-| NC008012 | VSAT   207001 PRES   207000 VSAT                                  |
+* NC008012 | VSAT   207001 PRES   207000 VSAT                                  |
 *          |          terrain pressure                                         |
 *          |                                                                   |
-| NC008012 | VSAT   TLRFV  207001 PRLC   207000 207002 OZON   207000 VSAT      |
+* NC008012 | VSAT   TLRFV  207001 PRLC   207000 207002 OZON   207000 VSAT      |
 *          |                cld-top pressure   ozone below cld-top pressure    |
 *          |                                                                   |
-| NC008012 | 207002 CLDMNT 207000 SNOC   RSST   207004 ACIDX  207000 STKO FOVN |
-*          |                                                                   |
+* NC008012 | 207002 CLDMNT 207000 SNOC   RSST   207004 ACIDX  207000 STKO FOVN |
+***********************  ORIGINAL NC008012          ***************************|
+|          |                                                                   |
+| NC008012 | SAID  LTLONC  VZAN  SOZA  YYMMDD  HHMMSS  STKO  207002  OZON      |
+| NC008012 | 207000  AFBO  TOQC   TOQF  ACIDX  207002  CLDMNT  207000          |
+| NC008012 | FOVN  VSAT  TLRFV  PRLC  207002  OZON  207000  {OZPROFSQ}         |
 |          |                                                                   |
 |          |                                                                   |
 | NC008013 | SAID   LTLONC VZAN   SOZA   YYMMDD HHMMSS STKO                    |
@@ -823,7 +830,9 @@
 | OSPB     |    2 |           0 |   7 | (M ATM CM)**-1           |-------------|
 | OSSS     |    4 |           0 |  29 | RAD                      |-------------|
 | OSES     |    4 |           0 |  29 | RAD                      |-------------|
-|          |      |             |     |                          |-------------|
+* 206006   |    0 |           0 |   6 | NUMERIC                  |-------------|
+* 206005   |    0 |           0 |   5 | NUMERIC                  |-------------|
+* 206013   |    0 |           0 |  13 | NUMERIC                  |-------------|
 | FOST     |    0 |           0 |   6 | Code table               |-------------|
 | TMDBST   |    1 |           0 |  12 | K                        |-------------|
 | LTNDA    |    5 |     1800000 |  20 | log(m**-3)               |-------------|
