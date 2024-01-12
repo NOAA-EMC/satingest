@@ -3,17 +3,15 @@ satingest v4.7.1        RELEASED        JAN ?? 2024
 
 PRELUDE
 
- NOAA-21 CrIS data was declaired operational in early 2023.
- This implementation makes NOAA-21 CrIS data availble to GFS/GSI.
+ S-NPP/NOAA-20/NOAA-21 CrIS data is augmented with VIIRS radiance cluster (VRC)
 
- NOAA-21 ATMS data was declaired operational in early 2023. NOAA_21 ATMS processing coefficient table was updated on May 12,2023.
- This implementation makes NOAA-21 ATMS data availble to GFS/GSI.
+ S-NPP/NOAA-20/NOAA-21 IASI datafiles are updated
 
- Obsolete fix files, used by now retired data sets, were removed.
+ Metop-1/3 GOME Ozone product is updated
 
- Activates the use of EFIRE and cloud generated OMPS TC
+ CIMSS AMV tank SAID bug is fixed
 
-FILE CHANGES
+FILE CHANGES ???
 
  M docs/Release_Notes.txt
  M fix/aerosol.af_viirs
@@ -213,19 +211,63 @@ SPECIAL INSTRUCTIONS
 
  1)IMPORTANT: This upgrade must be implemented --after-- the GFS/GSI upgrade adding NOAA-21 ATMS calibr. coeff. to GFS/GSI
    Contact Andrew.Collard@noaa.gov for a specific date.
+???
+ 2)Make the following subscribtion on PDA OPS a day or two prior to implementation day
+   Short name: 
+   RegEx:      
+   Dest Dir:   
 
- 2)Confirm that NCO has an ACTIVE subscribtion to the following product(s) on PDA OPS a day or two prior to implementation day
-   Short name: ATMS_BUFR
-   RegEx:      ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
-   Dest Dir:   NDE/ATMS
-   NOTE:One and the same Short name is used for ATMS_v1r0_npp_* ATMS_v1r0_j01_* and ATMS_v1r0_n21_* filenames
 
+1) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/SNPP
+SUBSCRIPTION NAME: EMC_CrIS_C0431_BUFR_TEST_SNPP
+Short name: CrIS_C0431_BUFR_TEST
+Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
+Description: J2 CrIS thinned radiances (0431 channels) NUCAPS output converted to BUFR
+Regular Expression NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
+Last Acquired: 2023-10-31 12:24:28.126000000
+Periodicity: 500
+Average Filesize: 3072
+
+2) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/J01
+Subscription name: EMC_CrIS_C0431_BUFR_TEST_JPSS1
+Short name: CrIS_C0431_BUFR_TEST
+Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
+Description: J2 CrIS thinned radiances (0431 channels) NUCAPS output converted to BUFR
+Regular Expression NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
+Last Acquired: 2023-10-31 12:32:08.064000000
+Periodicity: 500
+Average Filesize: 3072
+
+3) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/N21
+Subscription name: EMC_CrIS_C0431_BUFR_TEST_JPSS2
+Short name: CrIS_C0431_BUFR_TEST
+Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
+Description: J2 CrIS thinned radiances (0431 channels) NUCAPS output converted to BUFR
+Regular Expression NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
+Last Acquired: 2023-10-31 12:32:08.064000000
+Periodicity: 500
+Average Filesize: 3072
+
+Please approve the following PDA (OPS) subscription request: 
+Subscription Group: NCEP_EMC_subgrp
+User Name: NCEP_EMC_SERV1
+ DESTINATION DIRECTORY: PULL/OZONE
+Subscription name: EMC_GOME-TO-L2_BUFR
+Short name: GOME-TO-L2_BUFR
+Long name: GOME Total Ozone L2 (bufr)
+Description: GOME TO daily Products (bufr)
+Regular Expression V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr$
+Last Acquired: 2023-12-18 10:39:45.309000000
+Periodicity: 3600
+Average Filesize: 50
+
+???
    Short name: CrIS_C0431_BUFR
    RegEx:      NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
    Dest Dir:   NDE/NUCAPS
    NOTE:One and the same Short name is used for NUCAPS-C0431_v3r_npp_* NUCAPS-C0431_v3r_j01_* and NUCAPS-C0431_v3r_n21_* filenames
 
- 3) This satingest v4.7.0 requires that module bufr-trankb v1.0.4 is installed
+ 3)??? v1.0.5  This satingest v4.7.0 requires that module bufr-trankb v1.0.4 is installed
 
  4)Follow the PRE-IMPLEMENTATION TESTING instructioins above.
    Implementation could be done at any hour b/c the new data will be monitored at first.
