@@ -1,49 +1,28 @@
-satingest v4.7.1        RELEASED        JAN ?? 2024
-          v4.7.?        IMPLEMENTED     JAN 31 2024 || FEB 07 2024 ??? 
+satingest v4.7.1        RELEASED        JAN 16 2024
+          v4.7.?        IMPLEMENTED     JAN 31 2024
 
 PRELUDE
 
- S-NPP/NOAA-20/NOAA-21 CrIS data is augmented with VIIRS radiance cluster (VRC)
+ The following products are updated:
+  S-NPP/NOAA-20/NOAA-21 CrIS radiances are augmented with VIIRS radiance cluster (VRC)
+  Metop-1/3 IASI radiance filenames are updated
+  Metop-1/3 GOME Ozone product is updated
 
- S-NPP/NOAA-20/NOAA-21 IASI datafiles are updated
+ CIMSS AMV tank b005xx099 SAID assignemnt bug fixed
 
- Metop-1/3 GOME Ozone product is updated
-
- CIMSS AMV tank SAID bug is fixed
-
-FILE CHANGES ???
+FILE CHANGES
 
  M docs/Release_Notes.txt
- M fix/aerosol.af_viirs
- D fix/aerosol.burned_area
- D fix/aerosol.burning_emissions
- D fix/aerosol.modis_aod
- M fix/npp_omps.ompstc_v8
- D fix/snowore.gribcopy_usaf_nh
- D fix/snowore.gribcopy_usaf_sh
+ M fix/airs.iasi_efov
+ M fix/bufrtab.008
+ M fix/hrsatwind.cimss
  M fix/idsb_ingest.source.html
- M fix/CMakeLists.txt
- M fix/npp_atms.atms
- M fix/npp_cris_431
+ M fix/npp_cris_2211.cris_fsr_2211
  M fix/npp_cris_431.cris_fsr_431
- M fix/snowore
- M jobs/JISATINGEST
- M sorc/CMakeLists.txt
- A sorc/bufr_readmp.fd
- A sorc/bufr_readmp.fd/CMakeLists.txt
- A sorc/bufr_readmp.fd/temp_readmp.f90
- M ush/ingest_copy.sh
- M ush/ingest_process_orbits_subscript.sh
- M versions/build.ver
- M versions/run.ver
+ M fix/ozone_orbit.gome
+ M sorc/bufr_trancimssamv.fd/trancimssamv.f90
  M versions/VERSION
  (M-modified; A-added; D-deleted)
-
- Only in $PACKAGEROOT/satingest.v4.6.1 (not part of the satingest.v4.6.1 S/W package that EMC released)
- fix/bufr_hirsrtcf_ibm.dat
- fix/bufr_lowtopog.dat
- fix/nesdis.lstags_transsmi
- versions/run.ver.prod
 
 DOCS CHANGES
 
@@ -52,76 +31,34 @@ DOCS CHANGES
 
 FIX CHANGES
 
- fix/CMakeLists.txt
- Remove the names for the deleted fix files
+ fix/airs.iasi_efov
+ Introduce new filenames for METOP-1/3 IASI: NUCAPS-GMAO-616_v3r1_m0?_s???????????????_e???????????????_c???????????????.bufr
 
- Delete fix files for data no longer ingested by satingest:
- fix/aerosol.burned_area         : burned_area_*_*_*_*km.grib2.gz
- fix/aerosol.burning_emissions   : GBBEPx*.nc
- fix/aerosol.modis_aod           : Terra_AOS_BUFR.* Aqua_AOD_BUFR.*
- fix/snowore.gribcopy_usaf_nh    : NPR.SNWN.SP.D*.S1200.MESH16
- fix/snowore.gribcopy_usaf_sh    : NPR.SNWS.SP.D*.S1200.MESH16
+ fix/bufrtab.008
+ Update bufrtab.008 to match METOP-1/3 GOME Ozone product's BUFR table (b008/xx012 is now the same as b008/xx018)
 
- fix/aerosol.af_viirs
- Introduced new filename for active fire products from NCCF
- EFIRE-VIIRSI_v1r2_???_s???????????????_e???????????????_c???????????????.txt
+ fix/hrsatwind.cimss
+ Add omitted GOES-18 filenames for CIMSS Huricane/TC winds
 
  fix/idsb_ingest.source.html
- Update filenames that change in this release
+ Update file names in satingest table: https://www2.nco.ncep.noaa.gov/idsb/ingest/ 
+ NOTE: Data Flow should update subscriptions table: http://www2.pmb.ncep.noaa.gov/wiki/index.php/PDA_Subscription_Information
 
- fix/npp_atms.atms
- Introduce filename for NOAA-21 ATMS data
- PDAFileLinks/NDE/ATMS/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
-
- fix/npp_cris_431
- Introduce iflag_CRIS
+ fix/npp_cris_2211.cris_fsr_2211
+ Update product filename version and destination directories (notice the new PDA subscriptions in PRE-IMPLEMENTATION TESTING REQUIREMENTS) 
 
  fix/npp_cris_431.cris_fsr_431
- Export iflag_CRIS, introduce filename for NOAA-21 CrIS data
- PDAFileLinks/NDE/NUCAPS/NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
+ Update product filename version and destination directories (notice the new PDA subscriptions in PRE-IMPLEMENTATION TESTING REQUIREMENTS)
 
- fix/npp_omps.ompstc_v8
- Introduce filename for NCCF generated OMPS TC product
- OMPS-TC_v4r3_???_s???????????????_e???????????????_c???????????????.bufr
-
- fix/snowore
- Turn off snowore.gribcopy_usaf_nh and snowore.gribcopy_usaf_sh
-
- fix/idsb_ingest.source.html
- Removed obsolete data filenames and contact info
-
-JOBS CHANGES
-
- jobs/JISATINGEST
- Change PS4 format to print scripts names in log file
-
+ fix/ozone_orbit.gome
+ Introduce new filenames for METOP-1/3 GOME Ozone: V8TOZ-EDR_v1r0_m0?_s???????????????_e???????????????_c???????????????.bufr
+ 
 SORC CHANGES
 
- sorc/CMakeLists.txt
- Add directory bufr_readmp.fd to list of directories
-
- sorc/bufr_readmp.fd
- Create directory bufr_readmp.fd
-
- sorc/bufr_readmp.fd/CMakeLists.txt
- Introduce source code temp_readmp.f90
-
- sorc/bufr_readmp.fd/temp_readmp.f90
- Add code to "proof read" incoming NESDIS CrIS data
-
-USH CHANGES
-
- ush/ingest_copy.sh
- Add functionality to process EFIRE data filenames
-
- ush/ingest_process_orbits_subscript.sh
- Add "proof reading" of incoming NESDIS CrIS data, a.k.a "JACK WOOLLEN CHECK"
+ sorc/bufr_trancimssamv.fd/trancimssamv.f90
+ Fix a big in SAID assignment
 
 VERSIONS CHANGES
-
- versions/build.ver
- versions/run.ver
- Update bufr_tranjb_ver to v1.0.4
 
  versions/VERSION
  Update version to reflect this release
@@ -129,18 +66,38 @@ VERSIONS CHANGES
 CHANGES TO OUTPUT AND FILE SIZES
 
  No new tanks are generated.
- The ATMS data tank, b021/xx203, will increase in size by ~50% as we add a 3rd ATMS instrument to the ingest.
- The CrIS data tank, b021/xx206, will increase in size by ~50% as we add a 3rd CrIS instrument to the ingest.
- The ATMS and CrIS tank sizes will return to normal when the S-NPP ATMS and CrIS instrument is switched off (i.e. no more *_npp_* files). NESDIS hasn't provided a date for this.
-
+ The CrIS data tank, b021/xx206, will increase in size by ~5% as a number of mnemonics may be populated for some observations(only when cloud and/or cluster info exists)
 
 BIG BROTHER INFORMATION
 
  Start monitoring the following new filename patterns:
- $COMROOT/logs/bb/ingest/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C0431_v3r1_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C0431_v4r0_j01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C0431_v4r0_n21_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C2211_v3r1_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C2211_v4r0_j01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C2211_v4r0_n21_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v3r1_m01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v3r1_m03_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/V8TOZ-EDR_v1r0_m01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/V8TOZ-EDR_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr
+
+ Stop monitoring the following filename patterns:
+ $COMROOT/logs/bb/ingest/NUCAPS-C0431_v3r0_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C0431_v3r0_j01_s???????????????_e???????????????_c???????????????.bufr
  $COMROOT/logs/bb/ingest/NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
- $COMROOT/logs/bb/ingest/EFIRE-VIIRSI_v1r2_???_s???????????????_e???????????????_c???????????????.txt
- $COMROOT/logs/bb/ingest/OMPS-TC_v4r3_???_s???????????????_e???????????????_c???????????????.bufr
+
+ $COMROOT/logs/bb/ingest/NUCAPS-C2211_v3r0_npp_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C2211_v3r0_j01_s???????????????_e???????????????_c???????????????.bufr
+ $COMROOT/logs/bb/ingest/NUCAPS-C2211_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
+
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v3r0_m0?_s???????????????_e???????????????_c???????????????.bufr 
+ $COMROOT/logs/bb/ingest/NUCAPS-GMAO-616_v2r0_m0?_s???????????????_e???????????????_c???????????????.bufr 
+
+ $COMROOT/logs/bb/ingest/NPR_IARD.M0?_D?????_S??????_E??????_G???_C0616_U6
+
+ $COMROOT/logs/bb/ingest/GOME_M01_8TO3_??????????????Z_??????????????Z.BUFR	
+ 
 
 CHANGES IN COMPUTE RESOURCES
 
@@ -149,7 +106,7 @@ CHANGES IN COMPUTE RESOURCES
 
 SHARED SOFTWARE
 
- Satingest works together with module bufr-tranjb (THIS RELEASE REQUIERS v1.0.4)
+ Satingest works together with module bufr-tranjb (currently using v1.0.4)
  It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
 
 LIBRARIES
@@ -188,19 +145,19 @@ BUILD INSTRUCTIONS
 PRE-IMPLEMENTATION TESTING REQUIREMENTS
 
  A.
- satingest needs module bufr-tranjb.v1.0.3  or bufr-tranjb.v1.0.4 to be installed in order to run successfully.
- Module bufr-tranjb.v1.0.* is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ satingest needs module bufr-tranjb.v1.0.4 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
  See versions/*.ver for libraries and required versions
 
- NOTE: Separate CDF will be submitted for bufr-tranjb.v1.0.4, at the same time as satingest.v4.7.0
-
  B.
- Run JISATINGEST for the following satingest tasks (on implementation day) and verify the generation of the listed tanks:
- npp_atms - generates tanks b021/xx203
- npp_cris_431 - generates tanks b021/xx206
+ Run JISATINGEST for the following satingest tasks (before and on implementation day) and verify the generation of the listed tanks:
+ npp_cris_431 - inspect tank b021/xx206
+ airs         - inspect tank b021/xx241
+ hrsatwind    - inspect tank b005/xx099
+ ozone_orbit  - inspect tank b008/xx012
 
  C.
- If there is a NCO parallel run running, it must be stopped BEFORE the implementation,
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
  so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
 
 DISSEMINATION INFORMATION
@@ -209,16 +166,32 @@ DISSEMINATION INFORMATION
 
 SPECIAL INSTRUCTIONS
 
- 1)IMPORTANT: This upgrade must be implemented --after-- the GFS/GSI upgrade adding NOAA-21 ATMS calibr. coeff. to GFS/GSI
-   Contact Andrew.Collard@noaa.gov for a specific date.
-???
- 2)Make the following subscribtion on PDA OPS a day or two prior to implementation day
-   Short name: 
-   RegEx:      
-   Dest Dir:   
+ 1)IMPORTANT
+  On implementation day (Jan 31,2024), or sooner, stop the ingest of all satingest generated b008 tanks
+  (i.e. b008/xx011,xx012,xx013,xx017,xx018,xx019)
+  and use the apxdx tool to add the updated fix/bufrtab.008 table to each satingest tank.
+    /apps/ops/prod/nco/intel/19.1.3.304/bufr_util.v1.1.0/exec/apxd
+    /apps/ops/prod/nco/intel/19.1.3.304/bufr_util.v1.1.0/ush/run_apxdx.sh
+  Run apxdx tool with $APXDX_TYPE=satingest.
+  Resume ingest for the tanks in question.  
+
+ 2)Make the following subscribtion(s) on PDA OPS a day or two before implementation day:
+
+??? DOUBLWCHECK WITH SUDHIR AND add 2211 , ALSO Ask about 2211 fix files...only 2 instruments!!!! later add again S-npp
+   Short name: CrIS_C0431_BUFR 
+   RegEx:      NUCAPS-C0431_v\dr\d_npp_s\d{15}_e\d{15}_c\d{15}\.bufr      
+   Dest Dir:   PULL/NDE/NUCAPS/C0431/SNPP
+
+   Short name: CrIS_C0431_BUFR
+   RegEx:      NUCAPS-C0431_v\dr\d_j01_s\d{15}_e\d{15}_c\d{15}\.bufr          
+   Dest Dir:   PULL/NDE/NUCAPS/C0431/J01
+
+   Short name: CrIS_C0431_BUFR
+   RegEx:      NUCAPS-C0431_v\dr\d_n21_s\d{15}_e\d{15}_c\d{15}\.bufr
+   Dest Dir:   PULL/NDE/NUCAPS/C0431/N21
 
 
-1) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/SNPP
+ DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/SNPP
 SUBSCRIPTION NAME: EMC_CrIS_C0431_BUFR_TEST_SNPP
 Short name: CrIS_C0431_BUFR_TEST
 Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
@@ -228,7 +201,7 @@ Last Acquired: 2023-10-31 12:24:28.126000000
 Periodicity: 500
 Average Filesize: 3072
 
-2) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/J01
+) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/J01
 Subscription name: EMC_CrIS_C0431_BUFR_TEST_JPSS1
 Short name: CrIS_C0431_BUFR_TEST
 Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
@@ -238,7 +211,7 @@ Last Acquired: 2023-10-31 12:32:08.064000000
 Periodicity: 500
 Average Filesize: 3072
 
-3) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/N21
+) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/N21
 Subscription name: EMC_CrIS_C0431_BUFR_TEST_JPSS2
 Short name: CrIS_C0431_BUFR_TEST
 Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
@@ -248,7 +221,11 @@ Last Acquired: 2023-10-31 12:32:08.064000000
 Periodicity: 500
 Average Filesize: 3072
 
-Please approve the following PDA (OPS) subscription request: 
+
+   Short name: GOME-TO-L2_BUFR
+   RegEx:      V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr
+   Dest Dir:   PULL/OZONE
+
 Subscription Group: NCEP_EMC_subgrp
 User Name: NCEP_EMC_SERV1
  DESTINATION DIRECTORY: PULL/OZONE
@@ -258,19 +235,25 @@ Long name: GOME Total Ozone L2 (bufr)
 Description: GOME TO daily Products (bufr)
 Regular Expression V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr$
 Last Acquired: 2023-12-18 10:39:45.309000000
-Periodicity: 3600
-Average Filesize: 50
 
-???
-   Short name: CrIS_C0431_BUFR
-   RegEx:      NUCAPS-C0431_v3r0_n21_s???????????????_e???????????????_c???????????????.bufr
-   Dest Dir:   NDE/NUCAPS
-   NOTE:One and the same Short name is used for NUCAPS-C0431_v3r_npp_* NUCAPS-C0431_v3r_j01_* and NUCAPS-C0431_v3r_n21_* filenames
 
- 3)??? v1.0.5  This satingest v4.7.0 requires that module bufr-trankb v1.0.4 is installed
+   Short name: HEAP_IASI_GMAO_BUFR
+   RegEx:      NUCAPS-GMAO-616_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr
+   Dest Dir:   PULL/IASI   
 
- 4)Follow the PRE-IMPLEMENTATION TESTING instructioins above.
-   Implementation could be done at any hour b/c the new data will be monitored at first.
+Short name:    HEAP_IASI_GMAO_BUFR
+Long name:    HEAP IASI GMAO BUFR Products
+Description:    Metop-B and Metop-C HEAP IASI GMAO BUFR products.
+Regular Expression    NUCAPS-GMAO-616_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr$
+Last Acquired:    2023-03-01 10:07:29.366000000
+Periodicity:    180
+Average Filesize:    3432
+eval ORBITLIST${n}=\${ORBITLIST${n}:-metop.iasi_efov.orbitlist}
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/PULL/IASI/NUCAPS-GMAO-616_v3r0_m01_s???????????????_e???????????????_c???????????????.bufr \
+PDAFileLinks/PULL/IASI/NUCAPS-GMAO-616_v3r0_m03_s???????????????_e???????????????_c???????????????.bufr \
+
+ 4)Follow the PRE-IMPLEMENTATION TESTING instructioins above. 
 
  DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
              Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
