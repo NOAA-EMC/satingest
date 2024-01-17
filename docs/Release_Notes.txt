@@ -150,13 +150,6 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  See versions/*.ver for libraries and required versions
 
  B.
- Run JISATINGEST for the following satingest tasks (before and on implementation day) and verify the generation of the listed tanks:
- npp_cris_431 - inspect tank b021/xx206
- airs         - inspect tank b021/xx241
- hrsatwind    - inspect tank b005/xx099
- ozone_orbit  - inspect tank b008/xx012
-
- C.
  If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
  so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
 
@@ -177,81 +170,39 @@ SPECIAL INSTRUCTIONS
 
  2)Make the following subscribtion(s) on PDA OPS a day or two before implementation day:
 
-??? DOUBLWCHECK WITH SUDHIR AND add 2211 , ALSO Ask about 2211 fix files...only 2 instruments!!!! later add again S-npp
-   Short name: CrIS_C0431_BUFR 
-   RegEx:      NUCAPS-C0431_v\dr\d_npp_s\d{15}_e\d{15}_c\d{15}\.bufr      
+   A)For the following subs, first create the Destination Directories, then make the subs, 
+   making sure that only one satellite instrument is selected. This reduces num of files per dir.
+
+   Short name: CrIS_C0431_BUFR
+   Instrument: npp (choose only one satellite instrument) 
+   RegEx:      NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/NDE/NUCAPS/C0431/SNPP
 
    Short name: CrIS_C0431_BUFR
-   RegEx:      NUCAPS-C0431_v\dr\d_j01_s\d{15}_e\d{15}_c\d{15}\.bufr          
+   Instrument: j01 (choose only one satellite instrument)
+   RegEx:      NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/NDE/NUCAPS/C0431/J01
 
    Short name: CrIS_C0431_BUFR
-   RegEx:      NUCAPS-C0431_v\dr\d_n21_s\d{15}_e\d{15}_c\d{15}\.bufr
+   Instrument: n21 (choose only one satellite instrument)
+   RegEx:      NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/NDE/NUCAPS/C0431/N21
 
-
- DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/SNPP
-SUBSCRIPTION NAME: EMC_CrIS_C0431_BUFR_TEST_SNPP
-Short name: CrIS_C0431_BUFR_TEST
-Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
-Description: J2 CrIS thinned radiances (0431 channels) NUCAPS output converted to BUFR
-Regular Expression NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
-Last Acquired: 2023-10-31 12:24:28.126000000
-Periodicity: 500
-Average Filesize: 3072
-
-) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/J01
-Subscription name: EMC_CrIS_C0431_BUFR_TEST_JPSS1
-Short name: CrIS_C0431_BUFR_TEST
-Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
-Description: J2 CrIS thinned radiances (0431 channels) NUCAPS output converted to BUFR
-Regular Expression NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
-Last Acquired: 2023-10-31 12:32:08.064000000
-Periodicity: 500
-Average Filesize: 3072
-
-) DESTINATION DIRECTORY: PULL/NDE/NUCAPS/C0431/N21
-Subscription name: EMC_CrIS_C0431_BUFR_TEST_JPSS2
-Short name: CrIS_C0431_BUFR_TEST
-Long name: CrIS_C0431_BUFR LongName JPSS2_TEST
-Description: J2 CrIS thinned radiances (0431 channels) NUCAPS output converted to BUFR
-Regular Expression NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
-Last Acquired: 2023-10-31 12:32:08.064000000
-Periodicity: 500
-Average Filesize: 3072
-
+   B)For the following subs, the Destination Directories already exists. 
 
    Short name: GOME-TO-L2_BUFR
    RegEx:      V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr
    Dest Dir:   PULL/OZONE
 
-Subscription Group: NCEP_EMC_subgrp
-User Name: NCEP_EMC_SERV1
- DESTINATION DIRECTORY: PULL/OZONE
-Subscription name: EMC_GOME-TO-L2_BUFR
-Short name: GOME-TO-L2_BUFR
-Long name: GOME Total Ozone L2 (bufr)
-Description: GOME TO daily Products (bufr)
-Regular Expression V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr$
-Last Acquired: 2023-12-18 10:39:45.309000000
-
-
    Short name: HEAP_IASI_GMAO_BUFR
    RegEx:      NUCAPS-GMAO-616_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/IASI   
-
-Short name:    HEAP_IASI_GMAO_BUFR
-Long name:    HEAP IASI GMAO BUFR Products
-Description:    Metop-B and Metop-C HEAP IASI GMAO BUFR products.
-Regular Expression    NUCAPS-GMAO-616_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr$
-Last Acquired:    2023-03-01 10:07:29.366000000
-Periodicity:    180
-Average Filesize:    3432
-eval ORBITLIST${n}=\${ORBITLIST${n}:-metop.iasi_efov.orbitlist}
-      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-PDAFileLinks/PULL/IASI/NUCAPS-GMAO-616_v3r0_m01_s???????????????_e???????????????_c???????????????.bufr \
-PDAFileLinks/PULL/IASI/NUCAPS-GMAO-616_v3r0_m03_s???????????????_e???????????????_c???????????????.bufr \
+ 
+ 3)Run JISATINGEST for the following satingest tasks (before and on implementation day) and verify the generation of the listed tanks:
+ npp_cris_431 - inspect tank b021/xx206
+ airs         - inspect tank b021/xx241
+ hrsatwind    - inspect tank b005/xx099
+ ozone_orbit  - inspect tank b008/xx012
 
  4)Follow the PRE-IMPLEMENTATION TESTING instructioins above. 
 
