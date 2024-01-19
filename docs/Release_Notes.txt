@@ -183,6 +183,8 @@ SPECIAL INSTRUCTIONS
    RegEx:      NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/NDE/NUCAPS/C0431/N21
 
+NOTE: After creating these new subscription, and you see the data flowing in on implementation day, Jan31 ~10am-Noon EST, please remove the old subs for CrIS_C0431_BUFR (so that files are not pulled multiple times)
+
    B)For the following subs, the Destination Directories already exists. 
 
    Short name: GOME-TO-L2_BUFR
@@ -191,7 +193,7 @@ SPECIAL INSTRUCTIONS
 
    Short name: HEAP_IASI_GMAO_BUFR
    RegEx:      NUCAPS-GMAO-616_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr
-   Dest Dir:   PULL/IASI   
+   Dest Dir:   PULL/IASI 
  
  3)Run JISATINGEST for the following satingest tasks (before and on implementation day) and verify the generation of the listed tanks:
  npp_cris_431 - inspect tank b021/xx206
