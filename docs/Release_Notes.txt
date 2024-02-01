@@ -177,21 +177,23 @@ SPECIAL INSTRUCTIONS
    Instrument: j01 (choose only one satellite instrument)
    RegEx:      NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/NDE/NUCAPS/C0431/J01
+               (should have been: PDAFileLinks/NDE/NUCAPS/C0431/J01 Correct it in v4.7.2 !!!)
 
    Short name: CrIS_C0431_BUFR
    Instrument: n21 (choose only one satellite instrument)
    RegEx:      NUCAPS-C0431_v\dr\d_(j01|npp|n21)_s\d{15}_e\d{15}_c\d{15}\.bufr
    Dest Dir:   PULL/NDE/NUCAPS/C0431/N21
+               (should have been: PDAFileLinks/NDE/NUCAPS/C0431/N21 Correct it in v4.7.2 !!!)
 
    B)For the following subs, the Destination Directories already exists. 
 
    Short name: GOME-TO-L2_BUFR
    RegEx:      V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr
-   Dest Dir:   PULL/OZONE
+   Dest Dir:   PDAFileLinks/PULL/OZONE
 
    Short name: HEAP_IASI_GMAO_BUFR
    RegEx:      NUCAPS-GMAO-616_v\dr\d_(m01|m03)_s\d{15}_e\d{15}_c\d{15}\.bufr
-   Dest Dir:   PULL/IASI   
+   Dest Dir:   PDAFileLinks/PULL/IASI   
  
  3)Run JISATINGEST for the following satingest tasks (before and on implementation day) and verify the generation of the listed tanks:
  npp_cris_431 - inspect tank b021/xx206
