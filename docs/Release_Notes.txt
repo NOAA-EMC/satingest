@@ -185,6 +185,8 @@ SPECIAL INSTRUCTIONS
    Dest Dir:   PULL/NDE/NUCAPS/C0431/N21
                (should have been: PDAFileLinks/NDE/NUCAPS/C0431/N21 Correct it in v4.7.2 !!!)
 
+NOTE: After creating these new subscription, and you see the data flowing in on implementation day, Jan31 ~10am-Noon EST, please remove the old subs for CrIS_C0431_BUFR (so that files are not pulled multiple times)
+
    B)For the following subs, the Destination Directories already exists. 
 
    Short name: GOME-TO-L2_BUFR
