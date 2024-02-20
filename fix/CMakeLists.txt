@@ -94,8 +94,6 @@ list(APPEND fix_files
   satwnd.avhrr
   satwnd.ircd_dmw
   satwnd.leo-geo
-  satwnd.modir
-  satwnd.modwv
   satwnd.nb_avhrr
   satwnd.nb_viirs
   satwnd.shrtwv_dmw
