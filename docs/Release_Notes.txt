@@ -138,6 +138,13 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
  so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
 
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS. This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 16:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+
 DISSEMINATION INFORMATION
 
  No change in dissemination methods.
