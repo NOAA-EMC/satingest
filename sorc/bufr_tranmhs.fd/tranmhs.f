@@ -228,7 +228,7 @@ C      NFOV    = Bias correction number from data
 C  Set parameters for structure of output data file
 C  ------------------------------------------------
 
-      parameter (nreal=18,nperchan=2,ntot=nreal+nperchan*mch)
+      parameter (nreal=24,nperchan=2,ntot=nreal+nperchan*mch)
 
 C  Declare variables
 C  -----------------
@@ -261,6 +261,9 @@ C  -----------------
       real(real_32) bdata(ntot),rinc(5),sctime1
       real(real_64) badr(mch),badtb(mch)
       real(real_64) grad(5,19,4)
+
+      REAL*8        RDAT(8)
+      INTEGER       RDAT1(8)
 
       double precision two22,two30,two44
 
@@ -876,6 +879,14 @@ C  ----------------------------------------------------------
 C  WRITE MHS DATA FOR EACH SPOT POSITION ON CURRENT SCAN LINE
 C  ----------------------------------------------------------
 
+         CALL W3UTCDAT(RDAT1)
+         RDAT(1) = dble(RDAT1(4))
+         RDAT(2) = dble(RDAT1(1))
+         RDAT(3) = dble(RDAT1(2))
+         RDAT(4) = dble(RDAT1(3))
+         RDAT(5) = dble(RDAT1(5))
+         RDAT(6) = dble(RDAT1(6))
+
          do i = 1,mpos
             if (ikeepb(i).eq.1) then
 
@@ -912,25 +923,32 @@ C  --------------------------------------
                bdata(6) = jdat(5)                 ! hour
                bdata(7) = jdat(6)                 ! minute
                bdata(8) = jdat(7) + jdat(8)/1000. ! second
-               bdata(9) = lndsea(i)               ! land/sea tag
-               bdata(10)= i                       ! F-O-V (spot) number
-               bdata(11)= slat(i)                 ! latitude
-               bdata(12)= slon(i)                 ! longitude
-ccccc          bdata(13)= rlocaz(i)
-               bdata(13)= saza(i)                 ! sat.  zenith angle
-               bdata(14)= soza(i)                 ! solar zenith angle
-               bdata(15)= sfchgt(i)               ! surface height
-               bdata(16)= sathgt                  ! satellite height
-               bdata(17)= sazimuth(i)             ! solar azimuth angle
-               bdata(18)= aazimuth(i)             ! sat.  azimuth angle
-
+               bdata(9) = RDAT(1)                  ! RECEIPT TIME SIGNIFICANCE
+               bdata(10) = RDAT(2)                 ! YEAR   - TIME OF RECEIPT
+               bdata(11) = RDAT(3)                 ! MONTH  - TIME OF RECEIPT
+               bdata(12) = RDAT(4)                 ! DAY    - TIME OF RECEIPT
+               bdata(13) = RDAT(5)                 ! HOUR   - TIME OF RECEIPT
+               bdata(14) = RDAT(6)                 ! MINUTE - TIME OF RECEIPT
+               bdata(15) = lndsea(i)              ! land/sea tag
+               bdata(16)= i                       ! F-O-V (spot) number
+               bdata(17)= slat(i)                 ! latitude
+               bdata(18)= slon(i)                 ! longitude
+ccccc          bdata(19)= rlocaz(i)
+               bdata(19)= saza(i)                 ! sat.  zenith angle
+               bdata(20)= soza(i)                 ! solar zenith angle
+               bdata(21)= sfchgt(i)               ! surface height
+               bdata(22)= sathgt                  ! satellite height
+               bdata(23)= sazimuth(i)             ! solar azimuth angle
+               bdata(24)= aazimuth(i)             ! sat.  azimuth angle
+                
                if (lndsea(i).lt.0.5) nseab  = nseab + 1
                if (lndsea(i).gt.0.5) nlandb = nlandb + 1
                do j = 1,mch
-                  bdata(17+j*nperchan) = tb(j,i) ! brightness temp
-                  bdata(18+j*nperchan) = dt1(j)  ! cold space temp corr
+                  bdata(23+j*nperchan) = tb(j,i) ! brightness temp
+                  bdata(24+j*nperchan) = dt1(j)  ! cold space temp corr
                end do
                nrecb = nrecb + 1
+              
                call bufr1b(lubfrb,'NC021027',nreal,mch,bdata,nrepb)
 ccccc          write(99,*) (bdata(j),j=1,ntot)
             endif
