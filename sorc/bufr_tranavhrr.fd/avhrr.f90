@@ -16,7 +16,7 @@
  integer, parameter :: real_32=selected_real_kind(6,37)
  integer, parameter :: real_64=selected_real_kind(15,307)
  integer, parameter :: mch=5,mpos=409,maxread=200000
- integer, parameter :: nreal=22,ntot=nreal+mch,bit_qc=0
+ integer, parameter :: nreal=28,ntot=nreal+mch,bit_qc=0
  integer, parameter :: stdout=6,lu1b=11,wbf_sea_a_lcr=51,wbf_lnd_o_cld=52
  integer, parameter :: lundx=20,nprint=500,nmon=12
  integer, parameter :: nlat_msk=2881,nlon_msk=5761,nlat_sst=360,nlon_sst=720
@@ -71,6 +71,9 @@
  real, dimension(mch,mpos) :: avh_rad,avh_bt
 
  real(8), dimension(ntot) :: rdata
+
+      REAL*8        RDAT(8)
+      INTEGER       RDAT1(8)
 
  real    rinc(5)
 
@@ -292,6 +295,14 @@ contains
 !  Write AVHRR data for each spot position on current scan line
 !  ------------------------------------------------------------
 
+               CALL W3UTCDAT(RDAT1)
+               RDAT(1) = dble(RDAT1(4))
+               RDAT(2) = dble(RDAT1(1))
+               RDAT(3) = dble(RDAT1(2))
+               RDAT(4) = dble(RDAT1(3))
+               RDAT(5) = dble(RDAT1(5))
+               RDAT(6) = dble(RDAT1(6))
+!               print*,'steve line 305 RDAT ',RDAT
       do i = 1,mpos
 
 !DAK
@@ -338,27 +349,34 @@ contains
                         (real(outime(8)) + rinc(5) - int(rinc(5)))
 
 !!!!!       print *,'nrec, rdata( 6) : ',nrec, rdata(6)
+            rdata(7) = RDAT(1)                 ! RECEIPT TIME SIGNIFICANCE 
+            rdata(8) = RDAT(2)                 ! YEAR   - TIME OF RECEIPT 
+            rdata(9) = RDAT(3)                 ! MONTH  - TIME OF RECEIPT 
+            rdata(10) = RDAT(4)                 ! DAY    - TIME OF RECEIPT
+            rdata(11) = RDAT(5)                 ! HOUR   - TIME OF RECEIPT
+            rdata(12) = RDAT(6)                 ! MINUTE - TIME OF RECEIPT
 
-            rdata( 7) = alat(i)            ! latitude 
-            rdata( 8) = alon(i)            ! longitude 
-            rdata( 9) = jsat               ! Satellite ID
-            rdata(10) = jtype              ! Instrument ID (2 = AVHRR)
-            rdata(11) = iline              ! Number of scan line
-            rdata(12) = i                  ! Number of the field of view
-            rdata(13) = sathgt*1000        ! Satellite altitude
-            rdata(14) = satzen(i)          ! satellite zenith angle
-            rdata(15) = solzen(i)          ! solar zenith angle
-            rdata(16) = j3ab               ! Mode of 3A/3B: 0 = 3B, 1 = 3A
-            rdata(17) = cld(i)             ! CLAVR cloud flag:
+            rdata(13) = alat(i)            ! latitude 
+            rdata(14) = alon(i)            ! longitude 
+            rdata(15) = jsat               ! Satellite ID
+            rdata(16) = jtype              ! Instrument ID (2 = AVHRR)
+            rdata(17) = iline              ! Number of scan line
+            rdata(18) = i                  ! Number of the field of view
+            rdata(19) = sathgt*1000        ! Satellite altitude
+            rdata(20) = satzen(i)          ! satellite zenith angle
+            rdata(21) = solzen(i)          ! solar zenith angle
+            rdata(22) = j3ab               ! Mode of 3A/3B: 0 = 3B, 1 = 3A
+            rdata(23) = cld(i)             ! CLAVR cloud flag:
                                            !    0 = clear,
                                            !    1 = probably clear,
                                            !    2 = probably cloudy,
                                            !    3 = cloudy
-            rdata(18) = avh_bt(1,i)        ! AVHRR (GAC) for Ch-1 albedo
-            rdata(19) = avh_bt(2,i)        ! AVHRR (GAC) for Ch-2 albedo
-            rdata(20) = avh_bt(3,i)        ! AVHRR (GAC) for Ch-3 alb/Tb
-            rdata(21) = avh_bt(4,i)        ! AVHRR (GAC) for Ch-4 Tb
-            rdata(22) = avh_bt(5,i)        ! AVHRR (GAC) for Ch-5 Tb
+            rdata(24) = avh_bt(1,i)        ! AVHRR (GAC) for Ch-1 albedo
+            rdata(25) = avh_bt(2,i)        ! AVHRR (GAC) for Ch-2 albedo
+            rdata(26) = avh_bt(3,i)        ! AVHRR (GAC) for Ch-3 alb/Tb
+            rdata(27) = avh_bt(4,i)        ! AVHRR (GAC) for Ch-4 Tb
+            rdata(28) = avh_bt(5,i)        ! AVHRR (GAC) for Ch-5 Tb
+
 
             nrec = nrec + 1
 
@@ -366,6 +384,7 @@ contains
 !!!!!                               avh_bt(3,i),avh_bt(4,i),avh_bt(5,i)
 
             call bufr1b(avh_qc(i),subset,subsetp)     ! Encode data in BUFR
+!            print*,'steve line 369 avh_qc ',avh_qc
          endif                           
       end do
 
@@ -409,12 +428,17 @@ contains
       CHARACTER*80  HEADR
       CHARACTER*8   SUBSET,SUBSETP, SUBSETO
       REAL(8)       INCN(5), TMBR(5), ALBD(5)
-      REAL(8)       HDR(13),BUFRF(3,5)
+      REAL(8)       HDR(19),BUFRF(3,5)
       real :: mqc
+
+!      DATA  HEADR/&
+!         'YEAR MNTH DAYS HOUR MINU SECO RCTS RCYR RCMO RCDY RCHR & 
+!           RCMI CLATH CLONH SAID FOVN SAZA SOZA CLAVR'/
 
       DATA  HEADR/&
          'YEAR MNTH DAYS HOUR MINU SECO CLATH CLONH SAID FOVN SAZA SOZA CLAVR'/
 
+        print*,'steve line 437 HEADR ',HEADR
 !  TRANSLATE ONE AVHRR(GAC) SPOT TO BUFR FORMAT
 !  ----------------------------------------------------------
 !  NC021xxx | YEAR     MNTH     DAYS     HOUR     MINU
@@ -446,20 +470,26 @@ contains
 
       endif
 
-      HDR( 1) = rdata( 1)                  ! 4-digit year
-      HDR( 2) = rdata( 2)                  ! month of a year
-      HDR( 3) = rdata( 3)                  ! day of a month
-      HDR( 4) = rdata( 4)                  ! hour of a day
-      HDR( 5) = rdata( 5)                  ! minute of a hour
-      HDR( 6) = rdata( 6)                  ! second of a minute
-      HDR( 7) = rdata( 7)                  ! latitude
-      HDR( 8) = rdata( 8)                  ! longitude
-      HDR( 9) = rdata( 9)                  ! Satellite ID
-      HDR(10) = rdata(12)                  ! IFOV
-      HDR(11) = rdata(14)                  ! satellite zenith angle
-      HDR(12) = rdata(15)                  ! solar zenith angle
-      HDR(13) = rdata(17)                  ! CLAVR cloud flag
-
+      HDR( 1) = rdata(7)                  ! RECEIPT TIME SIGNIFICANCE
+      HDR( 2) = rdata(8)                  ! YEAR   - TIME OF RECEIPT
+      HDR( 3) = rdata(9)                  ! MONTH  - TIME OF RECEIPT
+      HDR( 4) = rdata(10)                  ! DAY    - TIME OF RECEIPT
+      HDR( 5) = rdata(11)                  ! HOUR   - TIME OF RECEIPT
+      HDR( 6) = rdata(12)                  ! MINUTE - TIME OF RECEIPT
+      HDR(7) = rdata(1)                   ! 4-digit year
+      HDR(8) = rdata(2)                   ! month of a year
+      HDR(9) = rdata(3)                   ! day of a month
+      HDR(10) = rdata(4)                  ! hour of a day
+      HDR(11) = rdata(5)                  ! minute of a hour
+      HDR(12) = rdata(6)                  ! second of a minute
+      HDR( 13) = rdata(13)                  ! latitude
+      HDR( 14) = rdata(14)                  ! longitude
+      HDR( 15) = rdata(15)                  ! Satellite ID
+      HDR(16) = rdata(18)                  ! IFOV
+      HDR(17) = rdata(20)                  ! satellite zenith angle
+      HDR(18) = rdata(21)                  ! solar zenith angle
+      HDR(19) = rdata(23)                  ! CLAVR cloud flag
+!            print*,'steve line 486 HDR ',HDR
       DO N=1,5
          BUFRF(1,N) = N + 47
          BUFRF(2,N) = ALBD(N)
@@ -487,13 +517,17 @@ contains
             write(*,*)'***'
             call errexit(7)
       endif
-
+      print*,'steve line 516 HDR(7:12) ',HDR(7:12)
       CALL OPENMB(nbf,SUBSETO,idate)
-      CALL UFBINT(nbf,HDR,  13,1,IRET,HEADR)
+      CALL UFBINT(nbf,HDR(1:6), 6,1,IRET,'RCTS RCYR RCMO RCDY RCHR RCMI')
+      CALL UFBINT(nbf,HDR(7:19),  13,1,IRET,HEADR)
+!      CALL UFBINT(nbf,HDR(7:12), 6,1,IRET,'RCTS RCYR RCMO RCDY RCHR RCMI')
       CALL UFBREP(nbf,BUFRF, 3,5,IRET,'INCN ALBD TMBR')
       CALL WRITCP(nbf)                   ! Write subset (report) into
                                          !  compressed BUFR message
-
+      print*,'steve line 496 HEADR ',HEADR
+      print*,'steve line 496 HDR ',HDR
+      print*,'steve line 496 BUFRF ',BUFRF
       END SUBROUTINE BUFR1B
 
 
