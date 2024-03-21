@@ -128,9 +128,9 @@ C  ------------------------------------------------------------------
 C  FLIP THE SENSE OF THE LAND/SEA FLAG
 C  -----------------------------------
  
-      IF(NINT(RDATA(9)).EQ.0) THEN
+      IF(NINT(RDATA(15)).EQ.0) THEN
          LANDSEA = 1
-      ELSE IF(NINT(RDATA(9)).EQ.1) THEN
+      ELSE IF(NINT(RDATA(15)).EQ.1) THEN
          LANDSEA = 0
       ENDIF
  
@@ -166,7 +166,7 @@ C  --------------------------------------------------------------
 C   where xx=20 for HIRS-2, =4 for MSU
  
       NPERCHAN = 2
-      MREAL = 17
+      MREAL = 23
 
       BUFRF( 1) = IYR
       BUFRF( 2) = IMO
@@ -174,23 +174,31 @@ C   where xx=20 for HIRS-2, =4 for MSU
       BUFRF( 4) = IHR
       BUFRF( 5) = RDATA(7)
       BUFRF( 6) = RDATA(8)
-      BUFRF( 7) = RDATA(11)
-      BUFRF( 8) = RDATA(12)
-      BUFRF( 9) = RDATA(1)
-      BUFRF(10) = JCODE
-      BUFRF(11) = RDATA(10)
-      BUFRF(12) = LANDSEA
-      BUFRF(13) = RDATA(13)
-      BUFRF(14) = RDATA(14)
-      BUFRF(15) = RDATA(15)
-      BUFRF(16) = RDATA(16)*1000.
+
+      BUFRF(7) = RDATA(9)
+      BUFRF(8) = RDATA(10)
+      BUFRF(9) = RDATA(11)
+      BUFRF(10) = RDATA(12)
+      BUFRF(11) = RDATA(13)
+      BUFRF(12) = RDATA(14)
+
+      BUFRF(13) = RDATA(17)
+      BUFRF(14) = RDATA(18)
+      BUFRF(15) = RDATA(1)
+      BUFRF(16) = JCODE
+      BUFRF(17) = RDATA(16)
+      BUFRF(18) = LANDSEA
+      BUFRF(19) = RDATA(19)
+      BUFRF(20) = RDATA(20)
+      BUFRF(21) = RDATA(21)
+      BUFRF(22) = RDATA(22)*1000.
       IF(SUBSET(7:8).GE.'23') THEN
-         BUFRF(17) = RDATA(17)
-         BUFRF(18) = RDATA(18)
+         BUFRF(23) = RDATA(23)
+         BUFRF(24) = RDATA(24)
          IF(.NOT.HIRS) NPERCHAN = 3
-         MREAL = 19
+         MREAL = 25
       ENDIF
- 
+        
       DO N=1,NCHAN
          M = (N-1)*NPERCHAN
          IF(SUBSET(7:8).EQ.'23' .OR. SUBSET(7:8).EQ.'24' .OR.
@@ -221,7 +229,7 @@ C  --------------------------
       ELSE
          CALL WRITSB(LUBFR)
       ENDIF
- 
+
 C  EXIT HERE
 C  ---------
  
