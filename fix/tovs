@@ -31,6 +31,6 @@ export log=${log:-$OUTDIR/tranjb_ingest_tov.out}
 #  all cycle times
 # N-16 (last remaining AMSU-B, HIRS-3 satellite) decommissioned 6/10/14
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"AMSUA \
- HIRS4 MHS  ATOVS"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"CBU_AMSUA \
+ CBU_HIRS4 CBU_MHS  CBU_ATOVS"}
 #####################

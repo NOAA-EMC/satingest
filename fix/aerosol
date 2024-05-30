@@ -20,7 +20,7 @@ export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 group1=YES
 PROC_FAM_group1=\
 ${PROC_FAM_group1:-"SAT_COMP_MOSAIC_IMGRY \
-                    NIC_LKS AF_VIIRS MODIS_FIRE "}
+                    NIC_LKS CBU_AF_VIIRS CBU_MODIS_FIRE "}
 
 group2=NO
 if [ $hour -eq 00 -o $hour -eq 08 -o $hour -eq 10 -o $hour -eq 12 -o \
@@ -58,7 +58,7 @@ fi
 group7=NO
 if [ $hour -ge 10 -a $hour -le 15 ] ; then
    #PROC_FAM_group7=${PROC_FAM_group7:-"BURNING_EMISSIONS VIIRS_WEEKLY_GVF"}
-   PROC_FAM_group7=${PROC_FAM_group7:-"VIIRS_WEEKLY_GVF"}
+   PROC_FAM_group7=${PROC_FAM_group7:-"CBU_VIIRS_WEEKLY_GVF"}
    group7=YES
 else
    PROC_FAM_group7=" "
