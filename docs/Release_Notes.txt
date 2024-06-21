@@ -1,5 +1,5 @@
-satingest v4.7.5        RELEASED        JUN 21 2024
-          v4.7.5        IMPLEMENTED     JUN ?? 2024
+satingest v4.7.4        RELEASED        JUN 21 2024
+          v4.7.4        IMPLEMENTED     JUN ?? 2024
 
 PRELUDE
  The aerosol.af_viirs EFIRE products version is updated (v1r2 -> v1r3)
