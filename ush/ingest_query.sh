@@ -242,14 +242,14 @@ if [ $TRANSFER_COMMAND = wget ]; then
       fil=`basename $remotedsngrp`
    fi
    machine=ftp://${MACHINE}${dir}
-   > $DATA/transquery.input.$host.$$
-
+   > $DATA/transquery.input.$host.$$ # IG it looks like something is misisng on this line!!!
+                                     # see cat in other=elsif
 elif [ $TRANSFER_COMMAND = sftp ]; then
    transfer_options=-v
    remotedsngrp=$REMOTEDSNGRP
    machine=$MACHINE
    cat <<EOH_trans_sftp > $DATA/transquery.input.$host.$$
-lls $REMOTEDSNGRP > $DATA/transquery.output.$host.$$
+lls $REMOTEDSNGRP > $DATA/transquery.output.$host.$$ # IG what is lls ??
 quit
 EOH_trans_sftp
 
@@ -265,10 +265,32 @@ set net:reconnect-interval-base ${lftp_recon_int_base:-120}
 set net:reconnect-interval-multiplier ${lftp_recon_int_mult:-1} 
 set net:max-retries ${lftp_max_tries:-1}
 set net:timeout ${lftp_timeout:-120}
+
 rels $REMOTEDSNGRP > $DATA/transquery.output.$host.$$
 quit
 EOH_trans_lftp
 # despite setting name net:max-retries, seems to be "tries", not "retries"
+
+elif [ $TRANSFER_COMMAND = aws ]; then
+   transfer_options=""
+   remotedsngrp=$REMOTEDSNGRP # IG
+   machine=$MACHINE           # IG
+#IG - remove the comment from this cat executable!
+#rels $REMOTEDSNGRP > $DATA/transquery.output.$host.$$
+#rels PDAFileLinks/NDE/VIIRS/VIIRS* > $DATA/transquery.output.*
+#-r--------   1 user group     16462168 Apr  4 21:43 VIIRSI5_v2r0_npp_s202404042058112_e202404042059354_c202404042143440.bufr
+#-r--------   1 user group     16391512 Apr  4 21:43 VIIRSI5_v2r0_npp_s202404042059366_e202404042101008_c202404042143380.bufr
+#-r--------   1 user group     16334456 Apr  4 21:44 VIIRSI5_v2r0_npp_s202404042101020_e202404042102262_c202404042144060.bufr
+#-r--------   1 user group     16280368 Apr  4 21:43 VIIRSI5_v2r0_npp_s202404042102274_e202404042103516_c202404042143390.bufr
+# TRY it, or use rsync with --dry-run ???
+#aws s3 ls IG-PATH-TO-BUCKET-with-NB-AVHRR files > $DATA/transquery.output.$host.$$ #BUT ALL transquery.output* files are 0 size !!!!!!
+#2024-04-03 00:26:50     175232 NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/2024/04/02/1908/NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s202404021908126_e202404022252393_c202404030026450.bufr
+#2024-04-03 05:06:31     186496 NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/2024/04/02/2049/NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s202404022049126_e202404030033393_c202404030506120.bufr
+#2024-04-03 06:49:17     102880 NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/2024/04/02/2230/NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s202404022230126_e202404030214393_c202404030649020.bufr
+   cat <<EOH_trans_aws > $DATA/transquery.input.$host.$$
+aws s3 ls s3://nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/ --recursive > /lfs/h2/emc/obsproc/noscrub/$USER/AWS_TEST
+ aws s3 ls s3://nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/ --recursive > $DATA/transquery.output.$host.$$
+EOH_trans_aws
 
 else
    transfer_options="-vi -p"
@@ -282,6 +304,7 @@ EOH_trans
 
 fi
 
+echo "AWS TEST - pass the ls command___________________________________________________:)" 
 
 transerror=99
 itries=1
@@ -297,8 +320,14 @@ while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
    echo
    echo "Use $TRANSFER_COMMAND."
    echo
-   $TRANSFER_COMMAND $transfer_options $machine < \
-    $DATA/transquery.input.$host.$$ > $transout 2>&1
+# IG
+   if [ $TRANSFER_COMMAND = aws ]; then
+     source $DATA/transquery.input.$host.$$ > $transout 2>&1
+   else
+     $TRANSFER_COMMAND $transfer_options $machine < \
+     $DATA/transquery.input.$host.$$ > $transout 2>&1
+   fi
+
    transerror=$?
 
 #  Cat out the standard output from the transfer process and remove it
@@ -362,6 +391,9 @@ $//' | cat | \
       cat $DATA/transquery.output.$host.$$ | awk -F" ->" '{print$1}' | \
        awk -F" " '{print $NF}' > $DATA/transquery.testoutput.$host.$$
       mv $DATA/transquery.testoutput.$host.$$ $DATA/transquery.output.$host.$$
+
+   elif [ $TRANSFER_COMMAND = aws ]; then
+	   #IG CLEAN THE LIST OF FILE LIKE in lftp
    fi
 
    [ ! -s $DATA/transquery.output.$host.$$ ]  &&  transerror=1

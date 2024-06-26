@@ -223,10 +223,44 @@ fi
 echo
 echo "Use $TRANSFER_COMMAND."
 echo
+
+if [ $TRANSFER_COMMAND = aws ]; then
+  #LATEST BUCKET INFO and path:
+  #
+  # aws s3 ls s3://nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/2024/02/28/2052/NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s202402282052066_e202402290036333_c202402290207580.bufr
+
+  REMOTEDSN=Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/2024/02/28/2052/NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s202402282052066_e202402290036333_c202402290207580.bufr
+  aws s3 cp s3://nccf-prod-distribution-group-01/NCEP_EMC/$REMOTEDSN $LOCDSN 
+  #or
+  #REMOTEDSN=Metop-PG-Results/MetOp-B/OSVW25kmASCAT_R01_09_Amb1_BUFR/bufr-as-ccap-20221006/2023/07/25/2318/OSVW25kmASCAT-R01-09-Amb1_v1r1_*.bufr
+  #aws s3 cp s3://nccf-prod-distribution-group-01/NESDIS_STAR/$REMOTEDSN --recursive $LOCDSN
+  #or
+  #aws s3 sync s3://nccf-prod-distribution-group-01/NESDIS_STAR/$REMOTEDSN --recursive $LOCDSN
+  # "cp" and "sync" work with  "--exclude" and "--include"
+  #
+  #
+  # currently available:
+  # NCEP_EMC/JPSS-PG-Results/JPSS-1/NUCAPS_C0431_BUFR/bufr-as-ccap-20230911/2024/02/28/2359/NUCAPS-C0431_v4r0_j01_s202402282359229_e202402282359527_c202402290102320.bufr
+
+#NCEP_EMC/JPSS-PG-Results/NOAA-21/NUCAPS_C0431_BUFR/bufr-as-ccap-20230911/2024/02/26/2306/NUCAPS-C0431_v4r0_n21_s202402262306169_e202402262306467_c202402270001500.bufr
+
+#NCEP_EMC/JPSS-PG-Results/SNPP/NUCAPS_C0431_BUFR/bufr-as-ccap-20220722/2024/02/26/2059/NUCAPS-C0431_v3r1_npp_s202402262059589_e202402262100287_c202402270001010.bufr
+
+#NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/2024/02/26/1812/NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m01_s202402261812016_e202402262156283_c202402271556510.bufr
+
+#NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_SH_BUFR/bufr-ccap-20210729/2024/02/27/1841/NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m01_s202402271841346_e202402272226013_c202402272343410.bufr
+
+#NCEP_EMC/NSIDC/SMAP/NA/SMAP_L2_SM_P_NRT_H5/2024/02/28/SMAP_L2_SM_P_NRT_48488_A_20240228T224732_N17701_001.h5
+#NCEP_EMC/NSIDC/SMAP/NA/SPL2SMP_H5/2024/02/22/SMAP_L2_SM_P_48396_D_20240222T163806_R19240_002.h5
+
+else
+
 $TRANSFER_COMMAND $transfer_options $machine < $DATA/transget.input.$host.$$ \
  >$transout 2>&1
 transerror=$?
 rm $DATA/transget.input.$host.$$
+
+fi
 
 #  Cat out the standard output from the transfer process and remove it
 #  -------------------------------------------------------------------
