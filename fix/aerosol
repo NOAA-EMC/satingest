@@ -44,16 +44,16 @@ group4=NO
 group5=NO
 
 group6=NO
-if [ $hour -eq 12 ] ; then
-   if [ $min -le 30 ] ; then
-      PROC_FAM_group6=${PROC_FAM_group6:-"DUST"}
-      group6=YES
-   else
-      PROC_FAM_group6=" "
-   fi
-else
-   PROC_FAM_group6=" "
-fi
+#if [ $hour -eq 12 ] ; then
+#   if [ $min -le 30 ] ; then
+#      PROC_FAM_group6=${PROC_FAM_group6:-"DUST"}
+#      group6=YES
+#   else
+#      PROC_FAM_group6=" "
+#   fi
+#else
+#   PROC_FAM_group6=" "
+#fi
 
 group7=NO
 if [ $hour -ge 05 -a $hour -le 10 ] ; then
