@@ -23,17 +23,6 @@ ${PROC_FAM_group1:-"SAT_COMP_MOSAIC_IMGRY \
                     NIC_LKS AF_VIIRS MODIS_FIRE "}
 
 group2=NO
-if [ $hour -eq 00 -o $hour -eq 08 -o $hour -eq 10 -o $hour -eq 12 -o \
-     $hour -eq 13 ]; then
-   if [ $min -ge 00 -a $min -le 30 ] ; then
-      PROC_FAM_group2=${PROC_FAM_group2:-" "}
-      group2=YES
-   else
-      PROC_FAM_group2=" "
-   fi
-else
-   PROC_FAM_group2=" "
-fi
 
 # HYSPLIT-SMOKE is not being ported to WCOSS2
 # eliminates logic for group3, group4 and group8
@@ -44,16 +33,6 @@ group4=NO
 group5=NO
 
 group6=NO
-#if [ $hour -eq 12 ] ; then
-#   if [ $min -le 30 ] ; then
-#      PROC_FAM_group6=${PROC_FAM_group6:-"DUST"}
-#      group6=YES
-#   else
-#      PROC_FAM_group6=" "
-#   fi
-#else
-#   PROC_FAM_group6=" "
-#fi
 
 group7=NO
 if [ $hour -ge 05 -a $hour -le 10 ] ; then
@@ -69,8 +48,8 @@ group8=NO
 #PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 $PROC_FAM_group3 \
 #$PROC_FAM_group4 $PROC_FAM_group6 $PROC_FAM_group7 \
 #$PROC_FAM_group8 $PROC_FAM_group1"}
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 \
-$PROC_FAM_group6 $PROC_FAM_group7 $PROC_FAM_group1"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-" \
+$PROC_FAM_group7 $PROC_FAM_group1"}
 
 echo "leaving fix/aerosol"
 echo $ngroup 
