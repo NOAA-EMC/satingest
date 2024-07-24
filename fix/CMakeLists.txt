@@ -23,17 +23,14 @@ list(APPEND fix_files
   aerosol
   aerosol.af_viirs
   aerosol.avhrr_weekly_gvf
-  aerosol.dust
   aerosol.modis_fire
   aerosol.nic_lks
   aerosol.sat_comp_mosaic_imgry
   aerosol.viirs_weekly_gvf
   aerosol.wf_abba
   airs
-  airs.airs_efov
   airs.amsr2
   airs.iasi_efov
-  airs.mt_saphir
   avhrr
   avhrr.avhrr_18_19
   avhrr.avhrr_m1_m2_m3
@@ -72,12 +69,9 @@ list(APPEND fix_files
   npp_omps.omps_lp
   npp_omps.ompsnp_v8
   npp_omps.ompstc_v8
-  ozone14
-  ozone14.ozone19_v8bufr
   ozone_orbit
   ozone_orbit.gome
   ozone_orbit.omi
-  ozone_orbit.ozone_v8bufr
   poes_sst
   poes_sst.amsr2_sst
   poes_sst.navy_avhrr
@@ -113,9 +107,7 @@ list(APPEND fix_files
   snowore.gribcopy_autoice_nh
   snowore.gribcopy_autoice_sh
   ssmi
-  ssmi.edr
   ssmi.gmi_tmbr
-  ssmi.sdr
   ssmi.ssmis
   tovs
   tovs.amsua
