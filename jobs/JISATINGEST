@@ -57,6 +57,11 @@ export OUTDIR=${OUTDIR:-${DCOMROOT}/ingest_logs}
 export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
 mkdir -p $USERDIR $TANKDIR $OUTDIR
 
+####################################
+## Set up restricted tanks table - DF may overwrite
+#####################################
+export rtank_tbl=${rtank_tbl:-/apps/ops/${envir}/nco/core/bufr_tranjb.v${bufr_tranjb_ver}/dictionaries/rstprod_bufr_tank.tbl}
+
 ##########################
 # Specify Execution Areas
 ##########################
