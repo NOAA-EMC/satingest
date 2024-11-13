@@ -4,18 +4,22 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-qscatter}
-export DATATYPE=${DATATYPE:-QSCATTER}
+export RUN=${RUN:-t_npp_omps_ompsnp_v8}
+export DATATYPE=${DATATYPE:-T_NPP_OMPS_OMPSNP_V8}
 ###############################
 
 export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
-export HISTLENMIN=${HISTLENMIN:-450}
-export HISTLENMAX=${HISTLENMAX:-600}
-export ndayarch=${ndayarch:-3}
-export DELAFTPROC=${DELAFTPROC:-YES}
+export FTYPE=${FTYPE:-bufr}
+export HISTLENMIN=${HISTLENMIN:-14000}
+export HISTLENMAX=${HISTLENMAX:-20000}
+export ndayarch=${ndayarch:-2}
+export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export HOURS2ALARM=${HOURS2ALARM:-6}
+export IFILES_MAX_GET=${IFILES_MAX_GET:-9999}
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"ASCAT_50km"}
+PROCESSING_FAMILIES=\
+${PROCESSING_FAMILIES:-"F"}
+
 #####################

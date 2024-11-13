@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-satwnd}
-export DATATYPE=${DATATYPE:-SATWND}
+export RUN=${RUN:-t_hrsatwind_cwvict_dmw}
+export DATATYPE=${DATATYPE:-T_HRSATWIND_CWVICT_DMW}
 ###############################
 
 export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
@@ -19,6 +19,5 @@ export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export log=${log:-$OUTDIR/tranjb_ingest_satwnd.out}
 
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-" \
-circd_dmw cshrtwv_dmw cvisb_dmw cwvics_dmw cwvict_dmw cimss"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 ################################

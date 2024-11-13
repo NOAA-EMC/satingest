@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-poes_sst}
-export DATATYPE=${DATATYPE:-POES_SST}
+export RUN=${RUN:-t_poes_sst_navy_avhrr}
+export DATATYPE=${DATATYPE:-T_POES_SST_NAVY_AVHRR}
 ###############################
 
 export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
@@ -16,6 +16,5 @@ export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export HOURS2ALARM=${HOURS2ALARM:-6}
 export log=${log:-$OUTDIR/tranjb_ingest_poes_sst.out}
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"NAVY_AVHRR AMSR2_SST \
-VIIRS_CLEAR_SKY VIIRS_PROBCLEAR_SKY"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 #####################

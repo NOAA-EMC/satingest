@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-tovs}
-export DATATYPE=${DATATYPE:-TOVS}
+export RUN=${RUN:-t_tovs_atovs}
+export DATATYPE=${DATATYPE:-T_TOVS_ATOVS}
 ###############################
 
 export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
@@ -31,6 +31,5 @@ export log=${log:-$OUTDIR/tranjb_ingest_tov.out}
 #  all cycle times
 # N-16 (last remaining AMSU-B, HIRS-3 satellite) decommissioned 6/10/14
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"AMSUA \
- HIRS4 MHS  ATOVS"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 #####################

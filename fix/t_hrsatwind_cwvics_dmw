@@ -4,20 +4,20 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-airs}
-export DATATYPE=${DATATYPE:-AIRS}
+export RUN=${RUN:-t_hrsatwind_cwvics_dmw}
+export DATATYPE=${DATATYPE:-T_HRSATWIND_CWVICS_DMW}
 ###############################
 
 export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export FTYPE=${FTYPE:-bufr}
 export HISTLENMIN=${HISTLENMIN:-4200}
 export HISTLENMAX=${HISTLENMAX:-4500}
-export ndayarch=${ndayarch:-2}
+export ndayarch=${ndayarch:-4}
 export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
-export HOURS2ALARM=${HOURS2ALARM:-6}
-export log=${log:-$OUTDIR/tranjb_ingest_airs.out}
+export log=${log:-$OUTDIR/tranjb_ingest_satwnd.out}
 
-#PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"AIRS_efov IASI_efov MT_saphir AMSR2"}
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"IASI_efov AMSR2"}
-############
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
+################################

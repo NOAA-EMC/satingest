@@ -4,8 +4,8 @@ set -xa
 ## Specify NET, RUN and DATATYPE Names
 #######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-snowday}
-export DATATYPE=${DATATYPE:-SNOWDAY}
+export RUN=${RUN:-t_snowday_copy_forward_grib_96_ims}
+export DATATYPE=${DATATYPE:-T_SNOWDAY_COPY_FORWARD_GRIB_96_IMS}
 ################################
 
 ##PART2=${PART2:-YES}
@@ -56,6 +56,5 @@ export timetype=${timetype:-UTC}
 export timemade=${timemade:-2000}
 export COPYFORWARD=${COPYFORWARD:-YES}
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"COPY_FORWARD_GRIB_16_IMS COPY_FORWARD_GRIB_96_IMS \
- COPY_FORWARD_GRIB_16_USAF_NH  COPY_FORWARD_GRIB_16_USAF_SH"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 ##############################

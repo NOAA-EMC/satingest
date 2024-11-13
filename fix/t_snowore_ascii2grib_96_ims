@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-snowore}
-export DATATYPE=${DATATYPE:-SNOWORE}
+export RUN=${RUN:-t_snowore_ascii2grib_96_ims}
+export DATATYPE=${DATATYPE:-T_SNOWORE_ASCII2GRIB_96_IMS}
 ###############################
 
 
@@ -42,6 +42,5 @@ export log=${log:-/dev/null}  # log is not used since bufr_tranjb does not run
 #                    PART 1 - TIME-STAMPED FILE PROCESSING
 ###############################################################################
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"ASCII2GRIB_16_IMS ASCII2GRIB_96_IMS \
- GRIBCOPY_AUTOSNOW_NH GRIBCOPY_AUTOSNOW_SH GRIBCOPY_AUTOICE_NH GRIBCOPY_AUTOICE_SH"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 #####################

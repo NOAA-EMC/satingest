@@ -1,0 +1,25 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-t_aerosol_af_viirs}
+export DATATYPE=${DATATYPE:-T_AEROSOL_AF_VIIRS}
+######################################
+echo "Enter fix/t_aerosol_af_viirs"
+echo $ngroup 
+echo "argc = '$#'"
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export ndayarch=${ndayarch:-30}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
+
+echo "leaving fix/t_aerosol_af_viirs"
+echo $ngroup 
+echo "argc = '$#'"
+##################################

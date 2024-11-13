@@ -1,0 +1,22 @@
+set -xa
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-t_avhrr_avhrr_18_19}
+export DATATYPE=${DATATYPE:-T_AVHRR_AVHRR_18_19}
+###############################
+
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export HISTLENMIN=${HISTLENMIN:-1500}
+export HISTLENMAX=${HISTLENMAX:-1800}
+export ndayarch=${ndayarch:-2}
+export DELAFTPROC=${DELAFTPROC:-NO}
+export TANKPROTECT=${TANKPROTECT:-NO}
+export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export HOURS2ALARM=${HOURS2ALARM:-6}
+export log=${log:-$OUTDIR/tranjb_ingest_avhrr.out}
+
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
+#####################

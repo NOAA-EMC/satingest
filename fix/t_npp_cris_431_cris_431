@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-npp_cris_431}
-export DATATYPE=${DATATYPE:-NPP_CRIS_431}
+export RUN=${RUN:-t_npp_cris_431_cris_431}
+export DATATYPE=${DATATYPE:-T_NPP_CRIS_431_CRIS_431}
 ###############################
 
 export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
@@ -21,5 +21,5 @@ export IFILES_MAX_GET=${IFILES_MAX_GET:-9999}
 export iflag_CRIS=1
 
 PROCESSING_FAMILIES=\
-${PROCESSING_FAMILIES:-"CRIS_FSR_431"}
+${PROCESSING_FAMILIES:-"F"}
 #####################
