@@ -1,5 +1,5 @@
 satingest v5.0.0        RELEASE         JAN 07 2025
-          v5.0.0        IMPLEMENTED     FEB 05 2025, 18UTC
+          v5.0.0        IMPLEMENTED  by FEB 05 2025, ~18UTC
 
 PRELUDE
  1) Restructure the /fix config files - transition from "one task file for multiple family files" to "one task file for each family file". This facilitates the transition to NCCF product dissemination by allowing more granualar (per product) updates of  pull sourse, product name, etc.
@@ -376,6 +376,10 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
         fix/nesdis.lstags_transsmi
         fix/lnd_sea_mask_dat
 
+ E.
+ Test/Run *all* satingest tasks for at least a few days to confirm they match (size and obs count) the production tanks.
+ Run obsproc (gdas and gfs) on the para tanks to confirm the tanks are "healthy"
+
 DISSEMINATION INFORMATION
  No change in dissemination methods.
 
@@ -384,7 +388,7 @@ SPECIAL INSTRUCTIONS
 
  Short name:         GOME-TO-L2_BUFR
  Long name:          GOME Total Ozone L2 (bufr)
- Regular Expression: V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr$ (new version: _v1r1_)
+ Regular Expression: V8TOZ-EDR_v\dr\d_m(01|03)_s\d{15}_e\d{15}_c\d{15}.bufr$ (We want the new version: _v1r1_)
  Destination Dir:    PULL/OZONE
 
  Short names:
@@ -402,7 +406,7 @@ SPECIAL INSTRUCTIONS
  NB_DMWVF_C08_BUFR
  NB_DMWVF_C09_BUFR
  NB_DMWVF_C10_BUFR
- Regular Expresions: (new instrument _g19_ )
+ Regular Expresions: (We want to see new instrument _g19_ )
 NB-DMWC-M\d{1}C02_v\d{1}r\d{1}_(g16|g17|g18|g19)_s\d{15}_e\d{15}_c\d{15}.bufr
 NB-DMWC-M\d{1}C07_v\d{1}r\d{1}_(g16|g17|g18|g19)_s\d{15}_e\d{15}_c\d{15}.bufr
 NB-DMWC-M\d{1}C08_v\d{1}r\d{1}_(g16|g17|g18|g19)_s\d{15}_e\d{15}_c\d{15}.bufr
