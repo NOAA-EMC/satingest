@@ -201,7 +201,7 @@ set +u
 . $UTILROOT/ush/prep_step
 set -u
 export FORT11="$raw_file"
-export FORT51="$DATA/imssnow96.grb"
+export FORT51="imssnow96.grb"
 
 msg="$pgm start for $yyyymmdd data"
 $UTILROOT/ush/postmsg "$jlogfile" "$msg"

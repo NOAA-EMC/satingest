@@ -170,8 +170,8 @@ set -xa
 # Execute the script
 #####################
 
-if [ $TASK = 'ozone14' -o $TASK = 'snowday' ] ; then
-   echo " RUNNING ozone14 or snowday, so use existday.sh "
+if ( echo $TASK | grep -q "snowday" ) ; then
+   echo " RUNNING snowday, so use existday.sh "
    $SCRIPTSobsproc_satingest/existday.sh
    err_existday=$?
 else

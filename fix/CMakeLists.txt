@@ -55,7 +55,7 @@ t_hrsatwind_cwvics_dmw.f
 t_hrsatwind_cwvict_dmw
 t_hrsatwind_cwvict_dmw.f
 t_npp_atms
-t_npp_atms_atms.f
+t_npp_atms.f
 t_npp_cris_2211_cris_fsr_2211
 t_npp_cris_2211_cris_fsr_2211.f
 t_npp_cris_431_cris_431
@@ -92,8 +92,8 @@ t_satwnd_avhrr
 t_satwnd_avhrr.f
 t_satwnd_ircd_dmw
 t_satwnd_ircd_dmw.f
-t_satwnd_leo-geo
-t_satwnd_leo-geo.f
+t_satwnd_leogeo
+t_satwnd_leogeo.f
 t_satwnd_nb_avhrr
 t_satwnd_nb_avhrr.f
 t_satwnd_nb_viirs

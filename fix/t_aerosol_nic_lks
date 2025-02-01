@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-aerosol}
-export DATATYPE=${DATATYPE:-AEROSOL}
+export RUN=${RUN:-t_aerosol_nic_lks}
+export DATATYPE=${DATATYPE:-T_AEROSOL_NIC_LKS}
 ######################################
 echo "Enter fix/aerosol"
 echo $ngroup 
@@ -17,41 +17,9 @@ export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 
-group1=YES
-PROC_FAM_group1=\
-${PROC_FAM_group1:-"SAT_COMP_MOSAIC_IMGRY \
-                    NIC_LKS AF_VIIRS MODIS_FIRE "}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"f"}
 
-group2=NO
-
-# HYSPLIT-SMOKE is not being ported to WCOSS2
-# eliminates logic for group3, group4 and group8
-group3=NO
-
-group4=NO
-
-group5=NO
-
-group6=NO
-
-group7=NO
-if [ $hour -ge 05 -a $hour -le 10 ] ; then
-   #PROC_FAM_group7=${PROC_FAM_group7:-"BURNING_EMISSIONS VIIRS_WEEKLY_GVF"}
-   PROC_FAM_group7=${PROC_FAM_group7:-"VIIRS_WEEKLY_GVF"}
-   group7=YES
-else
-   PROC_FAM_group7=" "
-fi
-
-group8=NO
-
-#PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"$PROC_FAM_group2 $PROC_FAM_group3 \
-#$PROC_FAM_group4 $PROC_FAM_group6 $PROC_FAM_group7 \
-#$PROC_FAM_group8 $PROC_FAM_group1"}
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-" \
-$PROC_FAM_group7 $PROC_FAM_group1"}
-
-echo "leaving fix/aerosol"
+echo "leaving fix/t_aerosol_nic_lks"
 echo $ngroup 
 echo "argc = '$#'"
 ##################################
