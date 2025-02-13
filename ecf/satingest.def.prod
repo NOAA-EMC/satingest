@@ -1,4 +1,3 @@
-
 suite prod
   family primary
   family cron
@@ -6,38 +5,36 @@ suite prod
     edit PROJ 'OBSPROC'
     edit PACKAGEHOME '/lfs/h1/ops/%ENVIR%/packages/satingest.%satingest_ver%'
   family v5.0
+    defstatus complete
+    edit satingest_ver 'v5.0.0'
     edit W2RUN 'prod'
     edit PDA_SERVER '140.90.190.143'
     edit QUEUESERV 'prod_transfer'
     edit MEM '600'
+    family aerosol
     task jsatingest_t_aerosol_af_viirs
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
     task jsatingest_t_aerosol_avhrr_weekly_gvf
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
     task jsatingest_t_aerosol_modis_fire
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
     task jsatingest_t_aerosol_nic_lks
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
     task jsatingest_t_aerosol_sat_comp_mosaic_imgry
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
     task jsatingest_t_aerosol_viirs_weekly_gvf
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
     task jsatingest_t_aerosol_wf_abba
-      edit task 'aerosol'
       cron 00:10 23:40 00:15
       cron 09:35
+    endfamily
+    family airs
     task jsatingest_t_airs_amsr2
       cron 00:20 23:20 01:00
       cron 00:24 23:24 01:00
@@ -66,6 +63,8 @@ suite prod
       cron 04:45 22:45 06:00
       cron 05:40 23:40 06:00
       cron 05:46 23:46 06:00
+    endfamily
+    family avhrr
     task jsatingest_t_avhrr_avhrr_18_19
       cron 00:20 23:20 01:00
       cron 00:24 23:24 01:00
@@ -94,7 +93,9 @@ suite prod
       cron 04:45 22:45 06:00
       cron 05:40 23:40 06:00
       cron 05:46 23:46 06:00
-    task jsatingest_t_hrsatwindcimss
+    endfamily
+    family hrsatwind
+    task jsatingest_t_hrsatwind_cimss
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -113,7 +114,7 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_hrsatwindcircd_dmw
+    task jsatingest_t_hrsatwind_circd_dmw
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -132,7 +133,7 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_hrsatwindcshrtwv_dmw
+    task jsatingest_t_hrsatwind_cshrtwv_dmw
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -151,7 +152,7 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_hrsatwindcvisb_dmw
+    task jsatingest_t_hrsatwind_cvisb_dmw
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -170,7 +171,7 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_hrsatwindcwvics_dmw
+    task jsatingest_t_hrsatwind_cwvics_dmw
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -189,7 +190,7 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_hrsatwindcwvict_dmw
+    task jsatingest_t_hrsatwind_cwvict_dmw
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -208,24 +209,24 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
+    endfamily
     family npp
       edit MEM '5000'
+        edit CPUS '1'
       task jsatingest_t_npp_cris_431_cris_431
-        edit CPUS '1'
         cron 00:03 23:58 00:05
+      task jsatingest_t_npp_atms
+        cron 00:03 23:58 00:05
+      family omps
       task jsatingest_t_npp_omps_omps_lp
-        edit CPUS '1'
         cron 00:03 23:58 00:05
       task jsatingest_t_npp_omps_ompsnp_v8
-        edit CPUS '1'
         cron 00:03 23:58 00:05
       task jsatingest_t_npp_omps_ompstc_v8
-        edit CPUS '1'
-        cron 00:03 23:58 00:05    
-      task jsatingest_t_npp_atms
-        edit CPUS '1'
         cron 00:03 23:58 00:05
+      endfamily
     endfamily
+    family ozone_orbit
     task jsatingest_t_ozone_orbit_gome
       cron 00:15 23:15 01:00
       cron 00:24 23:24 01:00
@@ -258,22 +259,22 @@ suite prod
       cron 05:40 23:40 06:00
       cron 05:46 23:46 06:00
       cron 05:49 23:49 06:00
-    task jsatingest_t_poes_sst_amsr2_sst
+    endfamily
+    family poes_sst
       edit MEM '5000'
+    task jsatingest_t_poes_sst_amsr2_sst
       cron 00:25 23:25 01:00
       cron 00:55 23:55 01:00
     task jsatingest_t_poes_sst_navy_avhrr
-      edit MEM '5000'
       cron 00:25 23:25 01:00
       cron 00:55 23:55 01:00
     task jsatingest_t_poes_sst_viirs_clear_sky
-      edit MEM '5000'
       cron 00:25 23:25 01:00
       cron 00:55 23:55 01:00
-    task jsatingest_t_poes_sst_viirs_probclear_sky 
-      edit MEM '5000'
+    task jsatingest_t_poes_sst_viirs_probclear_sky
       cron 00:25 23:25 01:00
       cron 00:55 23:55 01:00
+    endfamily
     task jsatingest_t_qscatter_ascat_50km
       cron 00:20 23:50 00:30
       cron 00:28 23:28 01:00
@@ -285,8 +286,9 @@ suite prod
       cron 04:38 22:38 06:00
       cron 04:58 22:58 06:00
       cron 05:40 23:40 06:00
-    task jsatingest_t_radsnd_efclamzip
+    family radsnd
       edit MEM '1000'
+    task jsatingest_t_radsnd_efclamzip
       cron 00:04 23:34 00:30
       cron 00:25 23:25 01:00
       cron 00:49 18:49 06:00
@@ -314,7 +316,6 @@ suite prod
       cron 04:46
       cron 16:46
     task jsatingest_t_radsnd_goes_asr_base
-      edit MEM '1000'
       cron 00:04 23:34 00:30
       cron 00:25 23:25 01:00
       cron 00:49 18:49 06:00
@@ -342,7 +343,6 @@ suite prod
       cron 04:46
       cron 16:46
     task jsatingest_t_radsnd_goes_csr_base
-      edit MEM '1000'
       cron 00:04 23:34 00:30
       cron 00:25 23:25 01:00
       cron 00:49 18:49 06:00
@@ -370,7 +370,6 @@ suite prod
       cron 04:46
       cron 16:46
     task jsatingest_t_radsnd_lgycld
-      edit MEM '1000'
       cron 00:04 23:34 00:30
       cron 00:25 23:25 01:00
       cron 00:49 18:49 06:00
@@ -397,6 +396,8 @@ suite prod
       cron 19:49 21:49 02:00
       cron 04:46
       cron 16:46
+    endfamily
+    family satwnd
     task jsatingest_t_satwnd_avhrr
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
@@ -473,7 +474,7 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_satwnd_nb_virrs
+    task jsatingest_t_satwnd_nb_viirs
       cron 00:05 23:35 00:30
       cron 00:09 23:09 01:00
       cron 00:15 23:15 01:00
@@ -568,9 +569,10 @@ suite prod
       cron 05:49 23:49 06:00
       cron 10:48
       cron 18:45
-    task jsatingest_t_snowore_ascii2grib_16_ims
+    endfamily
+    family snowore
       edit MEM '5000'
-      event release_snowgrib
+    task jsatingest_t_snowore_ascii2grib_16_ims
       cron 00:05
       cron 01:00
       cron 05:00
@@ -581,8 +583,6 @@ suite prod
       cron 20:00
       cron 23:00
     task jsatingest_t_snowore_ascii2grib_96_ims
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -593,8 +593,6 @@ suite prod
       cron 20:00
       cron 23:00
     task jsatingest_t_snowore_gribcopy_autoice_nh
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -605,8 +603,6 @@ suite prod
       cron 20:00
       cron 23:00
     task jsatingest_t_snowore_gribcopy_autoice_sh
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -617,8 +613,6 @@ suite prod
       cron 20:00
       cron 23:00
     task jsatingest_t_snowore_gribcopy_autosnow_nh
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -629,8 +623,6 @@ suite prod
       cron 20:00
       cron 23:00
     task jsatingest_t_snowore_gribcopy_autosnow_sh
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -640,33 +632,10 @@ suite prod
       cron 17:00
       cron 20:00
       cron 23:00
+    endfamily
+    family snowday
+      edit MEM '5000'
     task jsatingest_t_snowday_copy_forward_grib_16_ims
-      edit MEM '5000'
-      event release_snowgrib
-      cron 00:05
-      cron 01:00
-      cron 05:00
-      cron 07:00
-      cron 11:00
-      cron 13:00
-      cron 17:00
-      cron 20:00
-      cron 23:00
-    task jsatingest_t_snowday_copy_forward_grib_16_usaf_nh
-      edit MEM '5000'
-      event release_snowgrib
-      cron 00:05
-      cron 01:00
-      cron 05:00
-      cron 07:00
-      cron 11:00
-      cron 13:00
-      cron 17:00
-      cron 20:00
-      cron 23:00
-    task jsatingest_t_snowday_copy_forward_grib_16_usaf_sh
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -677,8 +646,6 @@ suite prod
       cron 20:00
       cron 23:00
     task jsatingest_t_snowday_copy_forward_grib_96_ims
-      edit MEM '5000'
-      event release_snowgrib
       cron 00:05
       cron 01:00
       cron 05:00
@@ -688,6 +655,28 @@ suite prod
       cron 17:00
       cron 20:00
       cron 23:00
+    task jsatingest_t_snowday_copy_forward_grib_16_usaf_nh
+      cron 00:05
+      cron 01:00
+      cron 05:00
+      cron 07:00
+      cron 11:00
+      cron 13:00
+      cron 17:00
+      cron 20:00
+      cron 23:00
+    task jsatingest_t_snowday_copy_forward_grib_16_usaf_sh
+      cron 00:05
+      cron 01:00
+      cron 05:00
+      cron 07:00
+      cron 11:00
+      cron 13:00
+      cron 17:00
+      cron 20:00
+      cron 23:00
+    endfamily
+    family ssmi
     task jsatingest_t_ssmi_gmi_tmbr
       cron 00:20 23:20 01:00
       cron 00:25 23:25 01:00
@@ -730,6 +719,8 @@ suite prod
       cron 05:49 23:49 06:00
       cron 06:50 18:50 12:00
       cron 10:40 22:40 12:00
+    endfamily
+    family tovs
     task jsatingest_t_tovs_amsua
       cron 00:15 23:15 01:00
       cron 00:24 23:24 01:00
@@ -794,6 +785,7 @@ suite prod
       cron 05:40 23:40 06:00
       cron 05:46 23:46 06:00
       cron 05:49 23:49 06:00
+    endfamily
   endfamily
   endfamily
   endfamily
