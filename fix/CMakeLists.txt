@@ -21,23 +21,23 @@ file(ARCHIVE_EXTRACT INPUT ${TAR})
 # Collect list of fix files to install.
 list(APPEND fix_files
 bufr_amsua15_ta2tb.txt
-bufr_goes.cloud.bufrtable 
-bufr_goes.sounding_1x1.bufrtable
-bufr_ompstc.bufrtable.no_corners
-bufrtab.003
-bufrtab.005
-bufrtab.008
-bufrtab.012
-bufrtab.021
-bufrtab.GOES16ASR_NESDIS
-bufrtab.GOES16CSR_NESDIS
-bufrtab_saphir_foreign
-bufr_amsua16_ta2tb.txt
-bufr_goes.imgrdn.bufrtable
-bufr_ompstc.bufrtable
-bufr_V10satwind.4qual.bufrtable
-idsb_ingest.source.html
-lnd_sea_mask_dat
+bufr_goes.cloud.bufrtable              
+bufr_goes.sounding_1x1.bufrtable       
+bufr_ompstc.bufrtable.no_corners       
+bufrtab.003                            
+bufrtab.005                            
+bufrtab.008                            
+bufrtab.012                            
+bufrtab.021                            
+bufrtab.GOES16ASR_NESDIS               
+bufrtab.GOES16CSR_NESDIS               
+bufrtab_saphir_foreign                 
+bufr_amsua16_ta2tb.txt                 
+bufr_goes.imgrdn.bufrtable             
+bufr_ompstc.bufrtable                  
+bufr_V10satwind.4qual.bufrtable        
+idsb_ingest.source.html                
+lnd_sea_mask_dat                       
 t_aerosol_af_viirs
 t_aerosol_af_viirs.f
 t_aerosol_avhrr_weekly_gvf
@@ -72,8 +72,8 @@ t_hrsatwind_cwvics_dmw
 t_hrsatwind_cwvics_dmw.f
 t_hrsatwind_cwvict_dmw
 t_hrsatwind_cwvict_dmw.f
-t_npp_atms_atms
-t_npp_atms_atms.f
+t_npp_atms
+t_npp_atms.f
 t_npp_cris_2211_cris_fsr_2211
 t_npp_cris_2211_cris_fsr_2211.f
 t_npp_cris_431_cris_431
@@ -110,8 +110,8 @@ t_satwnd_avhrr
 t_satwnd_avhrr.f
 t_satwnd_ircd_dmw
 t_satwnd_ircd_dmw.f
-t_satwnd_leo-geo
-t_satwnd_leo-geo.f
+t_satwnd_leogeo
+t_satwnd_leogeo.f
 t_satwnd_nb_avhrr
 t_satwnd_nb_avhrr.f
 t_satwnd_nb_viirs
@@ -164,6 +164,6 @@ list(APPEND fix_files
   ${CMAKE_CURRENT_BINARY_DIR}/fix/nesdis.lstags_transsmi
   )
 
-# Install.
+# Install. 
 install(FILES ${fix_files}
         DESTINATION "fix")
