@@ -1,0 +1,49 @@
+#PBS -N satingest_t_satwnd_nb_viirs_%TIME%
+#PBS -j oe
+#PBS -S /bin/bash
+#PBS -q %QUEUESERV%
+#PBS -A %PROJ%-%PROJENVIR%
+#PBS -l walltime=01:00:00
+#PBS -l place=vscatter,select=1:ncpus=1:mem=%MEM%MB
+#PBS -l debug=true
+
+model=satingest
+
+%include <head.h>
+%include <envir-p1.h>
+
+export cyc=`date -u +%%H`
+export TASK=%TASK%
+export TASK=${TASK#*_}
+
+# Primary: 140.90.190.143
+# Backup: 140.172.119.158
+export PDA_SERVER=%PDA_SERVER%
+
+# Load requisite modules
+module load intel/${intel_ver}
+if ( echo $TASK | grep -q "radsnd" ); then
+   module load netcdf/${netcdf_ver}
+elif ( echo $TASK | grep -q "snowore" ); then
+   module load libjpeg/${libjpeg_ver}
+   module load grib_util/${grib_util_ver}
+elif ( echo $TASK | grep -q "snowday" ); then
+   module load libjpeg/${libjpeg_ver}
+   module load grib_util/${grib_util_ver}
+elif ( echo $TASK | grep -q "ssmi" ); then
+   module load libjpeg/${libjpeg_ver}
+   module load grib_util/${grib_util_ver}
+fi
+module load bufr_tranjb/${bufr_tranjb_ver}
+module list
+
+${HOMEsatingest}/jobs/JISATINGEST
+
+%include <tail.h>
+
+%manual
+######################################################################
+TASKSCRIPT DOCUMENTATION BLOCK
+PURPOSE:  To execute the job that ingests %TASK% data from NESDIS.
+######################################################################
+%end
