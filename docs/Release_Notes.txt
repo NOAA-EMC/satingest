@@ -1,24 +1,32 @@
 satingest v5.1.0        RELEASE         MAR 11 2025
-          v5.0.1        IMPLEMENT    on MAR 26 2025, time TBA by NESDIS
+          v5.0.1        IMPLEMENT    on MAR 26 2025, start 17UTC - end 18UTC 
           v5.1.0        IMPLEMENT    on APR 04 2025, time TBA by NESDIS
 
 PRELUDE
  1) March 26 - Update GOES-16 CSR/ASR filenames version in t_radsnd_goes_csr_base and t_radsnd_goes_asr_base 
     from v2r2 to v2r3.
+    Date/Time of Initial Impact: March 26, 2025, 1700 UTC 
+    Date/Time of Expected End: March 26, 2025, 1800 UTC
+    
  2) April 4 - Add GOES-19 Langley Cloud Radiance filenames to the t_radsnd_lgycld family files
+            - Add GOES-19 to the UWisc sky cover  fix/t_radsnd_efclamzip.f
  
 FILE CHANGES
  MODIFIED
  M docs/Release_Notes.txt
- M fix/t_radsnd_lgycld.f
- M fix/t_radsnd_goes_csr_base.f
- M fix/t_radsnd_goes_asr_base.f
+ M fix/t_radsnd_efclamzip.f (4 April)
+ M fix/t_radsnd_lgycld.f    (4 April)
+ M fix/t_radsnd_goes_csr_base.f (26 March)
+ M fix/t_radsnd_goes_asr_base.f (26 March)
 
 DOCS CHANGES
  docs/Release_Notes.txt
  Update contents to reflect this release
 
 FIX CHANGES
+ fix/t_radsnd_efclamzip.f (4 April)
+  - Add GOES-19 filenames to the Univ Wisconsing sky cover
+
  fix/t_radsnd_lgycld.f (4 April)
   - Add GOES-19 filenames to the Langley Cloud Radiance family files
 
@@ -41,6 +49,7 @@ BIG BROTHER INFORMATION
   $COMROOT/logs/bb/ingest/ABI-L2-ASRF-M6_v2r3_g*_s???????????????_e???????????????_c???????????????.bufr 
   - Apr 4, 2025, ~18UTC
    $COMROOT/logs/bb/ingest/G19V04.0.RR.???????.????.PX.06K.nc 
+   $COMROOT/logs/bb/ingest/G19_Imgr_????z_???????.TXT.bz2
 
  Stop monitoring the following filename patterns:
   - Mar 26, 2025
