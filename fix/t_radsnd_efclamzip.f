@@ -13,7 +13,7 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-goesimg_EFCLAM.list}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-/pub/goes_imgr_sky_cvr/ascii/G16_Imgr_????z_???????.TXT.bz2 \
+/pub/goes_imgr_sky_cvr/ascii/G19_Imgr_????z_???????.TXT.bz2 \
 /pub/goes_imgr_sky_cvr/ascii/G18_Imgr_????z_???????.TXT.bz2"'}
       eval FTYPE${n}=\${FTYPE${n}:-none}
       eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx160}
