@@ -86,8 +86,6 @@ t_npp_omps_ompstc_v8
 t_npp_omps_ompstc_v8.f
 t_ozone_orbit_gome
 t_ozone_orbit_gome.f
-t_ozone_orbit_omi
-t_ozone_orbit_omi.f
 t_poes_sst_amsr2_sst
 t_poes_sst_amsr2_sst.f
 t_poes_sst_navy_avhrr

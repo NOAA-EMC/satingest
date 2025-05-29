@@ -18,5 +18,5 @@ export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export HOURS2ALARM=${HOURS2ALARM:-6}
 export log=${log:-$OUTDIR/tranjb_ingest_avhrr.out}
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-""}
 #####################

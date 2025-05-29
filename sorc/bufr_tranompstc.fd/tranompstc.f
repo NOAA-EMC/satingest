@@ -104,7 +104,7 @@ C  corner information at beginning of each BUFR subset.)
 C  --------------------------------------------------------------------
 
       CALL OPENBF(LUNIN,'INX',LUNIN)
-      CALL WRDLEN
+C      CALL WRDLEN
       CALL RDMSGW(LUNIN,MBAY,IER)
       IF(IER.NE.0)  then
          PRINT *
