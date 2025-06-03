@@ -18,5 +18,5 @@ export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export log=${log:-$OUTDIR/tranjb_ingest_satwnd.out}
 
-PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
+PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-""}
 ################################
