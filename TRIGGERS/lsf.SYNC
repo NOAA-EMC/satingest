@@ -1,0 +1,47 @@
+#!/bin/bash -l
+#
+set -x
+
+DIRSCRIPTS=`pwd`
+DIRSCRIPTS=/lfs/h2/emc/obsproc/noscrub/sudhir.nadiga/satingest.47.AWS/TRIGGERS
+WORKDIR=/lfs/h2/emc/obsproc/noscrub/sudhir.nadiga/satingest.47.AWS
+
+#[ -d /usrx/local/prod/lmod ] && . /usrx/local/prod/lmod/lmod/init/profile > /dev/null 2>&1
+#module load EnvVars/1.0.2
+#module load prod_envir/1.0.2
+#module load ips/18.0.1.163
+#module load impi/18.0.1
+#module load prod_util/1.1.0
+#module load lsf/10.1
+
+export REDMINE=$1
+export jitask=$2
+export idate=$$
+
+echo " Dirscripts is $DIRSCRIPTS "
+
+sed "s/%idate%/$idate/;s/%HHMM%/`date +\%H\%M`/;s/%REDMINE%/$REDMINE/;s/%jitask%/$jitask/" $DIRSCRIPTS/JISATINGEST.SYNC | qsub
+###############################################
+##           CLEAN UP OLD FILES
+###############################################
+RUNDIR=$WORKDIR/DCOMROOT
+CRONDIR=/lfs/h2/emc/obsproc/noscrub/sudhir.nadiga/SCRIPTDIR/SAT500/NEWCRONLOGS/
+#
+find $RUNDIR/ingest_hist/*ddxfer* +2 -print
+find $RUNDIR/ingest_hist/*ddxfer* -ctime +2 -ctime +2 -exec rm -r -f {} \;
+find $RUNDIR/ingest_hist/*ddxfer* -ctime +2 -print
+#
+find $RUNDIR/$jitask/* +2 -print
+find $RUNDIR/$jitask/* -ctime +2 -ctime +2 -exec rm -r -f {} \;
+find $RUNDIR/$jitask/* -ctime +2 -print
+#
+#find $RUNDIR/NEWCRONLOG/* +3 -print
+find $CRONDIR/* -ctime +2 -ctime +2 -exec rm -r -f {} \;
+find $CRONDIR/* -ctime +2 -print
+#
+#find $DIRSCRIPTS/OUTPUT/* +2 -print
+find $WORKDIR/OUTPUT/* -ctime +2 -ctime +2 -exec rm -r -f {} \;
+find $WORKDIR/OUTPUT/* -ctime +2 -print
+###############################################
+##           CLEAN UP OLD FILES
+###############################################

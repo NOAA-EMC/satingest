@@ -1,0 +1,209 @@
+#!/bin/sh
+set -xa
+export PS4=${PS4:-'+ ${SECONDS}s + '}
+date -u
+hour=${hour:-`date -u +%H`}
+min=${min:-`date -u +%M`}
+
+echo " start running COMMON.TOP "
+echo "Current OBSPROC_SATINGEST version is $satingest_ver"
+echo "OBSPROC_SHARED_BUFR_CWORD version used by this job is $obsproc_shared_bufr_cword_ver"
+
+########################################
+# Check that required variables are set
+########################################
+set +x
+echo
+echo envir is ${envir}
+echo job is ${job}
+echo TASK is ${TASK}
+echo
+set -x
+
+######################################
+# Specify NET, RUN and DATATYPE Names
+######################################
+export NET=${NET:-ingest}
+export RUN=${RUN:-$TASK}
+export DATATYPE=${DATATYPE:-${TASK^^}}
+
+###############################
+# Create new working directory
+###############################
+export DATA=${DATA:-${DATAROOT:?}/${jobid:?}}
+mkdir -p $DATA
+cd $DATA
+
+######################################
+# Set job log file for postmsg output
+######################################
+export jlogfile=${jlogfile:-${DATA}/jlogfile}
+
+export pgmout="OUTPUT.$$"
+
+###############################################
+# SENDECF  - Flag Events on ECFLOW
+# SENDBB   - Allow to talk back to Big Brother
+###############################################
+export SENDECF=${SENDECF:-YES}
+export SENDBB=${SENDBB:-YES}
+
+####################################
+# Set up ingest related directories
+####################################
+export USERDIR=${USERDIR:-${DCOMROOT}/ingest_hist}
+export TANKDIR=${TANKDIR:-${DCOMROOT}}
+export OUTDIR=${OUTDIR:-${DCOMROOT}/ingest_logs}
+export BBDIR=${BBDIR:-${COMROOT:?}/logs/bb/ingest}
+mkdir -p $USERDIR $TANKDIR $OUTDIR
+
+##########################
+# Specify Execution Areas
+##########################
+
+# RUN_TYPE used by pgms BUFR_TRANJB and BUFR_TRANMTYPSBT to determine priority
+# path directory for bufrtab.XXX files which they read - here set to
+# "satingest" so priority path directory is $FIXobsproc_satingest and second
+# choice (if bufrtab.XXX file not found in $FIXobsproc_satingest) is $FIXbufr
+# (other choice for RUN_TYPE is "decoder" which reverses priority)
+# ----------------------------------------------------------------------------
+export RUN_TYPE=${RUN_TYPE:-satingest}
+
+# Paths for satingest items
+# ---------------------------------
+export HOMEsatingest=${HOMEsatingest:-$PACKAGEROOT/satingest.${satingest_ver}}
+export SCRIPTSobsproc_satingest=${SCRIPTSobsproc_satingest:-$HOMEsatingest/scripts}
+export EXECobsproc_satingest=${EXECobsproc_satingest:-$HOMEsatingest/exec}
+export FIXobsproc_satingest=${FIXobsproc_satingest:-$HOMEsatingest/fix}
+export USHobsproc_satingest=${USHobsproc_satingest:-$HOMEsatingest/ush}
+
+# Paths for obsproc_shared_bufr_cword items
+# -----------------------------------------
+export EXECobsproc_shared_bufr_cword=$CWORDX
+export USHobsproc_shared_bufr_cword=$CWORDush
+export TRANJBush=$TRANush
+
+# Paths for non-obsproc items
+# ---------------------------
+# ... $FIXobsproc_satingest is  populated with all of the bufrtab.XXX
+#     files read by bufr_tranjb.sh and ingest_translate_orbits.sh, so to be
+#     safe the second choice directory path to retrieve these files ($FIXbufr)
+#     is being exported as /dev/null - the reasoning being that it is better
+#     for the jobs to fail than to read a bufrtab.XXX that might be obsolete
+#     if, for some bizarre reason, the bufrtab.XXX files are not found in
+#     $FIXobsproc_satingest.
+# ... $FIXobsproc_satingest is also populated with $TASK and $TASK.$family
+#     files read by JISATINGEST.
+#     -------------------------------------------------------------------------
+export FIXbufr=/dev/null
+
+#####################################################################
+# Copyng utility scripts for bufr_tranjb no longer required because #
+# prod_util module is loaded. Change made, 01/2022                  #
+#####################################################################
+
+export DECDROOT=${DECDROOT:-$OPSROOT/decoders}
+export USHbufr=${USHbufr:-$DECDROOT/decod_dcncld/ush}
+
+export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
+
+####################################
+# Set-up ingest processing families
+####################################
+
+
+#export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+#export HISTLENMIN=${HISTLENMIN:-450}
+#export HISTLENMAX=${HISTLENMAX:-600}
+#export ndayarch=${ndayarch:-3}
+#export DELAFTPROC=${DELAFTPROC:-YES}
+#export TANKPROTECT=${TANKPROTECT:-NO}
+#export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+#export HOURS2ALARM=${HOURS2ALARM:-6}
+
+############ BEGIN SOURCING THE TASK ###############
+echo " THE TASK IS ${TASK} ; STARTING "
+source $HOMEsatingest/fix/${TASK}
+
+########### FINISH SOURCING THE TASK ###############
+echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
+echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
+
+set $PROCESSING_FAMILIES
+
+echo " PROCESSING FAMILIES is $PROCESSING_FAMILIES "
+export ngroup=$#
+export nfiles=$#
+n=0
+
+for family in $PROCESSING_FAMILIES
+do
+   n=`expr $n + 1`
+
+export iflag_CRIS=0
+if [ $family = 'cris_fsr_431' ] ; then
+     export iflag_CRIS=1
+fi
+
+IPDA=`echo $family | cut -c1-4`
+if [ $IPDA = 'CBU_' ] ; then
+ echo " THIS IS A CBU job; IPDA= $IPDA ; n=$n "
+ export MACHINE${n}=$MACHINE_CBU # [PDA CBU SERVER]
+ familyname=`echo $family | cut -c 5-`
+ familyname=`echo $familyname |tr "[:upper:]" "[:lower:]"`
+ echo " familyname is $familyname and family is $family "
+ source $HOMEsatingest/fix/${TASK}.$familyname
+else
+ echo " THIS IS NOT A CBU job; IPDA= $IPDA ; n=$n  "
+ family=`echo $family |tr "[:upper:]" "[:lower:]"`
+ echo " family is $family "
+ source $HOMEsatingest/fix/${TASK}.$family
+fi
+
+done
+
+set -xa
+
+#####################
+# Execute the script
+#####################
+
+#if ( echo $TASK | grep -q "snowday" ) ; then
+#   echo " RUNNING snowday, so use existday.sh "
+#   $SCRIPTSobsproc_satingest/existday.sh
+#   err_existday=$?
+#else
+#   $SCRIPTSobsproc_satingest/existore.sh
+#   err_existore=$?
+#fi
+
+cat $pgmout
+
+#if [ "${KEEPDATA^^}" != YES ]; then
+#  rm -rf $DATA
+#fi
+date -u
+
+mkdir -p $DCOMROOT/$TASK
+mkdir -p $DCOMROOT/$TASK/SYNCDIR
+echo " load the AWS module "
+module load awscli
+
+i=0
+echo "knumber is $knumber "
+while [ $i -lt $knumber ] ; do
+
+echo " CLOUDDIR is ${CLOUDDIR[$i]}  "
+aws s3 sync s3://${CLOUDDIR[$i]}/ $DCOMROOT/$TASK/SYNCDIR/ --profile nccf
+ls -l $DCOMROOT/$TASK_SYNCDIR
+echo " i is $i "
+i=`expr $i + 1`
+done
+echo " DONE WITH AWS SERVER "
+
+ls -l $DCOMROOT/$TASK
+/bin/rm $DCOMROOT/$TASK/*
+find $DCOMROOT/$TASK/SYNCDIR/ -name '*.*' -exec /usr/bin/cp --backup=no -t $DCOMROOT/$TASK {} +
+
+ls -l $DCOMROOT/$TASK
+echo " DONE WITH THIS JOB "
