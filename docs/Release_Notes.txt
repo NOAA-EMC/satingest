@@ -1,3 +1,339 @@
+satingest v5.2.0        RELEASE         MAY 30 2025
+          v5.2.0        IMPLEMENT       JUN 17 2025 ~17UTC
+
+PRELUDE
+ Update OMPS-TC product version
+ Add high-res AMVs from Himawary over TC/hurricane domains
+ Remove processing of retired products from NOAA-15/18/19
+ Update code to work with NCEPLIB-bufr v12.2.0 and bufr-tranjb.v1.2.1
+
+FILE CHANGES
+ M docs/Release_Notes.txt
+ M fix/CMakeLists.txt
+ M fix/t_avhrr_avhrr_18_19
+ M fix/t_hrsatwind_cimss.f
+ D fix/t_ozone_orbit_omi
+ D fix/t_ozone_orbit_omi.f
+ M fix/t_radsnd_efclamzip.f
+ M fix/t_tovs_amsua.f
+ M fix/t_tovs_hirs4.f
+ M fix/t_tovs_mhs.f
+ M sorc/bufr_trancimssamv.fd/trancimssamv.f90
+ M sorc/bufr_tranompstc.fd/tranompstc.f
+ M sorc/bufr_transatw.fd/transatw.f
+ M versions/build.ver
+ M versions/run.ver
+
+DOCS CHANGES
+ docs/Release_Notes.txt
+ Update contents to reflect this release
+
+FIX CHANGES
+ fix/CMakeLists.txt
+ t_ozone_orbit_omi  and t_ozone_orbit_omi.f removed
+
+ fix/t_ozone_orbit_omi
+ Removed due to satellite EOL life termination.
+
+ fix/t_ozone_orbit_omi.f
+ Removed due to satellite EOL life termination.
+
+ fix/t_tovs_amsua.f
+ Ingest of POES product is turned off due to data unavialble after 6th June.
+
+ fix/t_tovs_hirs4.f
+ Ingest of POES product is turned off due to data unavialble after 6th June.
+
+ fix/t_tovs_mhs.f
+ Ingest of POES products is turned off due to data unavialble after 6th June.
+
+ fix/t_avhrr_avhrr_18_19
+ Ingest of POES product is turned off due to data unavialble after 6th June.
+
+ fix/t_poes_sst_amsr2_sst
+ Turned off insgest of AMSR2 SST - not dumped/used (email with SE and DS, 05/29/25)
+
+SORC CHANGES
+ sorc/bufr_trancimssamv.fd/trancimssamv.f90
+ Updated code for UWisc high res winds - corrected GOES-19 SAID; added Himawari 
+
+ sorc/bufr_tranompstc.fd/tranompstc.f
+ Updated to run /build with bufr v12.2.0
+
+ sorc/bufr_transatw.fd/transatw.f
+ Updated to run /build with bufr v12.2.0
+
+VERSIONS CHANGES
+ v5.1.0 -> v5.2.0
+
+ versions/build.ver
+ bufr_ver=12.0.0 -> bufr_ver=12.2.0
+
+ versions/run.ver
+ bufr_ver=12.0.0 -> bufr_ver=12.2.0
+ 
+ versions/*.ver
+ Use bufr-tranjb.v1.2.1 
+
+CHANGES TO OUTPUT AND FILE SIZES
+ No new tanks are generated. Tank b005/099 will be larger when there are tropical cyclones in the Paciffic ocean
+ Tank b012/xx222 is turned off, due to no users
+
+BIG BROTHER (BB) INFORMATION
+
+ Stop monitoring the following filename patterns (some might have been removed from BB over time):
+  $COMROOT/logs/bb/ingest/NSS.GHRR.NN.D?????.S????.E????.????????.?? 
+  $COMROOT/logs/bb/ingest/NSS.GHRR.NP.D?????.S????.E????.????????.??
+  $COMROOT/logs/bb/ingest/OMI-Aura_L2-OMTO3_????m????t????-o??????_v883-????m????t??????.he5
+  $COMROOT/logs/bb/ingest/NSS.AMAX.NK.D?????.S????.E????.B???????.?? \
+  $COMROOT/logs/bb/ingest/NSS.AMAX.NN.D?????.S????.E????.B???????.?? \
+  $COMROOT/logs/bb/ingest/NSS.HIRX.N*.D?????.S????.E????.B???????.?? \
+  $COMROOT/logs/bb/ingest/NSS.MHSX.N*.[NK]D?????.S????.E????.B???????.?? 
+  $COMROOT/logs/bb/ingest/OMPS-TC_v4r3_n21_s202505230638226_e202505230639001_c202505230723420.bufr
+  $COMROOT/logs/bb/ingest/AMSR2-SST_v*r*_GW1_s???????????????_e???????????????_c???????????????.bufr
+
+ Start monitoring the following new filename patterns:
+  $COMROOT/logs/bb/ingest/OMPS-TC_v4r5_n21_s202505230638226_e202505230639001_c202505230723420.bufr
+
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+
+CHANGES IN COMPUTE RESOURCES
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.0)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.2.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatvely: source build.sh)
+        It will be fixed soon.
+
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ Important:
+ satingest v5.2.0 will require module bufr-tranjb.v1.2.1 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS. 
+ This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 16:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+ None
+
+DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+satingest v5.1.0        RELEASE         MAR 11 2025
+          v5.0.1        IMPLEMENT    on MAR 26 2025, start 17UTC - end 18UTC 
+          v5.1.0        IMPLEMENT    on APR 04 2025, time TBA by NESDIS
+
+PRELUDE
+ 1) March 26 - Update GOES-16 CSR/ASR filenames version in t_radsnd_goes_csr_base and t_radsnd_goes_asr_base 
+    from v2r2 to v2r3.
+    Date/Time of Initial Impact: March 26, 2025, 1700 UTC 
+    Date/Time of Expected End: March 26, 2025, 1800 UTC
+    
+ 2) April 4 - Add GOES-19 Langley Cloud Radiance filenames to the t_radsnd_lgycld family files
+            - Add GOES-19 to the UWisc sky cover  fix/t_radsnd_efclamzip.f
+ 
+FILE CHANGES
+ MODIFIED
+ M docs/Release_Notes.txt
+ M fix/t_radsnd_efclamzip.f (4 April)
+ M fix/t_radsnd_lgycld.f    (4 April)
+ M fix/t_radsnd_goes_csr_base.f (26 March)
+ M fix/t_radsnd_goes_asr_base.f (26 March)
+
+DOCS CHANGES
+ docs/Release_Notes.txt
+ Update contents to reflect this release
+
+FIX CHANGES
+ fix/idsb_ingest.source.html
+ Updated versions and removed retired products
+
+ fix/t_radsnd_efclamzip.f (4 April)
+  - Add GOES-19 filenames to the Univ Wisconsing sky cover
+
+ fix/t_radsnd_lgycld.f (4 April)
+  - Add GOES-19 filenames to the Langley Cloud Radiance family files
+
+ fix/t_radsnd_goes_csr_base.f (26 March)
+  - Update version from v2r2 to v2r3 in filenames to the Clear Sky Radiance family files
+
+ fix/t_radsnd_goes_asr_base.f (26 March)
+  - Update version from v2r2 to v2r3 in filenames to the All Sky Radiance family files
+
+VERSIONS CHANGES
+ - v5.0.0 -> v5.0.1 (26 March) -> v5.1.0 (4 April)
+
+CHANGES TO OUTPUT AND FILE SIZES
+ No new tanks are generated.
+
+BIG BROTHER INFORMATION
+ Start monitoring the following new filename patterns:
+  - Mar 26, 2025, time TBD
+  $COMROOT/logs/bb/ingest/ABI-L2-CSRF-M6_v2r3_g*_s???????????????_e???????????????_c???????????????.bufr
+  $COMROOT/logs/bb/ingest/ABI-L2-ASRF-M6_v2r3_g*_s???????????????_e???????????????_c???????????????.bufr 
+  - Apr 4, 2025, ~18UTC
+   $COMROOT/logs/bb/ingest/G19V04.0.RR.???????.????.PX.06K.nc 
+   $COMROOT/logs/bb/ingest/G19_Imgr_????z_???????.TXT.bz2
+
+ Stop monitoring the following filename patterns:
+  - Mar 26, 2025
+  $COMROOT/logs/bb/ingest/ABI-L2-CSRF-M6_v2r2_g*_s???????????????_e???????????????_c???????????????.bufr
+  $COMROOT/logs/bb/ingest/ABI-L2-ASRF-M6_v2r2_g*_s???????????????_e???????????????_c???????????????.bufr 
+  - Apr 4, 2025
+  $COMROOT/logs/bb/ingest/G16V04.0.RR.???????.????.PX.06K.nc
+
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+
+CHANGES IN COMPUTE RESOURCES
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.0)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.0.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+ 
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatvely: source build.sh)
+        It will be fixed soon.
+ 
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ satingest needs module bufr-tranjb.v1.2.0 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS. This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 16:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+ Make the following subscriptions (or confirm that they exist as active)
+ No new subs needed, but confirm that existing subs:
+NB_DMWC_C02_BUFR
+NB_DMWC_C07_BUFR
+NB_DMWC_C08_BUFR
+NB_DMWC_C14_BUFR
+NB_DMWF_C02_BUFR
+NB_DMWF_C07_BUFR
+NB_DMWF_C08_BUFR
+NB_DMWF_C14_BUFR
+NB_DMWVC_C08_BUFR
+NB_DMWVC_C09_BUFR
+NB_DMWVC_C10_BUFR
+NB_DMWVF_C08_BUFR
+NB_DMWVF_C09_BUFR
+NB_DMWVF_C10_BUFR
+have Regular Expresions pulling the new instrument _g19_ 
+ in
+ Destination Dir: NDE/GOESAMV
+
+ DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 satingest v5.0.0        RELEASE         JAN 07 2025
           v5.0.0        IMPLEMENTED  by FEB 05 2025, ~18UTC
 
@@ -427,6 +763,7 @@ NB-DMWVF-M\d{1}C10_v\d{1}r\d{1}_(g16|g17|g18|g19)_s\d{15}_e\d{15}_c\d{15}.bufr
              Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
 
 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v4.7.5        RELEASED        JUL 24 2024
           v4.7.5        IMPLEMENTED     AUG 08 2024

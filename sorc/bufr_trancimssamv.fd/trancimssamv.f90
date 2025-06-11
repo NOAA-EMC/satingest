@@ -111,9 +111,11 @@
      print*, 'dsname_trim ', dsname_trim
 
      if(dsname_trim.eq.'GOESE') then
-	said=270
+	said=273
      else if(dsname_trim.eq.'GOESW') then
 	said=272
+     else if(dsname_trim.eq.'HIMme') then
+        said=174
      endif
 
 !-qi stuff------------------------------------------------------------------------------------------------
@@ -122,7 +124,6 @@ iGNAPS=5
 !!!iGCLONG=bmiss
 iOGCE=160
 itype=15      !SWCM missing value
-!said=270	!GOESE is G16, said=270.  GOESW is G17, said=271 (currently no data from GOESW yet from lftp site)
 
 
 !!!!! call openbf (LUNOUT,'OUT',LUNTAB) ! Open new output BUFR file
@@ -311,8 +312,8 @@ itype=15      !SWCM missing value
          call UFBINT(LUNOUT,arr, 9, 1,iret, &
                     'SWCM YEAR MNTH DAYS HOUR MINU SECO CLATH CLONH')
 !----------- SAT ID-------------------------------
-
-         if(said.ge.273 .or. said.le.269) then
+         
+         if(said.ge.274 .or. said.le.173) then
             write(6,&
             '('' #####> INVALID INCOMING SATELLITE NUMBER '',i3, &
             '' -- STOP WITH RETURN CODE 88'')') said

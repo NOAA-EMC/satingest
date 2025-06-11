@@ -803,7 +803,10 @@ cc           write(6,44) card
              do istart = 14,69
                 if(card(istart:istart+8).eq.'"GQCPRMS"') then
                    creps = card(istart+9:istart+9)
-                   if(digit(creps))  read(creps,'(i1)') ireps
+cc                   if(digit(creps))  read(creps,'(i1)') ireps
+                   if(verify(creps,'1234567890')==0) then
+                       read(creps,'(i1)') ireps
+                   end if
                    return
                 end if
              end do
