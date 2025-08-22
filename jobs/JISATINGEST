@@ -127,7 +127,6 @@ export MACHINE_CBU=${MACHINE_CBU:-${CBU_PDA_SERVER:-140.172.119.158}} # (PDA CBU
 echo " THE TASK IS ${TASK} ; STARTING "
 source $HOMEsatingest/fix/${TASK}
 
-########### FINISH SOURCING THE TASK ###############
 echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
 echo "******** START PROCESSING  NON-CBU PROCESSING FAMILIES **************** "
 
@@ -146,6 +145,44 @@ export iflag_CRIS=0
 if [ $family = 'cris_fsr_431' ] ; then
      export iflag_CRIS=1
 fi
+
+######## LANGLEY CLOUD RADIANCES FROM LOCAL DISK #########
+######## LANGLEY CLOUD RADIANCES FROM LOCAL DISK #########
+
+if [ $TASK = 't_radsnd_lgycld' ] ; then
+ mkdir -p $DCOMROOT/$TASK
+ /bin/rm $DCOMROOT/$TASK/*.nc
+ ln -s /lfs/h1/ops/prod/dcom/nasa_clouds/*.nc $DCOMROOT/$TASK/.
+ mkdir -p $DCOMROOT/$TASK/PROCESSED/TEMP
+
+ SOURCE_DIR=$DCOMROOT/$TASK
+ DEST_DIR=$DCOMROOT/$TASK/PROCESSED
+
+
+# Get a sorted list of filenames in both directories
+find "$SOURCE_DIR" -maxdepth 1 -type f -printf "%f\n" | sort > $DEST_DIR/TEMP/source_files.txt
+find "$DEST_DIR" -maxdepth 1 -type f -printf "%f\n" | sort > $DEST_DIR/TEMP/dest_files.txt
+
+# Find common files and remove them from the source directory
+comm -12 $DEST_DIR/TEMP/source_files.txt $DEST_DIR/TEMP/dest_files.txt | while read -r filename; do
+    echo "Removing $SOURCE_DIR/$filename as it exists in $DEST_DIR"
+    rm "$SOURCE_DIR/$filename"
+done
+
+# Clean up temporary files
+rm -rf $DEST_DIR/TEMP
+
+# Clean up OLD PROCESSED files
+find $DCOMROOT/$TASK/PROCESSED/* +1 -print
+find $DCOMROOT/$TASK/PROCESSED/* -ctime +1 -ctime +1 -exec rm -r -f {} \;
+find $DCOMROOT/$TASK/PROCESSED/* -ctime +1 -print
+
+fi
+
+#### END LANGLEY CLOUD RADIANCES FROM LOCAL DISK #########
+#### END LANGLEY CLOUD RADIANCES FROM LOCAL DISK #########
+
+
 
 IPDA=`echo $family | cut -c1-4`
 if [ $IPDA = 'CBU_' ] ; then
@@ -181,7 +218,55 @@ fi
 
 cat $pgmout
 
+
+CLOUDSYNC=NO
+if [ $CLOUDSYNC = YES ] ; then
+
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+
+date -u
+
+mkdir -p $DCOMROOT/$TASK
+mkdir -p $DCOMROOT/$TASK/SYNCDIR
+echo " load the AWS module "
+module load awscli
+
+i=0
+echo "knumber is $knumber "
+while [ $i -lt $knumber ] ; do
+
+echo " CLOUDDIR is ${CLOUDDIR[$i]}  "
+aws s3 sync s3://${CLOUDDIR[$i]}/ $DCOMROOT/$TASK/SYNCDIR/ --profile nccf
+ls -l $DCOMROOT/$TASK_SYNCDIR
+echo " i is $i "
+i=`expr $i + 1`
+done
+echo " DONE WITH AWS SERVER "
+
+ls -l $DCOMROOT/$TASK
+#/bin/rm $DCOMROOT/$TASK/*
+set +e
+find $DCOMROOT/$TASK/SYNCDIR/ -name '*.*' -exec /usr/bin/cp --backup=no -t $DCOMROOT/$TASK {} +
+set -xe
+
+ls -l $DCOMROOT/$TASK
+echo " DONE WITH THIS JOB "
+
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+else
+	echo "NOT SYNCING WITH THE CLOUD FOR FILES "
+fi
+
 if [ "${KEEPDATA^^}" != YES ]; then
   rm -rf $DATA
 fi
 date -u
+echo "DONE WITH JISATINGEST "

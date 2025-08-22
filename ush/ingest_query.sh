@@ -190,6 +190,10 @@ MACHINE=$1
 DIRFILE="$2"
 fname=$3
 
+
+echo " IN INGEST_QUERY; STATION 1 "
+echo " MACHINE is $MACHINE and  DIRFILE is $DIRFILE ; and fname is $fname "
+
 #  If the file group name contains one or more embedded asterisks ("*" -
 #   wildcard matching any string of 1 or more characters) or one or more
 #   question marks ("?" -  wildcard matching exactly 1 character ), then DON'T
@@ -210,6 +214,13 @@ else
 fi
 
 transout=$DATA/transout.$host.$$
+
+
+echo " INGEST QUERY ; STATION 2 and  REMOTEDSNGRP is $REMOTEDSNGRP "
+ls -l $DATA/transout.$host.$$
+cp  $DATA/transout.$host.$$ $DATA/outtrans1.$host.$$
+ls -l $DATA >> $DATA/AOUT_INGESTQUERY
+echo " INGEST_QUERY FINISHED STATION 2 "
 
 
 #  Get a listing of REMOTEDSNGRP files from the remote unix machine using
@@ -253,6 +264,45 @@ lls $REMOTEDSNGRP > $DATA/transquery.output.$host.$$
 quit
 EOH_trans_sftp
 
+
+elif [ $TRANSFER_COMMAND = localdisk ]; then
+   transfer_options=""
+   remotedsngrp=$REMOTEDSNGRP
+   machine=$MACHINE  
+echo " IN INGEST_QUERY STATION 30000 LIST FILES IN $DATA BEFORE LISTING "
+if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+if [ -s $DATA/aout ] ; then rm $DATA/aout ; fi
+#find $DCOMROOT/$TASK/.  -printf "%f\n" > $DCOMROOT/$TASK/aout
+find $DCOMROOT/$TASK/*.*  -printf "%f\n" > $DATA/aout
+find $DCOMROOT/$TASK/$REMOTEDSNGRP*  -printf "%f\n" > $DATA/aout_TEST
+#cp $DCOMROOT/$TASK/aout  $DATA/transquery.output.$host.$$
+cp $DATA/aout  $DATA/transquery.output.$host.$$
+if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+transerror=0
+cp $DATA/transquery.output.$host.$$ $DATA/transquery.input.$host.$$
+
+#   cat <<EOH_trans_localdisk > $DATA/transquery.input.$host.$$
+#debug 3
+
+echo " LIST FILES IN $DATA BEFORE LISTING "
+ls -l $DATA
+#cp $DCOMROOT/$TASK/aout $DATA/transquery.output.$host.$$
+cp $DATA/aout $DATA/transquery.output.$host.$$
+if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
+echo " LIST FILES IN $DATA AFTER LISTING "
+ls -l $DATA
+echo " INGEST_QUERY STATION 3 ;   machine is $machine; REMOTEDSNGRP IS  $REMOTEDSNGRP "
+cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input101.$host.$$
+ls -l $DATA/transquery.input.$host.$$
+ls -l $DATA/transquery.output.$host.$$
+cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
+ls -l $DATA
+echo " END OF INGEST_QUERY STATION 3  CLOUD LISTING OF FILES "
+
+#EOH_trans_localdisk
+
+
 elif [ $TRANSFER_COMMAND = lftp ]; then
    transfer_options=""
    remotedsngrp=$REMOTEDSNGRP
@@ -274,6 +324,7 @@ else
    transfer_options="-vi -p"
    remotedsngrp=$REMOTEDSNGRP
    machine=$MACHINE
+   echo " IN INGEST_QUERY; STATION 400 and remotedsngrp is $remotedsngrp and machine is $machine "
    cat <<EOH_trans > $DATA/transquery.input.$host.$$
 cd $REMOTEDIRGRP
 ls $REMOTEDSNGRP $DATA/transquery.output.$host.$$
@@ -285,6 +336,11 @@ fi
 
 transerror=99
 itries=1
+if [ $TRANSFER_COMMAND = localdisk ] ; then 
+	transerror=0
+fi
+
+if [ $transerror -gt 0 ] ; then
 while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
    [ -s $DATA/transquery.output.$host.$$ ]  &&  \
     rm $DATA/transquery.output.$host.$$
@@ -297,12 +353,31 @@ while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
    echo
    echo "Use $TRANSFER_COMMAND."
    echo
+
+   echo " INGEST_QUERY STATION ; CHECK IF FILENAME IS BROUGHT AT THIS POINT"
+   echo " itries is $itries; NO MESSAGE IS PRINTED ABOVE IF  itries is 1 " 
+   cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input103.$host.$$ 
+   
+   ls -l $DATA
+
+########################################################
+   if [ $TRANSFER_COMMAND = localdisk ] ; then 
+	   echo " HERE IN INGEST_QUERY STATION 300 "
+	   transerror=0
+   else
    $TRANSFER_COMMAND $transfer_options $machine < \
     $DATA/transquery.input.$host.$$ > $transout 2>&1
    transerror=$?
+   echo " HERE IN INGEST_QUERY STATION 301 "
 
+   echo "INGEST_QUERY STATION ; transerror is  $transerror and "
+   ls -l $transout
+   cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input103.$host.$$ 
+   echo "compare $DATA/transquery.input1.$host.$$ and $DATA/transquery.input103.$host.$$ "
 #  Cat out the standard output from the transfer process and remove it
 #  -------------------------------------------------------------------
+   fi
+########################################################
 
    set +x
    echo
@@ -340,6 +415,13 @@ $//' | cat | \
       rm $DATA/.listing
       rm $DATA/index.html*
 
+
+	elif [ $TRANSFER_COMMAND = localdisk ] ; then
+		echo " LAST FIX IN INGEST_QUERY , STATION 3001 "
+#		cp $DCOMROOT/$TASK/aout $DATA/transquery.output.$host.$$
+		cp $DATA/aout $DATA/transquery.output.$host.$$
+                if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+		transerror=0
    elif [ $TRANSFER_COMMAND = ftp -o $TRANSFER_COMMAND = lftp ]; then
 
 #  On WCOSS/Tide, ftp "ls" listing contains full "ls -l" type listing (e.g.,
@@ -359,16 +441,29 @@ $//' | cat | \
 #           UNLESS $REMOTEDIRGRP is set (i.e., not the default of '.').
 #  ----------------------------------------------------------------------------
 
+echo " IN INGEST_QUERY STATION 4 "
+      cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output104.$host.$$
       cat $DATA/transquery.output.$host.$$ | awk -F" ->" '{print$1}' | \
        awk -F" " '{print $NF}' > $DATA/transquery.testoutput.$host.$$
+
+      cp $DATA/transquery.testoutput.$host.$$ $DATA/querytrans.testoutput101.$host.$$
+      ls -l $DATA/transquery.testoutput.$host.$$
+      
       mv $DATA/transquery.testoutput.$host.$$ $DATA/transquery.output.$host.$$
+      cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output104.$host.$$
+      echo " COMPARE $DATA/querytrans.output101.$host.$$ and $DATA/querytrans.output104.$host.$$ "
+
+      ls -l $DATA/transquery*
+      ls -l $DATA
    fi
 
    [ ! -s $DATA/transquery.output.$host.$$ ]  &&  transerror=1
    itries=`expr $itries + 1`
 done
 itries=`expr $itries - 1`
+fi
 
+itries=1
 set +x
 echo
 echo "Time is now $(date -u)."
@@ -378,6 +473,15 @@ echo
 #  If there was an error in the transfer (including if no listing was produced)
 #   then exit w/ return code 1
 #  ----------------------------------------------------------------------------
+
+	if [ $TRANSFER_COMMAND = localdisk ] ; then
+		echo " LAST FIX IN INGEST_QUERY , STATION 3001 "
+#		cp $DCOMROOT/$TASK/aout $DATA/transquery.output.$host.$$
+		cp $DATA/aout $DATA/transquery.output.$host.$$
+                if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+		transerror=0
+	fi
+
 
 if [ $transerror -ne 0 ]; then
    [ -s $DATA/transquery.output.$host.$$ ]  &&  \
@@ -407,11 +511,49 @@ $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 #   of $DIRFILE.
 #  ---------------------------------------------------------------------------
 
+#############  THIS IS WHERE THE NAME OF THE FILE IS OBTAINED ###############
+#
+#
+#+ ===>ingest_query.sh:L463 + grep /
+#+ ===>ingest_query.sh:L463 + head -n1 /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.output.ddxfer02.261819
+#+ ===>ingest_query.sh:L463 + echo ABI-L2-CSRF-M6_v2r3_g18_s202504082330214_e202504082339522_c202504082347110.bufr
+#+ ===>ingest_query.sh:L464 + err_grep=1
+#+ ===>ingest_query.sh:L466 + echo ' err_grep is 1 INGEST_QUERY STATION 100 '
+# err_grep is 1 INGEST_QUERY STATION 100
+# + ===>ingest_query.sh:L467 + [ 1 -eq 0 -o . '!=' . ]
+# + ===>ingest_query.sh:L472 + dirname 'PDAFileLinks/PULL/BIN/ABI-L2-CSRF-M6_v2r3_g18_s???????????????_e???????????????_c???????????????.bufr'
+# + ===>ingest_query.sh:L472 + direct=PDAFileLinks/PULL/BIN
+# + ===>ingest_query.sh:L474 + cat /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.ou
+# tput.ddxfer02.261819 
+# + ===>ingest_query.sh:L486 + 1> ABI-L2-CSRF-M6_v2r3_g18_s???????????????_e???????????????_c???????????????.bufr.newlist.ddxf
+# er02.261809
+# + ===>ingest_query.sh:L475 + read directfilename
+# + ===>ingest_query.sh:L476 + iret=0 
+#  filename is ABI-L2-CSRF-M6_v2r3_g18_s202504091740218_e202504091749526_c202504091756500.bufr and directfilename is
+#  + ===>ingest_query.sh:L493 + echo 'STATION 108 in ingest_query.sh '
+#  STATION 108 in ingest_query.sh 
+#  + ===>ingest_query.sh:L494 + ls -l /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/OUTPUT.261576
+#  -rw-r--r-- 1 sudhir.nadiga emc 36 Apr  9 23:52 /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/OUTPUT.261576
+#  + ===>ingest_query.sh:L495 + ls -l '/lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/INPUT*'
+#  ls: cannot access '/lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/INPUT*': No such file or di
+#  rectory
+#  + ===>ingest_query.sh:L496 + ls -l /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.input.ddxfer02.261819 /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.output.ddxfer02.261819
+#
+#
+#
+#
+#
+#
+###############################################################
+
 echo `head -n1 $DATA/transquery.output.$host.$$` | grep /
 err_grep=$?
 
+echo " err_grep is $err_grep INGEST_QUERY STATION 100 "
 if [ $err_grep -eq 0 -o $REMOTEDIRGRP != '.' ]; then
    cp $DATA/transquery.output.$host.$$ $DIRFILE
+   echo " IN INGEST QUERY STATION 101 DIRFILE is $DIRFILE "
+   cp $DIRFILE $DATA/FILEDIR1
 else
    direct=$(dirname $REMOTEDSNGRP)
 
@@ -429,10 +571,27 @@ else
          read directfilename
          iret=$?
       done } > $DIRFILE
+      cp $DIRFILE $DATA/FILEDIR2
+      echo " filename is $filename and directfilename is $directfilename "
       set -x
 fi
 
+
+if [ $TRANSFER_COMMAND = localdisk ] ; then
+	cloudfilename=$filename
+	echo " IN INGEST_QUERY STATION 107 "
+	echo " cloudfilename is $cloudfilename and filename is $filename "
+fi
+
+echo "STATION 108 in ingest_query.sh "
+ls -l $DATA/OUTPUT*
+ls -l $DATA/INPUT*
+ls -l $DATA/transquery*
+
+cp $DATA/transquery.output.$host.$$ $DATA/OUTPUT_TRANSQUERY.$$
+cp $DATA/transquery.input.$host.$$ $DATA/INPUT_TRANSQUERY.$$
 rm $DATA/transquery.output.$host.$$
 rm $DATA/transquery.input.$host.$$
+ls -l $DATA
 
 exit 

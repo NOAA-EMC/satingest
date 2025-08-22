@@ -151,6 +151,17 @@ if [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ] ; then
    set -x
 fi
 
+
+
+#######    EXAMPLE OF COMMAND TO GET FILES FROM ingest_process_orbits.sh #####################
+#>ingest_process_orbits.sh:L480 + ksh /lfs/h2/emc/obsproc/noscrub/sudhir.nadiga/GITHUBDIR/INSTALL/rel_sat5_XIAOXUE/ush/ingest_get.sh 140.90.190.122 /lfs/h2/emc/stmp/sudhir.nadiga/787960/jobid_81837_t_radsnd_goes_asr_base_1354/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr PDAFileLinks/PULL/BIN/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr
+#+ ===>ingest_process_orbits.sh:L480 + 2>& 1
+#   MACHINE=140.90.190.122
+#   LOCDSN=/lfs/h2/emc/stmp/sudhir.nadiga/787960/jobid_81837_t_radsnd_goes_asr_base_1354/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr
+#   REMOTEDSN=PDAFileLinks/PULL/BIN/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr
+#
+########################################################
+
 if [ $# -ne 3 ] ; then
    echo "Arguments to ingest_get.sh:"
    echo "  (1) remote_machine"
@@ -189,6 +200,18 @@ get $REMOTEDSN $LOCDSN
 quit
 EOH_trans_sftp
 
+########################################################
+elif [ $TRANSFER_COMMAND = localdisk ]; then
+cat <<EOH_trans_localdisk > $DATA/transget.input.$host.$$
+echo " IN INGEST_GET and STATION 1000
+echo " REMOTEDSN Is $REMOTEDSN and LOCDSN IS $LOCDSN BEFORE and cloudfilename  is $cloudfilename and filename is $filename "
+#ln -a $DCOMROOT/$TASK/cloudfilename $LOCDSN
+echo " LOCDSN IS $LOCDSN AFTER and cloudfilename  is $cloudfilename and filename is $filename "
+echo "LOCDSN is $LOCDSN "
+EOH_trans_localdisk
+###################################################
+
+
 elif [ $TRANSFER_COMMAND = lftp ]; then
    transfer_options=""
    machine=$MACHINE
@@ -204,12 +227,24 @@ set xfer:log no
 set xfer:clobber yes
 get $REMOTEDSN -o $LOCDSN
 bye
+
+
+echo " INGEST_GET.SH; STATION 111    "
+ls -l $DATA >> $DATA/AOUT_INGESTGET2
+echo "REMOTEDSN is $REMOTEDSN and LOCDSN is $LOCDSN "
+ls -l $REMOTEDSN
+ls -l $LOCDSN
+echo " END OF STATION 111 in INGEST_GET.sh "
+
+
+
 EOH_trans_lftp
 # despite setting name net:max-retries, seems to be "tries", not "retries"
 
 else
    transfer_options="-vi -p"
    machine=$MACHINE
+   echo "  IN INGEST_GET STATION 112   "
    cat <<EOH_trans > $DATA/transget.input.$host.$$
 binary
 cd $REMOTEDIRGRP
@@ -223,9 +258,22 @@ fi
 echo
 echo "Use $TRANSFER_COMMAND."
 echo
+
+
+if [ $TRANSFER_COMMAND = localdisk ] ; then
+	echo " IN INGEST_GET STATION 2000  "
+	transerror=0
+
+else
 $TRANSFER_COMMAND $transfer_options $machine < $DATA/transget.input.$host.$$ \
  >$transout 2>&1
 transerror=$?
+fi
+
+
+
+ls -l $DATA >> $DATA/AOUT_GETINGEST1
+cp $DATA/transget.input.$$ $DATA/gettrans.input101
 rm $DATA/transget.input.$host.$$
 
 #  Cat out the standard output from the transfer process and remove it
@@ -246,12 +294,28 @@ cat $transout
 echo
 [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
 
+cp $transout $DATA/OUTTRANS
 rm $transout
 
 [ $TRANSFER_COMMAND = wget ]  &&  rm $DATA/index.html*
 
+if [ $TRANSFER_COMMAND = localdisk ] ; then
+
+########  CHANGED ON 20250605 ################
+	ln -s $DCOMROOT/$TASK/*.* $DATA/.
+#	cp $DCOMROOT/$TASK/*.* $DATA/.
+########  CHANGED ON 20250605 ################
+	transerror=0
+	echo " IN INGEST_GET , STATION 7777 , check if file exists "
+	ls -l $LOCDSN > $DATA/AOUT_INGESTGET7777
+	ls -l $LOCDSN 
+fi
+
 if [ $transerror -ne 0 ] || [ ! -s $LOCDSN ] || [ $errgrep -eq 0 ]; then
    echo " Transfer of file $REMOTEDSN from $MACHINE failed."
    exit 1
+else
+	echo " ALL GOOD IN INGEST_GET STATION 119 and transerror is $transerror and LOCDSN is $LOCDSN and errgrep is $errgrep "
+	echo " ALL GOOD IN INGEST_GET STATION 119 and REMOTEDSN is $REMOTEDSN and MACHINE is $MACHINE "
 fi
 exit 0

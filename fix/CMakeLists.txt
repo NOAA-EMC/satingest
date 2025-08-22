@@ -46,8 +46,6 @@ t_aerosol_modis_fire
 t_aerosol_modis_fire.f
 t_aerosol_nic_lks
 t_aerosol_nic_lks.f
-t_aerosol_sat_comp_mosaic_imgry
-t_aerosol_sat_comp_mosaic_imgry.f
 t_aerosol_viirs_weekly_gvf
 t_aerosol_viirs_weekly_gvf.f
 t_aerosol_wf_abba
@@ -124,10 +122,6 @@ t_satwnd_wvict_dmw
 t_satwnd_wvict_dmw.f
 t_snowday_copy_forward_grib_16_ims
 t_snowday_copy_forward_grib_16_ims.f
-t_snowday_copy_forward_grib_16_usaf_nh
-t_snowday_copy_forward_grib_16_usaf_nh.f
-t_snowday_copy_forward_grib_16_usaf_sh
-t_snowday_copy_forward_grib_16_usaf_sh.f
 t_snowday_copy_forward_grib_96_ims
 t_snowday_copy_forward_grib_96_ims.f
 t_snowore_ascii2grib_16_ims

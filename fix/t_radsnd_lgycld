@@ -8,7 +8,7 @@ export RUN=${RUN:-t_radsnd_efclamzip}
 export DATATYPE=${DATATYPE:-T_RADSND_EFCLAMZIP}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-localdisk}
 export FTYPE=${FTYPE:-bufr}
 export HISTLENMIN=${HISTLENMIN:-3900}
 export HISTLENMAX=${HISTLENMAX:-4200}

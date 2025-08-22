@@ -9,12 +9,13 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
 #  {GOES-16 (E) and -17 (W) satellites} from NCO's server
 #  GOES-15 removed 3/2020
 # ----------------------------------------------------------------------
-      eval MACHINE${n}=\${MACHINE${n}:-wcoss_nasa@ftps-out1.ncep.noaa.gov}
+#      eval MACHINE${n}=\${MACHINE${n}:-wcoss_nasa@ftps-out1.ncep.noaa.gov}
+
+       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-localdisk}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-goescld_NASA.hrlylist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
 HM9V04.0.NH.???????.????.PX.06K.NC \
 HM9V04.0.SH.???????.????.PX.06K.NC \
-G19V04.0.RR.???????.????.PX.06K.nc \
 G18V04.0.RR.???????.????.PX.06K.nc \
 G16V04.0.RR.???????.????.PX.06K.nc"'}
                                       # LaRC may retain a lot of files on server
