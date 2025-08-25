@@ -1,3 +1,165 @@
+satingest v5.2.2        RELEASE         AUG 25 2025
+          v5.2.2        IMPLEMENT       SEP 10 2025 ~16UTC
+
+PRELUDE
+ Update OMPS-LP product version. A new directory $DCOMROOT/t_radsnd_lgycld  and subdirectories $DCOMROOT/t_radsnd_lgycld/PROCESSED/TEMP will be created during the run for the ingest of Langley Cloud Radiances. Several fix and ecf files are removed from the satingest code.
+
+
+
+FILE CHANGES
+ M docs/Release_Notes.txt
+ M fix/t_npp_omps_omps_lp.f
+ M fix/CMakeLists.txt
+ D fix/t_aerosol_sat_comp_mosaic_imgry
+ D fix/t_aerosol_sat_comp_mosaic_imgry.f
+ D fix/t_snowday_copy_forward_grib_16_usaf_nh
+ D fix/t_snowday_copy_forward_grib_16_usaf_nh.f
+ D fix/t_snowday_copy_forward_grib_16_usaf_sh
+ D fix/t_snowday_copy_forward_grib_16_usaf_sh.f
+ D ecf/jsatingest_t_aerosol_sat_comp_mosaic_imgry.ecf
+ D ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_nh.ecf
+ D ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_sh.ecf
+ M ush/ingest_query.sh
+ M ush/ingest_get.sh
+ M ush/ingest_process_orbits_subscript.sh
+ M jobs/JISATINGEST
+ M fix/t_radsnd_lgycld
+ M fix/t_radsnd_lgycld.f
+
+DOCS CHANGES
+ docs/Release_Notes.txt
+ Update contents to reflect this release
+
+FIX CHANGES
+fix/t_npp_omps_omps_lp.f
+  - Update version to v2r60 in filename of The OMPS LIMB PROFILER file. 
+
+fix/t_radsnd_lgycld
+  - Updated from lftp to TRANSFER_COMMAND:-localdisk
+
+fix/t_radsnd_lgycld.f
+  - Updated from lftp to TRANSFER_COMMAND:-localdisk
+
+  - Six other family/task files are revoved from fix dir.
+
+fix/CMakeLists.txt
+  - Modified where the six files marked with (D /fix*) above were deleted from CMakeLists.txt.
+
+ECF CHANGES
+  - Three ecf/jsatingest*.ecf jobs are removed from the directory and need to be turned off.
+
+JOBS CHANGES
+jobs/JISATINGEST
+  - Updated to run Langley cloud radiances from local disk.
+
+USH CHANGES
+ush/ingest_query.sh
+- Updated to run from local disk.
+
+ush/ingest_get.sh
+- Updated to run from local disk, TRANSFER_COMMAND:-localdisk.
+
+ush/ingest_process_orbits_subscript.sh
+- Updated to run from local disk.
+
+VERSIONS CHANGES
+ v5.2.1 -> v5.2.2
+
+CHANGES TO OUTPUT AND FILE SIZES
+ No new tanks are generated.
+
+BIG BROTHER (BB) INFORMATION
+
+ Stop monitoring the following filename patterns (some might have been removed from BB over time):
+1) $COMROOT/logs/bb/ingest/HM9V04.0.NH.???????.PX.06K.nc
+2) $COMROOT/logs/bb/ingest/HM9V04.0.SH.???????.PX.06K.nc
+3) $COMROOT/logs/bb/ingest/G18V04.0.RR.???????.PX.06K.nc
+4) $COMROOT/logs/bb/ingest/G16V04.0.RR.???????.PX.06K.nc
+
+ Start monitoring the following new filename patterns:
+  $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r60_npp_s???????????????_e???????????????_c???????????????.bufr
+
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+
+CHANGES IN COMPUTE RESOURCES+
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.0)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.2.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatvely: source build.sh)
+        It will be fixed soon.
+
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ Important:
+ satingest v5.2.2 will require module bufr-tranjb.v1.2.1 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS.
+ This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 17:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+ Please turn off these ecf jobs:
+ - ecf/jsatingest_t_aerosol_sat_comp_mosaic_imgry.ecf
+ - ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_nh.ecf
+ - ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_sh.ecf
+
+DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v5.2.1        RELEASE         JUL 9 2025
           v5.2.1        IMPLEMENT       JUL 23 2025 ~17UTC
 
