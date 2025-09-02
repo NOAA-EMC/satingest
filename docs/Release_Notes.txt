@@ -19,12 +19,6 @@ FILE CHANGES
  D ecf/jsatingest_t_aerosol_sat_comp_mosaic_imgry.ecf
  D ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_nh.ecf
  D ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_sh.ecf
- M ush/ingest_query.sh
- M ush/ingest_get.sh
- M ush/ingest_process_orbits_subscript.sh
- M jobs/JISATINGEST
- M fix/t_radsnd_lgycld
- M fix/t_radsnd_lgycld.f
 
 DOCS CHANGES
  docs/Release_Notes.txt
@@ -34,12 +28,6 @@ FIX CHANGES
 fix/t_npp_omps_omps_lp.f
   - Update version to v2r60 in filename of The OMPS LIMB PROFILER file. 
 
-fix/t_radsnd_lgycld
-  - Updated from lftp to TRANSFER_COMMAND:-localdisk
-
-fix/t_radsnd_lgycld.f
-  - Updated from lftp to TRANSFER_COMMAND:-localdisk
-
   - Six other family/task files are revoved from fix dir.
 
 fix/CMakeLists.txt
@@ -48,19 +36,6 @@ fix/CMakeLists.txt
 ECF CHANGES
   - Three ecf/jsatingest*.ecf jobs are removed from the directory and need to be turned off.
 
-JOBS CHANGES
-jobs/JISATINGEST
-  - Updated to run Langley cloud radiances from local disk.
-
-USH CHANGES
-ush/ingest_query.sh
-- Updated to run from local disk.
-
-ush/ingest_get.sh
-- Updated to run from local disk, TRANSFER_COMMAND:-localdisk.
-
-ush/ingest_process_orbits_subscript.sh
-- Updated to run from local disk.
 
 VERSIONS CHANGES
  v5.2.1 -> v5.2.2
@@ -69,12 +44,6 @@ CHANGES TO OUTPUT AND FILE SIZES
  No new tanks are generated.
 
 BIG BROTHER (BB) INFORMATION
-
- Stop monitoring the following filename patterns (some might have been removed from BB over time):
-1) $COMROOT/logs/bb/ingest/HM9V04.0.NH.???????.PX.06K.nc
-2) $COMROOT/logs/bb/ingest/HM9V04.0.SH.???????.PX.06K.nc
-3) $COMROOT/logs/bb/ingest/G18V04.0.RR.???????.PX.06K.nc
-4) $COMROOT/logs/bb/ingest/G16V04.0.RR.???????.PX.06K.nc
 
  Start monitoring the following new filename patterns:
   $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r60_npp_s???????????????_e???????????????_c???????????????.bufr
