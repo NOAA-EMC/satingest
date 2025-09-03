@@ -302,14 +302,6 @@ $TARGETFILE copied for $yyyymmdd"
                   procorbcount=$(($procorbcount+1))
                   echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-
-
-                 neworbitfile="${neworbit:2}"
-                 if [ -s $DCOMROOT/$TASK/$neworbitfile ] ; then 
-		 echo " moving $neworbitfile to $DCOMROOT/$TASK/PROCESSED "
-		 /bin/mv $DCOMROOT/$TASK/$neworbitfile $DCOMROOT/$TASK/PROCESSED/.
-		 fi
-
                   if [ $DELAFTPROC = YES ] ; then
                      rm $DATA/$dsname
                   fi
@@ -342,14 +334,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                procorbcount=$(($procorbcount+1))
                echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-                 
-	        neworbitfile="${neworbit:2}"
-                 if [ -s $DCOMROOT/$TASK/$neworbitfile ] ; then 
-		 echo " moving $neworbitfile to $DCOMROOT/$TASK/PROCESSED "
-		 /bin/mv $DCOMROOT/$TASK/$neworbitfile $DCOMROOT/$TASK/PROCESSED/.
-		 fi
-               
-		 if [ $DELAFTPROC = YES ] ; then
+               if [ $DELAFTPROC = YES ] ; then
                   rm $DATA/$dsname
                fi
                iword=$(($iword+1))
