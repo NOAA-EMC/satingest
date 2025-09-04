@@ -13,13 +13,13 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-goesimg_EFCLAM.list}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-/pub/goes_imgr_sky_cvr/ascii/G19_Imgr_????z_???????.TXT.bz2 \
-/pub/goes_imgr_sky_cvr/ascii/G18_Imgr_????z_???????.TXT.bz2"'}
+/pub/goes_imgr_sky_cvr_ecm2/ascii/g19_Imgr_????z_???????.TXT \
+/pub/goes_imgr_sky_cvr_ecm2/ascii/g18_Imgr_????z_???????.TXT"'}
       eval FTYPE${n}=\${FTYPE${n}:-none}
       eval TANKFILE${n}=\${TANKFILE${n}:-b012/xx160}
       eval EXECUTE${n}=\${EXECUTE${n}:-bufr_transkycovr}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.012}
-      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-YES}
+      eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-NO}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
 
 echo "COMPLETED $JJOB.$family and MACHINE is $MACHINE and n is $n "

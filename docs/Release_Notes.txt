@@ -2,7 +2,7 @@ satingest v5.2.2        RELEASE         AUG 25 2025
           v5.2.2        IMPLEMENT       SEP 10 2025 ~16UTC
 
 PRELUDE
- Update OMPS-LP product version. A new directory $DCOMROOT/t_radsnd_lgycld  and subdirectories $DCOMROOT/t_radsnd_lgycld/PROCESSED/TEMP will be created during the run for the ingest of Langley Cloud Radiances. Several fix and ecf files are removed from the satingest code.
+ Update OMPS-LP product version. Several fix and ecf files are removed from the satingest code.
 
 
 
