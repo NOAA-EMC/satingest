@@ -28,7 +28,10 @@ FIX CHANGES
 fix/t_npp_omps_omps_lp.f
   - Update version to v2r60 in filename of The OMPS LIMB PROFILER file. 
 
-  - Six other family/task files are revoved from fix dir.
+fix/t_radsnd_lgycld.f
+  - remove GOES-16 files from the fix file. 
+  
+- Six other family/task files are revoved from fix dir.
 
 fix/CMakeLists.txt
   - Modified where the six files marked with (D /fix*) above were deleted from CMakeLists.txt.
@@ -47,6 +50,9 @@ BIG BROTHER (BB) INFORMATION
 
  Start monitoring the following new filename patterns:
   $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r60_npp_s???????????????_e???????????????_c???????????????.bufr
+
+ Stop monitoring the following filename patterns:
+  $COMROOT/logs/bb/ingest/G16V04.0.RR.???????.????.PX.06K.nc
 
 NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
 
