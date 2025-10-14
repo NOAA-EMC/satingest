@@ -302,6 +302,14 @@ $TARGETFILE copied for $yyyymmdd"
                   procorbcount=$(($procorbcount+1))
                   echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
+
+
+                 neworbitfile="${neworbit:2}"
+                 if [ -s $PTMPDIR/$neworbitfile ] ; then 
+		 echo " moving $neworbitfile to $PTMPDIR/PROCESSED "
+		 /bin/mv $PTMPDIR/$neworbitfile $PTMPDIR/PROCESSED/.
+		 fi
+
                   if [ $DELAFTPROC = YES ] ; then
                      rm $DATA/$dsname
                   fi
@@ -334,7 +342,14 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                procorbcount=$(($procorbcount+1))
                echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-               if [ $DELAFTPROC = YES ] ; then
+                 
+	        neworbitfile="${neworbit:2}"
+                 if [ -s $PTMPDIR/$neworbitfile ] ; then 
+		 echo " moving $neworbitfile to $PTMPDIR/PROCESSED "
+		 /bin/mv $PTMPDIR/$neworbitfile $PTMPDIR/PROCESSED/.
+		 fi
+               
+		 if [ $DELAFTPROC = YES ] ; then
                   rm $DATA/$dsname
                fi
                iword=$(($iword+1))

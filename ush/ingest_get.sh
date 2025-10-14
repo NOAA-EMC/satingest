@@ -201,14 +201,14 @@ quit
 EOH_trans_sftp
 
 ########################################################
-elif [ $TRANSFER_COMMAND = thecloud ]; then
-cat <<EOH_trans_thecloud > $DATA/transget.input.$host.$$
+elif [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ]; then
+cat <<EOH_trans_localdiskcp > $DATA/transget.input.$host.$$
 echo " IN INGEST_GET and STATION 1000
 echo " REMOTEDSN Is $REMOTEDSN and LOCDSN IS $LOCDSN BEFORE and cloudfilename  is $cloudfilename and filename is $filename "
-#ln -a $DCOMROOT/$TASK/cloudfilename $LOCDSN
+#ln -a $PTMPDIR/cloudfilename $LOCDSN
 echo " LOCDSN IS $LOCDSN AFTER and cloudfilename  is $cloudfilename and filename is $filename "
 echo "LOCDSN is $LOCDSN "
-EOH_trans_thecloud
+EOH_trans_localdiskcp
 ###################################################
 
 
@@ -260,7 +260,7 @@ echo "Use $TRANSFER_COMMAND."
 echo
 
 
-if [ $TRANSFER_COMMAND = thecloud ] ; then
+if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 	echo " IN INGEST_GET STATION 2000  "
 	transerror=0
 
@@ -299,11 +299,11 @@ rm $transout
 
 [ $TRANSFER_COMMAND = wget ]  &&  rm $DATA/index.html*
 
-if [ $TRANSFER_COMMAND = thecloud ] ; then
+if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 
 ########  CHANGED ON 20250605 ################
-	ln -s $DCOMROOT/$TASK/*.* $DATA/.
-#	cp $DCOMROOT/$TASK/*.* $DATA/.
+	ln -s $PTMPDIR/*.* $DATA/.
+#	cp $PTMPDIR/*.* $DATA/.
 ########  CHANGED ON 20250605 ################
 	transerror=0
 	echo " IN INGEST_GET , STATION 7777 , check if file exists "

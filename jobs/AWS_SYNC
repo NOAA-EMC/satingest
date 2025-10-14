@@ -202,8 +202,10 @@ done
 echo " DONE WITH AWS SERVER "
 
 ls -l $DCOMROOT/$TASK
-/bin/rm $DCOMROOT/$TASK/*
+#/bin/rm $DCOMROOT/$TASK/*
+set +e
 find $DCOMROOT/$TASK/SYNCDIR/ -name '*.*' -exec /usr/bin/cp --backup=no -t $DCOMROOT/$TASK {} +
+set -xe
 
 ls -l $DCOMROOT/$TASK
 echo " DONE WITH THIS JOB "

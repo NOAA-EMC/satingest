@@ -190,9 +190,14 @@ MACHINE=$1
 DIRFILE="$2"
 fname=$3
 
-
+mkdir -p $PTMPDIR/PROCESSED
+mkdir -p $PTMPDIR/EXCESSFILES
 echo " IN INGEST_QUERY; STATION 1 "
 echo " MACHINE is $MACHINE and  DIRFILE is $DIRFILE ; and fname is $fname "
+
+   if [ $TRANSFER_COMMAND = localdiskcp -a $TASK = 't_radsnd_lgycld' ] ; then
+	   /bin/ln -s /lfs/h1/ops/prod/dcom/nasa_clouds/*.nc $PTMPDIR
+   fi
 
 #  If the file group name contains one or more embedded asterisks ("*" -
 #   wildcard matching any string of 1 or more characters) or one or more
@@ -264,43 +269,87 @@ lls $REMOTEDSNGRP > $DATA/transquery.output.$host.$$
 quit
 EOH_trans_sftp
 
+elif [ $TRANSFER_COMMAND = localdiskcp ]; then
+	numb_files=`ls $PTMPDIR/*.* | wc -l`
+	if [ $numb_files -gt 0 ] ; then 
+		echo "YES;  EXCESS FILES ARE $numb_files  for $TRANSFER_COMMAND "
+	/bin/mv $PTMPDIR/EXCESSFILES/* $PTMPDIR
+        else 
+		echo "NO; EXCESS FILES ARE $numb_files for $TRANSFER_COMMAND "
+	fi
 
-elif [ $TRANSFER_COMMAND = thecloud ]; then
-   transfer_options=""
-   remotedsngrp=$REMOTEDSNGRP
-   machine=$MACHINE  
-echo " IN INGEST_QUERY STATION 30000 LIST FILES IN $DATA BEFORE LISTING "
-if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
-if [ -s $DATA/aout ] ; then rm $DATA/aout ; fi
-#find $DCOMROOT/$TASK/.  -printf "%f\n" > $DCOMROOT/$TASK/aout
-find $DCOMROOT/$TASK/*.*  -printf "%f\n" > $DATA/aout
-find $DCOMROOT/$TASK/$REMOTEDSNGRP*  -printf "%f\n" > $DATA/aout_TEST
-#cp $DCOMROOT/$TASK/aout  $DATA/transquery.output.$host.$$
-cp $DATA/aout  $DATA/transquery.output.$host.$$
-if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
-transerror=0
-cp $DATA/transquery.output.$host.$$ $DATA/transquery.input.$host.$$
 
-#   cat <<EOH_trans_thecloud > $DATA/transquery.input.$host.$$
-#debug 3
+elif [ $TRANSFER_COMMAND = syncaws ]; then
+	numb_files=`ls $PTMPDIR/*.* | wc -l`
+	if [ $numb_files -gt 0 ] ; then 
+		echo "YES;  EXCESS FILES ARE $numb_files  for $TRANSFER_COMMAND "
+	/bin/mv $PTMPDIR/EXCESSFILES/* $PTMPDIR
+        else 
+		echo "NO; EXCESS FILES ARE $numb_files for $TRANSFER_COMMAND "
+	fi
 
-echo " LIST FILES IN $DATA BEFORE LISTING "
-ls -l $DATA
-#cp $DCOMROOT/$TASK/aout $DATA/transquery.output.$host.$$
-cp $DATA/aout $DATA/transquery.output.$host.$$
-if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
-cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
-echo " LIST FILES IN $DATA AFTER LISTING "
-ls -l $DATA
-echo " INGEST_QUERY STATION 3 ;   machine is $machine; REMOTEDSNGRP IS  $REMOTEDSNGRP "
-cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input101.$host.$$
-ls -l $DATA/transquery.input.$host.$$
-ls -l $DATA/transquery.output.$host.$$
-cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
-ls -l $DATA
-echo " END OF INGEST_QUERY STATION 3  CLOUD LISTING OF FILES "
+NUMFILES=`ls $PTMPDIR/*.* | wc -l`
+if [ $NUMFILES -ge $IFILES_MAX_GET ] ; then 
+	CLOUDSYNC=NO 
+	echo "CLOUDSYNC=NO ; NUMFILES IS $NUMFILES and IFILES_MAX_GET is $IFILES_MAX_GET "
+else
+	CLOUDSYNC=YES
+	echo "CLOUDSYNC=YES ; NUMFILES IS $NUMFILES and IFILES_MAX_GET is $IFILES_MAX_GET "
 
-#EOH_trans_thecloud
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+###########  START SYNCING FILES FROM AWS ###################
+
+date -u
+
+mkdir -p $PTMPDIR/SYNCDIR
+echo " load the AWS module "
+
+echo "IFILES_MAX_GET is $IFILES_MAX_GET "
+
+echo " STARTING TO SYNC $DIRAWS1 "
+aws s3 sync s3://$DIRAWS1 $PTMPDIR/SYNCDIR/ --profile nccf
+echo "Done for $DIRAWS1 "
+aws s3 sync s3://$DIRAWS2 $PTMPDIR/SYNCDIR/ --profile nccf
+echo " Done for $DIRAWS2 "
+aws s3 sync s3://$DIRAWS3 $PTMPDIR/SYNCDIR/ --profile nccf
+echo "Done for $DIRAWS3 "
+aws s3 sync s3://$DIRAWS4 $PTMPDIR/SYNCDIR/ --profile nccf
+echo " Done for $DIRAWS4 "
+
+echo "DONE SYNCING WITH AWS SERVER "
+
+
+#####                 
+#####  https://stackoverflow.com/questions/105212/recursively-list-all-files-in-a-directory-including-files-in-symlink-directories
+
+##find /dir -type f -follow -print
+## -type f means it will display real files (not symlinks)
+
+## -follow means it will follow your directory symlinks
+
+## -print will cause it to display the filenames.
+
+## If you want a ls type display, you can do the following
+
+##  find /dir -type f -follow -print|xargs ls -l
+
+
+set +e
+find $PTMPDIR/SYNCDIR/ -name '*.*' -exec /usr/bin/cp --backup=no -t $PTMPDIR {} +
+set -xe
+
+ls -l $PTMPDIR
+echo " DONE WITH THIS JOB "
+
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+###########  FINISH SYNCING FILES FROM AWS ###################
+fi
 
 
 elif [ $TRANSFER_COMMAND = lftp ]; then
@@ -317,27 +366,7 @@ set net:max-retries ${lftp_max_tries:-1}
 set net:timeout ${lftp_timeout:-120}
 rels $REMOTEDSNGRP > $DATA/transquery.output.$host.$$
 quit
-
-echo " INGEST_QUERY STATION 3 ;   machine is $machine; REMOTEDSNGRP IS  $REMOTEDSNGRP "
-cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input101.$host.$$
-ls -l $DATA/transquery.input.$host.$$
-ls -l $DATA/transquery.output.$host.$$
-cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
-ls -l $DATA
-echo " END OF INGEST_QUERY STATION 3 "
-
 EOH_trans_lftp
-
-
-echo " INGEST_QUERY STATION 3 CONTINUED ;   machine is $machine; REMOTEDSNGRP IS  $REMOTEDSNGRP "
-cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input102.$host.$$
-ls -l $DATA/transquery.input.$host.$$
-ls -l $DATA/transquery.output.$host.$$
-cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output102.$host.$$
-ls -l $DATA
-echo " END OF INGEST_QUERY STATION 3 CONTINUED "
-
-
 # despite setting name net:max-retries, seems to be "tries", not "retries"
 
 else
@@ -356,9 +385,121 @@ fi
 
 transerror=99
 itries=1
-transerror=0
+   if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
+ SOURCE_DIR=$PTMPDIR
+ DEST_DIR=$PTMPDIR/PROCESSED
+mkdir -p $DEST_DIR $SOURCE_DIR
+echo " QUERYPOINT 7711 "
 
+##################################### SKIPPING LINES ############################
+##################################### SKIPPING LINES ############################
+##################################### SKIPPING LINES ############################
+##################################### SKIPPING LINES ############################
+if [ $transerror -lt 0 ] ; then 
+nsource=`ls $SOURCE_DIR/*.* | wc -l`
+ndest=`ls $DEST_DIR/*.* | wc -l`
+
+if [ $nsource -gt 0 -a $ndest -gt 0 ] ; then
+# Get a sorted list of filenames in both directories
+find "$SOURCE_DIR" -maxdepth 1 -type f -printf "%f\n" | sort > $DEST_DIR/source_files.txt
+find "$DEST_DIR" -maxdepth 1 -type f -printf "%f\n" | sort > $DEST_DIR/dest_files.txt
+
+# Find common files and remove them from the source directory
+comm -12 $DEST_DIR/source_files.txt $DEST_DIR/dest_files.txt | while read -r filename; do
+    echo "Removing $SOURCE_DIR/$filename as it exists in $DEST_DIR"
+    rm "$SOURCE_DIR/$filename"
+done
+
+# Clean up temporary files
+rm  $DEST_DIR/source_files.txt
+rm  $DEST_DIR/dest_files.txt
+
+# Clean up OLD PROCESSED files
+find $DEST_DIR/* +1 -print
+find $DEST_DIR/* -ctime +1 -ctime +1 -exec rm -r -f {} \;
+find $DEST_DIR/* -ctime +1 -print
+
+echo " END OF CLEANUP; QUERYPOINT 77111 "
+fi
+
+
+#######################################
+# https://superuser.com/questions/268344/how-do-i-delete-all-but-10-newest-files-in-linux
+# keepoldest
+#
+# Simple directory trimming tool to handle housekeeping
+# Scans a directory and deletes all but the $IFILES_MAX_GET oldest files
+#
+# Usage: cleanup <dir> <number of files to keep>
+#
+# v 1.0 Piers Goodhew 1/mar/2007. No rights retained.
+
+
+echo " QUERYPOINT 77112 "
+cd $PTMPDIR
+files_in_dir=`ls | wc -l`
+files_to_move=`expr $files_in_dir - $IFILES_MAX_GET`
+if [ $files_to_move -gt 0 ]; then
+  ls -t | head -n $files_to_delete | xargs /bin/mv $PTMPDIR/EXCESSFILES
+  if [ $? -ne 0 ]; then
+    echo "An error ocurred moving the files"
+    exit 1
+  else
+    echo "$files_to_move file(s) moved."
+  fi
+else
+  echo "nothing to move!"
+fi
+files_in_dirnow=`ls | wc -l`
+echo " QUERYPOINT 7712 "
+echo "NUMBER OF FILES BFEORE CLEANUP WAS $files_in_dir ; NOW IS $files_in_dirnow   "
+##################################### END OF SKIPPING LINES ####################
+##################################### END OF SKIPPING LINES ####################
+##################################### END OF SKIPPING LINES ####################
+##################################### END OF SKIPPING LINES ####################
+   fi 
+cd $DATA
+
+#######################################
+
+   transerror=0
+   transfer_options=""
+   remotedsngrp=$REMOTEDSNGRP
+   machine=$MACHINE  
+echo " IN INGEST_QUERY STATION 30000 LIST FILES IN $DATA BEFORE LISTING "
+if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+if [ -s $DATA/aout ] ; then rm $DATA/aout ; fi
+find $PTMPDIR/*.*  -printf "%f\n" > $DATA/aout
+find $PTMPDIR/$REMOTEDSNGRP*  -printf "%f\n" > $DATA/aout_TEST
+cp $DATA/aout  $DATA/transquery.output.$host.$$
+if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+transerror=0
+cp $DATA/transquery.output.$host.$$ $DATA/transquery.input.$host.$$
+
+echo " QUERYPOINT 7713 "
+
+echo " LIST FILES IN $DATA BEFORE LISTING "
+ls -l $DATA
+cp $DATA/aout $DATA/transquery.output.$host.$$
+if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
+echo " LIST FILES IN $DATA AFTER LISTING "
+ls -l $DATA
+echo " INGEST_QUERY STATION 3 ;   machine is $machine; REMOTEDSNGRP IS  $REMOTEDSNGRP "
+cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input101.$host.$$
+ls -l $DATA/transquery.input.$host.$$
+ls -l $DATA/transquery.output.$host.$$
+cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
+ls -l $DATA
+echo " END OF INGEST_QUERY STATION 3  CLOUD LISTING OF FILES "
+echo " QUERYPOINT 7714 "
+##################################
+
+fi
+
+echo " QUERYPOINT 77141 "
 if [ $transerror -gt 0 ] ; then
+echo " QUERYPOINT 77142 "
 while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
    [ -s $DATA/transquery.output.$host.$$ ]  &&  \
     rm $DATA/transquery.output.$host.$$
@@ -368,6 +509,7 @@ while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
       sleep 30
    fi
 
+echo " QUERYPOINT 77143 "
    echo
    echo "Use $TRANSFER_COMMAND."
    echo
@@ -378,10 +520,12 @@ while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
    
    ls -l $DATA
 
+echo " QUERYPOINT 77144; TRANSFER COMMAND is $TRANSFER_COMMAND  "
 ########################################################
-   if [ $TRANSFER_COMMAND = thecloud ] ; then 
+      if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 	   echo " HERE IN INGEST_QUERY STATION 300 "
 	   transerror=0
+echo " QUERYPOINT 7715 "
    else
    $TRANSFER_COMMAND $transfer_options $machine < \
     $DATA/transquery.input.$host.$$ > $transout 2>&1
@@ -392,6 +536,7 @@ while [ $transerror -gt 0 -a $itries -le $ITRIES_MAX_QUERY ]; do
    ls -l $transout
    cp $DATA/transquery.input.$host.$$ $DATA/querytrans.input103.$host.$$ 
    echo "compare $DATA/transquery.input1.$host.$$ and $DATA/transquery.input103.$host.$$ "
+   transerror=0
 #  Cat out the standard output from the transfer process and remove it
 #  -------------------------------------------------------------------
    fi
@@ -434,12 +579,12 @@ $//' | cat | \
       rm $DATA/index.html*
 
 
-	elif [ $TRANSFER_COMMAND = thecloud ] ; then
+      elif [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 		echo " LAST FIX IN INGEST_QUERY , STATION 3001 "
-#		cp $DCOMROOT/$TASK/aout $DATA/transquery.output.$host.$$
 		cp $DATA/aout $DATA/transquery.output.$host.$$
-                if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+                if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
 		transerror=0
+echo " QUERYPOINT 7716 "
    elif [ $TRANSFER_COMMAND = ftp -o $TRANSFER_COMMAND = lftp ]; then
 
 #  On WCOSS/Tide, ftp "ls" listing contains full "ls -l" type listing (e.g.,
@@ -481,6 +626,7 @@ done
 itries=`expr $itries - 1`
 fi
 
+echo "QUERYPOINT 77161 ; TRANSFER_COMMAND IS $TRANSFER_COMMAND "
 itries=1
 set +x
 echo
@@ -492,13 +638,12 @@ echo
 #   then exit w/ return code 1
 #  ----------------------------------------------------------------------------
 
-	if [ $TRANSFER_COMMAND = thecloud ] ; then
-		echo " LAST FIX IN INGEST_QUERY , STATION 3001 "
-#		cp $DCOMROOT/$TASK/aout $DATA/transquery.output.$host.$$
+echo "QUERYPOINT 77162 ; TRANSFER_COMMAND IS $TRANSFER_COMMAND "
+if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 		cp $DATA/aout $DATA/transquery.output.$host.$$
-                if [ -s $DCOMROOT/$TASK/aout ] ; then rm $DCOMROOT/$TASK/aout ; fi
+echo " QUERYPOINT 7717 "
 		transerror=0
-	fi
+fi
 
 
 if [ $transerror -ne 0 ]; then
@@ -519,6 +664,7 @@ fi
 #  Continue on if no transfer problems
 #  -----------------------------------
 
+echo " QUERYPOINT 77171 "
 msg="QUERY OF $3 FILES successful on try no. ${itries}."
 $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 
@@ -529,48 +675,33 @@ $UTILROOT/ush/postmsg "$jlogfile" "$msg"
 #   of $DIRFILE.
 #  ---------------------------------------------------------------------------
 
-#############  THIS IS WHERE THE NAME OF THE FILE IS OBTAINED ###############
-#
-#
-#+ ===>ingest_query.sh:L463 + grep /
-#+ ===>ingest_query.sh:L463 + head -n1 /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.output.ddxfer02.261819
-#+ ===>ingest_query.sh:L463 + echo ABI-L2-CSRF-M6_v2r3_g18_s202504082330214_e202504082339522_c202504082347110.bufr
-#+ ===>ingest_query.sh:L464 + err_grep=1
-#+ ===>ingest_query.sh:L466 + echo ' err_grep is 1 INGEST_QUERY STATION 100 '
-# err_grep is 1 INGEST_QUERY STATION 100
-# + ===>ingest_query.sh:L467 + [ 1 -eq 0 -o . '!=' . ]
-# + ===>ingest_query.sh:L472 + dirname 'PDAFileLinks/PULL/BIN/ABI-L2-CSRF-M6_v2r3_g18_s???????????????_e???????????????_c???????????????.bufr'
-# + ===>ingest_query.sh:L472 + direct=PDAFileLinks/PULL/BIN
-# + ===>ingest_query.sh:L474 + cat /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.ou
-# tput.ddxfer02.261819 
-# + ===>ingest_query.sh:L486 + 1> ABI-L2-CSRF-M6_v2r3_g18_s???????????????_e???????????????_c???????????????.bufr.newlist.ddxf
-# er02.261809
-# + ===>ingest_query.sh:L475 + read directfilename
-# + ===>ingest_query.sh:L476 + iret=0 
-#  filename is ABI-L2-CSRF-M6_v2r3_g18_s202504091740218_e202504091749526_c202504091756500.bufr and directfilename is
-#  + ===>ingest_query.sh:L493 + echo 'STATION 108 in ingest_query.sh '
-#  STATION 108 in ingest_query.sh 
-#  + ===>ingest_query.sh:L494 + ls -l /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/OUTPUT.261576
-#  -rw-r--r-- 1 sudhir.nadiga emc 36 Apr  9 23:52 /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/OUTPUT.261576
-#  + ===>ingest_query.sh:L495 + ls -l '/lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/INPUT*'
-#  ls: cannot access '/lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/INPUT*': No such file or di
-#  rectory
-#  + ===>ingest_query.sh:L496 + ls -l /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.input.ddxfer02.261819 /lfs/h2/emc/stmp/sudhir.nadiga/256476/jobid_81837_t_radsnd_goes_csr_base_2352/transquery.output.ddxfer02.261819
-#
-#
-#
-#
-#
-#
-###############################################################
+echo " QUERYPOINT 77172 "
+ls -l $DATA
 
-echo `head -n1 $DATA/transquery.output.$host.$$` | grep /
+echo " QUERYPOINT 77173 "
+cd $DATA
+if [ $TRANSFER_COMMAND != syncaws ] ; then 
+
+echo `head -n1 ./transquery.output.$host.$$` | grep /
 err_grep=$?
 
-echo " err_grep is $err_grep INGEST_QUERY STATION 100 "
+echo " QUERYPOINT 77174 "
+else
+
+echo " QUERYPOINT 77175 "
+echo `head -n1 ./transquery.output.$host.$$` 
+transerror=0
+err_grep=1
+ls -l ./transquery.output.$host.$$
+echo " transerror is $transerror and err_grep is $err_grep and transfercommand is $TRANSFER_COMMAND "
+echo " QUERYPOINT 77176 "
+fi
+
+############################
+
+echo " QUERYPOINT 7718 "
 if [ $err_grep -eq 0 -o $REMOTEDIRGRP != '.' ]; then
    cp $DATA/transquery.output.$host.$$ $DIRFILE
-   echo " IN INGEST QUERY STATION 101 DIRFILE is $DIRFILE "
    cp $DIRFILE $DATA/FILEDIR1
 else
    direct=$(dirname $REMOTEDSNGRP)
@@ -593,12 +724,13 @@ else
       echo " filename is $filename and directfilename is $directfilename "
       set -x
 fi
-
-
-if [ $TRANSFER_COMMAND = thecloud ] ; then
+ 
+echo " QUERYPOINT 7719 "
+if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 	cloudfilename=$filename
 	echo " IN INGEST_QUERY STATION 107 "
 	echo " cloudfilename is $cloudfilename and filename is $filename "
+echo " QUERYPOINT 7720 "
 fi
 
 echo "STATION 108 in ingest_query.sh "
@@ -610,6 +742,7 @@ cp $DATA/transquery.output.$host.$$ $DATA/OUTPUT_TRANSQUERY.$$
 cp $DATA/transquery.input.$host.$$ $DATA/INPUT_TRANSQUERY.$$
 rm $DATA/transquery.output.$host.$$
 rm $DATA/transquery.input.$host.$$
+echo " QUERYPOINT 7721 "
 ls -l $DATA
 
 exit 

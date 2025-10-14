@@ -8,22 +8,21 @@ echo " Starting $TASK and  $TASK.$family "
 #  METOP - B/C AVHRR in New Bufr Format. METOP-B (m01); METOP-C (m03)
 # -------------------------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-poeswind.nbavhrr.infrared.list}
-      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-thecloud}
+      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-syncaws}
 
-
-eval knumber=4
+######  NUMBER OF FOLDERS TO SYNC FROM IS knumber ######
+eval knumber=1
 module load awscli
 
-export CLOUDDIR=( \
-nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-C/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729
-\
-nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_SH_BUFR/bufr-ccap-20210729
-\
-nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-C/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729
-\
-nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results/MetOp-B/NAMV_AVHRR_C04CD_FRAC_SH_BUFR/bufr-ccap-20210729
- )
+######  NAMES OF FOLDERS TO SYNC FROM ######
+export AWSDIR=nccf-prod-distribution-group-01/NCEP_EMC/Metop-PG-Results
 
+eval DIRAWS1="$AWSDIR/MetOp-C/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/"
+eval DIRAWS2="$AWSDIR/MetOp-C/NAMV_AVHRR_C04CD_FRAC_SH_BUFR/bufr-ccap-20210729/"
+eval DIRAWS3="$AWSDIR/MetOp-B/NAMV_AVHRR_C04CD_FRAC_NH_BUFR/bufr-ccap-20210729/"
+eval DIRAWS4="$AWSDIR/MetOp-B/NAMV_AVHRR_C04CD_FRAC_SH_BUFR/bufr-ccap-20210729/"
+
+######  NAMES OF FILES BEING SYNCED ######
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
 NAMV-AVHRR-C04CD-FRAC-NH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr \
 NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m03_s???????????????_e???????????????_c???????????????.bufr \
