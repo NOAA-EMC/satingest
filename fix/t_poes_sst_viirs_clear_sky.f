@@ -16,6 +16,7 @@ PDAFileLinks/NDE/VIIRS_GHRSST/VIIRS-ACSPO-SST-Clear_v2r80_n21_s???????????????_e
       eval HISTLENMIN${n}=\${HISTLENMIN${n}:-4500}
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-4800}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 

@@ -18,6 +18,7 @@ PDAFileLinks/PULL/BIN/ABI-L2-ASRF-M6_v2r3_g16_s???????????????_e???????????????_
       eval FORGNTABLE${n}=\${FORGNTABLE${n}:-bufrtab.GOES16ASR_NESDIS}
       eval UNCOMPRESS_UNIX${n}=\${UNCOMPRESS_UNIX${n}:-NO}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 echo "COMPLETED $JJOB.$family and MACHINE is $MACHINE and n is $n "
 

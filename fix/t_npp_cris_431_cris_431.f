@@ -31,6 +31,7 @@ PDAFileLinks/NDE/NUCAPS/C0431/J01/NUCAPS-C0431_v4r0_j01_s???????????????_e??????
       eval HISTLENMIN${n}=\${HISTLENMIN${n}:-59700}
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-60000}
       eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_cris_fsr_431.out}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 echo " Completed $TASK and $TASK.$family "

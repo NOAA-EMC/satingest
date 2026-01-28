@@ -16,6 +16,7 @@ PDAFileLinks/PULL/DMSP/NPR.TDUP.SC.D?????.S????.E????.B???????.NS"'}
       eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
       eval MESSAGE_LENGTH${n}=\${MESSAGE_LENGTH${n}:-3500}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 

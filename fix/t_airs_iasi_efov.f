@@ -20,7 +20,7 @@ PDAFileLinks/PULL/IASI/NPR_IARD.M01_D?????_S??????_E??????_G???_C0616_U6"'}
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-18000}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
       eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_iasi.out}
-
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 

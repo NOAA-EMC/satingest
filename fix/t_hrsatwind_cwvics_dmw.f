@@ -22,6 +22,7 @@ PDAFileLinks/NDE/GOESAMV/NB-?M?VC-M?C10_v1r0_g16_s???????????????_e?????????????
       eval TANKFILE${n}=\${TANKFILE${n}:-b005/xx053}
       eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranmtypsbt}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.005}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 

@@ -21,6 +21,7 @@ PDAFileLinks/PULL/POESAMV/NAMV-AVHRR-C04CD-FRAC-SH_v1r0_m03_s???????????????_e??
       eval HOURS2ALARM${n}=\${HOURS2ALARM${n}:-9}
       eval HISTLENMIN${n}=\${HISTLENMIN${n}:-2400}
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-2700}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 

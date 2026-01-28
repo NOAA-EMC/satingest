@@ -17,6 +17,7 @@ PDAFileLinks/PULL/POESAMV/satwnd.bufrcdft.N19.D?????.T??:??:??Z"'}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.005}
       eval FORGNTABLE${n}=\${FORGNTABLE${n}:-bufr_V10satwind.4qual.bufrtable}
       eval HOURS2ALARM${n}=\${HOURS2ALARM${n}:-9}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
 
 
 
