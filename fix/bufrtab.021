@@ -34,6 +34,7 @@
 | NC021241 | A61207 | MTYP 021-241 IASI 1C RADIANCES (VARIABLE CHNS) (METOP)   |
 | NC021242 | A10197 | MTYP 021-242 SAPHIR L1A2 BRIGHT. TEMPS(MEGHA-TROPIQUES)  |
 | NC021246 | A40192 | MTYP 021-246 GMI L1C-R BRIGHT. TEMPERATURES (GPM-CORE)   |
+| NC021247 | A60077 | MTYP 021-247 AMSR2 1B brightness temp data GSI 14 chan   |
 | NC021248 | A50239 | MTYP 021-248 AMSR2 1B BRIGHTNESS TEMPERATURES (GCOM-W)   |
 | NC021249 | A50243 | MTYP 021-249 EVERY  FOV AIRS/AMSU-A/HSB 1B BTEMPS(AQUA)  |
 | NC021250 | A50250 | MTYP 021-250 CENTER FOV AIRS/AMSU-A/HSB 1B BTEMPS(AQUA)  |
@@ -75,6 +76,7 @@
 | SVCASEQN | 310054 | SAT VISB CHANNELS AND ALBEDOS WITH EXPANDED CHANNEL SET  |
 | SATRCPRC | 310055 | SATELLITE RADIANCE/CHANNEL PRINCIPAL COMPONENTS          |
 | AMSR2CHN | 310193 | AMSR2 CHANNEL SEQUENCE                                   |
+| AMSR2N14 | 311193 | AMSR2 14 channel sequence                                |
 |          |        |                                                          |
 | IASIL1CB | 340002 | IASI LEVEL 1C BAND DESCRIPTION SEQUENCE                  |
 | IASIL1CS | 340004 | IASI LEVEL 1C AVHRR SINGLE SCENE SEQUENCE                |
@@ -468,6 +470,12 @@
 |          |                                                                   |
 | NC021246 | SAID  SIID  OGCE  GSES  "CHINFO"13  SLNM  YYMMDD  HHMM  207003    |
 | NC021246 | SECO  207000  201129  HMSL  201000  (PIXELS)                      |
+|          |                                                                   |
+| NC021247 | SAID  OGCE  GSES  SIID  SCLF  YYMMDD  HHMM  207003  SECO  207000  |
+| NC021247 | ORBN  201133  SLNM  FOVN  201000  LTLONH  SOLAZI  SOEL  IANG      |
+| NC021247 | AANG  ACQF  208006  MTYP  208000  {AMSR2N14}                      |
+|          |                                                                   |
+| AMSR2N14 | SCCF  ALFR  VIIRSQ  ANPO  TMBR                                    |
 |          |                                                                   |
 | NC021248 | SAID     OGCE     GSES     SIID     SCLF     YYMMDD   HHMM        |
 | NC021248 | 207003   SECO     207000   ORBN     201133   SLNM     FOVN        |
