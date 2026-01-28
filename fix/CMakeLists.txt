@@ -52,6 +52,8 @@ t_aerosol_wf_abba
 t_aerosol_wf_abba.f
 t_airs_amsr2
 t_airs_amsr2.f
+t_airs_amsr2_GSI
+t_airs_amsr2_GSI.f
 t_airs_iasi_efov
 t_airs_iasi_efov.f
 t_avhrr_avhrr_18_19
