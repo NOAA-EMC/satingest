@@ -8,6 +8,7 @@ t_npp_omps_ompsnp_v8.f
 t_npp_omps_ompstc.f
 t_npp_atms.f
 - updates GMI 1CR product version in /fix/t_ssmi_gmi_tmbr.f
+- receipt time is added to the message headers of the tanks
 
 FILE CHANGES
  M docs/Release_Notes.txt
@@ -166,7 +167,6 @@ GMI-1CR_v8r0_gpm_s???????????????_e???????????????_c???????????????.bufr
 
 fix/t_ssmi_ssmis.f
   - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
-
 
 VERSIONS CHANGES
  v5.2.2 -> v5.2.3
