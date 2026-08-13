@@ -48,6 +48,15 @@ export pgmout="OUTPUT.$$"
 export SENDECF=${SENDECF:-YES}
 export SENDBB=${SENDBB:-YES}
 
+###############################################
+# isyncalldays  - YES=sync all days; NO=sync by days
+# kbackupdays   - If isyncalldays=NO; how many days 
+#                 back do you want to sync?
+###############################################
+export isyncalldays=${isyncalldays:-YES}
+export kbackupdays=${kbackupdays:-1}
+
+
 ####################################
 # Set up ingest related directories
 ####################################

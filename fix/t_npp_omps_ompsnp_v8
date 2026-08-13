@@ -8,7 +8,7 @@ export RUN=${RUN:-t_npp_omps_ompsnp_v8}
 export DATATYPE=${DATATYPE:-T_NPP_OMPS_OMPSNP_V8}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export FTYPE=${FTYPE:-bufr}
 export HISTLENMIN=${HISTLENMIN:-14000}
 export HISTLENMAX=${HISTLENMAX:-20000}

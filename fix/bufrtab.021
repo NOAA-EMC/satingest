@@ -33,7 +33,9 @@
 | NC021206 | A10198 | MTYP 021-206 CrIS FULL SPCTRL RADIANCE  (431 CHN SUBSET) |
 | NC021241 | A61207 | MTYP 021-241 IASI 1C RADIANCES (VARIABLE CHNS) (METOP)   |
 | NC021242 | A10197 | MTYP 021-242 SAPHIR L1A2 BRIGHT. TEMPS(MEGHA-TROPIQUES)  |
+| NC021243 | A62237 | MTYP 021-243 (Microwave Sounder Data (level 1B))         |
 | NC021246 | A40192 | MTYP 021-246 GMI L1C-R BRIGHT. TEMPERATURES (GPM-CORE)   |
+| NC021247 | A60077 | MTYP 021-247 AMSR2 1B brightness temp data GSI 14 chan   |
 | NC021248 | A50239 | MTYP 021-248 AMSR2 1B BRIGHTNESS TEMPERATURES (GCOM-W)   |
 | NC021249 | A50243 | MTYP 021-249 EVERY  FOV AIRS/AMSU-A/HSB 1B BTEMPS(AQUA)  |
 | NC021250 | A50250 | MTYP 021-250 CENTER FOV AIRS/AMSU-A/HSB 1B BTEMPS(AQUA)  |
@@ -74,7 +76,9 @@
 | SCBTSEQN | 310053 | SAT CHANNELS AND BRIGHT TEMPS WITH EXPANDED CHANNEL SET  |
 | SVCASEQN | 310054 | SAT VISB CHANNELS AND ALBEDOS WITH EXPANDED CHANNEL SET  |
 | SATRCPRC | 310055 | SATELLITE RADIANCE/CHANNEL PRINCIPAL COMPONENTS          |
+| MWVSND1B | 310082 | Microwave Sounder Data (level 1B)                        |
 | AMSR2CHN | 310193 | AMSR2 CHANNEL SEQUENCE                                   |
+| AMSR2N14 | 311193 | AMSR2 14 channel sequence                                |
 |          |        |                                                          |
 | IASIL1CB | 340002 | IASI LEVEL 1C BAND DESCRIPTION SEQUENCE                  |
 | IASIL1CS | 340004 | IASI LEVEL 1C AVHRR SINGLE SCENE SEQUENCE                |
@@ -98,6 +102,9 @@
 | AIRSPC   | 350208 | AIRS PRINCIPAL COMPONENT SEQUENCE                        |
 | AIRSCORE | 350209 | AIRS PRINCIPAL COMPONENT FITS TO DATA SEQUENCE           |
 | AVCSEQ   | 350212 | AVHRR (GAC) CHANNEL SEQUENCE                             |
+| MWSSEQ1  | 310207 | MWS REPLICATION SEQUENCE 001                             |
+| MWSSEQ2  | 310208 | MWS REPLICATION SEQUENCE 002                             |
+| MWSSEQ3  | 310209 | MWS REPLICATION SEQUENCE 003                             |
 |          |        |                                                          |
 | SDRADSQ  | 360237 | STANDARD DEVIATION SEQUENCE                              |
 | SATEPHEM | 361118 | SSM/IS SATELLITE EPHEMERIS INFORMATION                   |
@@ -167,17 +174,22 @@
 | FORN     | 005045 | FIELD OF REGARD NUMBER                                   |
 | YAPCG    | 005060 | Y ANGULAR POSITION OF CENTER OF GRAVITY                  |
 | ZAPCG    | 005061 | Z ANGULAR POSITION OF CENTER OF GRAVITY                  |
+| BAND     | 005079 | Band number                                              |
+| RESRAD   | 005080 | Resolution radius                                        |
 |          |        |                                                          |
 | CLONH    | 006001 | LONGITUDE (HIGH ACCURACY)                                |
 | CLON     | 006002 | LONGITUDE (COARSE ACCURACY)                              |
 | WVNM     | 006029 | WAVE NUMBER                                              |
+| SMSSN    | 006042 | Space/moon scan sample number                            |
 |          |        |                                                          |
 | SELV     | 007001 | HEIGHT OF STATION                                        |
 | HMSL     | 007002 | HEIGHT OR ALTITUDE                                       |
 | PRLC     | 007004 | PRESSURE                                                 |
+| HEIT     | 007007 | Height                                                   |
 | SOEL     | 007022 | SOLAR ELEVATION                                          |
 | SAZA     | 007024 | SATELLITE ZENITH ANGLE                                   |
 | SOZA     | 007025 | SOLAR ZENITH ANGLE                                       |
+| ABMSV    | 007073 | Angle between moon and space view                        |
 | SSGA     | 007192 | SATELLITE-SUN GLINT ANGLE                                |
 |          |        |                                                          |
 | VSAT     | 008003 | VERTICAL SIGNIFICANCE (SATELLITE OBSERVATIONS)           |
@@ -191,6 +203,7 @@
 | TAPQ     | 008070 | TOVS/ATOVS PRODUCT IDENTIFIER                            |
 | STKO     | 008075 | ASCENDING/DESCENDING ORBIT QUALIFIER                     |
 | TOBD     | 008076 | TYPE OF BAND                                             |
+| STMM     | 008098 | Source of temperature measurement                        |
 |          |        |                                                          |
 | HOLS     | 010001 | HEIGHT OF LAND SURFACE                                   |
 | HITE     | 010002 | GEOPOTENTIAL HEIGHT                                      |
@@ -203,6 +216,7 @@
 | WLTM     | 012070 | WARM LOAD TEMPERATURE                                    |
 | SPRD     | 012075 | SPECTRAL RADIANCE                                        |
 | RDNE     | 012076 | RADIANCE                                                 |
+| TMDB     | 012101 | Temperature/air temperature                              |
 | NEDTCO   | 012158 | NOISE-EQUIVALENT DELTA TEMPERATURE VIEWING COLD TARGET   |
 | NEDTWA   | 012159 | NOISE-EQUIVALENT DELTA TEMPERATURE VIEWING WARM TARGET   |
 | TMBR     | 012163 | BRIGHTNESS TEMPERATURE (HIGH ACCURACY)                   |
@@ -236,6 +250,7 @@
 | APCFIT   | 025052 | LOG OF PRINCIPAL COMPONENTS NORMALIZED FIT TO DATA       |
 | SSID     | 025054 | SSMIS SUBFRAME ID NUMBER                                 |
 | MUHO     | 025055 | MULTIPLEXOR HOUSEKEEPING                                 |
+| SOFTV    | 025061 | Software identification and version number               |
 | MJFC     | 025070 | MAJOR FRAME COUNT                                        |
 | SACV     | 025075 | SATELLITE ANTENNA CORRECTIONS VERSION NUMBER             |
 | LOGRCW   | 025076 | LOG-10 OF (TEMPERATURE-RADIANCE CENTRAL WAVENUMBER)      |
@@ -243,6 +258,7 @@
 | BWCC2    | 025078 | BANDWIDTH CORRECTION COEFFICIENT 2 FOR ATOVS             |
 | IANG     | 025081 | INCIDENCE ANGLE                                          |
 | AANG     | 025082 | AZIMUTH ANGLE                                            |
+| GRANG    | 025084 | Geometric rotational angle                               |
 | FCPH     | 025085 | FRACTION OF CLEAR PIXELS IN HIRS FOV                     |
 | STCH     | 025140 | START CHANNEL                                            |
 | ENCH     | 025141 | END CHANNEL                                              |
@@ -277,6 +293,12 @@
 | ATMSSQ   | 033080 | SCAN LEVEL QUALITY FLAGS                                 |
 | ATMSCHQ  | 033081 | CHANNEL DATA QUALITY FLAGS                               |
 | VIIRSQ   | 033083 | RADIANCE DATA QUALITY FLAGS                              |
+| NEDTQW   | 033089 | Noise equivalent delta temperature (NEdT) quality indic  |
+| NEDTQC   | 033090 | NEdT quality indicators for cold target calibration      |
+| MWSSPF   | 033107 | MWS scan line processing flags                           |
+| MWSNSF   | 033108 | MWS navigation status flags                              |
+| MWSOQF   | 033109 | MWS overall quality flags                                |
+| MWSCPF   | 033110 | MWS channel processing flags                             |
 | TPQC2    | 033254 | 2-BIT INDICATOR OF QUALITY                               |
 |          |        |                                                          |
 | RSRD     | 035200 | RESTRICTIONS ON REDISTRIBUTION                           |
@@ -466,8 +488,29 @@
 | NC021242 | SOZA   SOLAZI  IANG  SMODE  RAID  TMINST  RAID  TMINST RAID       |
 | NC021242 | TMINST  RAID  TMINST "SASEQF"6                                    |
 |          |                                                                   |
+| NC021243 | MWVSND1B                                                          |
+|          |                                                                   |
+| MWVSND1B | TAPQ  OGCE  GSES  SAID  SIID  ORBN  SOFTV  201133  SLNM  201000   |
+| MWVSND1B | FOVN  SMSSN  YYMMDD  HHMM  207003  SECO  207000  LTLONH           |
+| MWVSND1B | "MWSSEQ1"2  202126  SELV  202000  SAZA  BEARAZ  SOZA  SOLAZI      |
+| MWVSND1B | 201124  202127  GRANG  202000  201000  ABMSV  WLTM  TMINST  STMM  |
+| MWVSND1B | TMDB  STMM  MWSSPF  MWSNSF  MWSOQF  "MWSSEQ2"24                   |
+|          |                                                                   |
+| MWSSEQ1  | RESRAD  201132  202129  ALFR  202000  201000  HEIT                |
+|          |                                                                   |
+| MWSSEQ2  | CHNM  "MWSSEQ3"4  ANPO  SCCF  BWCC1  BWCC2  207002  TMBRST        |
+| MWSSEQ2  | 207000  207001  NEDTQW  NEDTQC  207000  MWSCPF                    |
+|          |                                                                   |
+| MWSSEQ3  | BAND  202130  SCBW  202000                                        |
+|          |                                                                   |
 | NC021246 | SAID  SIID  OGCE  GSES  "CHINFO"13  SLNM  YYMMDD  HHMM  207003    |
 | NC021246 | SECO  207000  201129  HMSL  201000  (PIXELS)                      |
+|          |                                                                   |
+| NC021247 | SAID  OGCE  GSES  SIID  SCLF  YYMMDD  HHMM  207003  SECO  207000  |
+| NC021247 | ORBN  201133  SLNM  FOVN  201000  LTLONH  SOLAZI  SOEL  IANG      |
+| NC021247 | AANG  ACQF  208006  MTYP  208000  {AMSR2N14}                      |
+|          |                                                                   |
+| AMSR2N14 | SCCF  ALFR  VIIRSQ  ANPO  TMBR                                    |
 |          |                                                                   |
 | NC021248 | SAID     OGCE     GSES     SIID     SCLF     YYMMDD   HHMM        |
 | NC021248 | 207003   SECO     207000   ORBN     201133   SLNM     FOVN        |
@@ -830,5 +873,20 @@
 | REHU     |    0 |           0 |   7 | %                        |-------------|
 | DPRI     |    0 |           0 |   1 | FLAG TABLE               |-------------|
 | VSAT     |    0 |           0 |   6 | CODE TABLE               |-------------|
+| SOFTV    |    0 |           0 |  96 | CCITT IA5                |-------------|
+| SMSSN    |    0 |           0 |   6 | NUMERIC                  |-------------|
+| RESRAD   |   -3 |           0 |   6 | M                        |-------------|
+| HEIT     |    0 |       -1000 |  17 | M                        |-------------|
+| GRANG    |    5 |           0 |  26 | DEGREE                   |-------------|
+| ABMSV    |    2 |           0 |  15 | DEGREE                   |-------------|
+| STMM     |    0 |           0 |   4 | CODE TABLE               |-------------|
+| TMDB     |    2 |           0 |  16 | K                        |-------------|
+| MWSSPF   |    0 |           0 |  16 | FLAG TABLE               |-------------|
+| MWSNSF   |    0 |           0 |  16 | FLAG TABLE               |-------------|
+| MWSOQF   |    0 |           0 |  16 | FLAG TABLE               |-------------|
+| NEDTQW   |    2 |           0 |  12 | K                        |-------------|
+| NEDTQC   |    2 |           0 |  12 | K                        |-------------|
+| MWSCPF   |    0 |           0 |   9 | FLAG TABLE               |-------------|
+| BAND     |    0 |           0 |   6 | NUMERIC                  |-------------|
 |          |      |             |     |                          |-------------|
 `------------------------------------------------------------------------------'

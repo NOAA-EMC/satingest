@@ -93,6 +93,8 @@
 # 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
 #      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
+# 2025-12-03 S.Nadiga added functionality to access files from AWS and local disks
+#      localdiskcp refers to copying from local disks and syncaws refers to AWS
 #
 # Usage: ingest_query.sh <remote_machine> <directory_listing_file> <file_group>
 #
@@ -190,13 +192,68 @@ MACHINE=$1
 DIRFILE="$2"
 fname=$3
 
-mkdir -p $PTMPDIR/PROCESSED
-mkdir -p $PTMPDIR/EXCESSFILES
 echo " IN INGEST_QUERY; STATION 1 "
 echo " MACHINE is $MACHINE and  DIRFILE is $DIRFILE ; and fname is $fname "
 
-   if [ $TRANSFER_COMMAND = localdiskcp -a $TASK = 't_radsnd_lgycld' ] ; then
-	   /bin/ln -s /lfs/h1/ops/prod/dcom/nasa_clouds/*.nc $PTMPDIR
+########### CLEAN OLD FILES IN DIRECTORIES ##############
+########### CLEAN OLD FILES IN DIRECTORIES ##############
+########### CLEAN OLD FILES IN DIRECTORIES ##############
+
+   if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
+mkdir -p $PTMPDIR/STAGEFILES
+mkdir -p $PTMPDIR/DISCARD
+mkdir -p $STMPDIR/FORINGEST
+	   IFILES_MAX_SAFE=$(( $IFILES_MAX_GET * 60 / 100 ))
+	   IFILES_MIN_SAFE=$(( $IFILES_MAX_GET * 20 / 100 ))
+	   IFILES_MIN_SYNC=$(( $IFILES_MAX_GET * 5 / 100 ))
+	   echo " CALCULATION 2001; IFILES_MAX_GET IS $IFILES_MAX_GET and IFILES_MIN_SYNC IS $IFILES_MIN_SYNC AND IFILES_MAX_SAFE is $IFILES_MAX_SAFE "
+
+find $PTMPDIR/STAGEFILES/* -ctime +1 -print
+find $PTMPDIR/STAGEFILES/* -ctime +1 -exec rm -r -f {} \;
+find $PTMPDIR/STAGEFILES/* -ctime +1 -print
+
+find $PTMPDIR/DISCARD/* -ctime +1 -print
+find $PTMPDIR/DISCARD/* -ctime +1 -exec rm -r -f {} \;
+find $PTMPDIR/DISCARD/* -ctime +1 -print
+
+
+   fi
+
+########### FINISHED CLEANING OLD FILES IN DIRECTORIES ###############
+########### FINISHED CLEANING OLD FILES IN DIRECTORIES ###############
+########### FINISHED CLEANING OLD FILES IN DIRECTORIES ###############
+
+   if [ $TRANSFER_COMMAND = localdiskcp ] ; then
+	  
+	  echo " FILES FROM LOCALDISK and TASK = $TASK "
+	 
+	 if [ $TASK = 't-radsnd_lgycld' ] ; then  
+	   SOURCE_DIR=/lfs/h1/ops/prod/dcom/nasa_clouds/
+	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
+	  elif [ $TASK = 't_metop-sga1' ] ; then 
+	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/METOPSGA1/data1/smcd1/Metop-SGA1/
+	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
+	  elif [ $TASK = 't_mws_metop-sga1' ] ; then
+	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/MWS_METOPSGA1/data/smcd1/MWS_Metop-SGA1/
+	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
+	 else
+	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+	  exit
+         fi
+	   cd $SOURCE_DIR
+	   numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	   if [ $numb_files -ge 1 ] ; then
+
+find . -type f -mtime -1 -print0 | rsync -0av --files-from=- ./ $PTMPDIR/STAGEFILES
+
+	   fi
+
+#           /usr/bin/rsync -avh $SOURCE_DIR/*.* $PTMPDIR/STAGEFILES
+
+
    fi
 
 #  If the file group name contains one or more embedded asterisks ("*" -
@@ -222,8 +279,10 @@ transout=$DATA/transout.$host.$$
 
 
 echo " INGEST QUERY ; STATION 2 and  REMOTEDSNGRP is $REMOTEDSNGRP "
+if [ -s $DATA/transout.$host.$$ ] ; then 
 ls -l $DATA/transout.$host.$$
 cp  $DATA/transout.$host.$$ $DATA/outtrans1.$host.$$
+fi
 ls -l $DATA >> $DATA/AOUT_INGESTQUERY
 echo " INGEST_QUERY FINISHED STATION 2 "
 
@@ -237,7 +296,6 @@ echo
 echo "Time is now $(date -u)."
 echo
 [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
-
 
 #  Based on transfer mechanism, set up file transfer instructions
 #  --------------------------------------------------------------
@@ -270,31 +328,119 @@ quit
 EOH_trans_sftp
 
 elif [ $TRANSFER_COMMAND = localdiskcp ]; then
-	numb_files=`ls $PTMPDIR/*.* | wc -l`
-	if [ $numb_files -gt 0 ] ; then 
-		echo "YES;  EXCESS FILES ARE $numb_files  for $TRANSFER_COMMAND "
-	/bin/mv $PTMPDIR/EXCESSFILES/* $PTMPDIR
+####### CHECK IF THERE ARE FILES THAT WE NEED TO COPY OVER
+#	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+
+	cd $STMPDIR/FORINGEST
+	numb_STAGEAFTERCP=0
+	numb_files=0
+	if [ $numb_files -ge $IFILES_MIN_SAFE ] ; then 
+		echo "NO NEED TO COPY OVER; The number of files available to ingest is $numb_files  for $TRANSFER_COMMAND and IFILES_MIN_SAFE IS $IFILES_MIN_SAFE "
         else 
-		echo "NO; EXCESS FILES ARE $numb_files for $TRANSFER_COMMAND "
+		echo "YES, NEED TO COPY OVER; The number of files available to ingest is $numb_files  for $TRANSFER_COMMAND and IFILES_MIN_SAFE IS $IFILES_MIN_SAFE "
+#### Copy over from $PTMPDIR/STAGEFILES to fill the gap
+		numb_files_cp=`expr $IFILES_MIN_SAFE - $numb_files`
+		echo "numb_files is $numb_files and IFILES_MIN_SAFE is $IFILES_MIN_SAFE and numb_files_cp is $numb_files_cp"
+
+## REMOVE FROM DIRECTORY A THE FILES ALREADY IN DIRECTORY B. FOR US DIRECTORY A=$PTMPDIR/STAGEFILES and DIRECTORY B=$PTMPDIR/DISCARD
+#    ls -1 /path/to/DirectoryB | xargs -I {} rm -f "/path/to/DirectoryA/{}"
+#
+
+	cd $PTMPDIR/STAGEFILES	
+	        numb_filesSTAGE=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	echo " numb_filesSTAGE is $numb_filesSTAGE numb_files_cp is $numb_files_cp  numb_files is $numb_files and IFILES_MIN_SAFE is $IFILES_MIN_SAFE "
+	if  [ $numb_filesSTAGE -lt $numb_files_cp ] ; then numb_files_cp=$numb_filesSTAGE ; fi
+	if [ $numb_files_cp -ge 1 ] ; then 
+		echo " numb_files_cp is now $numb_files_cp and we are moving files to $STMPDIR/FORINGEST " 
+# Find the latest files and move this many [ $numb_files_cp ]
+
+cd $PTMPDIR/STAGEFILES
+ls -t $PTMPDIR/STAGEFILES/*.* | head -n $numb_files_cp | tr '\n' '\0' | xargs -0 mv -t $STMPDIR/FORINGEST
+#find . -maxdepth 1 -type f | head -n $numb_files_cp | xargs -I {} mv {} $STMPDIR/FORINGEST 
+
+	numb_STAGEAFTERCP=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	echo " BEFORE AND AFTER COPYING; CALCULATION 3001  $PTMPDIR/STAGEFILES HAD $numb_filesSTAGE files and now has $numb_STAGEAFTERCP files "
+	echo " $PTMPDIR/STAGEFILES HAD $numb_filesSTAGE files and now has $numb_STAGEAFTERCP files "
+	cd $STMPDIR/FORINGEST
+	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	echo " FINAL NUMBER OF FILES TO INGEST IS $numb_files "
+	cd $DATA
+	fi
+	fi
+
+##      CHECK IF MAX ALLOWED NUMBER OF FILES IS BREACHED 
+	cd $STMPDIR/FORINGEST
+	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	if [ $numb_files -gt $IFILES_MAX_SAFE ] ; then
+		echo " DIAGNOSE 1022; NUMBER OF FILES IN $STMPDIR/FORINGEST EXCEEDED $IFILES_MAX_SAFE "
+		echo " DIAGNOSE 1022; NUMB OF FILES IS $numb_files and MAX ALLOWED IS $IFILES_MAX_SAFE "
 	fi
 
 
 elif [ $TRANSFER_COMMAND = syncaws ]; then
-	numb_files=`ls $PTMPDIR/*.* | wc -l`
-	if [ $numb_files -gt 0 ] ; then 
-		echo "YES;  EXCESS FILES ARE $numb_files  for $TRANSFER_COMMAND "
-	/bin/mv $PTMPDIR/EXCESSFILES/* $PTMPDIR
+####### CHECK IF THERE ARE FILES THAT WE NEED TO COPY OVER
+#	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+
+	cd $STMPDIR/FORINGEST
+	numb_STAGEAFTERCP=0
+	numb_files=0
+	if [ $numb_files -ge $IFILES_MIN_SAFE ] ; then 
+		echo "NO NEED TO COPY OVER; The number of files available to ingest is $numb_files  for $TRANSFER_COMMAND and IFILES_MIN_SAFE IS $IFILES_MIN_SAFE "
         else 
-		echo "NO; EXCESS FILES ARE $numb_files for $TRANSFER_COMMAND "
+		echo "YES, NEED TO COPY OVER; The number of files available to ingest is $numb_files  for $TRANSFER_COMMAND and IFILES_MIN_SAFE IS $IFILES_MIN_SAFE "
+#### Copy over from $PTMPDIR/STAGEFILES to fill the gap
+		numb_files_cp=`expr $IFILES_MIN_SAFE - $numb_files`
+		echo "numb_files is $numb_files and IFILES_MIN_SAFE is $IFILES_MIN_SAFE and numb_files_cp is $numb_files_cp"
+
+## REMOVE FROM DIRECTORY A THE FILES ALREADY IN DIRECTORY B. FOR US DIRECTORY A=$PTMPDIR/STAGEFILES and DIRECTORY B=$PTMPDIR/DISCARD
+#    ls -1 /path/to/DirectoryB | xargs -I {} rm -f "/path/to/DirectoryA/{}"
+#
+
+	cd $PTMPDIR/STAGEFILES	
+	        numb_filesSTAGE=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	echo " numb_filesSTAGE is $numb_filesSTAGE numb_files_cp is $numb_files_cp  numb_files is $numb_files and IFILES_MIN_SAFE is $IFILES_MIN_SAFE "
+	if  [ $numb_filesSTAGE -lt $numb_files_cp ] ; then numb_files_cp=$numb_filesSTAGE ; fi
+	if [ $numb_files_cp -ge 1 ] ; then 
+		echo " numb_files_cp is now $numb_files_cp and we are moving files to $STMPDIR/FORINGEST " 
+# Find the latest files and move this many [ $numb_files_cp ]
+
+cd $PTMPDIR/STAGEFILES
+ls -t $PTMPDIR/STAGEFILES/*.* | head -n $numb_files_cp | tr '\n' '\0' | xargs -0 mv -t $STMPDIR/FORINGEST
+#find . -maxdepth 1 -type f | head -n $numb_files_cp | xargs -I {} mv {} $STMPDIR/FORINGEST 
+
+	numb_STAGEAFTERCP=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	echo " BEFORE AND AFTER COPYING; CALCULATION 3001  $PTMPDIR/STAGEFILES HAD $numb_filesSTAGE files and now has $numb_STAGEAFTERCP files "
+	echo " $PTMPDIR/STAGEFILES HAD $numb_filesSTAGE files and now has $numb_STAGEAFTERCP files "
+	cd $STMPDIR/FORINGEST
+	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	echo " FINAL NUMBER OF FILES TO INGEST IS $numb_files "
+	cd $DATA
+	fi
 	fi
 
-NUMFILES=`ls $PTMPDIR/*.* | wc -l`
-if [ $NUMFILES -ge $IFILES_MAX_GET ] ; then 
+##      CHECK IF MAX ALLOWED NUMBER OF FILES IS BREACHED 
+	cd $STMPDIR/FORINGEST
+	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+	if [ $numb_files -gt $IFILES_MAX_SAFE ] ; then
+		echo " DIAGNOSE 2022; NUMBER OF FILES IN $STMPDIR/FORINGEST EXCEEDED $IFILES_MAX_SAFE "
+		echo " DIAGNOSE 2022; NUMB OF FILES IS $numb_files and MAX ALLOWED IS $IFILES_MAX_SAFE "
+	fi
+
+
+##### COPIED OVER FROM $PTMPDIR/STAGEFILES . NOW, CHECK IF YOU NEED TO SYNC WITH AWS
+##### CHECK IF THE NUMBER OF FILES IN $PTMPDIR/STAGEFILES is GE THAN $IFILES_MAX_SAFE. IF YES, THEN
+##### DON'T SYNC. IF NO, THEN YOU NEED TO SYNC WITH AWS
+
+if [ $numb_STAGEAFTERCP -ge $IFILES_MIN_SYNC ] ; then 
 	CLOUDSYNC=NO 
-	echo "CLOUDSYNC=NO ; NUMFILES IS $NUMFILES and IFILES_MAX_GET is $IFILES_MAX_GET "
+	echo "CLOUDSYNC=NO  ; numb_STAGEAFTERCP is $numb_STAGEAFTERCP and IFILES_MIN_SYNC is $IFILES_MIN_SYNC "
+		echo " NOT GOING TO SYNC : THE FILES AVAILABLE in STAGEFILES ARE "
+		ls -l $PTMPDIR/STAGEFILES 
 else
 	CLOUDSYNC=YES
-	echo "CLOUDSYNC=YES ; NUMFILES IS $NUMFILES and IFILES_MAX_GET is $IFILES_MAX_GET "
+	echo "CLOUDSYNC=YES ; numb_STAGEAFTERCP is $numb_STAGEAFTERCP and IFILES_MIN_SYNC is $IFILES_MIN_SYNC "
+		echo " YES, GOING TO SYNC : THE FILES AVAILABLE in STAGEFILES ARE "
+		ls -l $PTMPDIR/STAGEFILES 
 
 ###########  START SYNCING FILES FROM AWS ###################
 ###########  START SYNCING FILES FROM AWS ###################
@@ -303,46 +449,175 @@ else
 ###########  START SYNCING FILES FROM AWS ###################
 
 date -u
+#### FIRST CLEAN OUT $PTMPDIR/STAGEFILES
+/bin/rm -rf $PTMPDIR/STAGEFILES/
+mkdir -p $PTMPDIR/STAGEFILES
 
-mkdir -p $PTMPDIR/SYNCDIR
-echo " load the AWS module "
+#####################################################################
+# LOOK FOR A PATTERN AND SEPARATE STRING BEFORE AND AFTER THE PATTERN
+#https://www.google.com/search?q=all+characters+until+a+pattern+in+bash&rlz=1C1GCEB_enUS1053US1054&oq=all+characters+until+a+pattern+in+bash&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQRRhA0gEKMjAwNDRqMGoxNagCCLACAfEFjwCY1jHpgak&sourceid=chrome&ie=UTF-8
+#####################################################################
+#bash# Stop before the word "target" (Excludes "target")
+#echo "hello-world-target-end" | grep -oP '^.*?(?=target)'
+# Output: hello-world-
 
-echo "IFILES_MAX_GET is $IFILES_MAX_GET "
+# Stop after the word "target" (Includes "target")
+#echo "hello-world-target-end" | grep -oP '^.*?(?=target)target'
+# Output: hello-world-target
+#
+# LOOK FOR A PATTERN AND SEPARATE STRING BEFORE AND AFTER THE PATTERN
+#####################################################################
+#  Google Search: get characters after string in bash
+#
+#bashtext="Error level: critical system failure"
+#result=$(echo "$text" | sed 's/.*level: //')
 
-echo " STARTING TO SYNC $DIRAWS1 "
-aws s3 sync s3://$DIRAWS1 $PTMPDIR/SYNCDIR/ --profile nccf
-echo "Done for $DIRAWS1 "
-aws s3 sync s3://$DIRAWS2 $PTMPDIR/SYNCDIR/ --profile nccf
-echo " Done for $DIRAWS2 "
-aws s3 sync s3://$DIRAWS3 $PTMPDIR/SYNCDIR/ --profile nccf
-echo "Done for $DIRAWS3 "
-aws s3 sync s3://$DIRAWS4 $PTMPDIR/SYNCDIR/ --profile nccf
-echo " Done for $DIRAWS4 "
+#echo "$result"
+# Output: critical system failure
+#
+#########################################################
 
-echo "DONE SYNCING WITH AWS SERVER "
-
-
-#####                 
-#####  https://stackoverflow.com/questions/105212/recursively-list-all-files-in-a-directory-including-files-in-symlink-directories
-
-##find /dir -type f -follow -print
-## -type f means it will display real files (not symlinks)
-
-## -follow means it will follow your directory symlinks
-
-## -print will cause it to display the filenames.
-
-## If you want a ls type display, you can do the following
-
-##  find /dir -type f -follow -print|xargs ls -l
+#To overwrite an existing link or file in Linux using the ln -s command, 
+#you must add the -f (force) option to your command: ln -sf /path/to/target /path/to/link. 
+#By default, running a standard ln -s command when the destination link name already exists 
+#will cause the terminal to throw a "File exists" error and fail.
 
 
+
+kdays=0
+while [ $kdays -le $kbackupdays ]; do
+
+date -u
+ikdate=$(date --date="- $kdays day" +%Y%m%d)
+echo " ikdate is $ikdate ; kdays is $kdays and kbackupdays is $kbackupdays "
+
+kyyyy=$(echo $ikdate | cut -c 1-4)
+kmm=$(echo $ikdate | cut -c 5-6)
+kdy=$(echo $ikdate | cut -c 7-8)
+echo " idate is $ikdate kyyyy is $kyyyy ; kmm is $kmm ; kdy is $kdy "
+kcounter=1
+# Loop as long as the counter is less than or equal to the maximum value
+while [ $kcounter -le $knumber ]; do
+ echo "Count is $kcounter"
+
+if [ $kcounter -eq 1 ] ; then  
+	export DIRAWS=$DNCF1
+	export DSTRNG=$SNCF1
+elif [ $kcounter -eq 2 ] ; then  
+	export DIRAWS=$DNCF2 
+	export DSTRNG=$SNCF2 
+elif [ $kcounter -eq 3 ] ; then  
+	export DIRAWS=$DNCF3
+	export DSTRNG=$SNCF3 
+elif [ $kcounter -eq 4 ] ; then  
+	export DIRAWS=$DNCF4
+	export DSTRNG=$SNCF4 
+elif [ $kcounter -eq 5 ] ; then  
+	export DIRAWS=$DNCF5
+	export DSTRNG=$SNCF5
+elif [ $kcounter -eq 6 ] ; then  
+	export DIRAWS=$DNCF6
+	export DSTRNG=$SNCF6
+elif [ $kcounter -eq 7 ] ; then  
+	export DIRAWS=$DNCF7
+	export DSTRNG=$SNCF7
+elif [ $kcounter -eq 8 ] ; then  
+	export DIRAWS=$DNCF8
+	export DSTRNG=$SNCF8
+else
+	echo " kcounter greater than  8 "
+fi
+echo " STARTING TO SYNC "
+echo " STARTING TO SYNC: DIRAWS is $DIRAWS and DSTRNG is $DSTRNG "
+if [ $isyncalldays = NO ] ; then 
+echo " isyncalldays is $isyncalldays ; SYNC BY DAYS "
+echo " STARTING TO SYNC ${DIRAWS}$kyyyy/$kmm/$kdy "
+mkdir -p $PTMPDIR/SYNCDIR/${DIRAWS}$kyyyy/$kmm/$kdy
 set +e
-find $PTMPDIR/SYNCDIR/ -name '*.*' -exec /usr/bin/cp --backup=no -t $PTMPDIR {} +
-set -xe
+aws s3 sync s3://${DIRAWS}$kyyyy/$kmm/$kdy $PTMPDIR/SYNCDIR/${DIRAWS}$kyyyy/$kmm/$kdy --profile nccf
+find $PTMPDIR/SYNCDIR/${DIRAWS}$kyyyy/$kmm/$kdy -name "$DSTRNG" -mtime -1 -exec /usr/bin/ln -sf --backup=no -t $PTMPDIR/STAGEFILES {} +
+echo "Done for ${DIRAWS}$kyyyy/$kmm/$kdy "
+else
+echo " isyncalldays is $isyncalldays ; SYNC THE WHOLE PREFIX "
+echo " STARTING TO SYNC ${DIRAWS} "
+mkdir -p $PTMPDIR/SYNCDIR/${DIRAWS}
+set +e
+aws s3 sync s3://${DIRAWS} $PTMPDIR/SYNCDIR/${DIRAWS} --profile nccf
+find $PTMPDIR/SYNCDIR/${DIRAWS} -name "$DSTRNG" -mtime -1 -exec /usr/bin/ln -sf --backup=no -t $PTMPDIR/STAGEFILES {} +
+echo "Done for ${DIRAWS} "
+fi
 
-ls -l $PTMPDIR
+
+ls -l $PTMPDIR/STAGEFILES
+set -xe
+  ((kcounter++))
+done
+echo "Loop finished."
+echo "DONE SYNCING WITH AWS SERVER for kdays = $kdays "
+ ((kdays++))
+done
+echo "DONE SYNCING WITH AWS SERVER for all lags; ikdate = $ikdate "
+#####                 
+#####
+#exit
+
+## REMOVE FROM DIRECTORY A THE FILES ALREADY IN DIRECTORY B. FOR US DIRECTORY A=$PTMPDIR/STAGEFILES and DIRECTORY B=$PTMPDIR/DISCARD
+#    ls -1 /path/to/DirectoryB | xargs -I {} rm -f "/path/to/DirectoryA/{}"
+#
+
+echo " REMOVE FROM DIRECTORY A THE FILES ALREADY IN DIRECTORY B"
+echo "FOR US DIRECTORY A is $PTMPDIR/STAGEFILES and DIRECTORY B is $PTMPDIR/DISCARD "
+
+cd $PTMPDIR/STAGEFILES
+
+	numb_STAGEBEFORECLEAN=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+echo " BEFORE REMOVING FILES ALSO IN $PTMPDIR/DISCARD, WE NOW HAVE $numb_STAGEBEFORECLEAN files in $PTMPDIR/STAGEFILES "
+
+    ls -1 $PTMPDIR/DISCARD | xargs -I {} rm -f "$PTMPDIR/STAGEFILES/{}"
+
+	numb_STAGEAFTERCLEAN=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+echo " AFTER REMOVING FILES ALSO IN $PTMPDIR/DISCARD, WE NOW HAVE $numb_STAGEAFTERCLEAN files in $PTMPDIR/STAGEFILES "
+
+cd $STMPDIR/FORINGEST
+find . -maxdepth 1 -type f -print0 | xargs -0 ls -l
 echo " DONE WITH THIS JOB "
+
+	numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+                numb_files_cp=`expr $IFILES_MIN_SAFE - $numb_files`
+                echo "AFTER SYNCING; numb_files is $numb_files and IFILES_MIN_SAFE is $IFILES_MIN_SAFE and numb_files_cp is $numb_files_cp"
+
+## REMOVE FROM DIRECTORY A THE FILES ALREADY IN DIRECTORY B. FOR US DIRECTORY A=$PTMPDIR/STAGEFILES and DIRECTORY B=$PTMPDIR/DISCARD
+#    ls -1 /path/to/DirectoryB | xargs -I {} rm -f "/path/to/DirectoryA/{}"
+#
+
+        cd $PTMPDIR/STAGEFILES
+                numb_filesSTAGE=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+        echo " AFTER SYNCING; numb_filesSTAGE is $numb_filesSTAGE numb_files_cp is $numb_files_cp  numb_files is $numb_files and IFILES_MIN_SAFE is $IFILES_MIN_SAFE "
+        if  [ $numb_filesSTAGE -lt $numb_files_cp ] ; then numb_files_cp=$numb_filesSTAGE ; fi
+        if [ $numb_files_cp -ge 1 ] ; then
+                echo " AFTER SYNCING; numb_files_cp is now $numb_files_cp and we are moving files to $STMPDIR/FORINGEST " 
+# Find the latest files and move this many [ $numb_files_cp ]
+
+cd $PTMPDIR/STAGEFILES
+ls -t $PTMPDIR/STAGEFILES/*.* | head -n $numb_files_cp | tr '\n' '\0' | xargs -0 mv -t $STMPDIR/FORINGEST
+#find . -maxdepth 1 -type f | head -n $numb_files_cp | xargs -I {} mv {} $STMPDIR/FORINGEST 
+
+        numb_STAGEAFTERCP=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+        echo " AFTER SYNCING; BEFORE&AFTER COPYING; CALCULATION 333001  $PTMPDIR/STAGEFILES HAD $numb_filesSTAGE files;now has $numb_STAGEAFTERCP files "
+        echo " AFTER SYNCING; $PTMPDIR/STAGEFILES HAD $numb_filesSTAGE files and now has $numb_STAGEAFTERCP files "
+        cd $STMPDIR/FORINGEST
+        numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+        echo " AFTER SYNCING; FINAL NUMBER OF FILES TO INGEST IS $numb_files "
+        cd $DATA
+        fi
+
+##      CHECK IF MAX ALLOWED NUMBER OF FILES IS BREACHED 
+        cd $STMPDIR/FORINGEST
+        numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+        if [ $numb_files -gt $IFILES_MAX_SAFE ] ; then
+                echo " DIAGNOSE 333022; NUMBER OF FILES IN $STMPDIR/FORINGEST EXCEEDED $IFILES_MAX_SAFE "
+                echo " DIAGNOSE 333022; NUMB OF FILES IS $numb_files and MAX ALLOWED IS $IFILES_MAX_SAFE "
+        fi
 
 ###########  FINISH SYNCING FILES FROM AWS ###################
 ###########  FINISH SYNCING FILES FROM AWS ###################
@@ -386,79 +661,13 @@ fi
 transerror=99
 itries=1
    if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
- SOURCE_DIR=$PTMPDIR
- DEST_DIR=$PTMPDIR/PROCESSED
-mkdir -p $DEST_DIR $SOURCE_DIR
+
+
 echo " QUERYPOINT 7711 "
+####################################################
+####################################################
 
-##################################### SKIPPING LINES ############################
-##################################### SKIPPING LINES ############################
-##################################### SKIPPING LINES ############################
-##################################### SKIPPING LINES ############################
-if [ $transerror -lt 0 ] ; then 
-nsource=`ls $SOURCE_DIR/*.* | wc -l`
-ndest=`ls $DEST_DIR/*.* | wc -l`
-
-if [ $nsource -gt 0 -a $ndest -gt 0 ] ; then
-# Get a sorted list of filenames in both directories
-find "$SOURCE_DIR" -maxdepth 1 -type f -printf "%f\n" | sort > $DEST_DIR/source_files.txt
-find "$DEST_DIR" -maxdepth 1 -type f -printf "%f\n" | sort > $DEST_DIR/dest_files.txt
-
-# Find common files and remove them from the source directory
-comm -12 $DEST_DIR/source_files.txt $DEST_DIR/dest_files.txt | while read -r filename; do
-    echo "Removing $SOURCE_DIR/$filename as it exists in $DEST_DIR"
-    rm "$SOURCE_DIR/$filename"
-done
-
-# Clean up temporary files
-rm  $DEST_DIR/source_files.txt
-rm  $DEST_DIR/dest_files.txt
-
-# Clean up OLD PROCESSED files
-find $DEST_DIR/* +1 -print
-find $DEST_DIR/* -ctime +1 -ctime +1 -exec rm -r -f {} \;
-find $DEST_DIR/* -ctime +1 -print
-
-echo " END OF CLEANUP; QUERYPOINT 77111 "
-fi
-
-
-#######################################
-# https://superuser.com/questions/268344/how-do-i-delete-all-but-10-newest-files-in-linux
-# keepoldest
-#
-# Simple directory trimming tool to handle housekeeping
-# Scans a directory and deletes all but the $IFILES_MAX_GET oldest files
-#
-# Usage: cleanup <dir> <number of files to keep>
-#
-# v 1.0 Piers Goodhew 1/mar/2007. No rights retained.
-
-
-echo " QUERYPOINT 77112 "
-cd $PTMPDIR
-files_in_dir=`ls | wc -l`
-files_to_move=`expr $files_in_dir - $IFILES_MAX_GET`
-if [ $files_to_move -gt 0 ]; then
-  ls -t | head -n $files_to_delete | xargs /bin/mv $PTMPDIR/EXCESSFILES
-  if [ $? -ne 0 ]; then
-    echo "An error ocurred moving the files"
-    exit 1
-  else
-    echo "$files_to_move file(s) moved."
-  fi
-else
-  echo "nothing to move!"
-fi
-files_in_dirnow=`ls | wc -l`
-echo " QUERYPOINT 7712 "
-echo "NUMBER OF FILES BFEORE CLEANUP WAS $files_in_dir ; NOW IS $files_in_dirnow   "
-##################################### END OF SKIPPING LINES ####################
-##################################### END OF SKIPPING LINES ####################
-##################################### END OF SKIPPING LINES ####################
-##################################### END OF SKIPPING LINES ####################
-   fi 
-cd $DATA
+   cd $DATA
 
 #######################################
 
@@ -467,21 +676,22 @@ cd $DATA
    remotedsngrp=$REMOTEDSNGRP
    machine=$MACHINE  
 echo " IN INGEST_QUERY STATION 30000 LIST FILES IN $DATA BEFORE LISTING "
-if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+if [ -s $STMPDIR/FORINGEST/aout ] ; then rm $STMPDIR/FORINGEST/aout ; fi
 if [ -s $DATA/aout ] ; then rm $DATA/aout ; fi
-find $PTMPDIR/*.*  -printf "%f\n" > $DATA/aout
-find $PTMPDIR/$REMOTEDSNGRP*  -printf "%f\n" > $DATA/aout_TEST
+find $STMPDIR/FORINGEST/*.*  -printf "%f\n" > $DATA/aout
+find $STMPDIR/FORINGEST/$REMOTEDSNGRP*  -printf "%f\n" > $DATA/aout_TEST
 cp $DATA/aout  $DATA/transquery.output.$host.$$
-if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+if [ -s $STMPDIR/FORINGEST/aout ] ; then rm $STMPDIR/FORINGEST/aout ; fi
 transerror=0
+if [ -s $DATA/transquery.output.$host.$$ ] ; then 
 cp $DATA/transquery.output.$host.$$ $DATA/transquery.input.$host.$$
-
+fi
 echo " QUERYPOINT 7713 "
 
 echo " LIST FILES IN $DATA BEFORE LISTING "
 ls -l $DATA
 cp $DATA/aout $DATA/transquery.output.$host.$$
-if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+if [ -s $STMPDIR/FORINGEST/aout ] ; then rm $STMPDIR/FORINGEST/aout ; fi
 cp $DATA/transquery.output.$host.$$ $DATA/querytrans.output101.$host.$$
 echo " LIST FILES IN $DATA AFTER LISTING "
 ls -l $DATA
@@ -582,7 +792,7 @@ $//' | cat | \
       elif [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 		echo " LAST FIX IN INGEST_QUERY , STATION 3001 "
 		cp $DATA/aout $DATA/transquery.output.$host.$$
-                if [ -s $PTMPDIR/aout ] ; then rm $PTMPDIR/aout ; fi
+                if [ -s $STMPDIR/FORINGEST/aout ] ; then rm $STMPDIR/FORINGEST/aout ; fi
 		transerror=0
 echo " QUERYPOINT 7716 "
    elif [ $TRANSFER_COMMAND = ftp -o $TRANSFER_COMMAND = lftp ]; then
@@ -734,9 +944,6 @@ echo " QUERYPOINT 7720 "
 fi
 
 echo "STATION 108 in ingest_query.sh "
-ls -l $DATA/OUTPUT*
-ls -l $DATA/INPUT*
-ls -l $DATA/transquery*
 
 cp $DATA/transquery.output.$host.$$ $DATA/OUTPUT_TRANSQUERY.$$
 cp $DATA/transquery.input.$host.$$ $DATA/INPUT_TRANSQUERY.$$

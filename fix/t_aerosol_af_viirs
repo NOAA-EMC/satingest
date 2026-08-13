@@ -11,11 +11,12 @@ echo "Enter fix/t_aerosol_af_viirs"
 echo $ngroup 
 echo "argc = '$#'"
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-synaws}
 export ndayarch=${ndayarch:-30}
 export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
+export IFILES_MAX_GET=${IFILES_MAX_GET:-799}
 
 PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 

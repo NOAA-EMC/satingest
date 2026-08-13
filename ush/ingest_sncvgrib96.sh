@@ -184,7 +184,7 @@ fi
 cd $DATA
 
 if [ $(echo $2 | grep \.gz$) ]; then
-  gunzip $2
+  gunzip -f $2
   err=$?
   if [ $err -ne 0 ];then
      msg="***WARNING: Could not gunzip file $2.  Skip."

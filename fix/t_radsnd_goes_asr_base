@@ -8,7 +8,7 @@ export RUN=${RUN:-t_radsnd_goes_asr_base}
 export DATATYPE=${DATATYPE:-T_RADSND_GOES_ASR_BASE}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export FTYPE=${FTYPE:-bufr}
 export HISTLENMIN=${HISTLENMIN:-3900}
 export HISTLENMAX=${HISTLENMAX:-4200}

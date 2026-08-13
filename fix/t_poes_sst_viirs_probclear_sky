@@ -8,7 +8,7 @@ export RUN=${RUN:-t_poes_sst_viirs_probclear_sky}
 export DATATYPE=${DATATYPE:-T_POES_SST_VIIRS_PROBCLEAR_SKY}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export ndayarch=${ndayarch:-4}
 export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}

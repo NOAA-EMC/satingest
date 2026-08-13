@@ -20,6 +20,8 @@ PDAFileLinks/NDE/OMPS/OMPS-LP-EV-EDR_v2r51_npp_s???????????????_e???????????????
       eval HISTLENMIN${n}=\${HISTLENMIN${n}:-24700}
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-25000}
       eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_ompslp.out}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
+
 
 
 

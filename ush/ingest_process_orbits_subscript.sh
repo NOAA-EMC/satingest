@@ -303,11 +303,18 @@ $TARGETFILE copied for $yyyymmdd"
                   echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
 
+##  ${neworbit:2}: This is a parameter expansion that takes the value of the variable neworbit 
+#    and starts extracting from the index 2 (the 3rd character) until the end of the string.
 
                  neworbitfile="${neworbit:2}"
-                 if [ -s $PTMPDIR/$neworbitfile ] ; then 
-		 echo " moving $neworbitfile to $PTMPDIR/PROCESSED "
-		 /bin/mv $PTMPDIR/$neworbitfile $PTMPDIR/PROCESSED/.
+                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
+		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
+		 fi
+
+                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
+		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
 		 fi
 
                   if [ $DELAFTPROC = YES ] ; then
@@ -323,6 +330,18 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
+
+                 neworbitfile="${neworbit:2}"
+                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
+		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
+		 fi
+
+                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
+		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
+		 fi
+
                   if [ $DELAFTPROC = YES ] ; then
                      rm $DATA/$dsname
                   fi
@@ -343,12 +362,17 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                  
-	        neworbitfile="${neworbit:2}"
-                 if [ -s $PTMPDIR/$neworbitfile ] ; then 
-		 echo " moving $neworbitfile to $PTMPDIR/PROCESSED "
-		 /bin/mv $PTMPDIR/$neworbitfile $PTMPDIR/PROCESSED/.
+                 neworbitfile="${neworbit:2}"
+                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
+		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
 		 fi
-               
+
+                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
+		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
+		 fi
+
 		 if [ $DELAFTPROC = YES ] ; then
                   rm $DATA/$dsname
                fi
@@ -362,6 +386,18 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                noproccount=$(($noproccount+1))
                echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
+
+                 neworbitfile="${neworbit:2}"
+                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
+		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
+		 fi
+
+                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
+		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
+		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
+		 fi
+
                if [ $DELAFTPROC = YES ] ; then
                   rm $DATA/$dsname
                fi

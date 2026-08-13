@@ -8,7 +8,7 @@ export RUN=${RUN:-t_satwnd_wvics_dmw}
 export DATATYPE=${DATATYPE:-T_SATWND_WVICS_DMW}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export FTYPE=${FTYPE:-bufr}
 export HISTLENMIN=${HISTLENMIN:-4200}
 export HISTLENMAX=${HISTLENMAX:-4500}
@@ -17,6 +17,6 @@ export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export log=${log:-$OUTDIR/tranjb_ingest_satwnd.out}
-
+export IFILES_MAX_GET=${IFILES_MAX_GET:-3999}
 PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 ################################

@@ -7,9 +7,14 @@ echo " Starting $TASK and  $TASK.$family "
 # ----------------------------------------------------------------
 
       eval ORBITLIST${n}=\${ORBITLIST${n}:-snocovr.dailylist96}
-      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
+      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-syncaws}
+      eval knumber=1
+
+eval DNCF1="$AWSDIR/NESDIS_IMS-V3_4km_asc_gz/"
+eval SNCF1="NIC.IMS_v3_???????00_4km.asc.gz"
+
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"\
-PDAFileLinks/PULL/ASCII/NIC.IMS_v3_???????00_4km.asc.gz"'}           # this picks up 00Z file only
+$SNCF1"'}           # this picks up 00Z file only
       eval TANKFILE${n}=\${TANKFILE${n}:-none}
       eval EXECUTE${n}=\${EXECUTE${n}:-ingest_sncvgrib96.sh}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-none}
@@ -20,3 +25,4 @@ PDAFileLinks/PULL/ASCII/NIC.IMS_v3_???????00_4km.asc.gz"'}           # this pick
 
 echo " Completed $TASK and $TASK.$family "
 # ----------------------------------------------------------------------
+echo " DONE WITH AWS SERVER "

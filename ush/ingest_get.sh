@@ -153,13 +153,6 @@ fi
 
 
 
-#######    EXAMPLE OF COMMAND TO GET FILES FROM ingest_process_orbits.sh #####################
-#>ingest_process_orbits.sh:L480 + ksh /lfs/h2/emc/obsproc/noscrub/sudhir.nadiga/GITHUBDIR/INSTALL/rel_sat5_XIAOXUE/ush/ingest_get.sh 140.90.190.122 /lfs/h2/emc/stmp/sudhir.nadiga/787960/jobid_81837_t_radsnd_goes_asr_base_1354/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr PDAFileLinks/PULL/BIN/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr
-#+ ===>ingest_process_orbits.sh:L480 + 2>& 1
-#   MACHINE=140.90.190.122
-#   LOCDSN=/lfs/h2/emc/stmp/sudhir.nadiga/787960/jobid_81837_t_radsnd_goes_asr_base_1354/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr
-#   REMOTEDSN=PDAFileLinks/PULL/BIN/ABI-L2-ASRF-M6_v2r3_g18_s202504091310217_e202504091319525_c202504091327110.bufr
-#
 ########################################################
 
 if [ $# -ne 3 ] ; then
@@ -204,10 +197,7 @@ EOH_trans_sftp
 elif [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ]; then
 cat <<EOH_trans_localdiskcp > $DATA/transget.input.$host.$$
 echo " IN INGEST_GET and STATION 1000
-echo " REMOTEDSN Is $REMOTEDSN and LOCDSN IS $LOCDSN BEFORE and cloudfilename  is $cloudfilename and filename is $filename "
-#ln -a $PTMPDIR/cloudfilename $LOCDSN
-echo " LOCDSN IS $LOCDSN AFTER and cloudfilename  is $cloudfilename and filename is $filename "
-echo "LOCDSN is $LOCDSN "
+echo " REMOTEDSN Is $REMOTEDSN and LOCDSN IS $LOCDSN "
 EOH_trans_localdiskcp
 ###################################################
 
@@ -273,8 +263,12 @@ fi
 
 
 ls -l $DATA >> $DATA/AOUT_GETINGEST1
+if [ -s $DATA/transget.input.$$ ] ; then
+	echo " HERE IN INGEST.GET :  COPY TRANSGET.INPUT AND THEN DELETE "
 cp $DATA/transget.input.$$ $DATA/gettrans.input101
 rm $DATA/transget.input.$host.$$
+	echo " HERE IN INGEST.GET :  COPIED TRANSGET.INPUT AND THEN DELETED "
+fi
 
 #  Cat out the standard output from the transfer process and remove it
 #  -------------------------------------------------------------------
@@ -290,21 +284,61 @@ if [ $errgrep -eq 0 -a $TRANSFER_COMMAND = wget ]; then
    errgrep1=$?
    [ $errgrep1 -eq 0 ]  &&  errgrep=1
 fi
+
+if [ -s $transout ] ; then
 cat $transout
+fi
 echo
 [ $DEBUGSCRIPTS = ON -o $DEBUGSCRIPTS = YES ]  &&  set -x
 
+if [ -s $transout ] ; then
 cp $transout $DATA/OUTTRANS
+echo " IN INGEST.GET ;  COPIED TRANSOUT TO OUTTRANS "
 rm $transout
+echo " IN INGEST.GET ;  DELETED TRANSOUT "
+fi
+
 
 [ $TRANSFER_COMMAND = wget ]  &&  rm $DATA/index.html*
 
 if [ $TRANSFER_COMMAND = localdiskcp -o $TRANSFER_COMMAND = syncaws ] ; then
 
-########  CHANGED ON 20250605 ################
-	ln -s $PTMPDIR/*.* $DATA/.
-#	cp $PTMPDIR/*.* $DATA/.
-########  CHANGED ON 20250605 ################
+
+#########################################################################################
+## check that the number of files is less than $IFILES_MAX_GET and remove the overflow ##
+## check that the number of files is less than $IFILES_MAX_GET and remove the overflow ##
+## ALSO, REMOVE DUMMY.DUMMY     
+#########################################################################################
+
+        cd $STMPDIR/FORINGEST
+        numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+        if [ $numb_files -gt $IFILES_MAX_GET ] ; then
+                echo "MAJOR PROBLEM. NEED TO DIAGNOSE HOW THE NUMBER OF FILES IN $STMPDIR/FORINGEST EXCEEDED $IFILES_MAX_GET "
+                echo "MAJOR PROBLEM. NEED TO DIAGNOSE HOW THE NUMBER OF FILES $numb_files EXCEEDED $IFILES_MAX_GET "
+        if [ -s $PTMPDIR/TEMPDIR ] ; then rm -rf $PTMPDIR/TEMPDIR ; fi
+        mkdir -p $PTMPDIR/TEMPDIR
+        FILE_LIST=list_of_files
+        if [ -s $DATA/$FILE_LIST ] ; then rm $DATA/$FILE_LIST ; fi
+        find . -maxdepth 1 -type f -print0 | xargs -0 ls -t | head -n $IFILES_MAX_GET > $DATA/$FILE_LIST
+        cd $STMPDIR/FORINGEST
+        xargs -d '\n' mv -t "$PTMPDIR/TEMPDIR" < "$DATA/$FILE_LIST"
+        if [ -s $DATA/$FILE_LIST ] ; then rm $DATA/$FILE_LIST ; fi
+        rm $STMPDIR/FORINGEST/*.*
+        mv $PTMPDIR/TEMPDIR/*.* $STMPDIR/FORINGEST/.
+        rm -rf $PTMPDIR/TEMPDIR
+        numbAFTERCLEANUP=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
+        if [ $numbAFTERCLEANUP -gt $IFILES_MAX_GET ] ; then
+                echo " MAJOR MAJOR PROBLEM numbAFTERCLEANUP is $numbAFTERCLEANUP and numb_files is $numbfiles and IFILES_MAX_GET is $IFILES_MAX_GET "
+        rm $STMPDIR/FORINGEST/*.*
+        fi
+        if [ -s $STMPDIR/FORINGEST/DUMMY.DUMMY ] ; then rm $STMPDIR/FORINGEST/DUMMY.DUMMY ; fi
+        fi
+
+   cd $DATA
+
+#######################################
+
+	ln -sf $STMPDIR/FORINGEST/*.* $DATA/.
 	transerror=0
 	echo " IN INGEST_GET , STATION 7777 , check if file exists "
 	ls -l $LOCDSN > $DATA/AOUT_INGESTGET7777

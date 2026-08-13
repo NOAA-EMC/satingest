@@ -17,7 +17,10 @@ PDAFileLinks/PULL/SCAT/OSVW50kmASCAT_v1r1_m03_s???????????????_e???????????????_
       eval HISTLENMAX${n}=\${HISTLENMAX${n}:-18000}
       eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_ascat.out}
                                       # NESDIS retains a lot of files on server
-         eval IFILES_MAX_GET${n}=\${IFILES_MAX_GET${n}:-2500}
+      eval IFILES_MAX_GET${n}=\${IFILES_MAX_GET${n}:-2500}
+      eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
+
+
 
 
 echo " Completed $TASK and $TASK.$family "

@@ -8,7 +8,7 @@ export RUN=${RUN:-t_hrsatwind_cwvict_dmw}
 export DATATYPE=${DATATYPE:-T_HRSATWIND_CWVICT_DMW}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export FTYPE=${FTYPE:-bufr}
 export HISTLENMIN=${HISTLENMIN:-4200}
 export HISTLENMAX=${HISTLENMAX:-4500}

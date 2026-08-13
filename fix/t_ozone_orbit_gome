@@ -8,7 +8,7 @@ export RUN=${RUN:-t_ozone_orbit_gome}
 export DATATYPE=${DATATYPE:-T_OZONE_ORBIT_GOME}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export HISTLENMIN=${HISTLENMIN:-900}
 export HISTLENMAX=${HISTLENMAX:-1200}
 export ndayarch=${ndayarch:-2}

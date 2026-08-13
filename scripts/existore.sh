@@ -973,7 +973,6 @@ while [ $igroup -lt $ngroup ] ; do
   eval TRANSFER_COMMAND=\${TRANSFER_COMMAND$igroup:-\$TRANSFER_COMMAND_save}
   eval REMOTEDIRGRP=\${REMOTEDIRGRP$igroup:-.}
   eval REMOTEDSNGRP=\$REMOTEDSNGRP$igroup
-  eval REMOTEDDNGRP=\$REMOTEDDNGRP$igroup
   eval FTYPE=\${FTYPE$igroup:-\$FTYPE_save}
   eval log=\${log$igroup:-\$log_save}
   eval HISTLENMIN=\${HISTLENMIN$igroup:-\$HISTLENMIN_save}

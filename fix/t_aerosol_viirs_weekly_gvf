@@ -11,7 +11,7 @@ echo "Enter fix/t_aerosol_viirs_weekly_gvf"
 echo $ngroup 
 echo "argc = '$#'"
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export ndayarch=${ndayarch:-30}
 export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
