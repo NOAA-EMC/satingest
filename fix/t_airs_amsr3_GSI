@@ -4,8 +4,8 @@ set -xa
 # Specify NET, RUN and DATATYPE Names
 ######################################
 export NET=${NET:-ingest}
-export RUN=${RUN:-t_airs_amsr3}
-export DATATYPE=${DATATYPE:-T_AIRS_AMSR3}
+export RUN=${RUN:-t_airs_amsr3_GSI}
+export DATATYPE=${DATATYPE:-T_AIRS_AMSR3_GSI}
 ###############################
 
 #export TRANSFER_COMMAND=${TRANSFER_COMMAND:-localdiskcp}
@@ -17,7 +17,7 @@ export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}
 export DEBUGSCRIPTS=${DEBUGSCRIPTS:-ON}
 export HOURS2ALARM=${HOURS2ALARM:-6}
-export log=${log:-$OUTDIR/tranjb_ingest_airs3.out}
+export log=${log:-$OUTDIR/tranjb_ingest_airs_amsr3_GSI.out}
 
 PROCESSING_FAMILIES=${PROCESSING_FAMILIES:-"F"}
 ############

@@ -4,7 +4,7 @@ echo " Starting $TASK and  $TASK.$family "
 
 # The AMSR3 Family (AMSR3) (GCOM-W satellite)
 # -------------------------------------------
-      eval ORBITLIST${n}=\${ORBITLIST${n}:-amsr3.tmbr.orbitlist}
+      eval ORBITLIST${n}=\${ORBITLIST${n}:-amsr3_GSI.tmbr.orbitlist}
 
 #eval MACHINE${n}=\${MACHINE${n}:-/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/AMSR3/data}
 #      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
@@ -23,7 +23,7 @@ PDAFileLinks/NDE/AMSR2/AMSR3-MBT-GSI_v1r0_ggw_s???????????????_e???????????????_
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
       eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
       eval CRITICAL${n}=\${CRITICAL${n}:-NO}
-      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_amsr3_tmbr.out}
+      eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_amsr3_GSI_tmbr.out}
       eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
       eval mod_sec3_desc${n}=\${mod_sec3_desc${n}:-NO}
 
