@@ -35,6 +35,8 @@
 # 2022-01-18  S. Stegall     Replaced $DATA/ before calling utility scripts and 
 #                            instead used $UTILROOT/ush/ to properly leverage
 #                            the prod_util module.
+# 2026-08-17 S.Nadiga added functionality to access files from AWS and local disks
+#      localdiskcp refers to copying from local disks and syncaws refers to AWS
 #
 # Usage: . ingest_process_orbits_subscript.sh (inside ingest_process_orbits.sh)
 #

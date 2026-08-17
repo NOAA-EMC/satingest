@@ -93,7 +93,7 @@
 # 2022-01-18  S. Stegall  Replaced $DATA/ before calling utility scripts and instead 
 #      used $UTILROOT/ush/ to properly leverage the prod_util module.
 #
-# 2025-12-03 S.Nadiga added functionality to access files from AWS and local disks
+# 2026-08-17 S.Nadiga added functionality to access files from AWS and local disks
 #      localdiskcp refers to copying from local disks and syncaws refers to AWS
 #
 # Usage: ingest_query.sh <remote_machine> <directory_listing_file> <file_group>
@@ -225,24 +225,25 @@ find $PTMPDIR/DISCARD/* -ctime +1 -print
 
    if [ $TRANSFER_COMMAND = localdiskcp ] ; then
 	  
-	  echo " FILES FROM LOCALDISK and TASK = $TASK "
+	  echo " FILES FROM LOCALDISK and TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
 	 
-	 if [ $TASK = 't-radsnd_lgycld' ] ; then  
-	   SOURCE_DIR=/lfs/h1/ops/prod/dcom/nasa_clouds/
-	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-	  elif [ $TASK = 't_metop-sga1' ] ; then 
-	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/METOPSGA1/data1/smcd1/Metop-SGA1/
-	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-	  elif [ $TASK = 't_mws_metop-sga1' ] ; then
-	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/MWS_METOPSGA1/data/smcd1/MWS_Metop-SGA1/
-	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-	 else
-	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-	  exit
-         fi
+#	 if [ $TASK = 't-radsnd_lgycld' ] ; then  
+#	   SOURCE_DIR=/lfs/h1/ops/prod/dcom/nasa_clouds/
+#	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
+#	  elif [ $TASK = 't_metop-sga1' ] ; then 
+#	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/METOPSGA1/data1/smcd1/Metop-SGA1/
+#	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
+#	  elif [ $TASK = 't_mws_metop-sga1' ] ; then
+#	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/MWS_METOPSGA1/data/smcd1/MWS_Metop-SGA1/
+#	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
+#	 else
+#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
+#	  exit
+#         fi
+
 	   cd $SOURCE_DIR
 	   numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
 	   if [ $numb_files -ge 1 ] ; then

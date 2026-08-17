@@ -8,7 +8,7 @@ export RUN=${RUN:-t_tovs_mhs}
 export DATATYPE=${DATATYPE:-T_TOVS_MHS}
 ###############################
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
 export HISTLENMIN=${HISTLENMIN:-900}
 export HISTLENMAX=${HISTLENMAX:-1200}
 export DELAFTPROC=${DELAFTPROC:-NO}

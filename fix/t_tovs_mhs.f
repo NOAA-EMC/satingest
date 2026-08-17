@@ -7,24 +7,9 @@ echo " Starting $TASK and  $TASK.$family "
 # NOAA-18 MHS instrument failed 10/2018; removed from processing 3/2019
 # ---------------------------------------------------------------------
       eval ORBITLIST${n}=\${ORBITLIST${n}:-atovs1b.mhsx.orbitlist}
-      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-syncaws}
-      eval knumber=2
-
-# STATUS 20260730: THE FILES ARE IN THE PREFIX "METOP-B" for M1 and M3; 
-# NOT CORRECTED 
-
-
-eval DNCF1="$AWSDIR/METOP_MHS_Level_1b_NSS.MHSX/MetOp-B/"
-eval DNCF2="$AWSDIR/METOP_MHS_Level_1b_NSS.MHSX/MetOp-B/"
-
-echo " DONE WITH AWS SERVER "
-
-eval SNCF1="NSS.MHSX.M1.D?????.S????.E????.B???????.??"
-eval SNCF2="NSS.MHSX.M3.D?????.S????.E????.B???????.??"
-
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-$SNCF1 \
-$SNCF2"'}
+PDAFileLinks/PULL/MHS/NSS.MHSX.M1.D?????.S????.E????.B???????.?? \
+PDAFileLinks/PULL/MHS/NSS.MHSX.M3.D?????.S????.E????.B???????.??"'}
       eval FTYPE${n}=\${FTYPE${n}:-none}
       eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx027}
       eval EXECUTE${n}=\${EXECUTE${n}:-ingest_script_atovs1b.sh}
@@ -40,4 +25,3 @@ $SNCF2"'}
 
 echo " Completed $TASK and $TASK.$family "
 # ----------------------------------------------------------------------
-echo " DONE WITH AWS SERVER "

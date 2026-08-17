@@ -9,7 +9,8 @@ echo " Starting $TASK and  $TASK.$family "
       eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-180}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-metop-sga1.orbitlist}
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-localdiskcp}
-#     eval MACHINE${n}=\${MACHINE${n}:-/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/METOPSGA1/data1/smcd1/Metop-SGA1/}
+      eval
+SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/METOPSGA1/data1/smcd1/Metop-SGA1/
 
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-\
 '"W_XX-EUMETSAT-Darmstadt,SAT,SGA1-RO_-1B-BND_C_EUMT_??????????????_G_O_??????????????_??????????????_C_N_???.bin"'}

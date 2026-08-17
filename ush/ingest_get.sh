@@ -68,7 +68,8 @@
 #              from two different servers (e.g., a primary and backup) in two
 #              different directories to store file listings in same history
 #              files.
-#
+# 2026-08-17 S.Nadiga added functionality to access files from AWS and local disks
+#      localdiskcp refers to copying from local disks and syncaws refers to AWS
 #
 # Usage: ingest_get.sh  <remote_machine>  <local_file>  <remote_file>
 #
