@@ -1,3 +1,544 @@
+satingest v5.2.3        RELEASE         MAR 23 2026
+          v5.2.3        IMPLEMENT       APR 09 2026 ~16UTC
+PRELUDE
+- t_airs_amsr2_GSI[.f] added as a new task and family for the new AMSR2 GSI 14 channel data, introducing tank b021/xx247 
+- Updated the destination directories for the following tasks, to prevent PDA directory listing errors:
+t_npp_omps_omps_lp.f 
+t_npp_omps_ompsnp_v8.f
+t_npp_omps_ompstc.f
+t_npp_atms.f
+- updates GMI 1CR product version in /fix/t_ssmi_gmi_tmbr.f
+- receipt time is added to the message headers of the tanks
+
+FILE CHANGES
+ M docs/Release_Notes.txt
+ M fix/CMakeLists.txt
+ M fix/bufrtab.021
+ A fix/t_airs_amsr2_GSI
+ A fix/t_airs_amsr2_GSI.f
+ M fix/t_airs_iasi_efov.f
+ M fix/t_hrsatwind_circd_dmw.f
+ M fix/t_hrsatwind_cshrtwv_dmw.f
+ M fix/t_hrsatwind_cvisb_dmw.f
+ M fix/t_hrsatwind_cwvics_dmw.f
+ M fix/t_hrsatwind_cwvict_dmw.f
+ M fix/t_npp_atms.f
+ M fix/t_npp_cris_431_cris_431.f
+ M fix/t_npp_omps_omps_lp.f
+ M fix/t_poes_sst_viirs_clear_sky.f
+ M fix/t_poes_sst_viirs_probclear_sky.f
+ M fix/t_qscatter_ascat_50km.f
+ M fix/t_radsnd_goes_asr_base.f
+ M fix/t_radsnd_goes_csr_base.f
+ M fix/t_satwnd_avhrr.f
+ M fix/t_satwnd_ircd_dmw.f
+ M fix/t_satwnd_leo-geo.f
+ M fix/t_satwnd_leogeo.f
+ M fix/t_satwnd_nb_avhrr.f
+ M fix/t_satwnd_nb_viirs.f
+ M fix/t_satwnd_shrtwv_dmw.f
+ M fix/t_satwnd_visb_dmw.f
+ M fix/t_satwnd_wvics_dmw.f
+ M fix/t_satwnd_wvict_dmw.f
+ M fix/t_ssmi_gmi_tmbr.f
+ M fix/t_ssmi_ssmis.f
+
+DOCS CHANGES
+ docs/Release_Notes.txt
+ Update contents to reflect this release
+
+FIX CHANGES
+fix/CMakeLists.txt
+  - t_airs_amsr2_GSI and t_airs_amsr2_GSI.f added.
+
+fix/bufrtab.021
+  - mnemonic added to table for tank b021/xx247, AMSR2 1B brightness temp data GSI 14 chan.
+
+fix/t_airs_amsr2_GSI
+  - new task and family added for AMSR2 1B brightness temp data GSI 14 chan.
+
+fix/t_airs_amsr2_GSI.f
+  - new task and family added for AMSR2 1B brightness temp data GSI 14 chan.
+
+fix/t_npp_omps_omps_lp.f
+  - Updated destination directory for the OMPS LIMB PROFILER file.
+    from: 
+PDAFileLinks/NDE/OMPS/OMPS-LP-EV-EDR_v2r60_[npp,n21]_s???????????????_e???????????????_c???????????????.bufr
+    to:
+PDAFileLinks/NDE/OMPSLP/NPP/OMPS-LP-EV-EDR_v2r60_npp_s???????????????_e???????????????_c???????????????.bufr
+
+fix/t_npp_omps_ompsnp_v8.f
+  - Updated the destination directory
+    from
+PDAFileLinks/NDE/OMPS/OMPS-NP_v4r5_[npp,j01,n21]_s???????????????_e???????????????_c???????????????.bufr 
+    to 
+PDAFileLinks/NDE/OMPSNP/NPP/OMPS-NP_v4r5_npp_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/OMPSNP/J01/OMPS-NP_v4r5_j01_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSNP/N21/OMPS-NP_v4r5_n21_s???????????????_e???????????????_c???????????????.bufr 
+
+fix/t_npp_omps_ompstc_v8.f
+  - Updated the destination directory
+    from
+PDAFileLinks/NDE/OMPS/OMPS-TC_v4r5_[npp,j01,n21]_s???????????????_e???????????????_c???????????????.bufr 
+     to          PDAFileLinks/NDE/OMPSTC/NPP/OMPS-TC_v4r5_npp_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSTC/J01/OMPS-TC_v4r5_j01_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/OMPSTC/N21/OMPS-TC_v4r5_n21_s???????????????_e???????????????_c???????????????.bufr
+
+fix/t_airs_iasi_efov.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_hrsatwind_circd_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_hrsatwind_cshrtwv_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_hrsatwind_cvisb_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_hrsatwind_cwvics_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_hrsatwind_cwvict_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_npp_atms.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+  - Updated the destination directory
+    from
+PDAFileLinks/NDE/ATMS/ATMS_v1r0_[npp,j01,n21]_s???????????????_e???????????????_c???????????????.bufr
+    to
+PDAFileLinks/NDE/ATMS/NPP/ATMS_v1r0_npp_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/ATMS/J01/ATMS_v1r0_j01_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/ATMS/N21/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
+
+fix/t_npp_cris_431_cris_431.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_poes_sst_viirs_clear_sky.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_poes_sst_viirs_probclear_sky.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_qscatter_ascat_50km.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_radsnd_goes_asr_base.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_radsnd_goes_csr_base.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_avhrr.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_ircd_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_leo-geo.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_leogeo.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_nb_avhrr.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_nb_viirs.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_shrtwv_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_visb_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_wvics_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_satwnd_wvict_dmw.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+fix/t_ssmi_gmi_tmbr.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+  - Updated version from _v7r1_ to _v8r0_ in the filenames:
+GMI-1CR_v8r0_gpm_s???????????????_e???????????????_c???????????????.bufr
+
+fix/t_ssmi_ssmis.f
+  - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+
+VERSIONS CHANGES
+ v5.2.2 -> v5.2.3
+
+CHANGES TO OUTPUT AND FILE SIZES
+ The following new tanks, and their expected sizes, are generated:
+ b021/xx247  ~100M to ~600M, varies quite a bit due to data availability. 
+ 
+BIG BROTHER (BB) INFORMATION
+N/A
+
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+
+CHANGES IN COMPUTE RESOURCES+
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.0)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.2.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatvely: source build.sh)
+        It will be fixed soon.
+
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ Important:
+ satingest v5.2.3 will require module bufr-tranjb.v1.2.1 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS.
+ This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 17:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+E. Confirm that 1) new tank b021/xx247 is generated 2) there is receipt time in the message headers (debufr a tank and look for string “receipt”)
+
+F. Follow these steps on the day of the implementation:
+make new PDA directories:
+
+PDAFileLinks/NDE/OMPSTC/NPP
+PDAFileLinks/NDE/OMPSTC/J01
+PDAFileLinks/NDE/OMPSTC/N21
+PDAFileLinks/NDE/OMPSNP/NPP
+PDAFileLinks/NDE/OMPSNP/J01
+PDAFileLinks/NDE/OMPSNP/N21
+PDAFileLinks/NDE/OMPSLP/NPP
+PDAFileLinks/NDE/OMPSLP/N21
+PDAFileLinks/NDE/ATMS/NPP
+PDAFileLinks/NDE/ATMS/J01
+PDAFileLinks/NDE/ATMS/N21
+
+
+     2) Then, make new PDA subscriptions:
+
+PDAFileLinks/NDE/OMPSTC/NPP/OMPS-TC_v4r5_npp_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSTC/J01/OMPS-TC_v4r5_j01_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/OMPSTC/N21/OMPS-TC_v4r5_n21_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSNP/NPP/OMPS-NP_v4r5_npp_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/OMPSNP/J01/OMPS-NP_v4r5_j01_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSNP/N21/OMPS-NP_v4r5_n21_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/ATMS/NPP/ATMS_v1r0_npp_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/ATMS/J01/ATMS_v1r0_j01_s???????????????_e???????????????_c???????????????.bufr 
+PDAFileLinks/NDE/ATMS/N21/ATMS_v1r0_n21_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSLP/NPP/OMPS-LP-EV-EDR_v2r60_npp_s???????????????_e???????????????_c???????????????.bufr
+PDAFileLinks/NDE/OMPSLP/N21/OMPS-LP-EV-EDR_v2r60_n21_s???????????????_e???????????????_c???????????????.bufr
+
+      3) Email NESDIS to activate the directories and new subscriptions just after implementation. 
+      4) Email NESDIS to delete old subscriptions for these short names: i) ATMS_BUFR, ii) OMPS_TC_V8_BUFR, iii) OMPS_NP_V8_BUFR, and iv)  OMPS_LP_EV_EDR_BUFR
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+N/A
+
+DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+satingest v5.2.2        RELEASE         AUG 25 2025
+          v5.2.2        IMPLEMENT       SEP 10 2025 ~16UTC
+
+PRELUDE
+ Update OMPS-LP product version. Several fix and ecf files are removed from the satingest code.
+
+
+
+FILE CHANGES
+ M docs/Release_Notes.txt
+ M fix/t_npp_omps_omps_lp.f
+ M fix/CMakeLists.txt
+ D fix/t_aerosol_sat_comp_mosaic_imgry
+ D fix/t_aerosol_sat_comp_mosaic_imgry.f
+ D fix/t_snowday_copy_forward_grib_16_usaf_nh
+ D fix/t_snowday_copy_forward_grib_16_usaf_nh.f
+ D fix/t_snowday_copy_forward_grib_16_usaf_sh
+ D fix/t_snowday_copy_forward_grib_16_usaf_sh.f
+ D ecf/jsatingest_t_aerosol_sat_comp_mosaic_imgry.ecf
+ D ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_nh.ecf
+ D ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_sh.ecf
+
+DOCS CHANGES
+ docs/Release_Notes.txt
+ Update contents to reflect this release
+
+FIX CHANGES
+fix/t_npp_omps_omps_lp.f
+  - Update version to v2r60 in filename of The OMPS LIMB PROFILER file. 
+
+fix/t_radsnd_lgycld.f
+  - remove GOES-16 files from the fix file. 
+  
+- Six other family/task files are revoved from fix dir.
+
+fix/CMakeLists.txt
+  - Modified where the six files marked with (D /fix*) above were deleted from CMakeLists.txt.
+
+ECF CHANGES
+  - Three ecf/jsatingest*.ecf jobs are removed from the directory and need to be turned off.
+
+
+VERSIONS CHANGES
+ v5.2.1 -> v5.2.2
+
+CHANGES TO OUTPUT AND FILE SIZES
+ No new tanks are generated.
+
+BIG BROTHER (BB) INFORMATION
+
+ Start monitoring the following new filename patterns:
+  $COMROOT/logs/bb/ingest/OMPS-LP-EV-EDR_v2r60_npp_s???????????????_e???????????????_c???????????????.bufr
+
+ Stop monitoring the following filename patterns:
+  $COMROOT/logs/bb/ingest/G16V04.0.RR.???????.????.PX.06K.nc
+
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+
+CHANGES IN COMPUTE RESOURCES+
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.0)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.2.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatvely: source build.sh)
+        It will be fixed soon.
+
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ Important:
+ satingest v5.2.2 will require module bufr-tranjb.v1.2.1 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS.
+ This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 17:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+ Please turn off these ecf jobs:
+ - ecf/jsatingest_t_aerosol_sat_comp_mosaic_imgry.ecf
+ - ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_nh.ecf
+ - ecf/jsatingest_t_snowday_copy_forward_grib_16_usaf_sh.ecf
+
+DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+satingest v5.2.1        RELEASE         JUL 9 2025
+          v5.2.1        IMPLEMENT       JUL 23 2025 ~17UTC
+
+PRELUDE
+ Update OMPS-NP product version
+
+
+FILE CHANGES
+ M docs/Release_Notes.txt
+ M fix/t_npp_omps_ompsnp_v8.f
+
+DOCS CHANGES
+ docs/Release_Notes.txt
+ Update contents to reflect this release
+
+FIX CHANGES
+fix/t_npp_omps_ompsnp_v8.f
+  - Update version from v4r4 to v4r5 in filenames of OMPS BUFR Version 8 Nadir Profile Ozone Family files
+
+VERSIONS CHANGES
+ v5.1.0 -> v5.2.0
+
+CHANGES TO OUTPUT AND FILE SIZES
+ No new tanks are generated.
+
+BIG BROTHER (BB) INFORMATION
+
+ Stop monitoring the following filename patterns (some might have been removed from BB over time):
+  N/A
+ Start monitoring the following new filename patterns:
+  $COMROOT/logs/bb/ingest/OMPS-NP_v4r5_npp_s202506240005313_e202506240006087_c202506240043030.bufr
+
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+
+CHANGES IN COMPUTE RESOURCES
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.
+ No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.0)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.2.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatvely: source build.sh)
+        It will be fixed soon.
+
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ Important:
+ satingest v5.2.1 will require module bufr-tranjb.v1.2.1 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation,
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS. 
+ This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 17:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+ None
+
+DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v5.2.0        RELEASE         MAY 30 2025
           v5.2.0        IMPLEMENT       JUN 17 2025 ~17UTC
 
