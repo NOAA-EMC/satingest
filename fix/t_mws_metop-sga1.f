@@ -8,12 +8,12 @@ echo " Starting $TASK and  $TASK.$family "
       eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
       eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-180}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-mws_metop-sga1.orbitlist}
-      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-localdiskcp}
+      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
       eval
 SOURCE_DIR=lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/MWS_METOPSGA1/data/smcd1/MWS_Metop-SGA1/
      
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-\
-'"/W_XX-EUMETSAT-Darmstadt,SAT,SGA1-MWS-1B-RAD_C_EUMT_??????????????_G_O_??????????????_??????????????_C_N_T__.bin"'}
+'"/PDAFileLinks/PULL/MWS/W_XX-EUMETSAT-Darmstadt,SAT,SGA1-MWS-1B-RAD_C_EUMT_??????????????_G_O_??????????????_??????????????_O_N____.bin"'}
 #-----------------
 
 #-----------------
