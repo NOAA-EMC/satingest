@@ -224,36 +224,12 @@ find $PTMPDIR/DISCARD/* -ctime +1 -print
 ########### FINISHED CLEANING OLD FILES IN DIRECTORIES ###############
 
    if [ $TRANSFER_COMMAND = localdiskcp ] ; then
-	  
 	  echo " FILES FROM LOCALDISK and TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-	 
-#	 if [ $TASK = 't-radsnd_lgycld' ] ; then  
-#	   SOURCE_DIR=/lfs/h1/ops/prod/dcom/nasa_clouds/
-#	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-#	  elif [ $TASK = 't_metop-sga1' ] ; then 
-#	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/METOPSGA1/data1/smcd1/Metop-SGA1/
-#	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-#	  elif [ $TASK = 't_mws_metop-sga1' ] ; then
-#	   SOURCE_DIR=/lfs/h2/emc/obsproc/noscrub/steve.stegall/DCOMDIR/MWS_METOPSGA1/data/smcd1/MWS_Metop-SGA1/
-#	   echo " TASK = $TASK and SOURCE_DIR is $SOURCE_DIR "
-#	 else
-#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-#	  echo " FATAL ERROR; TRANSFER_COMMAND IS $TRANSFER_COMMAND ; FILES NOT FOUND FOR TASK = $TASK "
-#	  exit
-#         fi
-
 	   cd $SOURCE_DIR
 	   numb_files=`find . -maxdepth 1 -type f -print0 | xargs -0 ls | wc -l`
 	   if [ $numb_files -ge 1 ] ; then
-
 find . -type f -mtime -1 -print0 | rsync -0av --files-from=- ./ $PTMPDIR/STAGEFILES
-
 	   fi
-
-#           /usr/bin/rsync -avh $SOURCE_DIR/*.* $PTMPDIR/STAGEFILES
-
 
    fi
 

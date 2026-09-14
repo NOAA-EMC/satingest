@@ -12,7 +12,7 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
 #      eval MACHINE${n}=\${MACHINE${n}:-wcoss_nasa@ftps-out1.ncep.noaa.gov}
 
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-localdiskcp}
-      eval SOURCE_DIR=/lfs/h1/ops/prod/dcom/nasa_clouds/
+      eval SOURCE_DIR=$DCOMROOT/nasa_clouds/
       eval ORBITLIST${n}=\${ORBITLIST${n}:-goescld_NASA.hrlylist}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
 HM9V04.0.NH.???????.????.PX.06K.NC \
