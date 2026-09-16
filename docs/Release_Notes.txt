@@ -1,3 +1,416 @@
+satingest v6.0.0        RELEASE      SEP 17 2026
+          v6.0.0        IMPLEMENT    SEP ?? 2026  at ~16UTC
+PRELUDE
+- t_mws_metop-sga1[.f ] added as a new task for the MWS_Metop-SGA1 satellite data, introducing tank b021/xx243
+- t_metop-sga1[.f ] added as a new task for the MWS_Metop-SGA1 satellite data, introducing tank b003/xx012
+- several jobs, scripts and fix files were updated to work with NCCF
+
+FILE CHANGES
+ M docs/Release_Notes.txt
+ M jobs/JISATINGEST
+ M fix/CMakeLists.txt
+ M fix/bufrtab.003 
+ M fix/bufrtab.021
+ M fix/idsb_ingest.source.html 
+ M fix/t_aerosol_af_viirs
+ M fix/t_aerosol_af_viirs.f 
+ M fix/t_aerosol_viirs_weekly_gvf 
+ M fix/t_aerosol_viirs_weekly_gvf.f 
+ M fix/t_airs_amsr2.f 
+ M fix/t_airs_iasi_efov 
+ M fix/t_airs_iasi_efov.f 
+ M fix/t_avhrr_avhrr_18_19 
+ M fix/t_hrsatwind_circd_dmw 
+ M fix/t_hrsatwind_circd_dmw.f 
+ M fix/t_hrsatwind_cshrtwv_dmw 
+ M fix/t_hrsatwind_cshrtwv_dmw.f 
+ M fix/t_hrsatwind_cvisb_dmw 
+ M fix/t_hrsatwind_cvisb_dmw.f 
+ M fix/t_hrsatwind_cwvict_dmw 
+ M fix/t_hrsatwind_cwvict_dmw.f
+ A fix/t_metop-sga1
+ A fix/t_metop-sga1.f
+ A fix/t_mws_metop-sga1
+ A fix/t_mws_metop-sga1.f
+ M fix/t_npp_atms 
+ M fix/t_npp_atms.f 
+ M fix/t_npp_cris_431_cris_431 
+ M fix/t_npp_cris_431_cris_431.f 
+ M fix/t_npp_omps_ompsnp_v8 
+ M fix/t_npp_omps_ompsnp_v8.f 
+ M fix/t_npp_omps_ompstc_v8 
+ M fix/t_npp_omps_ompstc_v8.f
+ M fix/t_ozone_orbit_gome 
+ M fix/t_ozone_orbit_gome.f 
+ D fix/t_poes_sst_amsr2_sst 
+ D fix/t_poes_sst_amsr2_sst.f 
+ M fix/t_poes_sst_viirs_clear_sky 
+ M fix/t_poes_sst_viirs_clear_sky.f 
+ M fix/t_poes_sst_viirs_probclear_sky 
+ M fix/t_poes_sst_viirs_probclear_sky.f  
+ M fix/t_radsnd_goes_asr_base 
+ M fix/t_radsnd_goes_asr_base.f 
+ M fix/t_radsnd_goes_csr_base 
+ M fix/t_radsnd_goes_csr_base.f 
+ M fix/t_radsnd_lgycld 
+ M fix/t_radsnd_lgycld.f 
+ M fix/t_satwnd_avhrr 
+ M fix/t_satwnd_avhrr.f 
+ M fix/t_satwnd_ircd_dmw 
+ M fix/t_satwnd_ircd_dmw.f 
+ D fix/t_satwnd_leo-geo
+ D fix/t_satwnd_leo-geo.f
+ M fix/t_satwnd_nb_avhrr 
+ M fix/t_satwnd_nb_avhrr.f 
+ M fix/t_satwnd_nb_viirs 
+ M fix/t_satwnd_nb_viirs.f 
+ M fix/t_satwnd_shrtwv_dmw 
+ M fix/t_satwnd_shrtwv_dmw.f 
+ M fix/t_satwnd_visb_dmw 
+ M fix/t_satwnd_visb_dmw.f 
+ M fix/t_satwnd_wvics_dmw 
+ M fix/t_satwnd_wvics_dmw.f 
+ M fix/t_satwnd_wvict_dmw 
+ M fix/t_satwnd_wvict_dmw.f 
+ M fix/t_snowore_ascii2grib_96_ims.f 
+ M fix/t_snowore_gribcopy_autoice_nh.f 
+ M fix/t_snowore_gribcopy_autoice_sh.f 
+ M fix/t_snowore_gribcopy_autosnow_nh.f 
+ M fix/t_snowore_gribcopy_autosnow_sh.f 
+ M fix/t_ssmi_gmi_tmbr.f 
+ M fix/t_tovs_amsua.f 
+ M fix/t_tovs_hirs4.f 
+ M ush/ingest_get.sh 
+ M ush/ingest_process_orbits_subscript.sh 
+ M ush/ingest_query.sh 
+ M ush/ingest_sncvgrib96.sh 
+ M ush/ingest_sncvgrib.sh 
+ M versions/VERSION
+ 
+DOCS
+docs/Release_Notes.txt
+Update contents to reflect this release/update
+
+JOBS
+jobs/JISATINGEST
+Changes related to pulling data from AWS
+
+FIX 
+fix/CMakeLists.txt
+Added new tasks/families:
+    t_metop-sga1
+    t_metop-sga1.f
+    t_mws_metop-sga1
+    t_mws_metop-sga1.f 
+
+fix/idsb_ingest.source.html
+Update products filenames and critical levels
+
+fix/bufrtab.003 
+  - mnemonic added to table for tank b003/xx012, 003-012 Satellite radio occultation data.
+
+fix/bufrtab.021
+  - mnemonic added to table for tankb021/xx243 (Microwave Sounder Data (level 1B)).
+
+fix/t_aerosol_af_viirs
+Changes related to pulling data from AWS
+
+fix/t_aerosol_viirs_weekly_gvf 
+Changes related to pulling data from AWS
+
+fix/t_aerosol_viirs_weekly_gvf.f 
+Changes related to pulling data from AWS
+
+fix/t_airs_amsr2.f 
+Changes related to pulling data from AWS
+
+fix/t_airs_amsr2_GSI
+Changes related to pulling data from AWS
+
+fix/t_airs_amsr2_GSI.f
+Changes related to pulling data from AWS
+
+fix/t_airs_iasi_efov 
+Changes related to pulling data from AWS
+
+fix/t_airs_iasi_efov.f 
+Changes related to pulling data from AWS
+ 
+fix/t_hrsatwind_circd_dmw 
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_circd_dmw.f 
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_cshrtwv_dmw 
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_cshrtwv_dmw.f 
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_cvisb_dmw 
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_cvisb_dmw.f 
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_cwvict_dmw
+Changes related to pulling data from AWS
+
+fix/t_hrsatwind_cwvict_dmw.f
+Changes related to pulling data from AWS
+
+fix/t_metop-sga1
+  - Fix file is added to new release V6.0.0.
+
+fix/t_metop-sga1.f
+  - Fix file is added to new release V6.0.0.
+
+fix/t_mws_metop-sga1
+  - Fix file is added to new release V6.0.0.
+
+fix/t_mws_metop-sga1.f
+  - Fix file is added to new release V6.0.0.
+
+fix/t_npp_atms 
+Changes related to pulling data from AWS
+
+fix/t_npp_atms.f 
+Changes related to pulling data from AWS
+
+fix/t_npp_cris_431_cris_431 
+Changes related to pulling data from AWS
+
+fix/t_npp_cris_431_cris_431.f 
+Changes related to pulling data from AWS
+  
+fix/t_npp_omps_ompsnp_v8 
+Changes related to pulling data from AWS
+
+fix/t_npp_omps_ompsnp_v8.f 
+Changes related to pulling data from AWS
+
+fix/t_npp_omps_ompstc_v8 
+Changes related to pulling data from AWS
+
+fix/t_npp_omps_ompstc_v8.f
+Changes related to pulling data from AWS
+
+fix/t_ozone_orbit_gome 
+fix/t_ozone_orbit_gome.f 
+Changes related to pulling data from AWS
+
+fix/t_poes_sst_viirs_clear_sky 
+fix/t_poes_sst_viirs_clear_sky.f
+Changes related to pulling data from AWS 
+ 
+fix/t_poes_sst_viirs_probclear_sky 
+fix/t_poes_sst_viirs_probclear_sky.f 
+Changes related to pulling data from AWS 
+
+fix/t_radsnd_goes_asr_base 
+fix/t_radsnd_goes_asr_ base.f 
+Changes related to pulling data from AWS 
+
+fix/t_radsnd_goes_csr_base 
+fix/t_radsnd_goes_csr_base.f
+Changes related to pulling data from AWS 
+ 
+fix/t_radsnd_lgycld 
+fix/t_radsnd_lgycld.f 
+Updated paths to read from dcom
+
+fix/t_satwnd_avhrr 
+fix/t_satwnd_avhrr.f 
+Changes related to pulling data from AWS 
+
+fix/t_satwnd_ircd_dmw 
+fix/t_satwnd_ircd_dmw.f
+Changes related to pulling data from AWS 
+ 
+fix/t_satwnd_nb_avhrr 
+fix/t_satwnd_nb_avhrr.f 
+Changes related to pulling data from AWS 
+
+fix/t_satwnd_nb_viirs 
+fix/t_satwnd_nb_viirs.f 
+Changes related to pulling data from AWS 
+
+fix/t_satwnd_shrtwv_dmw 
+fix/t_satwnd_shrtwv_dmw.f 
+Changes related to pulling data from AWS 
+
+fix/t_satwnd_visb_dmw 
+fix/t_satwnd_visb_dmw.f 
+Changes related to pulling data from AWS 
+
+fix/t_satwnd_wvics_dmw 
+fix/t_satwnd_wvics_dmw.f 
+Changes related to pulling data from AWS 
+
+fix/t_satwnd_wvict_dmw 
+fix/t_satwnd_wvict_dmw.f 
+Changes related to pulling data from AWS
+
+fix/t_snowore_ascii2grib_96_ims
+fix/t_snowore_ascii2grib_96_ims.f
+Changes related to pulling data from AWS
+
+fix/t_snowore_gribcopy_autoice_nh.f 
+fix/t_snowore_gribcopy_autoice_sh.f 
+Changes related to pulling data from AWS
+
+fix/t_snowore_gribcopy_autosnow_nh.f 
+fix/t_snowore_gribcopy_autosnow_sh.f 
+Changes related to pulling data from AWS
+
+USH CHANGES
+ush/build.sh
+Add ability to set build mode: Release/Debug/etc.
+
+ush/ingest_get.sh 
+Changes related to pulling data from AWS 
+
+ush/ingest_process_orbits_subscript.sh 
+Changes related to pulling data from AWS
+
+ush/ingest_query.sh 
+Changes related to pulling data from AWS
+
+ush/ingest_sncvgrib96.sh 
+Changes related to pulling data from AWS
+
+ush/ingest_sncvgrib.sh 
+Changes related to pulling data from AWS
+
+VERSIONS CHANGES
+ v5.2.3 -> v6.0.0
+
+CHANGES TO OUTPUT AND FILE SIZES
+ The following new tanks, and their expected sizes, are generated:
+ b021/xx247  ~100M to ~600M, varies quite a bit due to data availability.
+ b021/xx243 ~100M to ~600M, varies quite a bit due to data availability.
+ b003/xx012 ~100M to ~600M, varies quite a bit due to data availability.
+
+BIG BROTHER (BB) INFORMATION
+NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
+Stop watching:
+$COMROOT/logs/bb/ingest/GMASI-Ice-NH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
+$COMROOT/logs/bb/ingest/GMASI-Ice-SH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
+$COMROOT/logs/bb/ingest/GMASI-Snow-NH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
+$COMROOT/logs/bb/ingest/GMASI-Snow-SH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
+
+$COMROOT/logs/bb/ingest/AMSR2-MBT-89A_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
+$COMROOT/logs/bb/ingest/AMSR2-MBT-89B_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
+$COMROOT/logs/bb/ingest/AMSR2-MBT-LR_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
+$COMROOT/logs/bb/ingest/AMSR2-MBT-GSI_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
+
+Start watching:
+$COMROOT/logs/bb/ingest/GMASI-Ice-NH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
+$COMROOT/logs/bb/ingest/GMASI-Ice-SH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
+$COMROOT/logs/bb/ingest/GMASI-Snow-NH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
+$COMROOT/logs/bb/ingest/GMASI-Snow-SH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
+
+$COMROOT/logs/bb/ingest/AMSR3-MBT-89A_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
+$COMROOT/logs/bb/ingest/AMSR3-MBT-89B_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
+$COMROOT/logs/bb/ingest/AMSR3-MBT-LR_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
+$COMROOT/logs/bb/ingest/AMSR3-MBT-GSI_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
+
+$COMROOT/logs/bb/ingest/W_XX-EUMETSAT-Darmstadt,SAT,SGA1-RO_-1B-BND_C_EUMT_??????????????_G_O_??????????????_??????????????_O_N_???.bin (name looks odd, but is correct)
+$COMROOT/logs/bb/ingest/W_XX-EUMETSAT-Darmstadt,SAT,SGA1-MWS-1B-RAD_C_EUMT_??????????????_G_O_??????????????_??????????????_O_N____.bin"
+
+
+
+CHANGES IN COMPUTE RESOURCES+
+ No changes in requested resources in the job cards for any jobs were needed during EMC's testing.  No changes to memory usage for any jobs were needed during EMC's testing.
+
+SHARED SOFTWARE
+ Satingest works together with module bufr-tranjb (will start  using v1.2.2)
+ It is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+
+LIBRARIES
+ w3emc   2.9.1
+ bufr   12.2.0
+ bacio   2.4.1
+ hdf5   1.10.6
+ netcdf  4.7.4
+ libjpeg 9c
+
+BUILD INSTRUCTIONS
+ See README.md or do as follows:
+ A shell script to build and install satingest on NOAA platforms is provided:/ush/build.sh.
+ Its usage on WCOSS is:
+ INSTALL_PREFIX=<installation_prefix> ./ush/build.sh
+
+ NOTE:1.At the moment, the following does not work:
+        cd ush
+        ./build.sh (or alternatively: source build.sh)
+        It will be fixed soon.
+
+      2.fix/CMakeLists.txt mentions the following files:
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        These are binary files that belong to satingest, but are not on GitHub.
+        They get downloaded from a server (emcrzdm) during the cmake install process and are used by satingest.
+
+      3.Directory /TRIGGERS is only used by EMC for testing
+
+      4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
+        It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
+
+PRE-IMPLEMENTATION TESTING REQUIREMENTS
+ A.
+ Important:
+ satingest v6.0.0 will require module bufr-tranjb.v1.2.2 to be installed in order to run successfully.
+ Module bufr-tranjb is co-owned/co-developed with Decoders (emc.decoders-support@noaa.gov)
+ See versions/*.ver for libraries and required versions
+
+ B.
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation, so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+
+ C.
+ NESDIS usually updates their polar instrument data products during "back orbits".
+ That means they usually do it while the JPSS satellites are observing the other side of the CONUS.
+ This is specific for JPSS to minimize the data flow impact.
+ For example,usually:
+ Date/Time of Initial Impact: 17:00 UTC
+ Date/Time of Expected End: 18:30 UTC
+ Tip: Watch for OSPO notice Updates, they provide Initial and End of Impact times.
+
+ D.
+ Building the code step (./ush/build.sh) also downloads a few binary mask files from emcrzdm ftp.
+ Make sure that the following files are present in the install/fix directory (could be copied from older satingest)
+        fix/bufr_hirsrtcf_ibm.dat
+        fix/bufr_lowtopog.dat
+        fix/nesdis.lstags_transsmi
+        fix/lnd_sea_mask_dat
+
+E. Confirm that 
+1) new tanks b021/xx247, b021/xx243, and b003/xx012 are generated 
+2) all other operational tanks are still present 
+
+F. Follow these steps on the day of the implementation:
+make new PDA directories:
+
+DISSEMINATION INFORMATION
+ No change in dissemination methods.
+
+SPECIAL INSTRUCTIONS
+
+1)Do not run task  ecf/jsatingest_t_npp_omps_omps_lp.ecf (data feed will restart later in 2026 and needs to be evaluated b/f feeding into operational tanks and dumps)
+2)Note that most tasks (for which data feeds were live) were already tested successfully in /para by SPA/Simon
+3)We have not created ecf/ jobs for the new tasks:
+      fix/t_metop-sga1
+      fix/t_mws_metop-sga1 
+  Use jsatingest_t_npp_cris_431_cris_431.ecf as the closest example to create them.
+4)An updated *idsb* file will be provided shortly after CDF and definitely before implementation. Awaiting for users to provide input.
+
+
+DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
+             Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 satingest v5.2.3        RELEASE         MAR 23 2026
           v5.2.3        IMPLEMENT       APR 09 2026 ~16UTC
 PRELUDE
