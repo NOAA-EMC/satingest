@@ -13,10 +13,12 @@ echo "STARTING $JJOB.$family and MACHINE is $MACHINE and n is $n "
       eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-lftp}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-cimssamv_tc.list}
       eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+/pub/winds/geowinds/HIMmeso/AMV????????????HIMmeso \
 /pub/winds/geowinds/GOESEmeso/AMV????????????GOESEM1 \
 /pub/winds/geowinds/GOESEmeso/AMV????????????GOESEM2 \
 /pub/winds/geowinds/GOESWmeso/AMV????????????GOESWG18M1 \
 /pub/winds/geowinds/GOESWmeso/AMV????????????GOESWG18M2"'}
+
       eval FTYPE${n}=\${FTYPE${n}:-none}
       eval TANKFILE${n}=\${TANKFILE${n}:-b005/xx099}
       eval EXECUTE${n}=\${EXECUTE${n}:-bufr_trancimssamv}

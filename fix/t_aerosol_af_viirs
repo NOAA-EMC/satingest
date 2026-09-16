@@ -11,7 +11,7 @@ echo "Enter fix/t_aerosol_af_viirs"
 echo $ngroup 
 echo "argc = '$#'"
 
-export TRANSFER_COMMAND=${TRANSFER_COMMAND:-synaws}
+export TRANSFER_COMMAND=${TRANSFER_COMMAND:-syncaws}
 export ndayarch=${ndayarch:-30}
 export DELAFTPROC=${DELAFTPROC:-NO}
 export TANKPROTECT=${TANKPROTECT:-NO}

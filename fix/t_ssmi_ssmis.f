@@ -20,7 +20,5 @@ PDAFileLinks/PULL/DMSP/NPR.TDUP.SC.D?????.S????.E????.B???????.NS"'}
 
 
 
-
-
 echo " Completed $TASK and $TASK.$family "
 # ----------------------------------------------------------------------
