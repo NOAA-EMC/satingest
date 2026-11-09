@@ -19,6 +19,8 @@ export TASK=${TASK#*_}
 # Primary: 140.90.190.143
 # Backup: 140.172.119.158
 export PDA_SERVER=%PDA_SERVER%
+export PTMPDIR=/lfs/f1/ops/para/tmp/satingest/$TASK
+export STMPDIR=/lfs/f1/ops/para/tmp/satingest/$TASK.$$
 
 # Load requisite modules
 module load intel/${intel_ver}
@@ -35,6 +37,7 @@ elif ( echo $TASK | grep -q "ssmi" ); then
    module load grib_util/${grib_util_ver}
 fi
 module load bufr_tranjb/${bufr_tranjb_ver}
+module load awscli/${awscli_ver}
 module list
 
 ${HOMEsatingest}/jobs/JISATINGEST

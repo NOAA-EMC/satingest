@@ -3,38 +3,35 @@ echo " Starting $TASK and  $TASK.$family "
 # ----------------------------------------------------------------------
 
 
-# The CrIS Full Spectral Radiance Subset 431 Channel Family
-#  (CRIS_FSR_431 } 
+# The CrIS Full Spectral Radiance Subset 431 Channel Family (CRIS_FSR_431)
 #  {S-NPP and JPSS-1 (NOAA-20) satellites}
-# ---------------------------------------------------------------------
-
-      eval TRANSFER_COMMAND${n}=\${TRANSFER_COMMAND${n}:-syncaws}
+# ------------------------------------------------------------------------
+#
       export iflag_CRIS=${iflag_CRIS:-1}
       eval PROC_MULT_FILES${n}=\${PROC_MULT_FILES${n}:-YES}
-      eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-180}
+      eval IFILES_MAX_MULT${n}=\${IFILES_MAX_MULT${n}:-150}
       eval ORBITLIST${n}=\${ORBITLIST${n}:-cris_fsr_431.orbitlist}
-      eval knumber=2
-
-export DNCF1="$AWSDIR/NUCAPS_C0431_BUFR/NOAA-20/"
-export DNCF2="$AWSDIR/NUCAPS_C0431_BUFR/NOAA-21/"
-
-eval SNCF1="NUCAPS-C0431_v4r0_j01_s???????????????_e???????????????_c???????????????.bufr"
-eval SNCF2="NUCAPS-C0431_v4r0_n21_s???????????????_e???????????????_c???????????????.bufr"
-
-              eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
-$SNCF1 \
-$SNCF2"'}
-
+#-----------------
+# choose ...
+#
+# uncomment 3 lines below to process BOTH S-NPP & JPSS-1 (NOAA-20)
+      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-'"concatenate_families \
+PDAFileLinks/NDE/NUCAPS/C0431/N21/NUCAPS-C0431_v4r0_n21_s???????????????_e???????????????_c???????????????.bufr \
+PDAFileLinks/NDE/NUCAPS/C0431/J01/NUCAPS-C0431_v4r0_j01_s???????????????_e???????????????_c???????????????.bufr"'}
+# -- or --
+# uncomment 2 lines below to process ONLY S-NPP
+#      eval REMOTEDSNGRP${n}=\${REMOTEDSNGRP${n}:-\
+#'"PDAFileLinks/NDE/NUCAPS/NUCAPS-C0431_v2r0_npp_s???????????????_e???????????????_c???????????????.bufr"'}
+#-----------------
       eval TANKFILE${n}=\${TANKFILE${n}:-b021/xx206}
       eval EXECUTE${n}=\${EXECUTE${n}:-bufr_tranmtypsbt}
       eval mod_sec3_desc${n}=\${mod_sec3_desc${n}:-NO}
       eval BUFRTABLE${n}=\${BUFRTABLE${n}:-bufrtab.021}
       eval FORGNTABLE${n}=\${FORGNTABLE${n}:-noforgntable}
-      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-79700}
-      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-80000}
+      eval HISTLENMIN${n}=\${HISTLENMIN${n}:-59700}
+      eval HISTLENMAX${n}=\${HISTLENMAX${n}:-60000}
       eval log${n}=\${log${n}:-$OUTDIR/tranjb_ingest_cris_fsr_431.out}
       eval SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES}
-
 
 
 echo " Completed $TASK and $TASK.$family "

@@ -40,6 +40,7 @@ elif ( echo $TASK | grep -q "ozone_orbit" ); then
    module load hdf5/${hdf5_ver}
 fi
 module load bufr_tranjb/${bufr_tranjb_ver}
+module load awscli/${awscli_ver}
 module list
 
 ${HOMEsatingest}/jobs/JISATINGEST

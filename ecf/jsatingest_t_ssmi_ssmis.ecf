@@ -35,6 +35,7 @@ elif ( echo $TASK | grep -q "ssmi" ); then
    module load grib_util/${grib_util_ver}
 fi
 module load bufr_tranjb/${bufr_tranjb_ver}
+module load awscli/${awscli_ver}
 module list
 
 ${HOMEsatingest}/jobs/JISATINGEST

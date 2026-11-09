@@ -35,8 +35,6 @@
 # 2022-01-18  S. Stegall     Replaced $DATA/ before calling utility scripts and 
 #                            instead used $UTILROOT/ush/ to properly leverage
 #                            the prod_util module.
-# 2026-08-17 S.Nadiga added functionality to access files from AWS and local disks
-#      localdiskcp refers to copying from local disks and syncaws refers to AWS
 #
 # Usage: . ingest_process_orbits_subscript.sh (inside ingest_process_orbits.sh)
 #
@@ -304,21 +302,6 @@ $TARGETFILE copied for $yyyymmdd"
                   procorbcount=$(($procorbcount+1))
                   echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-
-##  ${neworbit:2}: This is a parameter expansion that takes the value of the variable neworbit 
-#    and starts extracting from the index 2 (the 3rd character) until the end of the string.
-
-                 neworbitfile="${neworbit:2}"
-                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
-		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
-		 fi
-
-                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
-		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
-		 fi
-
                   if [ $DELAFTPROC = YES ] ; then
                      rm $DATA/$dsname
                   fi
@@ -332,18 +315,6 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                   noproccount=$(($noproccount+1))
                   echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-
-                 neworbitfile="${neworbit:2}"
-                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
-		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
-		 fi
-
-                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
-		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
-		 fi
-
                   if [ $DELAFTPROC = YES ] ; then
                      rm $DATA/$dsname
                   fi
@@ -363,19 +334,7 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                procorbcount=$(($procorbcount+1))
                echo "$neworbit PROCESSED AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-                 
-                 neworbitfile="${neworbit:2}"
-                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
-		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
-		 fi
-
-                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
-		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
-		 fi
-
-		 if [ $DELAFTPROC = YES ] ; then
+               if [ $DELAFTPROC = YES ] ; then
                   rm $DATA/$dsname
                fi
                iword=$(($iword+1))
@@ -388,18 +347,6 @@ $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
                noproccount=$(($noproccount+1))
                echo "COULD NOT PROCESS $neworbit AT \
 $(date -u +%Y/%m/%d' '%H:%M:%S' UTC')" >> $ORBITLIST.history
-
-                 neworbitfile="${neworbit:2}"
-                 if [ -s $STMPDIR/FORINGEST/$neworbitfile ] ; then 
-		 echo " move $neworbitfile from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbitfile $PTMPDIR/DISCARD/. 
-		 fi
-
-                 if [ -s $STMPDIR/FORINGEST/$neworbit ] ; then 
-		 echo " move $neworbit from $STMPDIR/FORINGEST TO $PTMPDIR/DISCARD "
-		 /bin/mv $STMPDIR/FORINGEST/$neworbit $PTMPDIR/DISCARD/. 
-		 fi
-
                if [ $DELAFTPROC = YES ] ; then
                   rm $DATA/$dsname
                fi

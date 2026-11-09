@@ -6,9 +6,15 @@ export hdf5_ver=1.10.6
 export bacio_ver=2.4.1
 export w3emc_ver=2.9.1
 export bufr_ver=12.2.0
-export bufr_tranjb_ver=1.2.1
+export bufr_tranjb_ver=1.2.2
 export libjpeg_ver=9c
 export grib_util_ver=1.2.2
+export awscli_ver=2.7.35
 
-#FOR para test only
+######################################
+# remove before move to prod
+######################################
 #export DCOMROOT=/lfs/h1/ops/para/dcom
+#export PTMPDIR=/lfs/f1/ops/para/tmp/satingest
+#export AWSDIR=nccf-prod-distribution-group-01/NCEP_SPA
+module use /apps/ops/para/nco/modulefiles/core

@@ -122,6 +122,9 @@ export DCNCLD=${DCNCLD:-$DECDROOT/decod_dcncld/exec/decod_dcncld}
 
 export MACHINE=${MACHINE:-${PDA_SERVER:-140.90.190.143}} # (PDA OPS server)
 export MACHINE_CBU=${MACHINE_CBU:-${CBU_PDA_SERVER:-140.172.119.158}} # (PDA CBU server)
+export AWSDIR=${AWSDIR:-"nccf-prod-distribution-group-01/NCEP_SPA"}
+export PTMPDIR=${PTMPDIR:-${DATAROOT:?}/satingest/$TASK}
+export STMPDIR=${STMPDIR:-${DATAROOT:?}/satingest/$TASK.$$}
 
 #export TRANSFER_COMMAND=${TRANSFER_COMMAND:-lftp}
 #export HISTLENMIN=${HISTLENMIN:-450}

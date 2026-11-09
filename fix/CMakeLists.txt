@@ -72,10 +72,10 @@ t_hrsatwind_cwvics_dmw
 t_hrsatwind_cwvics_dmw.f
 t_hrsatwind_cwvict_dmw
 t_hrsatwind_cwvict_dmw.f
-t_metop-sga1
-t_metop-sga1.f
-t_mws_metop-sga1
-t_mws_metop-sga1.f
+t_metop_sga1
+t_metop_sga1.f
+t_mws_metop_sga1
+t_mws_metop_sga1.f
 t_npp_atms
 t_npp_atms.f
 t_npp_cris_2211_cris_fsr_2211
