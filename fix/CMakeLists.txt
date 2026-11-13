@@ -56,8 +56,6 @@ t_airs_amsr2_GSI
 t_airs_amsr2_GSI.f
 t_airs_iasi_efov
 t_airs_iasi_efov.f
-t_avhrr_avhrr_18_19
-t_avhrr_avhrr_18_19.f
 t_avhrr_avhrr_m1_m2_m3
 t_avhrr_avhrr_m1_m2_m3.f
 t_hrsatwind_cimss

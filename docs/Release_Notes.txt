@@ -1,3 +1,4 @@
+
 satingest v6.0.0        RELEASE      SEP 17 2026
           v6.0.0        IMPLEMENT    SEP ?? 2026  at ~16UTC
 PRELUDE
@@ -7,6 +8,7 @@ PRELUDE
 
 FILE CHANGES
  M docs/Release_Notes.txt
+ M ecf/most files were changed to accomodate pulling data from NESDIS NCCF (see SPA/Simon para run)
  M jobs/JISATINGEST
  M fix/CMakeLists.txt
  M fix/bufrtab.003 
@@ -16,10 +18,14 @@ FILE CHANGES
  M fix/t_aerosol_af_viirs.f 
  M fix/t_aerosol_viirs_weekly_gvf 
  M fix/t_aerosol_viirs_weekly_gvf.f 
- M fix/t_airs_amsr2.f 
+ M fix/t_airs_amsr2
+ M fix/t_airs_amsr2.f
+ M fix/t_airs_amsr2_GSI 
+ M fix/t_airs_amsr2_GSI.f
  M fix/t_airs_iasi_efov 
  M fix/t_airs_iasi_efov.f 
- M fix/t_avhrr_avhrr_18_19 
+ D fix/t_avhrr_avhrr_18_19
+ D fix/t_avhrr_avhrr_18_19.f 
  M fix/t_hrsatwind_circd_dmw 
  M fix/t_hrsatwind_circd_dmw.f 
  M fix/t_hrsatwind_cshrtwv_dmw 
@@ -33,9 +39,7 @@ FILE CHANGES
  A fix/t_mws_metop-sga1
  A fix/t_mws_metop-sga1.f
  M fix/t_npp_atms 
- M fix/t_npp_atms.f 
  M fix/t_npp_cris_431_cris_431 
- M fix/t_npp_cris_431_cris_431.f 
  M fix/t_npp_omps_ompsnp_v8 
  M fix/t_npp_omps_ompsnp_v8.f 
  M fix/t_npp_omps_ompstc_v8 
@@ -85,11 +89,17 @@ FILE CHANGES
  M ush/ingest_query.sh 
  M ush/ingest_sncvgrib96.sh 
  M ush/ingest_sncvgrib.sh 
+ M versions/run.ver
  M versions/VERSION
+ A TRIGGERS/JISATINGEST.AWS
+ A TRIGGERS/lsf.AWS
  
 DOCS
 docs/Release_Notes.txt
 Update contents to reflect this release/update
+
+ECF
+ecf/most files were changed to accomodate pulling data from NESDIS NCCF (see SPA/Simon para run)
 
 JOBS
 jobs/JISATINGEST
@@ -113,17 +123,18 @@ fix/bufrtab.021
   - mnemonic added to table for tankb021/xx243 (Microwave Sounder Data (level 1B)).
 
 fix/t_aerosol_af_viirs
+fix/t_aerosol_Af_viirs.f
 Changes related to pulling data from AWS
 
 fix/t_aerosol_viirs_weekly_gvf 
-Changes related to pulling data from AWS
-
 fix/t_aerosol_viirs_weekly_gvf.f 
 Changes related to pulling data from AWS
 
+fix/t_airs_amsr2
 fix/t_airs_amsr2.f 
 Changes related to pulling data from AWS
 
+fix/t_airs_amsr2_GSI
 fix/t_airs_amsr2_GSI
 Changes related to pulling data from AWS
 
@@ -131,32 +142,22 @@ fix/t_airs_amsr2_GSI.f
 Changes related to pulling data from AWS
 
 fix/t_airs_iasi_efov 
-Changes related to pulling data from AWS
-
 fix/t_airs_iasi_efov.f 
 Changes related to pulling data from AWS
  
 fix/t_hrsatwind_circd_dmw 
-Changes related to pulling data from AWS
-
 fix/t_hrsatwind_circd_dmw.f 
 Changes related to pulling data from AWS
 
 fix/t_hrsatwind_cshrtwv_dmw 
-Changes related to pulling data from AWS
-
 fix/t_hrsatwind_cshrtwv_dmw.f 
 Changes related to pulling data from AWS
 
 fix/t_hrsatwind_cvisb_dmw 
-Changes related to pulling data from AWS
-
 fix/t_hrsatwind_cvisb_dmw.f 
 Changes related to pulling data from AWS
 
 fix/t_hrsatwind_cwvict_dmw
-Changes related to pulling data from AWS
-
 fix/t_hrsatwind_cwvict_dmw.f
 Changes related to pulling data from AWS
 
@@ -175,13 +176,7 @@ fix/t_mws_metop-sga1.f
 fix/t_npp_atms 
 Changes related to pulling data from AWS
 
-fix/t_npp_atms.f 
-Changes related to pulling data from AWS
-
 fix/t_npp_cris_431_cris_431 
-Changes related to pulling data from AWS
-
-fix/t_npp_cris_431_cris_431.f 
 Changes related to pulling data from AWS
   
 fix/t_npp_omps_ompsnp_v8 
@@ -284,13 +279,20 @@ ush/ingest_sncvgrib.sh
 Changes related to pulling data from AWS
 
 VERSIONS CHANGES
+ versions/run.ver
+ Updated bufr-tranjb (aka bufr_tranjb) version from 1.2.1 to 1.2.2
+
+ versions/VERSION
  v5.2.3 -> v6.0.0
+
+TRIGERS
+ these files are not used by NCO, but are kept in the repo for developers convinience
 
 CHANGES TO OUTPUT AND FILE SIZES
  The following new tanks, and their expected sizes, are generated:
- b021/xx247  ~100M to ~600M, varies quite a bit due to data availability.
- b021/xx243 ~100M to ~600M, varies quite a bit due to data availability.
- b003/xx012 ~100M to ~600M, varies quite a bit due to data availability.
+ b021/xx247  ~100M to ~600M, varies quite a bit due to data availability (AMSR2 GSI 14ch product)
+ b021/xx243 ~100M to ~600M, varies quite a bit due to data availability. (Metop-SG MWS)
+ b003/xx012 ~100M to ~600M, varies quite a bit due to data availability. (Metop-SG RO) 
 
 BIG BROTHER (BB) INFORMATION
 NOTE: Watch for NESDIS notifications, in case there are delays with the data availability on PDA OPS
@@ -300,6 +302,7 @@ $COMROOT/logs/bb/ingest/GMASI-Ice-SH2km_v1r0_blend_s???????????????_e???????????
 $COMROOT/logs/bb/ingest/GMASI-Snow-NH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
 $COMROOT/logs/bb/ingest/GMASI-Snow-SH2km_v1r0_blend_s???????????????_e???????????????_c???????????????.grib2
 
+(AMSR2)
 $COMROOT/logs/bb/ingest/AMSR2-MBT-89A_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
 $COMROOT/logs/bb/ingest/AMSR2-MBT-89B_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
 $COMROOT/logs/bb/ingest/AMSR2-MBT-LR_v*_ggw_s???????????????_e???????????????_c???????????????.bufr
@@ -311,6 +314,7 @@ $COMROOT/logs/bb/ingest/GMASI-Ice-SH2km_v1r1_blend_s???????????????_e???????????
 $COMROOT/logs/bb/ingest/GMASI-Snow-NH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
 $COMROOT/logs/bb/ingest/GMASI-Snow-SH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
 
+(AMSR3)
 $COMROOT/logs/bb/ingest/AMSR3-MBT-89A_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
 $COMROOT/logs/bb/ingest/AMSR3-MBT-89B_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
 $COMROOT/logs/bb/ingest/AMSR3-MBT-LR_v1r0_ggw_s???????????????_e???????????????_c???????????????.bufr
@@ -319,7 +323,15 @@ $COMROOT/logs/bb/ingest/AMSR3-MBT-GSI_v1r0_ggw_s???????????????_e???????????????
 $COMROOT/logs/bb/ingest/W_XX-EUMETSAT-Darmstadt,SAT,SGA1-RO_-1B-BND_C_EUMT_??????????????_G_O_??????????????_??????????????_O_N_???.bin (name looks odd, but is correct)
 $COMROOT/logs/bb/ingest/W_XX-EUMETSAT-Darmstadt,SAT,SGA1-MWS-1B-RAD_C_EUMT_??????????????_G_O_??????????????_??????????????_O_N____.bin"
 
+Stop watching:
+Any products with _npp_ in the filename
 
+Stop watching:
+NPR.TDUP.SB.D?????.S????.E????.B???????.NS
+NPR.TDUP.SC.D?????.S????.E????.B???????.NS
+
+Start watching:
+US058SORB-RAWspp.tdrcr_f??_d????????_s??????_e??????_r?????_cfnoc.bfr
 
 CHANGES IN COMPUTE RESOURCES+
  No changes in requested resources in the job cards for any jobs were needed during EMC's testing.  No changes to memory usage for any jobs were needed during EMC's testing.
@@ -359,6 +371,14 @@ BUILD INSTRUCTIONS
       4.Directory /ecf is not part of the released code, b/c it is used only by NCO.
         It is added by the SPAs during implementation, see $PACKAGEROOT/satingest.v*.*.*
 
+SUBSCRIPTIONS
+ 1)Confirm that the PDA SSMI subscription for ShortName "SSM-IS_TDR_Unified_Prep-processor"
+   delivers files: US058SORB-RAWspp.tdrcr_f??_d????????_s??????_e??????_r?????_cfnoc.bfr
+   into Destination Directory: PDAFileLinks/PULL/DMSP
+
+ 2)Confirm that your NESDIS NCCF GMASI subscription pulls files with version v1r1:
+   GMASI-Ice-NH2km_v1r1_blend_s???????????????_e???????????????_c???????????????.grib2
+
 PRE-IMPLEMENTATION TESTING REQUIREMENTS
  A.
  Important:
@@ -367,7 +387,8 @@ PRE-IMPLEMENTATION TESTING REQUIREMENTS
  See versions/*.ver for libraries and required versions
 
  B.
- If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation, so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
+ If there is a NCO parallel run of satingest jobs, they must be stopped BEFORE the implementation, 
+ so that the prod run can pull the files from PDA OPS (and not run out of allowed PDA pulls per data type)
 
  C.
  NESDIS usually updates their polar instrument data products during "back orbits".
@@ -404,8 +425,28 @@ SPECIAL INSTRUCTIONS
       fix/t_metop-sga1
       fix/t_mws_metop-sga1 
   Use jsatingest_t_npp_cris_431_cris_431.ecf as the closest example to create them.
-4)An updated *idsb* file will be provided shortly after CDF and definitely before implementation. Awaiting for users to provide input.
+4)An updated *idsb* file will be provided shortly after CDF and definitely before implementation. 
+Awaiting for users to provide input.
 
+5)S-NPP produsct were discontinued November 2026
+  fix files that contain S-NPP in the filename (i.e _npp_) will be removed with the next upgrade
+
+6) This is the list of tasks that still pulls from PDA, they will transition to NCCF with the next satingest upgrade:
+fix/t_aerosol_avhrr_weekly_gvf.f
+fix/t_aerosol_nic_lks.f (runs seasonally, will resume in Spring)
+fix/t_avhrr_avhrr_m1_m2_m3.f
+fix/t_npp_atms.f
+fix/t_npp_cris_431_cris_431.f
+fix/t_npp_omps_omps_lp.f
+fix/t_npp_omps_ompsnp_v8.f
+fix/t_npp_omps_ompstc_v8.f
+fix/t_qscatter_ascat_50km.f
+fix/t_snowore_ascii2grib_16_ims.f
+fix/t_ssmi_gmi_tmbr.f
+fix/t_ssmi_ssmis.f
+fix/t_tovs_amsua.f
+fix/t_tovs_atovs.f
+fix/t_tovs_mhs.f
 
 DISCLAIMER: In case of Critical Weather Day, NESDIS's updates might be postponed.
              Obsproc will keep you informed of the new NESDIS update date, which will become the new implementation date.
@@ -580,6 +621,7 @@ GMI-1CR_v8r0_gpm_s???????????????_e???????????????_c???????????????.bufr
 
 fix/t_ssmi_ssmis.f
   - Updated SUBDATE_CHECK${n}=\${SUBDATE_CHECK${n}:-YES} to include RCTIME in each bufr message, was previously set to NO.
+  - Updated filenames from NPR.* to US58*
 
 VERSIONS CHANGES
  v5.2.2 -> v5.2.3
